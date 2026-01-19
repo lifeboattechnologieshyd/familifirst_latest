@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "_x33_1_x2C__calendar_x2C__date_x2C__time_and_date_x2C__time_x2C__schedule.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "_x33_1_x2C__calendar_x2C__date_x2C__time_and_date_x2C__time_x2C__schedule 1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "_x33_1_x2C__calendar_x2C__date_x2C__time_and_date_x2C__time_x2C__schedule 2.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
