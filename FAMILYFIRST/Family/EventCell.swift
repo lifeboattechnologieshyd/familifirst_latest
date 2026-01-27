@@ -14,6 +14,8 @@ class EventCell: UITableViewCell {
     @IBOutlet weak var dateLbl: UILabel!
     @IBOutlet weak var eventTf: UITextField!
     @IBOutlet weak var tomorrowbtn: UIButton!
+    @IBOutlet weak var dateTf: UITextField!
+    @IBOutlet weak var timeTf: UITextField!
     @IBOutlet weak var todayBtn: UIButton!
     @IBOutlet weak var nextmonthBtn: UIButton!
     @IBOutlet weak var descriptionTv: UITextView!
@@ -41,6 +43,11 @@ class EventCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        dateTf.addCardShadow()
+        timeTf.addCardShadow()
+        descriptionTv.addCardShadow()
+        eventTf.addCardShadow()
+        
         
          let nib = UINib(nibName: "ColorCell", bundle: nil)
         colorCollectionView.register(nib, forCellWithReuseIdentifier: "ColorCell")
@@ -72,7 +79,7 @@ extension EventCell: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 24, height: 24)
+        return CGSize(width: 30, height: 30)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

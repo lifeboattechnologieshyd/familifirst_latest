@@ -2,7 +2,7 @@
 //  MemberCell.swift
 //  FAMILYFIRST
 //
-//  Created by Lifeboat on 19/01/26.
+//  Created by Lifeboat on 27/01/26.
 //
 
 import UIKit
@@ -14,7 +14,7 @@ class MemberCell: UITableViewCell {
     @IBOutlet weak var nameLbl: UIView!
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        imgVw.addCardShadow()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

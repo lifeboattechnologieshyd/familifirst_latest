@@ -18,16 +18,25 @@ class FamiliVC: UIViewController {
     private var familyLottieView: LottieAnimationView?
     private var eventsLottieView: LottieAnimationView?
     
+    enum TabSection {
+        case family
+        case events
+    }
+    
+    private var currentSection: TabSection = .family
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    self.navigationItem.hidesBackButton = true
-
+        self.navigationItem.hidesBackButton = true
         
         setupTableView()
         setupLottieAnimations()
+        setupTapGestures()
         
         familybgVw.addCardShadow()
         eventsbgVw.addCardShadow()
+        
+        updateSelectionUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,14 +51,12 @@ class FamiliVC: UIViewController {
         tblVw.separatorStyle = .none
         tblVw.backgroundColor = .clear
         
-        tblVw.register(UINib(nibName: "UserCell", bundle: nil),
-                       forCellReuseIdentifier: "UserCell")
+        tblVw.register(UINib(nibName: "UserCell", bundle: nil), forCellReuseIdentifier: "UserCell")
+        tblVw.register(UINib(nibName: "familyMemberCell", bundle: nil), forCellReuseIdentifier: "familyMemberCell")
+        tblVw.register(UINib(nibName: "AddMemberCell", bundle: nil), forCellReuseIdentifier: "AddMemberCell")
         
-        tblVw.register(UINib(nibName: "familyMemberCell", bundle: nil),
-                       forCellReuseIdentifier: "familyMemberCell")
-        
-        tblVw.register(UINib(nibName: "AddMemberCell", bundle: nil),
-                       forCellReuseIdentifier: "AddMemberCell")
+        tblVw.register(UINib(nibName: "AddEventCell", bundle: nil), forCellReuseIdentifier: "AddEventCell")
+        tblVw.register(UINib(nibName: "MonthCell", bundle: nil), forCellReuseIdentifier: "MonthCell")
     }
     
     private func setupLottieAnimations() {
@@ -81,75 +88,137 @@ class FamiliVC: UIViewController {
             animationView.trailingAnchor.constraint(equalTo: container.trailingAnchor)
         ])
     }
+    
+    private func setupTapGestures() {
+        let familyTap = UITapGestureRecognizer(target: self, action: #selector(familyTapped))
+        familybgVw.isUserInteractionEnabled = true
+        familybgVw.addGestureRecognizer(familyTap)
+        
+        let eventsTap = UITapGestureRecognizer(target: self, action: #selector(eventsTapped))
+        eventsbgVw.isUserInteractionEnabled = true
+        eventsbgVw.addGestureRecognizer(eventsTap)
+    }
+    
+    @objc private func familyTapped() {
+        guard currentSection != .family else { return }
+        currentSection = .family
+        updateSelectionUI()
+        tblVw.reloadData()
+    }
+    
+    @objc private func eventsTapped() {
+        guard currentSection != .events else { return }
+        currentSection = .events
+        updateSelectionUI()
+        tblVw.reloadData()
+    }
+    
+    private func updateSelectionUI() {
+        UIView.animate(withDuration: 0.3) {
+            switch self.currentSection {
+            case .family:
+                self.familybgVw.alpha = 1.0
+                self.familybgVw.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+                self.eventsbgVw.alpha = 0.6
+                self.eventsbgVw.transform = .identity
+                
+            case .events:
+                self.eventsbgVw.alpha = 1.0
+                self.eventsbgVw.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+                self.familybgVw.alpha = 0.6
+                self.familybgVw.transform = .identity
+            }
+        }
+    }
 }
 
 extension FamiliVC: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView,
-                   numberOfRowsInSection section: Int) -> Int {
-        return 5
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch currentSection {
+        case .family:
+            return 5
+        case .events:
+            return 2
+        }
     }
     
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        switch indexPath.row {
-            
-        case 0:
-            return tableView.dequeueReusableCell(withIdentifier: "UserCell",for: indexPath)
-        case 1, 2, 3:
-            return tableView.dequeueReusableCell(withIdentifier: "familyMemberCell",for: indexPath)
-        default:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AddMemberCell",for: indexPath) as! AddMemberCell
-            cell.onAddTapped = { [weak self] in
-            self?.navigateToAddMemberVC()
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch currentSection {
+        case .family:
+            switch indexPath.row {
+            case 0:
+                return tableView.dequeueReusableCell(withIdentifier: "UserCell", for: indexPath)
+            case 1, 2, 3:
+                return tableView.dequeueReusableCell(withIdentifier: "familyMemberCell", for: indexPath)
+            default:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AddMemberCell", for: indexPath) as! AddMemberCell
+                cell.onAddTapped = { [weak self] in
+                    self?.navigateToAddMemberVC()
+                }
+                return cell
             }
-            return cell
-        }
-    }
-    func tableView(_ tableView: UITableView,heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.row {
-        case 0:           return 176
-        case 1, 2, 3:     return 84
-        default:          return 60
+            
+        case .events:
+            switch indexPath.row {
+            case 0:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AddEventCell", for: indexPath) as! AddEventCell
+                cell.onAddEventTapped = { [weak self] in
+                    self?.navigateToCreateEventVC()
+                }
+                return cell
+            default:
+                return tableView.dequeueReusableCell(withIdentifier: "MonthCell", for: indexPath)
+            }
         }
     }
     
-    func tableView(_ tableView: UITableView,
-                   shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch currentSection {
+        case .family:
+            switch indexPath.row {
+            case 0:           return 176
+            case 1, 2, 3:     return 84
+            default:          return 60
+            }
+        case .events:
+            switch indexPath.row {
+            case 0:           return 50
+            default:          return 120
+            }
+        }
     }
     
-    func tableView(_ tableView: UITableView,
-                   didSelectRowAt indexPath: IndexPath) {
-        
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        guard indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3 else {
-            return
+        switch currentSection {
+        case .family:
+            if indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3 {
+                navigateToMemberDetailsVC()
+            }
+        case .events:
+            break
         }
-        
-        navigateToMemberDetailsVC()
     }
 }
-
 extension FamiliVC {
     
     private func navigateToAddMemberVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let vc = storyboard.instantiateViewController(
-            withIdentifier: "AddMemberVC"
-        ) as? AddMemberVC else { return }
-        
+        guard let vc = storyboard.instantiateViewController(withIdentifier: "AddMemberVC") as? AddMemberVC else { return }
         navigationController?.pushViewController(vc, animated: true)
     }
     
     private func navigateToMemberDetailsVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let vc = storyboard.instantiateViewController(
-            withIdentifier: "MemberDetailsVC"
-        ) as? MemberDetailsVC else { return }
-        
+        guard let vc = storyboard.instantiateViewController(withIdentifier: "MemberDetailsVC") as? MemberDetailsVC else { return }
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func navigateToCreateEventVC() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let vc = storyboard.instantiateViewController(withIdentifier: "CreateEventVC") as? CreateEventVC else { return }
         navigationController?.pushViewController(vc, animated: true)
     }
 }

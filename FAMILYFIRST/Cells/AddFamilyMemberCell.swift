@@ -15,9 +15,15 @@ class AddFamilyMemberCell: UITableViewCell {
     @IBOutlet weak var dateofbirthTf: UITextField!
     @IBOutlet weak var emailTf: UITextField!
     @IBOutlet weak var relationTf: UITextField!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         notesTv.addCardShadow()
+        nameTf.addCardShadow()
+        mobilenumberTf.addCardShadow()
+        dateofbirthTf.addCardShadow()
+        emailTf.addCardShadow()
+        relationTf.addCardShadow()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

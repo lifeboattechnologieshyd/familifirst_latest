@@ -18,10 +18,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Alr-wp-1xU">
-                        <rect key="frame" x="0.0" y="0.0" width="368" height="48"/>
+                        <rect key="frame" x="16" y="0.0" width="336" height="48"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sH9-we-hy5">
-                                <rect key="frame" x="57.666666666666671" y="5.6666666666666679" width="252.66666666666663" height="36.666666666666657"/>
+                                <rect key="frame" x="41.666666666666671" y="5.6666666666666679" width="252.66666666666663" height="36.666666666666657"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain">
                                     <attributedString key="attributedTitle">
@@ -34,6 +34,9 @@
                                         </fragment>
                                     </attributedString>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="addBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="E7C-ld-Dep"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -54,14 +57,18 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="Alr-wp-1xU" secondAttribute="bottom" id="7tf-PR-xzx"/>
                     <constraint firstItem="Alr-wp-1xU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="CDD-8k-b0R"/>
-                    <constraint firstAttribute="trailing" secondItem="Alr-wp-1xU" secondAttribute="trailing" id="NpY-OC-Ars"/>
-                    <constraint firstItem="Alr-wp-1xU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="SSN-TP-lbU"/>
+                    <constraint firstAttribute="trailing" secondItem="Alr-wp-1xU" secondAttribute="trailing" constant="16" id="NpY-OC-Ars"/>
+                    <constraint firstItem="Alr-wp-1xU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="SSN-TP-lbU"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="addBtn" destination="sH9-we-hy5" id="4Cr-Qg-HuT"/>
+            </connections>
             <point key="canvasLocation" x="175.57251908396947" y="147.18309859154931"/>
         </tableViewCell>
     </objects>

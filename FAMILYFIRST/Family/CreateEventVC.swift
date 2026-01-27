@@ -17,6 +17,7 @@ class CreateEventVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        topVw.addBottomShadow()
     }
     
     func setupTableView() {
@@ -27,6 +28,9 @@ class CreateEventVC: UIViewController {
         tblVw.dataSource = self
         
         tblVw.separatorStyle = .none
+    }
+    @IBAction func backBtnTapped(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
@@ -40,7 +44,7 @@ extension CreateEventVC: UITableViewDelegate, UITableViewDataSource {
         if section == 0 {
             return 1
         } else {
-            return 2
+            return 5
         }
     }
     

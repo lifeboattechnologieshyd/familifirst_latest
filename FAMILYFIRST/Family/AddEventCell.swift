@@ -9,15 +9,25 @@ import UIKit
 
 class AddEventCell: UITableViewCell {
 
+    @IBOutlet weak var addBtn: UIButton!
+    
+    var onAddEventTapped: (() -> Void)?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        selectionStyle = .none
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        onAddEventTapped = nil
+    }
+    
+    @IBAction func addBtnTapped(_ sender: UIButton) {
+        onAddEventTapped?()
+    }
 }

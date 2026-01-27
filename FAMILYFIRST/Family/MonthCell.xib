@@ -39,10 +39,10 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F9z-VY-IOj">
-                        <rect key="frame" x="223" y="27" width="130" height="2"/>
+                        <rect key="frame" x="260" y="27" width="93" height="2"/>
                         <color key="backgroundColor" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="2" id="sm1-Se-wVU"/>
+                            <constraint firstAttribute="height" constant="2" id="mUR-st-eSI"/>
                         </constraints>
                     </view>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2VC-8d-rIi">
@@ -162,21 +162,29 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="F9z-VY-IOj" firstAttribute="leading" secondItem="I8V-Gy-opg" secondAttribute="leading" constant="223" id="7q2-o5-Dqi"/>
+                    <constraint firstItem="F9z-VY-IOj" firstAttribute="centerY" secondItem="osE-AR-RP1" secondAttribute="centerY" id="3yc-Kc-A0n"/>
                     <constraint firstItem="osE-AR-RP1" firstAttribute="centerX" secondItem="I8V-Gy-opg" secondAttribute="centerX" id="Asx-18-28b"/>
                     <constraint firstAttribute="trailing" secondItem="2VC-8d-rIi" secondAttribute="trailing" constant="16" id="Fve-pv-spG"/>
                     <constraint firstItem="2VC-8d-rIi" firstAttribute="leading" secondItem="I8V-Gy-opg" secondAttribute="leading" constant="16" id="GC2-eH-zBG"/>
-                    <constraint firstItem="F9z-VY-IOj" firstAttribute="centerY" secondItem="osE-AR-RP1" secondAttribute="centerY" id="KFx-z8-vLl"/>
+                    <constraint firstAttribute="trailing" secondItem="F9z-VY-IOj" secondAttribute="trailing" id="Gxm-9W-rZi"/>
                     <constraint firstItem="2VC-8d-rIi" firstAttribute="top" secondItem="osE-AR-RP1" secondAttribute="bottom" constant="14" id="L8a-JF-pTF"/>
-                    <constraint firstAttribute="trailing" secondItem="F9z-VY-IOj" secondAttribute="trailing" id="eXQ-3N-iFJ"/>
                     <constraint firstItem="osE-AR-RP1" firstAttribute="top" secondItem="I8V-Gy-opg" secondAttribute="top" constant="18" id="eY7-X3-FaI"/>
                     <constraint firstItem="pJC-Su-LMO" firstAttribute="leading" secondItem="I8V-Gy-opg" secondAttribute="leading" id="jPp-RL-k55"/>
                     <constraint firstItem="osE-AR-RP1" firstAttribute="leading" secondItem="pJC-Su-LMO" secondAttribute="trailing" constant="4" id="no2-h7-l0A"/>
                     <constraint firstItem="pJC-Su-LMO" firstAttribute="centerY" secondItem="osE-AR-RP1" secondAttribute="centerY" id="r7H-pr-yez"/>
+                    <constraint firstItem="F9z-VY-IOj" firstAttribute="leading" secondItem="I8V-Gy-opg" secondAttribute="leading" constant="260" id="wBD-qI-QQh"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="io1-Q2-TDx"/>
+            <connections>
+                <outlet property="dateLbl" destination="tF0-MU-kkt" id="iLP-Wf-byt"/>
+                <outlet property="dayLbl" destination="giU-1e-NFX" id="gdr-1I-vuD"/>
+                <outlet property="eventLbl" destination="Ruu-TM-dkI" id="cJc-R7-XUs"/>
+                <outlet property="imgVw" destination="fY5-Py-Y2p" id="tGJ-nH-NKk"/>
+                <outlet property="mainVw" destination="2VC-8d-rIi" id="Fmg-7b-9sM"/>
+            </connections>
             <point key="canvasLocation" x="172" y="154"/>
         </tableViewCell>
     </objects>

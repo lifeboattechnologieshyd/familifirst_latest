@@ -29,6 +29,12 @@ class CalenderCell: UITableViewCell {
         viewallBtn.addTarget(self, action: #selector(viewAllBtnTapped), for: .touchUpInside)
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        didTapViewAll = nil
+        didSelectCalenderItem = nil
+    }
+    
     @objc private func viewAllBtnTapped() {
         didTapViewAll?()
     }

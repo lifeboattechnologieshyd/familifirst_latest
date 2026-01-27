@@ -223,7 +223,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         case 0: return 114
         case 1: return 112
         case 2: return 712
-        case 3: return 312
+        case 3: return 330
         default: return 0
         }
     }

@@ -52,7 +52,7 @@ class AddKidVC: UIViewController {
     }
     
     @IBAction func onClickAddKid(_ sender: UIButton) {
-        // addStudent() // Uncomment when API needed
+        // addStudent()
         print("Add Kid tapped")
     }
     
