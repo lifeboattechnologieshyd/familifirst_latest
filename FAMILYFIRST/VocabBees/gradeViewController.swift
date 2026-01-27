@@ -6,7 +6,7 @@
 //
 import UIKit
 
-class gradeViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class gradeViewController: UIViewController {
     
     @IBOutlet weak var studentColVw: UICollectionView!
     
@@ -15,7 +15,7 @@ class gradeViewController: UIViewController,UICollectionViewDelegate,UICollectio
     @IBOutlet weak var colVw: UICollectionView!
     
     var grades = [GradeModel]()
-   
+    
     var selected_student = 0
     
     func getGrades() {
@@ -36,8 +36,8 @@ class gradeViewController: UIViewController,UICollectionViewDelegate,UICollectio
             case .failure(let error):
                 DispatchQueue.main.async {
                     switch error {
-                    case .noaccess:
-                        self.handleLogout()
+//                    case .noaccess:
+                        //                        self.handleLogout()
                     default:
                         self.showAlert(msg: error.localizedDescription)
                     }
@@ -56,35 +56,35 @@ class gradeViewController: UIViewController,UICollectionViewDelegate,UICollectio
         colVw.register(UINib(nibName: "gradeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "gradeCollectionViewCell")
         
         self.studentColVw.register(UINib(nibName: "KidSelectionCell", bundle: nil), forCellWithReuseIdentifier: "KidSelectionCell")
-
         
-        colVw.delegate = self
-        colVw.dataSource = self
         
-        studentColVw.delegate = self
-        studentColVw.dataSource = self
-        
+//        colVw.delegate = self
+//        colVw.dataSource = self
+//        
+//        studentColVw.delegate = self
+//        studentColVw.dataSource = self
+//        
         colVw.tag = 1
         studentColVw.tag = 2
     }
     
-    // MARK: - CollectionView DataSource
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return collectionView.tag == 1 ? grades.count : UserManager.shared.kids.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView.tag == 1 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gradeCollectionViewCell", for: indexPath) as! gradeCollectionViewCell
-            cell.clsLabel.text = grades[indexPath.row].name
-            return cell
-        }else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KidSelectionCell", for: indexPath) as! KidSelectionCell
-            cell.setup(student: UserManager.shared.kids[indexPath.row], isSelected: selected_student ==  indexPath.row)
-            return cell
-        }
-    }
-    
+//    // MARK: - CollectionView DataSource
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        //        return collectionView.tag == 1 ? grades.count : UserManager.shared.kids.count
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        if collectionView.tag == 1 {
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gradeCollectionViewCell", for: indexPath) as! gradeCollectionViewCell
+//            cell.clsLabel.text = grades[indexPath.row].name
+//            return cell
+//        }else {
+//            //            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "KidSelectionCell", for: indexPath) as! KidSelectionCell
+//            //            cell.setup(student: UserManager.shared.kids[indexPath.row], isSelected: selected_student ==  indexPath.row)
+//            //            return cell
+//        }
+//    }
+//    
     // MARK: - FlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -103,35 +103,36 @@ class gradeViewController: UIViewController,UICollectionViewDelegate,UICollectio
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView.tag == 2 {
-            selected_student = indexPath.row
-            UserManager.shared.vocabBee_selected_student = UserManager.shared.kids[indexPath.row]
-            collectionView.reloadData()
-            collectionView.scrollToItem(
-                    at: indexPath,
-                    at: .centeredHorizontally,
-                    animated: true
-                )
-
-        }else {
-            UserManager.shared.vocabBee_selected_grade = grades[indexPath.row]
-            let storyboard = UIStoryboard(name: "VocabBees", bundle: nil)
-            if UserManager.shared.vocabBee_selected_mode == "DAILY" {
-                if let nextVC = storyboard.instantiateViewController(withIdentifier: "DateViewController") as? DateViewController {
-                    self.navigationController?.pushViewController(nextVC, animated: true)
-                }
-            }else {
-                let storyboard = UIStoryboard(name: "VocabBees", bundle: nil)
-                if let nextVC = storyboard.instantiateViewController(withIdentifier: "PracticeGameController") as? PracticeGameController {
-                    self.navigationController?.pushViewController(nextVC, animated: true)
-                }
-            }
-        }
-        
-    }
-    
-    @IBAction func BackButton(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
-    }
+    //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    //        if collectionView.tag == 2 {
+    //            selected_student = indexPath.row
+    ////            UserManager.shared.vocabBee_selected_student = UserManager.shared.kids[indexPath.row]
+    //            collectionView.reloadData()
+    //            collectionView.scrollToItem(
+    //                    at: indexPath,
+    //                    at: .centeredHorizontally,
+    //                    animated: true
+    //                )
+    //
+    //        }else {
+    ////            UserManager.shared.vocabBee_selected_grade = grades[indexPath.row]
+    //            let storyboard = UIStoryboard(name: "VocabBees", bundle: nil)
+    ////            if UserManager.shared.vocabBee_selected_mode == "DAILY" {
+    //                if let nextVC = storyboard.instantiateViewController(withIdentifier: "DateViewController") as? DateViewController {
+    //                    self.navigationController?.pushViewController(nextVC, animated: true)
+    //                }
+    //            }else {
+    //                let storyboard = UIStoryboard(name: "VocabBees", bundle: nil)
+    //                if let nextVC = storyboard.instantiateViewController(withIdentifier: "PracticeGameController") as? PracticeGameController {
+    //                    self.navigationController?.pushViewController(nextVC, animated: true)
+    //                }
+    //            }
+    //        }
+    //
+    //    }
+    //
+    //    @IBAction func BackButton(_ sender: Any) {
+    //        self.navigationController?.popViewController(animated: true)
+    //    }
+    //}
 }

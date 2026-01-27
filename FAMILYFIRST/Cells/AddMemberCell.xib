@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="74" id="KGk-i7-Jjw" customClass="AddMemberCell" customModule="FamilyFirst" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="349" height="74"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="349" height="74"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JNe-KG-NaO">
+                        <rect key="frame" x="16" y="12" width="317" height="48"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7zD-5F-mMu">
+                                <rect key="frame" x="16" y="12" width="285" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="eXy-gl-Nkw"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="ADD A FAMILY MEMBER">
+                                            <attributes>
+                                                <color key="NSColor" red="0.034841082990000001" green="0.40597915649999999" blue="0.22152757640000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <font key="NSFont" size="18" name="Lexend-Medium"/>
+                                                <font key="NSOriginalFont" size="12" name="Helvetica"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="addBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="I0t-MU-4xG"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="48" id="AAe-QC-Nqp"/>
+                            <constraint firstItem="7zD-5F-mMu" firstAttribute="leading" secondItem="JNe-KG-NaO" secondAttribute="leading" constant="16" id="Xja-Dz-Zbg"/>
+                            <constraint firstItem="7zD-5F-mMu" firstAttribute="centerY" secondItem="JNe-KG-NaO" secondAttribute="centerY" id="oFN-ky-D9i"/>
+                            <constraint firstItem="7zD-5F-mMu" firstAttribute="centerX" secondItem="JNe-KG-NaO" secondAttribute="centerX" id="y3d-hb-HgN"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" red="0.034841082990000001" green="0.40597915649999999" blue="0.22152757640000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="opB-1H-R4o">
+                        <rect key="frame" x="3" y="28" width="16" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="16" id="15A-TM-q6J"/>
+                            <constraint firstAttribute="height" constant="16" id="JkN-7J-hnW"/>
+                        </constraints>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" image="plus" title=" "/>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="JNe-KG-NaO" secondAttribute="trailing" constant="16" id="DyA-1v-UZd"/>
+                    <constraint firstItem="JNe-KG-NaO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="HZe-Dh-aF3"/>
+                    <constraint firstItem="opB-1H-R4o" firstAttribute="centerY" secondItem="7zD-5F-mMu" secondAttribute="centerY" id="gzX-Jy-SqN"/>
+                    <constraint firstItem="JNe-KG-NaO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="kgF-MV-hnj"/>
+                    <constraint firstAttribute="trailing" secondItem="opB-1H-R4o" secondAttribute="trailing" constant="330" id="olL-V2-kdw"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="addBtn" destination="7zD-5F-mMu" id="TV0-MV-rUF"/>
+            </connections>
+            <point key="canvasLocation" x="151.90839694656489" y="-0.70422535211267612"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="plus" width="21.333333969116211" height="21.333333969116211"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

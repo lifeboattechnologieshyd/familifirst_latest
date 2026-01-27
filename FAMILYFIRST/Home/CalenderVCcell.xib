@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="131" id="KGk-i7-Jjw" customClass="CalenderVCcell" customModule="FamilyFirst" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="361" height="131"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="361" height="131"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a4S-8W-uAx">
+                        <rect key="frame" x="131.33333333333334" y="12" width="98.333333333333343" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="Mpi-Ar-f4T"/>
+                        </constraints>
+                        <attributedString key="attributedText">
+                            <fragment content="THIS MONTH">
+                                <attributes>
+                                    <font key="NSFont" size="16" name="Lexend-SemiBold"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FOR-9S-Xbs">
+                        <rect key="frame" x="16" y="48" width="329" height="64"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kaE-54-xr5">
+                                <rect key="frame" x="0.0" y="0.0" width="48" height="64"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emJ-Qb-jfZ">
+                                        <rect key="frame" x="4" y="12" width="32" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="2BD-wT-knL"/>
+                                            <constraint firstAttribute="height" constant="44" id="cBW-pN-2vg"/>
+                                            <constraint firstAttribute="width" constant="32" id="v8x-Ke-GML"/>
+                                        </constraints>
+                                        <attributedString key="attributedText">
+                                            <fragment content="12 JAN">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.99534406565656564" green="0.99534406565656564" blue="0.99534406565656564" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" size="16" name="Lexend-Regular"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.028523715210000002" green="0.40599140519999999" blue="0.2215528786" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="emJ-Qb-jfZ" firstAttribute="top" secondItem="kaE-54-xr5" secondAttribute="top" constant="12" id="GRY-qk-CqE"/>
+                                    <constraint firstAttribute="width" constant="48" id="jvG-8D-bIm"/>
+                                    <constraint firstItem="emJ-Qb-jfZ" firstAttribute="leading" secondItem="kaE-54-xr5" secondAttribute="leading" constant="4" id="lVd-h1-2O3"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fyL-cK-Y4e">
+                                <rect key="frame" x="58" y="10" width="227" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Mu9-jh-Ebd"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="Live Webinar with Dr. Abdul Kalam….">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Lexend-Regular"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7m3-Nn-f0G">
+                                <rect key="frame" x="277.66666666666669" y="8" width="39.333333333333314" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="Tyl-Fy-K6c"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="TODAY">
+                                        <attributes>
+                                            <font key="NSFont" size="12" name="Lexend-Light"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ka-Z0-bMe">
+                                <rect key="frame" x="301" y="34" width="16" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="16" id="YCx-JQ-TNY"/>
+                                    <constraint firstAttribute="height" constant="16" id="dKr-0y-fWU"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="more2"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="2ka-Z0-bMe" secondAttribute="trailing" constant="12" id="2xI-EF-n1V"/>
+                            <constraint firstItem="fyL-cK-Y4e" firstAttribute="top" secondItem="FOR-9S-Xbs" secondAttribute="top" constant="10" id="4QE-Jb-JkJ"/>
+                            <constraint firstAttribute="bottom" secondItem="kaE-54-xr5" secondAttribute="bottom" id="C46-mh-VpA"/>
+                            <constraint firstItem="fyL-cK-Y4e" firstAttribute="leading" secondItem="kaE-54-xr5" secondAttribute="trailing" constant="10" id="KjJ-j8-Ul9"/>
+                            <constraint firstAttribute="bottom" secondItem="2ka-Z0-bMe" secondAttribute="bottom" constant="14" id="MqG-Fb-W6g"/>
+                            <constraint firstAttribute="trailing" secondItem="7m3-Nn-f0G" secondAttribute="trailing" constant="12" id="NPr-nU-YKt"/>
+                            <constraint firstItem="2ka-Z0-bMe" firstAttribute="leading" secondItem="fyL-cK-Y4e" secondAttribute="trailing" constant="16" id="RPO-VW-FMt"/>
+                            <constraint firstItem="7m3-Nn-f0G" firstAttribute="top" secondItem="FOR-9S-Xbs" secondAttribute="top" constant="8" id="T1z-OJ-AzK"/>
+                            <constraint firstItem="kaE-54-xr5" firstAttribute="centerY" secondItem="FOR-9S-Xbs" secondAttribute="centerY" id="Wjk-Js-esW"/>
+                            <constraint firstItem="kaE-54-xr5" firstAttribute="leading" secondItem="FOR-9S-Xbs" secondAttribute="leading" id="ct6-4d-5pe"/>
+                            <constraint firstAttribute="height" constant="64" id="nsX-BN-9cW"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" red="0.034841082990000001" green="0.40597915649999999" blue="0.22152757640000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="FOR-9S-Xbs" firstAttribute="top" secondItem="a4S-8W-uAx" secondAttribute="bottom" constant="16" id="0tE-Me-UYG"/>
+                    <constraint firstItem="FOR-9S-Xbs" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="2Yg-rb-oyM"/>
+                    <constraint firstItem="a4S-8W-uAx" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="KDu-FV-sWD"/>
+                    <constraint firstAttribute="trailing" secondItem="FOR-9S-Xbs" secondAttribute="trailing" constant="16" id="NwW-6C-3gs"/>
+                    <constraint firstItem="a4S-8W-uAx" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Y5g-zg-t11"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="bgVw" destination="FOR-9S-Xbs" id="7ct-Pu-HTP"/>
+                <outlet property="dateLbl" destination="emJ-Qb-jfZ" id="Ocg-O8-m8K"/>
+                <outlet property="dayLbl" destination="7m3-Nn-f0G" id="ODB-8O-F6S"/>
+                <outlet property="monthLbl" destination="a4S-8W-uAx" id="IEy-T1-rLC"/>
+                <outlet property="moreBtn" destination="2ka-Z0-bMe" id="khy-l9-8gb"/>
+            </connections>
+            <point key="canvasLocation" x="161.06870229007632" y="19.366197183098592"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="more2" width="21.333333969116211" height="21.333333969116211"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

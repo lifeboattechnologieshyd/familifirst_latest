@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FeelsCollectionViewCell" id="uEA-XN-weB" customClass="FeelsCollectionViewCell" customModule="FamilyFirst" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="194" height="311"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="194" height="311"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="FeelsOne" translatesAutoresizingMaskIntoConstraints="NO" id="CAH-LA-rwf">
+                        <rect key="frame" x="0.0" y="0.0" width="194" height="311"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Family First Calendar Day 5 - How to Create a Positive atmosphere at…" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RNu-Og-R2l">
+                        <rect key="frame" x="8" y="260" width="178" height="43"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fdf-5R-wEB">
+                        <rect key="frame" x="77" y="135.66666666666666" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="Q2g-RK-768"/>
+                            <constraint firstAttribute="height" constant="40" id="Xdb-Lw-JQn"/>
+                        </constraints>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" image="play" title=" " titleAlignment="center"/>
+                        <connections>
+                            <action selector="onClickPlay:" destination="uEA-XN-weB" eventType="touchUpInside" id="MWO-uW-Qko"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="V0W-DP-6Cs"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="CAH-LA-rwf" secondAttribute="bottom" id="8A0-4L-Aeh"/>
+                <constraint firstAttribute="bottom" secondItem="RNu-Og-R2l" secondAttribute="bottom" constant="8" id="IZy-Pm-oHB"/>
+                <constraint firstItem="fdf-5R-wEB" firstAttribute="centerY" secondItem="CAH-LA-rwf" secondAttribute="centerY" id="LBl-AV-bMx"/>
+                <constraint firstItem="CAH-LA-rwf" firstAttribute="top" secondItem="uEA-XN-weB" secondAttribute="top" id="M6y-HF-D3r"/>
+                <constraint firstAttribute="trailing" secondItem="RNu-Og-R2l" secondAttribute="trailing" constant="8" id="bv8-w2-nAP"/>
+                <constraint firstAttribute="trailing" secondItem="CAH-LA-rwf" secondAttribute="trailing" id="fJp-Hq-skb"/>
+                <constraint firstItem="RNu-Og-R2l" firstAttribute="leading" secondItem="uEA-XN-weB" secondAttribute="leading" constant="8" id="lQC-iE-OQD"/>
+                <constraint firstItem="CAH-LA-rwf" firstAttribute="leading" secondItem="uEA-XN-weB" secondAttribute="leading" id="taa-7e-Qkj"/>
+                <constraint firstItem="fdf-5R-wEB" firstAttribute="centerX" secondItem="CAH-LA-rwf" secondAttribute="centerX" id="uJP-N9-iLa"/>
+            </constraints>
+            <size key="customSize" width="391" height="311"/>
+            <connections>
+                <outlet property="btnPlay" destination="fdf-5R-wEB" id="9JW-f4-1Cb"/>
+                <outlet property="imgVw" destination="CAH-LA-rwf" id="5ER-zq-VAo"/>
+                <outlet property="lblName" destination="RNu-Og-R2l" id="anN-5y-aC9"/>
+            </connections>
+            <point key="canvasLocation" x="389.3129770992366" y="79.929577464788736"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="FeelsOne" width="160" height="284"/>
+        <image name="play" width="40" height="40"/>
+    </resources>
+</document>

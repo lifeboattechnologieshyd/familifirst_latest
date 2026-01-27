@@ -6,12 +6,28 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		88CDB5E72F1A74A000C0CC6B /* CFNetworkSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 88CDB5E62F1A74A000C0CC6B /* CFNetworkSDK */; };
+		88CDB5E92F1A74A000C0CC6B /* CashfreeAnalyticsSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 88CDB5E82F1A74A000C0CC6B /* CashfreeAnalyticsSDK */; };
+		88CDB5EB2F1A74A000C0CC6B /* CashfreePG in Frameworks */ = {isa = PBXBuildFile; productRef = 88CDB5EA2F1A74A000C0CC6B /* CashfreePG */; };
+		88CDB5ED2F1A74A000C0CC6B /* CashfreePGCoreSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 88CDB5EC2F1A74A000C0CC6B /* CashfreePGCoreSDK */; };
+		88CDB5EF2F1A74A000C0CC6B /* CashfreePGUISDK in Frameworks */ = {isa = PBXBuildFile; productRef = 88CDB5EE2F1A74A000C0CC6B /* CashfreePGUISDK */; };
+		88E27F562F17D6D20044D639 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 88E27F552F17D6D20044D639 /* FirebaseAuth */; };
+		88E27F582F17D6D20044D639 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 88E27F572F17D6D20044D639 /* FirebaseCrashlytics */; };
+		88E27F5A2F17D6D20044D639 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 88E27F592F17D6D20044D639 /* FirebaseFirestore */; };
+		88E27F5C2F17D6D20044D639 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 88E27F5B2F17D6D20044D639 /* FirebaseMessaging */; };
+		88E27FCC2F17DA960044D639 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 88E27FCB2F17DA960044D639 /* Kingfisher */; };
+		88E27FCF2F17DB6A0044D639 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 88E27FCE2F17DB6A0044D639 /* Lottie */; };
+		88E27FD22F17DCE30044D639 /* YouTubeiOSPlayerHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 88E27FD12F17DCE30044D639 /* YouTubeiOSPlayerHelper */; };
+		88E27FD42F17E40B0044D639 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 88E27FD32F17E40B0044D639 /* FirebaseAnalytics */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		88E27B5B2F17D1E40044D639 /* FAMILYFIRST.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FAMILYFIRST.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		88E27B6D2F17D1E60044D639 /* Exceptions for "FAMILYFIRST" folder in "FAMILYFIRST" target */ = {
+		88E27FD52F17E6D20044D639 /* Exceptions for "FAMILYFIRST" folder in "FAMILYFIRST" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -24,7 +40,7 @@
 		88E27B5D2F17D1E40044D639 /* FAMILYFIRST */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				88E27B6D2F17D1E60044D639 /* Exceptions for "FAMILYFIRST" folder in "FAMILYFIRST" target */,
+				88E27FD52F17E6D20044D639 /* Exceptions for "FAMILYFIRST" folder in "FAMILYFIRST" target */,
 			);
 			path = FAMILYFIRST;
 			sourceTree = "<group>";
@@ -36,6 +52,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88CDB5EB2F1A74A000C0CC6B /* CashfreePG in Frameworks */,
+				88E27F5C2F17D6D20044D639 /* FirebaseMessaging in Frameworks */,
+				88E27FD22F17DCE30044D639 /* YouTubeiOSPlayerHelper in Frameworks */,
+				88E27FD42F17E40B0044D639 /* FirebaseAnalytics in Frameworks */,
+				88CDB5ED2F1A74A000C0CC6B /* CashfreePGCoreSDK in Frameworks */,
+				88E27F562F17D6D20044D639 /* FirebaseAuth in Frameworks */,
+				88E27F582F17D6D20044D639 /* FirebaseCrashlytics in Frameworks */,
+				88E27F5A2F17D6D20044D639 /* FirebaseFirestore in Frameworks */,
+				88E27FCC2F17DA960044D639 /* Kingfisher in Frameworks */,
+				88CDB5EF2F1A74A000C0CC6B /* CashfreePGUISDK in Frameworks */,
+				88E27FCF2F17DB6A0044D639 /* Lottie in Frameworks */,
+				88CDB5E72F1A74A000C0CC6B /* CFNetworkSDK in Frameworks */,
+				88CDB5E92F1A74A000C0CC6B /* CashfreeAnalyticsSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,9 +94,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 88E27B6E2F17D1E60044D639 /* Build configuration list for PBXNativeTarget "FAMILYFIRST" */;
 			buildPhases = (
+				88E27D362F17D5410044D639 /* ShellScript */,
 				88E27B572F17D1E40044D639 /* Sources */,
 				88E27B582F17D1E40044D639 /* Frameworks */,
 				88E27B592F17D1E40044D639 /* Resources */,
+				88E27F5D2F17D6F80044D639 /* crashlytics */,
 			);
 			buildRules = (
 			);
@@ -78,6 +109,19 @@
 			);
 			name = FAMILYFIRST;
 			packageProductDependencies = (
+				88E27F552F17D6D20044D639 /* FirebaseAuth */,
+				88E27F572F17D6D20044D639 /* FirebaseCrashlytics */,
+				88E27F592F17D6D20044D639 /* FirebaseFirestore */,
+				88E27F5B2F17D6D20044D639 /* FirebaseMessaging */,
+				88E27FCB2F17DA960044D639 /* Kingfisher */,
+				88E27FCE2F17DB6A0044D639 /* Lottie */,
+				88E27FD12F17DCE30044D639 /* YouTubeiOSPlayerHelper */,
+				88E27FD32F17E40B0044D639 /* FirebaseAnalytics */,
+				88CDB5E62F1A74A000C0CC6B /* CFNetworkSDK */,
+				88CDB5E82F1A74A000C0CC6B /* CashfreeAnalyticsSDK */,
+				88CDB5EA2F1A74A000C0CC6B /* CashfreePG */,
+				88CDB5EC2F1A74A000C0CC6B /* CashfreePGCoreSDK */,
+				88CDB5EE2F1A74A000C0CC6B /* CashfreePGUISDK */,
 			);
 			productName = FAMILYFIRST;
 			productReference = 88E27B5B2F17D1E40044D639 /* FAMILYFIRST.app */;
@@ -107,6 +151,13 @@
 			);
 			mainGroup = 88E27B522F17D1E40044D639;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				88E27F542F17D6D20044D639 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				88E27FCA2F17DA960044D639 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				88E27FCD2F17DB6A0044D639 /* XCRemoteSwiftPackageReference "lottie-spm" */,
+				88E27FD02F17DCE30044D639 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */,
+				88CDB5E52F1A74A000C0CC6B /* XCRemoteSwiftPackageReference "core-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 88E27B5C2F17D1E40044D639 /* Products */;
 			projectDirPath = "";
@@ -127,6 +178,51 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		88E27D362F17D5410044D639 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(PROJECT_DIR)/FAMILYFIRST/Configurations/GoogleService-Info-Dev.plist",
+				"$(PROJECT_DIR)/FAMILYFIRST/Configurations/GoogleService-Info-Prod.plist",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist\n",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -e  # Exit immediately if a command fails\n\necho \"------------------------------------\"\necho \"🔥 Firebase Config Copy Script\"\necho \"Active configuration: ${CONFIGURATION}\"\necho \"------------------------------------\"\n\n# Path to your Firebase plist files\nCONFIGS_DIR=\"${PROJECT_DIR}/FAMILYFIRST/Configurations\"\n\n# Destination inside the app bundle (use the resources folder, not the app root)\nDESTINATION=\"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\necho \"Listing config folder contents:\"\nls -l \"${CONFIGS_DIR}\"\n# Remove any old plist first\nrm -f \"${DESTINATION}/GoogleService-Info.plist\"\n\n# Match all your configurations properly\ncase \"${CONFIGURATION}\" in\n    \"Debug Dev\"|\"Release Dev\")\n        cp \"${CONFIGS_DIR}/GoogleService-Info-Dev.plist\" \"${DESTINATION}/GoogleService-Info.plist\"\n        echo \"✅ Copied DEV Firebase config (${CONFIGURATION})\"\n        ;;\n    \"Debug\"|\"Release\")\n        cp \"${CONFIGS_DIR}/GoogleService-Info-Prod.plist\" \"${DESTINATION}/GoogleService-Info.plist\"\n        echo \"✅ Copied PROD Firebase config (${CONFIGURATION})\"\n        ;;\n    *)\n        echo \"⚠️ Unknown configuration: ${CONFIGURATION}\"\n        echo \"Available files in ${CONFIGS_DIR}:\"\n        ls -l \"${CONFIGS_DIR}\"\n        ;;\nesac\n\n# Confirm the file exists\nif [ -f \"${DESTINATION}/GoogleService-Info.plist\" ]; then\n    echo \"📦 Firebase plist copied successfully:\"\n    ls -l \"${DESTINATION}/GoogleService-Info.plist\"\nelse\n    echo \"❌ Firebase plist NOT FOUND in ${DESTINATION}\"\n    exit 1\nfi\n\necho \"------------------------------------\"\n\n";
+		};
+		88E27F5D2F17D6F80044D639 /* crashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(PROJECT_DIR)/FAMILYFIRST/Configurations/GoogleService-Info-Dev.plist",
+				"$(PROJECT_DIR)/FAMILYFIRST/Configurations/GoogleService-Info-Prod.plist",
+			);
+			name = crashlytics;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -e\n\necho \"------------------------------------\"\necho \"🔥 Crashlytics dSYM Upload Script (SPM Safe Version)\"\necho \"Active configuration: ${CONFIGURATION}\"\necho \"------------------------------------\"\n\nCONFIGS_DIR=\"${PROJECT_DIR}/FAMILYFIRST/Configurations\"\nPLIST_PATH=\"\"\nDSYM_PATH=\"\"\n\n# Make sure build dir exists\nif [ ! -d \"${BUILD_DIR}\" ]; then\n  echo \"⚠️ BUILD_DIR missing — creating...\"\n  mkdir -p \"${BUILD_DIR}\"\nfi\n\n# Select Firebase plist file\ncase \"${CONFIGURATION}\" in\n  \"Debug Dev\"|\"Release Dev\")\n    PLIST_PATH=\"${CONFIGS_DIR}/GoogleService-Info-Dev.plist\"\n    ;;\n  \"Debug\"|\"Release\")\n    PLIST_PATH=\"${CONFIGS_DIR}/GoogleService-Info-Prod.plist\"\n    ;;\n  *)\n    echo \"⚠️ Unknown configuration: ${CONFIGURATION}\"\n    ls \"${CONFIGS_DIR}\"\n    exit 0\n    ;;\nesac\n\n# Check plist exists\nif [ ! -f \"${PLIST_PATH}\" ]; then\n  echo \"❌ Firebase plist not found at: ${PLIST_PATH}\"\n  exit 0\nfi\n\n# Wait for dSYM path\nif [ ! -d \"${DWARF_DSYM_FOLDER_PATH}\" ]; then\n  echo \"⚠️ Waiting for dSYM folder...\"\n  \nfi\n\nDSYM_PATH=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n\nif [ ! -d \"${DSYM_PATH}\" ]; then\n  echo \"⚠️ Waiting for dSYM file...\"\n  \nfi\n\n# Crashlytics upload path (SPM)\nCRASHLYTICS_RUN_PATH=\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\nif [ ! -f \"${CRASHLYTICS_RUN_PATH}\" ]; then\n  CRASHLYTICS_RUN_PATH=\"${PROJECT_DIR}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\nfi\n\nif [ ! -f \"${CRASHLYTICS_RUN_PATH}\" ]; then\n  echo \"❌ Crashlytics run script not found!\"\n  exit 0\nfi\n\necho \"✅ Using plist: ${PLIST_PATH}\"\necho \"✅ Using dSYM path: ${DSYM_PATH}\"\necho \"✅ Using Crashlytics script: ${CRASHLYTICS_RUN_PATH}\"\n\nsleep 3\n\n\n# ✅ Upload dSYMs\n\n\"${CRASHLYTICS_RUN_PATH}\" \\\n  --google-service-info \"${PLIST_PATH}\" \\\n  --path \"${DWARF_DSYM_FOLDER_PATH}\"\n  \necho \"------------------------------------\"\necho \"✅ Crashlytics dSYM upload complete\"\necho \"------------------------------------\"\n\n# Cleanup\n\n\n\n\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		88E27B572F17D1E40044D639 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -140,9 +236,12 @@
 /* Begin XCBuildConfiguration section */
 		88E27B6F2F17D1E60044D639 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 88E27B5D2F17D1E40044D639 /* FAMILYFIRST */;
+			baseConfigurationReferenceRelativePath = Configurations/Prod.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FAMILYFIRST/FAMILYFIRST.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7CN8AS9ANR;
@@ -153,12 +252,13 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.lifeboat.FAMILYFIRST;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paranpara.familifirst;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -168,9 +268,12 @@
 		};
 		88E27B702F17D1E60044D639 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 88E27B5D2F17D1E40044D639 /* FAMILYFIRST */;
+			baseConfigurationReferenceRelativePath = Configurations/Prod.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FAMILYFIRST/FAMILYFIRST.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7CN8AS9ANR;
@@ -181,12 +284,13 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.lifeboat.FAMILYFIRST;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paranpara.familifirst;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -196,6 +300,8 @@
 		};
 		88E27B712F17D1E60044D639 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 88E27B5D2F17D1E40044D639 /* FAMILYFIRST */;
+			baseConfigurationReferenceRelativePath = Configurations/Prod.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -231,7 +337,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -246,6 +352,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -254,11 +361,14 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				server_url = "https://dev-api.schoolfirst.ai/";
 			};
 			name = Debug;
 		};
 		88E27B722F17D1E60044D639 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 88E27B5D2F17D1E40044D639 /* FAMILYFIRST */;
+			baseConfigurationReferenceRelativePath = Configurations/Prod.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -294,7 +404,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -310,8 +420,198 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
+				server_url = "https://dev-api.schoolfirst.ai/";
 			};
 			name = Release;
+		};
+		88E27D322F17D4080044D639 /* Debug Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 88E27B5D2F17D1E40044D639 /* FAMILYFIRST */;
+			baseConfigurationReferenceRelativePath = Configurations/Dev.xcconfig;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				server_url = "https://dev-api.schoolfirst.ai/";
+			};
+			name = "Debug Dev";
+		};
+		88E27D332F17D4080044D639 /* Debug Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 88E27B5D2F17D1E40044D639 /* FAMILYFIRST */;
+			baseConfigurationReferenceRelativePath = Configurations/Dev.xcconfig;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FAMILYFIRST/FAMILYFIRST.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7CN8AS9ANR;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FAMILYFIRST/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paranpara.familifirst.dev;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Debug Dev";
+		};
+		88E27D342F17D41A0044D639 /* Release Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 88E27B5D2F17D1E40044D639 /* FAMILYFIRST */;
+			baseConfigurationReferenceRelativePath = Configurations/Dev.xcconfig;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+				server_url = "https://dev-api.schoolfirst.ai/";
+			};
+			name = "Release Dev";
+		};
+		88E27D352F17D41A0044D639 /* Release Dev */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 88E27B5D2F17D1E40044D639 /* FAMILYFIRST */;
+			baseConfigurationReferenceRelativePath = Configurations/Dev.xcconfig;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FAMILYFIRST/FAMILYFIRST.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7CN8AS9ANR;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FAMILYFIRST/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paranpara.familifirst.dev;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Release Dev";
 		};
 /* End XCBuildConfiguration section */
 
@@ -320,7 +620,9 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				88E27B712F17D1E60044D639 /* Debug */,
+				88E27D322F17D4080044D639 /* Debug Dev */,
 				88E27B722F17D1E60044D639 /* Release */,
+				88E27D342F17D41A0044D639 /* Release Dev */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -329,12 +631,125 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				88E27B6F2F17D1E60044D639 /* Debug */,
+				88E27D332F17D4080044D639 /* Debug Dev */,
 				88E27B702F17D1E60044D639 /* Release */,
+				88E27D352F17D41A0044D639 /* Release Dev */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		88CDB5E52F1A74A000C0CC6B /* XCRemoteSwiftPackageReference "core-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/cashfree/core-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.5;
+			};
+		};
+		88E27F542F17D6D20044D639 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.8.0;
+			};
+		};
+		88E27FCA2F17DA960044D639 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.6.2;
+			};
+		};
+		88E27FCD2F17DB6A0044D639 /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.6.0;
+			};
+		};
+		88E27FD02F17DCE30044D639 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/youtube/youtube-ios-player-helper.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		88CDB5E62F1A74A000C0CC6B /* CFNetworkSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88CDB5E52F1A74A000C0CC6B /* XCRemoteSwiftPackageReference "core-ios-sdk" */;
+			productName = CFNetworkSDK;
+		};
+		88CDB5E82F1A74A000C0CC6B /* CashfreeAnalyticsSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88CDB5E52F1A74A000C0CC6B /* XCRemoteSwiftPackageReference "core-ios-sdk" */;
+			productName = CashfreeAnalyticsSDK;
+		};
+		88CDB5EA2F1A74A000C0CC6B /* CashfreePG */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88CDB5E52F1A74A000C0CC6B /* XCRemoteSwiftPackageReference "core-ios-sdk" */;
+			productName = CashfreePG;
+		};
+		88CDB5EC2F1A74A000C0CC6B /* CashfreePGCoreSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88CDB5E52F1A74A000C0CC6B /* XCRemoteSwiftPackageReference "core-ios-sdk" */;
+			productName = CashfreePGCoreSDK;
+		};
+		88CDB5EE2F1A74A000C0CC6B /* CashfreePGUISDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88CDB5E52F1A74A000C0CC6B /* XCRemoteSwiftPackageReference "core-ios-sdk" */;
+			productName = CashfreePGUISDK;
+		};
+		88E27F552F17D6D20044D639 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88E27F542F17D6D20044D639 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		88E27F572F17D6D20044D639 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88E27F542F17D6D20044D639 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		88E27F592F17D6D20044D639 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88E27F542F17D6D20044D639 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		88E27F5B2F17D6D20044D639 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88E27F542F17D6D20044D639 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		88E27FCB2F17DA960044D639 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88E27FCA2F17DA960044D639 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		88E27FCE2F17DB6A0044D639 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88E27FCD2F17DB6A0044D639 /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
+		};
+		88E27FD12F17DCE30044D639 /* YouTubeiOSPlayerHelper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88E27FD02F17DCE30044D639 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */;
+			productName = YouTubeiOSPlayerHelper;
+		};
+		88E27FD32F17E40B0044D639 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 88E27F542F17D6D20044D639 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 88E27B532F17D1E40044D639 /* Project object */;
 }

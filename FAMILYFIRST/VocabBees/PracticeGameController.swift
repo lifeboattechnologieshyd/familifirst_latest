@@ -44,13 +44,13 @@ class PracticeGameController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let gradeName = UserManager.shared.vocabBee_selected_grade.name ?? "Grade"
-        lblTitle.text = "Practice | \(gradeName)"
+//        let gradeName = UserManager.shared.vocabBee_selected_grade.name ?? "Grade"
+//        lblTitle.text = "Practice | \(gradeName)"
 
         resultView.isHidden = true
         lblEnteredSpelling.isHidden = true
         updateWordsCount()
-        getWords()
+//        getWords()
     }
 
     
@@ -79,7 +79,7 @@ class PracticeGameController: UIViewController {
         txtField.text = ""
         viewLottie.stop()
         viewLottie.isHidden = true
-        getWords()
+//        getWords()
     }
     
     @IBAction func onTapListen(_ sender: UIButton) {
@@ -122,7 +122,7 @@ class PracticeGameController: UIViewController {
         txtField.text = ""
         viewLottie.stop()
         viewLottie.isHidden = true
-        getWords()
+//        getWords()
     }
     
     func setupPlayer() {
@@ -149,8 +149,8 @@ class PracticeGameController: UIViewController {
         let payload: [String: Any] = [
             "user_answer": enteredText,
             "word_id": word.id,
-            "grade_id": UserManager.shared.vocabBee_selected_grade.id,
-            "student_id": UserManager.shared.vocabBee_selected_student.studentID
+//            "grade_id": UserManager.shared.vocabBee_selected_grade.id,
+//            "student_id": UserManager.shared.vocabBee_selected_student.studentID
         ]
         
         NetworkManager.shared.request(
@@ -257,8 +257,8 @@ class PracticeGameController: UIViewController {
 
                 case .failure(let error):
                     switch error {
-                    case .noaccess:
-                        self.handleLogout()
+//                    case .noaccess:
+//                        self.handleLogout()
                     default:
                         self.showAlert(msg: error.localizedDescription)
                     }
@@ -269,42 +269,42 @@ class PracticeGameController: UIViewController {
     }
 
 
-    func getWords() {
-        
-        let url = API.VOCABEE_GET_PRACTISE_WORDS +
-            "?student_id=\(UserManager.shared.vocabBee_selected_student.studentID)" +
-            "&grade=\(UserManager.shared.vocabBee_selected_grade.id)"
-
-        NetworkManager.shared.request(
-            urlString: url,
-            method: .GET
-        ) { (result: Result<APIResponse<WordInfo>, NetworkError>) in
-
-            DispatchQueue.main.async {
-                switch result {
-
-                case .success(let info):
-                    if info.success, let data = info.data {
-                        self.word_info = data
-                        self.resultView.isHidden = true
-                        self.lblEnteredSpelling.isHidden = true
-                        self.viewLottie.isHidden = true
-                        self.setupPlayer()
-                    } else {
-                        self.showNoMoreWordsAlert()
-                    }
-
-                case .failure(let error):
-                    switch error {
-                    case .noaccess:
-                        self.handleLogout()
-                    default:
-                        self.showAlert(msg: error.localizedDescription)
-                    }
-                }
-            }
-        }
-    }
+//    func getWords() {
+//        
+//        let url = API.VOCABEE_GET_PRACTISE_WORDS +
+////            "?student_id=\(UserManager.shared.vocabBee_selected_student.studentID)" +
+////            "&grade=\(UserManager.shared.vocabBee_selected_grade.id)"
+//
+//        NetworkManager.shared.request(
+//            urlString: url,
+//            method: .GET
+//        ) { (result: Result<APIResponse<WordInfo>, NetworkError>) in
+//
+//            DispatchQueue.main.async {
+//                switch result {
+//
+//                case .success(let info):
+//                    if info.success, let data = info.data {
+//                        self.word_info = data
+//                        self.resultView.isHidden = true
+//                        self.lblEnteredSpelling.isHidden = true
+//                        self.viewLottie.isHidden = true
+//                        self.setupPlayer()
+//                    } else {
+//                        self.showNoMoreWordsAlert()
+//                    }
+//
+//                case .failure(let error):
+//                    switch error {
+//                    case .noaccess:
+//                        self.handleLogout()
+//                    default:
+//                        self.showAlert(msg: error.localizedDescription)
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     @IBAction func onDefinitionClick(_ sender: UIButton) {
         guard let word = word_info else { return }

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="familyMemberCell" rowHeight="94" id="KGk-i7-Jjw" customClass="familyMemberCell" customModule="FAMILYFIRST" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="434" height="94"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="434" height="94"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NmQ-23-KiK">
+                        <rect key="frame" x="16" y="8" width="402" height="84"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Picture" translatesAutoresizingMaskIntoConstraints="NO" id="GOi-ly-4gc">
+                                <rect key="frame" x="12" y="12" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="mgG-Wk-nF0"/>
+                                    <constraint firstAttribute="width" constant="50" id="yiY-V1-cFE"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rMI-oS-HiE">
+                                <rect key="frame" x="74" y="12" width="91.666666666666686" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="R8h-F2-Ggn"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="Priya Joseph">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Lexend-SemiBold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IJQ-2v-yh0">
+                                <rect key="frame" x="74" y="36" width="30" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="dbC-Zz-VBq"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="Wife">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0079992820642818471" green="0.0080295138888888395" blue="0.0075014392158937182" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="14" name="Lexend-Light"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9wY-eL-LnQ">
+                                <rect key="frame" x="310" y="25" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="7pB-LS-SZM"/>
+                                    <constraint firstAttribute="width" constant="24" id="ELk-3Y-QFN"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="call"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v2p-PI-D0l">
+                                <rect key="frame" x="358" y="25" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="7he-lG-KBQ"/>
+                                    <constraint firstAttribute="height" constant="24" id="lD3-si-sJh"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="whatsapp"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="v2p-PI-D0l" firstAttribute="leading" secondItem="9wY-eL-LnQ" secondAttribute="trailing" constant="24" id="7ka-VL-Dzb"/>
+                            <constraint firstAttribute="trailing" secondItem="9wY-eL-LnQ" secondAttribute="trailing" constant="68" id="DhS-3y-GuY"/>
+                            <constraint firstItem="GOi-ly-4gc" firstAttribute="top" secondItem="NmQ-23-KiK" secondAttribute="top" constant="12" id="JIS-Yf-sif"/>
+                            <constraint firstItem="rMI-oS-HiE" firstAttribute="leading" secondItem="GOi-ly-4gc" secondAttribute="trailing" constant="12" id="OfY-D3-jLs"/>
+                            <constraint firstItem="v2p-PI-D0l" firstAttribute="centerY" secondItem="9wY-eL-LnQ" secondAttribute="centerY" id="U4K-wN-XkL"/>
+                            <constraint firstItem="9wY-eL-LnQ" firstAttribute="centerY" secondItem="GOi-ly-4gc" secondAttribute="centerY" id="eot-rH-FuX"/>
+                            <constraint firstItem="IJQ-2v-yh0" firstAttribute="top" secondItem="rMI-oS-HiE" secondAttribute="bottom" constant="6" id="sb3-3F-1sg"/>
+                            <constraint firstItem="IJQ-2v-yh0" firstAttribute="leading" secondItem="rMI-oS-HiE" secondAttribute="leading" id="t7y-2N-Vkr"/>
+                            <constraint firstItem="GOi-ly-4gc" firstAttribute="leading" secondItem="NmQ-23-KiK" secondAttribute="leading" constant="12" id="tZh-xC-n5c"/>
+                            <constraint firstItem="rMI-oS-HiE" firstAttribute="top" secondItem="GOi-ly-4gc" secondAttribute="top" id="wfI-4r-fFq"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="NmQ-23-KiK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="HSK-8d-tdG"/>
+                    <constraint firstItem="NmQ-23-KiK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="MyO-Vr-0rw"/>
+                    <constraint firstAttribute="trailing" secondItem="NmQ-23-KiK" secondAttribute="trailing" constant="16" id="TC3-ly-sZO"/>
+                    <constraint firstAttribute="bottom" secondItem="NmQ-23-KiK" secondAttribute="bottom" constant="2" id="v2p-JJ-cQX"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="bgVw" destination="NmQ-23-KiK" id="rDe-ea-M0B"/>
+                <outlet property="callBtn" destination="9wY-eL-LnQ" id="GR7-3S-hOj"/>
+                <outlet property="nameLbl" destination="rMI-oS-HiE" id="pZs-j8-Iya"/>
+                <outlet property="relationLbl" destination="IJQ-2v-yh0" id="QEd-iG-Adq"/>
+                <outlet property="userImg" destination="GOi-ly-4gc" id="zAW-Jx-kw4"/>
+                <outlet property="whatsappBtn" destination="v2p-PI-D0l" id="kKr-qk-6cd"/>
+            </connections>
+            <point key="canvasLocation" x="216.79389312977099" y="6.3380281690140849"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Picture" width="36" height="36"/>
+        <image name="call" width="32" height="32"/>
+        <image name="whatsapp" width="42.666667938232422" height="42.666667938232422"/>
+    </resources>
+</document>

@@ -60,10 +60,10 @@ class DailyChallengeViewController: UIViewController {
         slider.minimumValue = 0
         slider.maximumValue = 10
         viewLottie.isHidden = true
-        lblTitle.text = "Daily Challenge - \(UserManager.shared.vocabBee_selected_date.date.fromyyyyMMddtoDDMMYYYY())"
+//        lblTitle.text = "Daily Challenge - \(UserManager.shared.vocabBee_selected_date.date.fromyyyyMMddtoDDMMYYYY())"
         timerLbl.text = "60 Seconds Left..."
 
-        getWords()
+//        getWords()
     }
     
     func resetResultView() {
@@ -265,8 +265,8 @@ class DailyChallengeViewController: UIViewController {
         let payload: [String: Any] = [
             "answer": enteredText,
             "word_id": words[currentWordIndex].id,
-            "grade_id": UserManager.shared.vocabBee_selected_grade.id,
-            "student_id": UserManager.shared.vocabBee_selected_student.studentID
+//            "grade_id": UserManager.shared.vocabBee_selected_grade.id,
+//            "student_id": UserManager.shared.vocabBee_selected_student.studentID
         ]
         
         NetworkManager.shared.request(
@@ -358,8 +358,8 @@ class DailyChallengeViewController: UIViewController {
                     }
                 case .failure(let error):
                     switch error {
-                    case .noaccess:
-                        self.handleLogout()
+//                    case .noaccess:
+//                        self.handleLogout()
                     default:
                         self.showAlert(msg: error.localizedDescription)
                     }
@@ -368,44 +368,44 @@ class DailyChallengeViewController: UIViewController {
         }
     }
     
-    func getWords() {
-        let url = API.VOCABEE_GET_WORDS_BY_DATES +
-            "?student_id=\(UserManager.shared.vocabBee_selected_student.studentID)" +
-            "&grade=\(UserManager.shared.vocabBee_selected_grade.id)" +
-            "&date=\(UserManager.shared.vocabBee_selected_date.date)"
-        
-        NetworkManager.shared.request(
-            urlString: url,
-            method: .GET
-        ) { (result: Result<APIResponse<[WordInfo]>, NetworkError>) in
-            
-            DispatchQueue.main.async {
-                switch result {
-                    
-                case .success(let info):
-                    if info.success, let data = info.data {
-                        self.words = data
-                        self.totalWords = self.words.count
-                        self.currentWordIndex = 0
-                        if self.totalWords > 0 {
-                            self.resetResultView()
-                            self.setupPlayer()
-                        } else {
-                            self.showNoWordsMessage()
-                        }
-                    }
-                    
-                case .failure(let error):
-                    switch error {
-                    case .noaccess:
-                        self.handleLogout()
-                    default:
-                        self.showAlert(msg: error.localizedDescription)
-                    }
-                }
-            }
-        }
-    }
+//    func getWords() {
+//        let url = API.VOCABEE_GET_WORDS_BY_DATES +
+//            "?student_id=\(UserManager.shared.vocabBee_selected_student.studentID)" +
+//            "&grade=\(UserManager.shared.vocabBee_selected_grade.id)" +
+//            "&date=\(UserManager.shared.vocabBee_selected_date.date)"
+//        
+//        NetworkManager.shared.request(
+//            urlString: url,
+//            method: .GET
+//        ) { (result: Result<APIResponse<[WordInfo]>, NetworkError>) in
+//            
+//            DispatchQueue.main.async {
+//                switch result {
+//                    
+//                case .success(let info):
+//                    if info.success, let data = info.data {
+//                        self.words = data
+//                        self.totalWords = self.words.count
+//                        self.currentWordIndex = 0
+//                        if self.totalWords > 0 {
+//                            self.resetResultView()
+//                            self.setupPlayer()
+//                        } else {
+//                            self.showNoWordsMessage()
+//                        }
+//                    }
+//                    
+//                case .failure(let error):
+//                    switch error {
+//                    case .noaccess:
+//                        self.handleLogout()
+//                    default:
+//                        self.showAlert(msg: error.localizedDescription)
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     func showNoWordsMessage() {
         let alert = UIAlertController(

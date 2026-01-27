@@ -1,0 +1,248 @@
+//
+//  AddKidVC.swift
+//  SchoolFirst
+//
+//  Created by Lifeboat on 07/11/25.
+//
+
+import UIKit
+
+class AddKidVC: UIViewController {
+    
+    @IBOutlet weak var tblVw: UITableView!
+    @IBOutlet weak var topVw: UIView!
+    @IBOutlet weak var addkidButton: UIButton!
+    @IBOutlet weak var backButton: UIButton!
+    
+    private var addKidCell: AddKidOneCell?
+    
+    // private var gradeList: [Grade] = []
+    // var onDismissWithoutAdding: (() -> Void)?
+    // var onKidAdded: (() -> Void)?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        setupTableView()
+        
+        // fetchGrades()
+    }
+    
+    private func setupUI() {
+        topVw.addBottomShadow()
+    }
+    
+    private func setupTableView() {
+        tblVw.delegate = self
+        tblVw.dataSource = self
+        tblVw.register(UINib(nibName: "AddKidOneCell", bundle: nil), forCellReuseIdentifier: "AddKidOneCell")
+        tblVw.rowHeight = 740
+        tblVw.separatorStyle = .none
+    }
+    
+    @IBAction func onClickBack(_ sender: UIButton) {
+        if self.presentingViewController != nil {
+            self.dismiss(animated: true)
+            // self.dismiss(animated: true) {
+            //     self.onDismissWithoutAdding?()
+            // }
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    @IBAction func onClickAddKid(_ sender: UIButton) {
+        // addStudent() // Uncomment when API needed
+        print("Add Kid tapped")
+    }
+    
+    
+    /*
+    private func fetchGrades() {
+        NetworkManager.shared.request(
+            urlString: API.GRADES_LIST,
+            method: .GET
+        ) { (result: Result<APIResponse<[Grade]>, NetworkError>) in
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    if let grades = response.data {
+                        self.gradeList = grades
+                        self.tblVw.reloadData()
+                        
+                        if let cell = self.addKidCell {
+                            cell.gradeList = grades
+                        }
+                    } else {
+                        print("⚠️ Grades data is nil")
+                    }
+                    
+                case .failure(let error):
+                    print("❌ Network error: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    */
+    
+    /*
+    private func addStudent() {
+        
+        guard let cell = addKidCell else {
+            print("❌ Cell is nil")
+            return
+        }
+        
+        guard let gradeId = cell.selectedGradeId, !gradeId.isEmpty else {
+            showAlert(msg: "Please select a grade")
+            return
+        }
+        
+        guard let studentName = cell.nameTf.text?.trimmingCharacters(in: .whitespaces), !studentName.isEmpty else {
+            showAlert(msg: "Please enter student name")
+            return
+        }
+        
+        guard let relationType = cell.selectedRelationType, !relationType.isEmpty else {
+            showAlert(msg: "Please select Son or Daughter")
+            return
+        }
+        
+        guard let dob = cell.selectedDob, !dob.isEmpty else {
+            showAlert(msg: "Please select date of birth")
+            return
+        }
+        
+        let notesText = cell.notesTv.text ?? ""
+        var notesArray: [String] = []
+        if !notesText.trimmingCharacters(in: .whitespaces).isEmpty {
+            notesArray = notesText.components(separatedBy: "\n").filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        }
+        
+        let selectedGradeName = gradeList.first(where: { $0.id == gradeId })?.name ?? ""
+        
+        let payload: [String: Any] = [
+            "grade_id": gradeId,
+            "student_name": studentName,
+            "relation_type": relationType,
+            "dob": dob,
+            "notes": notesArray,
+            "status": "Active"
+        ]
+        
+        NetworkManager.shared.request(
+            urlString: API.ADD_STUDENT,
+            method: .POST,
+            parameters: payload
+        ) { (result: Result<APIResponse<StudentUpdateResponse>, NetworkError>) in
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    if response.success, let data = response.data {
+                        
+                        let selectedGradeName = self.gradeList.first(where: { $0.id == gradeId })?.name ?? ""
+                        
+                        let newStudent = Student(
+                            studentID: data.finalID,
+                            name: data.finalName,
+                            image: data.image,
+                            fatherName: "",
+                            motherName: "",
+                            dob: data.dob,
+                            address: nil,
+                            mobile: nil,
+                            grade: data.gradeName ?? selectedGradeName,
+                            gradeID: data.gradeId ?? gradeId,
+                            section: "",
+                            numeric_grade: 0,
+                            school: nil
+                        )
+                        
+                        // UserManager.shared.addKid(newStudent)
+                        print("KID ADDED: \(newStudent.name) - \(newStudent.studentID)")
+                        self.showSuccessAndGoBack()
+                        
+                    } else {
+                        print("Failed: data is nil → wrong model!")
+                        self.showAlert(msg: response.description ?? "Failed to add kid")
+                    }
+                    
+                case .failure(let error):
+                    self.showAlert(msg: error.localizedDescription)
+                }
+            }
+        }
+    }
+    */
+    
+    /*
+    private func showSuccessAndGoBack() {
+        let alert = UIAlertController(title: "Success", message: "Kid added successfully!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+            if self.presentingViewController != nil {
+                self.dismiss(animated: true) {
+                    self.onKidAdded?()
+                }
+            } else {
+                self.onKidAdded?()
+                self.navigationController?.popViewController(animated: true)
+            }
+        })
+        present(alert, animated: true)
+    }
+    */
+    
+    /*
+    func openImagePicker(sourceType: UIImagePickerController.SourceType) {
+        guard UIImagePickerController.isSourceTypeAvailable(sourceType) else {
+            showAlert(msg: "This feature is not available on your device")
+            return
+        }
+        
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = sourceType
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true)
+    }
+    */
+}
+
+extension AddKidVC: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AddKidOneCell", for: indexPath) as! AddKidOneCell
+        self.addKidCell = cell
+        cell.selectionStyle = .none
+        
+        // cell.gradeList = gradeList // Uncomment when API needed
+        // print("📱 Cell created with \(gradeList.count) grades")
+        
+        return cell
+    }
+}
+
+/*
+extension AddKidVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+        
+        if let editedImage = info[.editedImage] as? UIImage {
+            addKidCell?.setProfileImage(editedImage)
+        } else if let originalImage = info[.originalImage] as? UIImage {
+            addKidCell?.setProfileImage(originalImage)
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+}
+*/

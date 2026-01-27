@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ShopCollectionViewCell" customModule="FamilyFirst" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="142" height="199"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="142" height="199"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ZL-Jh-bcO">
+                        <rect key="frame" x="0.0" y="0.0" width="142" height="199"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="onlinestore" translatesAutoresizingMaskIntoConstraints="NO" id="fvq-dB-n8a">
+                                <rect key="frame" x="0.0" y="0.0" width="142" height="199"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JY5-eK-VNb">
+                                <rect key="frame" x="68" y="8" width="70" height="15"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lIs-NQ-Oyj">
+                                        <rect key="frame" x="3.333333333333325" y="0.66666666666666607" width="63.666666666666657" height="14"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="Best Selling">
+                                                <attributes>
+                                                    <color key="NSColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <font key="NSFont" size="12" name="Lexend-SemiBold"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="IC4-gJ-QX3"/>
+                                    <constraint firstItem="lIs-NQ-Oyj" firstAttribute="centerY" secondItem="JY5-eK-VNb" secondAttribute="centerY" id="JSI-3u-rV1"/>
+                                    <constraint firstItem="lIs-NQ-Oyj" firstAttribute="centerX" secondItem="JY5-eK-VNb" secondAttribute="centerX" id="SbN-Ku-WVI"/>
+                                    <constraint firstAttribute="width" constant="70" id="es6-mY-Ui8"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wb2-aI-Uto">
+                                <rect key="frame" x="16" y="157" width="110" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="GmC-HZ-XhK"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="Managing Parenting with ease!">
+                                        <attributes>
+                                            <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="12" name="Lexend-Regular"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="JY5-eK-VNb" firstAttribute="top" secondItem="0ZL-Jh-bcO" secondAttribute="top" constant="8" id="3iA-mh-Ye9"/>
+                            <constraint firstAttribute="trailing" secondItem="Wb2-aI-Uto" secondAttribute="trailing" constant="16" id="CCV-q6-XV1"/>
+                            <constraint firstAttribute="trailing" secondItem="JY5-eK-VNb" secondAttribute="trailing" constant="4" id="Db2-df-hzf"/>
+                            <constraint firstItem="fvq-dB-n8a" firstAttribute="leading" secondItem="0ZL-Jh-bcO" secondAttribute="leading" id="HnB-xm-o4D"/>
+                            <constraint firstAttribute="bottom" secondItem="fvq-dB-n8a" secondAttribute="bottom" id="POa-cV-8Us"/>
+                            <constraint firstAttribute="bottom" secondItem="Wb2-aI-Uto" secondAttribute="bottom" constant="12" id="TOd-jr-3RY"/>
+                            <constraint firstItem="fvq-dB-n8a" firstAttribute="top" secondItem="0ZL-Jh-bcO" secondAttribute="top" id="Uk9-uv-geD"/>
+                            <constraint firstAttribute="trailing" secondItem="fvq-dB-n8a" secondAttribute="trailing" id="fjB-ZJ-n9m"/>
+                            <constraint firstItem="Wb2-aI-Uto" firstAttribute="leading" secondItem="0ZL-Jh-bcO" secondAttribute="leading" constant="16" id="nEn-Bq-Tdb"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="0ZL-Jh-bcO" secondAttribute="bottom" id="6Rs-8h-jx5"/>
+                <constraint firstItem="0ZL-Jh-bcO" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="HdL-vu-RQ8"/>
+                <constraint firstItem="0ZL-Jh-bcO" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="cOz-SC-rad"/>
+                <constraint firstAttribute="trailing" secondItem="0ZL-Jh-bcO" secondAttribute="trailing" id="wHU-4g-sdo"/>
+            </constraints>
+            <size key="customSize" width="142" height="199"/>
+            <connections>
+                <outlet property="imgVw" destination="fvq-dB-n8a" id="8Hv-ZU-tdH"/>
+                <outlet property="productLbl" destination="Wb2-aI-Uto" id="DOw-C2-tDr"/>
+                <outlet property="tagLbl" destination="lIs-NQ-Oyj" id="IvR-nO-Cy3"/>
+            </connections>
+            <point key="canvasLocation" x="221.37404580152671" y="47.535211267605639"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="onlinestore" width="200" height="266.66665649414062"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

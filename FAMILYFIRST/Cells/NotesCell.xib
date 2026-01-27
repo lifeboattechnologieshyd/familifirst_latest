@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="96" id="KGk-i7-Jjw" customClass="NotesCell" customModule="FamilyFirst" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="429" height="96"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="429" height="96"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="96N-4M-c44">
+                        <rect key="frame" x="4" y="4" width="421" height="88"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aYl-Ud-Pbc">
+                                <rect key="frame" x="12" y="6" width="42" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="Yv7-xB-cRw"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="Note 1">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Lexend-Medium"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cm5-VX-7mE">
+                                <rect key="frame" x="12" y="28" width="371" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="bmI-s4-B8Y"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="Priya needs to take Vitamin D for 3 weeks on alternate days.">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Lexend-Regular"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wID-ij-aAa">
+                                <rect key="frame" x="389" y="6" width="16" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="16" id="XBC-Te-vQh"/>
+                                    <constraint firstAttribute="width" constant="16" id="tWt-rI-dR6"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="trash-bin"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bvd-EB-buu">
+                                <rect key="frame" x="357" y="6" width="16" height="16"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="16" id="0t0-07-pfF"/>
+                                    <constraint firstAttribute="width" constant="16" id="CJ4-gl-lP7"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="pen"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wID-ij-aAa" firstAttribute="top" secondItem="96N-4M-c44" secondAttribute="top" constant="6" id="54v-Or-bwW"/>
+                            <constraint firstItem="Bvd-EB-buu" firstAttribute="centerY" secondItem="wID-ij-aAa" secondAttribute="centerY" id="BBc-7G-PeJ"/>
+                            <constraint firstItem="Cm5-VX-7mE" firstAttribute="top" secondItem="aYl-Ud-Pbc" secondAttribute="bottom" constant="4" id="BCU-k9-odE"/>
+                            <constraint firstAttribute="trailing" secondItem="Cm5-VX-7mE" secondAttribute="trailing" constant="38" id="DvU-Ee-18h"/>
+                            <constraint firstItem="Cm5-VX-7mE" firstAttribute="leading" secondItem="96N-4M-c44" secondAttribute="leading" constant="12" id="HDU-5G-Dkn"/>
+                            <constraint firstItem="aYl-Ud-Pbc" firstAttribute="top" secondItem="96N-4M-c44" secondAttribute="top" constant="6" id="P1S-fy-wlW"/>
+                            <constraint firstAttribute="trailing" secondItem="wID-ij-aAa" secondAttribute="trailing" constant="16" id="YEY-Ev-OvZ"/>
+                            <constraint firstItem="wID-ij-aAa" firstAttribute="leading" secondItem="Bvd-EB-buu" secondAttribute="trailing" constant="16" id="gcd-DU-hJF"/>
+                            <constraint firstItem="aYl-Ud-Pbc" firstAttribute="leading" secondItem="96N-4M-c44" secondAttribute="leading" constant="12" id="rg6-hB-gW7"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="96N-4M-c44" secondAttribute="bottom" constant="4" id="JUI-BW-hFv"/>
+                    <constraint firstItem="96N-4M-c44" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="4" id="RtI-tr-jg2"/>
+                    <constraint firstAttribute="trailing" secondItem="96N-4M-c44" secondAttribute="trailing" constant="4" id="gsN-kb-qUb"/>
+                    <constraint firstItem="96N-4M-c44" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="hjB-Jm-RFi"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="bgVw" destination="96N-4M-c44" id="OYP-am-YWc"/>
+                <outlet property="deleteBtn" destination="wID-ij-aAa" id="4CW-ea-fZY"/>
+                <outlet property="notesLbl" destination="Cm5-VX-7mE" id="gAX-wL-C2a"/>
+                <outlet property="noteseditBtn" destination="Bvd-EB-buu" id="Ard-PI-WeI"/>
+            </connections>
+            <point key="canvasLocation" x="211.4503816793893" y="7.042253521126761"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="pen" width="21.333333969116211" height="21.333333969116211"/>
+        <image name="trash-bin" width="21.333333969116211" height="21.333333969116211"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

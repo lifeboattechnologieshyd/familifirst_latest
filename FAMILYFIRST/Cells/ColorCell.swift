@@ -8,10 +8,12 @@
 import UIKit
 
 class ColorCell: UICollectionViewCell {
+    
+    @IBOutlet weak var colorView: UIView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        colorView.layer.cornerRadius = 6
+        colorView.clipsToBounds = true
     }
-
 }

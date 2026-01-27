@@ -1,0 +1,165 @@
+//
+//  AssessmentsViewController.swift
+//  SchoolFirst
+//
+//  Created by Ranjith Padidala on 10/10/25.
+//
+
+import UIKit
+
+class AssessmentsViewController: UIViewController {
+    
+    @IBOutlet weak var tblVw: UITableView!
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var testLbl: UILabel!
+    
+    var hasKids: Bool {
+        // return UserManager.shared.kids.count > 0
+        return false // Placeholder value
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUI()
+        tblVw.reloadData()
+    }
+    
+    private func setupTableView() {
+        tblVw.register(UINib(nibName: "KidsCell", bundle: nil), forCellReuseIdentifier: "KidsCell")
+        tblVw.register(UINib(nibName: "AddKidsCell", bundle: nil), forCellReuseIdentifier: "AddKidsCell")
+        tblVw.register(UINib(nibName: "ImageCell", bundle: nil), forCellReuseIdentifier: "ImageCell")
+        
+        tblVw.delegate = self
+        tblVw.dataSource = self
+        tblVw.separatorStyle = .none
+    }
+    
+    func updateUI() {
+        if hasKids {
+            testLbl.isHidden = false
+        } else {
+            testLbl.isHidden = true
+        }
+    }
+    
+    @IBAction func backButtonTapped(_ sender: UIButton) {
+        for controller in navigationController?.viewControllers ?? [] {
+            if controller is HomeVC {
+                navigationController?.popToViewController(controller, animated: true)
+                return
+            }
+        }
+        navigationController?.popToRootViewController(animated: true)
+    }
+    
+    func goToAddKidVC() {
+        let vc = storyboard?.instantiateViewController(identifier: "AddKidVC") as! AddKidVC
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension AssessmentsViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if hasKids {
+            // return UserManager.shared.kids.count + 1
+            return 1 // Placeholder
+        } else {
+            return 2
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        // When no kids - show image cell and add kids cell
+        if !hasKids {
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ImageCell", for: indexPath)
+                cell.selectionStyle = .none
+                cell.backgroundColor = .clear
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AddKidsCell", for: indexPath) as! AddKidsCell
+                cell.selectionStyle = .none
+                cell.backgroundColor = .clear
+                return cell
+            }
+        }
+        
+        // When has kids - show kids cells and add kids cell at the end
+        // Placeholder: Just show AddKidsCell for now
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AddKidsCell", for: indexPath) as! AddKidsCell
+        cell.selectionStyle = .none
+        cell.backgroundColor = .clear
+        return cell
+        
+        /*
+        if indexPath.row == UserManager.shared.kids.count {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AddKidsCell", for: indexPath) as! AddKidsCell
+            cell.selectionStyle = .none
+            cell.backgroundColor = .clear
+            return cell
+        }
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "KidsCell", for: indexPath) as! KidsCell
+        cell.backgroundView?.backgroundColor = .primary
+        cell.contentView.backgroundColor = .primary
+        cell.setupCell(student: UserManager.shared.kids[indexPath.row])
+        return cell
+        */
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if !hasKids {
+            if indexPath.row == 0 {
+                return 218
+            } else {
+                return 48
+            }
+        }
+        
+        // Placeholder height
+        return 48
+        
+        /*
+        if indexPath.row == UserManager.shared.kids.count {
+            return 48
+        }
+        return 74
+        */
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        // When no kids
+        if !hasKids {
+            if indexPath.row == 1 {
+                let vc = storyboard?.instantiateViewController(identifier: "AddKidVC") as! AddKidVC
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            return
+        }
+        
+        // Placeholder: Just go to AddKidVC
+        let vc = storyboard?.instantiateViewController(identifier: "AddKidVC") as! AddKidVC
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+        /*
+        if indexPath.row == UserManager.shared.kids.count {
+            let vc = storyboard?.instantiateViewController(identifier: "AddKidVC") as! AddKidVC
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = storyboard?.instantiateViewController(identifier: "AssessmentsGradeSelectionVC") as! AssessmentsGradeSelectionVC
+            UserManager.shared.assessmentSelectedStudent = UserManager.shared.kids[indexPath.row]
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        */
+    }
+}

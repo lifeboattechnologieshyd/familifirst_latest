@@ -1,13 +1,13 @@
 //
-//  EventCell.swift
-//  FAMILYFIRST
+//  AddEventCell.swift
+//  FamilyFirst
 //
-//  Created by Lifeboat on 17/01/26.
+//  Created by Lifeboat on 13/01/26.
 //
 
 import UIKit
 
-class EventCell: UITableViewCell {
+class EventssCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
