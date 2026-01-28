@@ -27,10 +27,10 @@ class CustomTabBarController: UITabBarController,
     
     let tabItems: [(icon: String, title: String)] = [
         ("tab1", "FAMILY"),
-        ("tab2", "COURSE EDEMY"),
+        ("tab2", "LEARN"),
         ("", ""),
         ("tab4", "EDUTAIN"),
-        ("tab5", "PROFILE")
+        ("tab5", "FEELS")
     ]
     
     let selectedColor = UIColor(red: 7/255.0, green: 104/255.0, blue: 57/255.0, alpha: 1.0)   // #076839 (Dark Green)
@@ -317,11 +317,11 @@ class CustomTabBarController: UITabBarController,
         circleButton.backgroundColor = .white
         circleButton.tag = 998
         
-        circleButton.setImage(UIImage(named: "tab3"), for: .normal) // Your original image
+        circleButton.setImage(UIImage(named: "tab3"), for: .normal)
         circleButton.imageView?.contentMode = .scaleAspectFit
         circleButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
-        circleButton.layer.borderWidth = 3
+        circleButton.layer.borderWidth = 1
         circleButton.layer.borderColor = UIColor.clear.cgColor
         
         circleButton.layer.shadowOpacity = 0.25
@@ -339,7 +339,7 @@ class CustomTabBarController: UITabBarController,
     func setupMiddleLabel() {
         middleLabel.removeFromSuperview()
         
-        middleLabel.text = "HOME"
+        middleLabel.text = "EXPLORE"
         middleLabel.font = UIFont.systemFont(ofSize: 10, weight: .medium)
         middleLabel.textColor = unselectedColor
         middleLabel.textAlignment = .center
@@ -432,26 +432,4 @@ class CustomTabBarController: UITabBarController,
         updateVisibilityBasedOnDepth()
         hideNativeTabBar()
     }
-    
-    
-    /*
-    func updateMiddleTabTitleAndImage() {
-        isSchoolUser = false
-        
-        if UserManager.shared.user?.students?.count ?? 0 > 0 {
-            let first_student = UserManager.shared.user?.students?.first!
-            if let school = first_student?.school {
-                isSchoolUser = true
-                circleButton.loadImage(url: school.smallLogo ?? "")
-            }
-        }
-        
-        if !isSchoolUser {
-            circleButton.setImage(UIImage(named: "MyPlan"), for: .normal)
-        }
-        
-        middleLabel.text = isSchoolUser ? "MySchool" : "MyPlan"
-        circleButton.setTitle("", for: .normal)
-    }
-    */
 }

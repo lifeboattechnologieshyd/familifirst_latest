@@ -140,6 +140,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="FOR-9S-Xbs" firstAttribute="top" secondItem="a4S-8W-uAx" secondAttribute="bottom" constant="16" id="0tE-Me-UYG"/>
                     <constraint firstItem="FOR-9S-Xbs" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="2Yg-rb-oyM"/>
@@ -149,6 +150,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="bgVw" destination="FOR-9S-Xbs" id="7ct-Pu-HTP"/>
                 <outlet property="dateLbl" destination="emJ-Qb-jfZ" id="Ocg-O8-m8K"/>

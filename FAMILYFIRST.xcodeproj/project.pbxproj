@@ -23,7 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		88E27B5B2F17D1E40044D639 /* FAMILYFIRST.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FAMILYFIRST.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		88897F042F2A160E00CF8748 /* FAMILYFIRST.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = FAMILYFIRST.app; path = "/Users/lifeboat/Desktop/FAMILYFIRST/build/Debug-iphoneos/FAMILYFIRST.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -75,16 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				88E27B5D2F17D1E40044D639 /* FAMILYFIRST */,
-				88E27B5C2F17D1E40044D639 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		88E27B5C2F17D1E40044D639 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				88E27B5B2F17D1E40044D639 /* FAMILYFIRST.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -124,7 +115,7 @@
 				88CDB5EE2F1A74A000C0CC6B /* CashfreePGUISDK */,
 			);
 			productName = FAMILYFIRST;
-			productReference = 88E27B5B2F17D1E40044D639 /* FAMILYFIRST.app */;
+			productReference = 88897F042F2A160E00CF8748 /* FAMILYFIRST.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -159,7 +150,7 @@
 				88CDB5E52F1A74A000C0CC6B /* XCRemoteSwiftPackageReference "core-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 88E27B5C2F17D1E40044D639 /* Products */;
+			productRefGroup = 88E27B522F17D1E40044D639;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (

@@ -18,6 +18,7 @@ class FeelsViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     @IBOutlet weak var goBtn: UIButton!
     @IBOutlet weak var searchTf: UITextField!
+    @IBOutlet weak var fflogoImgVw: UIImageView!
     @IBOutlet weak var colVw: UICollectionView!
     @IBOutlet weak var videonoTf: UITextField!
     
@@ -25,6 +26,7 @@ class FeelsViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        fflogoImgVw.addCardShadow()
         
         colVw.delegate = self
         colVw.dataSource = self
