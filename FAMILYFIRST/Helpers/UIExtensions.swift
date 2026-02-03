@@ -5,6 +5,10 @@
 //  Created by Lifeboat on 09/01/26.
 //
 import UIKit
+import ObjectiveC
+
+private var loaderKey: UInt8 = 0
+
 
 extension UIView {
     
@@ -769,5 +773,50 @@ func handleLogout() {
         }
         window.rootViewController = loginVC
         window.makeKeyAndVisible()
+    }
+}
+extension UIViewController {
+
+    private var loaderView: UIView? {
+        get {
+            return objc_getAssociatedObject(self, &loaderKey) as? UIView
+        }
+        set {
+            objc_setAssociatedObject(
+                self,
+                &loaderKey,
+                newValue,
+                .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+            )
+        }
+    }
+
+    func showLoader() {
+        DispatchQueue.main.async {
+            if self.loaderView != nil { return }
+
+            let loader = UIView(frame: self.view.bounds)
+            loader.backgroundColor =
+                UIColor.black.withAlphaComponent(0.4)
+
+            let spinner =
+                UIActivityIndicatorView(style: .large)
+            spinner.center = loader.center
+            spinner.color = .white
+            spinner.startAnimating()
+
+            loader.addSubview(spinner)
+            self.view.addSubview(loader)
+            self.view.bringSubviewToFront(loader)
+
+            self.loaderView = loader
+        }
+    }
+
+    func hideLoader() {
+        DispatchQueue.main.async {
+            self.loaderView?.removeFromSuperview()
+            self.loaderView = nil
+        }
     }
 }

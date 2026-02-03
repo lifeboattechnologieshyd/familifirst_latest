@@ -33,8 +33,12 @@ class ParentingTipsViewController: UIViewController {
     }
     
     func fetchParentingTips() {
+        showLoader() 
         let url = API.EDUTAIN_FEED + "?f_category=Ptips"
         NetworkManager.shared.request(urlString: url, method: .GET) { (result: Result<APIResponse<[Feed]>, NetworkError>) in
+            DispatchQueue.main.async {
+                self.hideLoader()
+                    }
             switch result {
             case .success(let info):
                 if info.success {
@@ -53,7 +57,6 @@ class ParentingTipsViewController: UIViewController {
         }
     }
 }
-
 extension ParentingTipsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -50,6 +50,7 @@ class PastAssessmentsVC: UIViewController {
     
     /*
     func getHistory() {
+     showLoader()
         let url = API.ASSESSMENT_HISTORY + "?student_id=\(UserManager.shared.assessmentSelectedStudent.studentID)"
         
         NetworkManager.shared.request(urlString: url, method: .GET) { (result: Result<APIResponse<[AssessmentSummary]>, NetworkError>) in
@@ -60,6 +61,7 @@ class PastAssessmentsVC: UIViewController {
                         DispatchQueue.main.async {
                             self.assessments = data
                             self.tblVw.reloadData()
+                            self.hideLoader()
                         }
                     }
                 } else {
@@ -67,6 +69,7 @@ class PastAssessmentsVC: UIViewController {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
+                self.hideLoader() 
                     switch error {
                     case .noaccess:
                         self.handleLogout()

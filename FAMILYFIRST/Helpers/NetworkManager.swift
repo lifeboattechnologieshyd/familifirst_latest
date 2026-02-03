@@ -68,9 +68,11 @@ class NetworkManager {
                 return
             }
         }
-        if let at = UserDefaults.standard.string(forKey: "ACCESSTOKEN") {
-            request.setValue("Bearer \(at)", forHTTPHeaderField: "Authorization")
+        let token = UserManager.shared.accessToken
+        if !token.isEmpty {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
+
 
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -175,14 +177,24 @@ struct APIResponse<T: Decodable>: Decodable {
     }
 }
 struct LoginResponse: Decodable {
-    let refreshToken: String
-    let accessToken: String
+    let refreshToken: String?
+    let accessToken: String?
+    let username: String?
+    let email: String?
+    let mobile: Int?
+    let referralCode: String?
+    let profileImage: String?
     let isNewUser: Bool
     let setNewPassword: Bool
 
     enum CodingKeys: String, CodingKey {
         case refreshToken = "refresh_token"
         case accessToken = "access_token"
+        case username
+        case email
+        case mobile
+        case referralCode = "referral_code"
+        case profileImage = "profile_image"
         case isNewUser = "is_new_user"
         case setNewPassword = "set_new_password"
     }
@@ -259,8 +271,12 @@ struct API {
     static let CURRICULUM_TYPES = BASE_URL + "curriculum/curriculum"
     static let CURRICULUM_CATEGORIES = BASE_URL + "curriculum/categori?grade="
     static let SUBJECTS = BASE_URL + "curriculum/subject?grade="
-  
-  
+    static let SEND_OTP = BASE_URL + "auth/send-otp"
+    static let VERIFY_OTP = BASE_URL + "user/authentication/mobile/verify-otp"
+    static let RESEND_OTP = BASE_URL + "user/authentication/mobile/resend-otp"
+    static let SET_PASSWORD = BASE_URL + "user/authentication/set-password"
+    static let LOGIN_PASSWORD = BASE_URL + "user/authentication/mobile/login"
+    
 
    
  

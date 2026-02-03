@@ -1108,3 +1108,39 @@ struct GradeSubject: Codable {
         case status
     }
 }
+// SendOTPResponse - for send-otp API
+struct SendOTPResponse: Decodable {
+    let passwordRequired: Bool
+    let message: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case passwordRequired = "password_required"
+        case message
+    }
+}
+
+// VerifyOTPResponse - for verify-otp API
+struct VerifyOTPResponse: Decodable {
+    let refreshToken: String?
+    let accessToken: String?
+    let username: String?
+    let email: String?
+    let mobile: Int?
+    let referralCode: String?
+    let profileImage: String?
+    let isNewUser: Bool?
+    let setNewPassword: Bool?
+
+    enum CodingKeys: String, CodingKey {
+        case refreshToken = "refresh_token"
+        case accessToken = "access_token"
+        case username
+        case email
+        case mobile
+        case referralCode = "referral_code"
+        case profileImage = "profile_image"
+        case isNewUser = "is_new_user"
+        case setNewPassword = "set_new_password"
+    }
+}
+

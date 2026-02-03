@@ -152,7 +152,7 @@ class PracticeGameController: UIViewController {
 //            "grade_id": UserManager.shared.vocabBee_selected_grade.id,
 //            "student_id": UserManager.shared.vocabBee_selected_student.studentID
         ]
-        
+        showLoader()
         NetworkManager.shared.request(
             urlString: API.VOCABEE_PRACTICE_SUBMIT,
             method: .POST,
@@ -161,6 +161,7 @@ class PracticeGameController: UIViewController {
 
             guard let self = self else { return } // avoid retain cycles
             DispatchQueue.main.async {
+                self.hideLoader() 
                 switch result {
                 case .success(let info):
                     guard info.success, let data = info.data else {

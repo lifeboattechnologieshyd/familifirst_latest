@@ -32,8 +32,12 @@ class ProsperityTipsViewController: UIViewController {
     }
     
     func fetchProsperityTips() {
+        showLoader()
         let url = API.EDUTAIN_FEED + "?f_category=Ftips"
         NetworkManager.shared.request(urlString: url, method: .GET) { (result: Result<APIResponse<[Feed]>, NetworkError>) in
+            DispatchQueue.main.async {
+            self.hideLoader() 
+                    }
             switch result {
             case .success(let info):
                 if info.success {

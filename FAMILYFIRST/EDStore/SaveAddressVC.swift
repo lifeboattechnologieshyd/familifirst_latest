@@ -121,6 +121,7 @@ class SaveAddressVC: UIViewController {
     }
     
     private func editAddressAPI(cell: SaveAddressCell) {
+        showLoader()
         
         guard let addressId = existingAddress?.id else {
             showAlert(message: "Address ID not found")
@@ -159,6 +160,7 @@ class SaveAddressVC: UIViewController {
         ) { [weak self] (result: Result<APIResponse<AddressModel>, NetworkError>) in
             
             DispatchQueue.main.async {
+                self?.hideLoader()
                 guard let self = self else { return }
                 
                 switch result {
@@ -178,6 +180,7 @@ class SaveAddressVC: UIViewController {
     }
     
     private func createAddressAPI(cell: SaveAddressCell) {
+        showLoader()
         
         let mobile = Int(cell.phoneTf.text ?? "0") ?? 0
         
@@ -207,6 +210,7 @@ class SaveAddressVC: UIViewController {
         ) { [weak self] (result: Result<APIResponse<CreateAddressResponseModel>, NetworkError>) in
             
             DispatchQueue.main.async {
+                self?.hideLoader() 
                 guard let self = self else { return }
                 
                 switch result {

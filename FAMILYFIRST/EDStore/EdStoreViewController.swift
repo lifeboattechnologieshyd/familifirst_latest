@@ -47,6 +47,7 @@ class EdStoreViewController: UIViewController {
     }
     
     func getAddressAPI() {
+        showLoader()
         NetworkManager.shared.request(
             urlString: API.ONLINE_STORE_ADDRESS,
             method: .GET,
@@ -55,6 +56,7 @@ class EdStoreViewController: UIViewController {
         ) { [weak self] (result: Result<APIResponse<[AddressModel]>, NetworkError>) in
             
             DispatchQueue.main.async {
+                self?.hideLoader()
                 guard let self = self else { return }
                 
                 switch result {
@@ -152,6 +154,7 @@ class EdStoreViewController: UIViewController {
     }
     
     func fetchProducts() {
+        showLoader()
         guard !isLoading else { return }
         isLoading = true
 
@@ -165,6 +168,7 @@ class EdStoreViewController: UIViewController {
         ) { [weak self] (result: Result<APIResponse<[Product]>, NetworkError>) in
 
             DispatchQueue.main.async {
+                self?.hideLoader() 
                 guard let self = self else { return }
                 self.isLoading = false
 

@@ -46,6 +46,7 @@ class AssessmentsGradeSelectionVC: UIViewController {
     
     /*
     func getGrades() {
+     showLoader()
         NetworkManager.shared.request(urlString: API.GRADES, method: .GET) { (result: Result<APIResponse<[GradeModel]>, NetworkError>) in
             switch result {
             case .success(let info):
@@ -59,6 +60,7 @@ class AssessmentsGradeSelectionVC: UIViewController {
                         }
                         DispatchQueue.main.async {
                             self.colVw.reloadData()
+                            self.hideLoader()
                         }
                     }
                 } else {
@@ -66,6 +68,7 @@ class AssessmentsGradeSelectionVC: UIViewController {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
+                self.hideLoader()
                     switch error {
                     case .noaccess:
                         self.handleLogout()

@@ -53,6 +53,7 @@ class SelectCurriculumVC: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func getCurriculumType(){
+        showLoader()
         NetworkManager.shared.request(urlString: API.CURRICULUM_TYPES, method: .GET) { (result: Result<APIResponse<[Curriculum]>, NetworkError>)  in
             switch result {
             case .success(let info):
@@ -62,12 +63,14 @@ class SelectCurriculumVC: UIViewController, UITableViewDelegate, UITableViewData
                     }
                     DispatchQueue.main.async {
                         self.tblVw.reloadData()
+                        self.hideLoader()
                     }
                 }else{
                     self.showAlert(msg: info.description)
                 }
             case .failure(let error):
-                self.showAlert(msg: error.localizedDescription)
+                self.hideLoader() 
+                self.showAlert(msg: error.localizedDescription);self.showAlert(msg: error.localizedDescription)
             }
         }
     }

@@ -187,6 +187,7 @@ class EdutainmentVC: UIViewController {
     }
     
     func searchByKeyword(keyword: String) {
+        showLoader()
         guard !keyword.isEmpty else { return }
         
         let category = getCurrentCategory()
@@ -197,6 +198,7 @@ class EdutainmentVC: UIViewController {
             guard let self = self else { return }
             
             DispatchQueue.main.async {
+                self.hideLoader() 
                 let currentKeyword = self.searchTf.text?.trimmingCharacters(in: .whitespaces) ?? ""
                 guard currentKeyword == keyword else { return }
                 
@@ -242,12 +244,15 @@ class EdutainmentVC: UIViewController {
     }
     
     func searchSerialNumberFromAPI(serialNumber: Int, category: String) {
+        showLoader()
         let url = API.EDUTAIN_SEARCH + "?keyword=\(serialNumber)"
         
         NetworkManager.shared.request(urlString: url, method: .GET) { [weak self] (result: Result<APIResponse<[Feed]>, NetworkError>) in
             guard let self = self else { return }
             
             DispatchQueue.main.async {
+                self.hideLoader()
+
                 switch result {
                 case .success(let info):
                     if info.success, let data = info.data {
@@ -288,9 +293,11 @@ class EdutainmentVC: UIViewController {
     
     
     func getDiyFeed() {
+        showLoader()
         let url = API.EDUTAIN_FEED + "?f_category=Diy"
         NetworkManager.shared.request(urlString: url, method: .GET) { [weak self] (result: Result<APIResponse<[Feed]>, NetworkError>) in
             guard let self = self else { return }
+            self.hideLoader()
             switch result {
             case .success(let info):
                 if info.success, let data = info.data {
@@ -309,9 +316,11 @@ class EdutainmentVC: UIViewController {
     }
     
     func getStoriesFeed() {
+        showLoader()
         let url = API.EDUTAIN_FEED + "?f_category=Stories"
         NetworkManager.shared.request(urlString: url, method: .GET) { [weak self] (result: Result<APIResponse<[Feed]>, NetworkError>) in
             guard let self = self else { return }
+            self.hideLoader()
             switch result {
             case .success(let info):
                 if info.success, let data = info.data {

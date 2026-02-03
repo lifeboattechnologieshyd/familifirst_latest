@@ -49,6 +49,7 @@ class CheckOutViewController: UIViewController {
     }
     
     func getAddressAPI() {
+        showLoader()
         NetworkManager.shared.request(
             urlString: API.ONLINE_STORE_ADDRESS,
             method: .GET,
@@ -57,6 +58,7 @@ class CheckOutViewController: UIViewController {
         ) { [weak self] (result: Result<APIResponse<[AddressModel]>, NetworkError>) in
             
             DispatchQueue.main.async {
+                self?.hideLoader()
                 guard let self = self else { return }
                 
                 switch result {

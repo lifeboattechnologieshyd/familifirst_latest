@@ -50,6 +50,7 @@ class AssessmentLessonVC: UIViewController {
     
     /*
     func getLessons() {
+     showLoader()
         let subject_url = API.LESSON + "?grade=\(grade_id)&subject=\(subject_id)"
         
         NetworkManager.shared.request(urlString: subject_url, method: .GET) { (result: Result<APIResponse<[Lesson]>, NetworkError>) in
@@ -60,6 +61,7 @@ class AssessmentLessonVC: UIViewController {
                         DispatchQueue.main.async {
                             self.lessons = data
                             self.tblVw.reloadData()
+                            self.hideLoader()
                         }
                     }
                 } else {
@@ -67,6 +69,7 @@ class AssessmentLessonVC: UIViewController {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
+            self.hideLoader()
                     switch error {
                     case .noaccess:
                         self.handleLogout()

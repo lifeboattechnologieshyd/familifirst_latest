@@ -165,6 +165,7 @@ class FeelsVC : UIViewController, UICollectionViewDelegate, UICollectionViewData
     }
     
     func getEdutainment() {
+        showLoader() 
         
         guard !isLoading else { return }
         isLoading = true
@@ -192,7 +193,9 @@ class FeelsVC : UIViewController, UICollectionViewDelegate, UICollectionViewData
             
             guard let self = self else { return }
             self.isLoading = false
-            
+            DispatchQueue.main.async {
+            self.hideLoader()
+                    }
             switch result {
             case .success(let info):
                 

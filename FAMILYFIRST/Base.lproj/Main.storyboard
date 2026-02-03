@@ -4895,7 +4895,7 @@
                                 <rect key="frame" x="0.0" y="492" width="393" height="360"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zOu-Pf-CQn">
-                                        <rect key="frame" x="159.33333333333334" y="20" width="74.333333333333343" height="24"/>
+                                        <rect key="frame" x="155.66666666666666" y="20" width="82" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="7oH-bp-NFW"/>
                                         </constraints>
@@ -4925,6 +4925,9 @@
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" image="close"/>
+                                        <connections>
+                                            <action selector="backBtnTapped:" destination="gcE-yZ-zkx" eventType="touchUpInside" id="eWQ-A5-Gdd"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oBx-UX-uq6" userLabel="+91">
                                         <rect key="frame" x="32" y="204.66666666666663" width="0.0" height="0.0"/>
@@ -4955,6 +4958,9 @@
                                                 <real key="value" value="50"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="getOTPBtnTapped:" destination="gcE-yZ-zkx" eventType="touchUpInside" id="8sB-cc-WmI"/>
+                                        </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="google-4" translatesAutoresizingMaskIntoConstraints="NO" id="VFG-v2-BXI">
                                         <rect key="frame" x="58" y="81" width="24" height="24"/>
@@ -4964,7 +4970,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rf2-Cz-1lP">
-                                        <rect key="frame" x="90" y="83" width="41.666666666666657" height="20"/>
+                                        <rect key="frame" x="90" y="83" width="44.666666666666657" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="n89-fm-l1P"/>
                                         </constraints>
@@ -4978,14 +4984,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mail" translatesAutoresizingMaskIntoConstraints="NO" id="gbK-dL-AWM">
-                                        <rect key="frame" x="221.66666666666666" y="81" width="24" height="24"/>
+                                        <rect key="frame" x="224.66666666666666" y="81" width="24" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="cU8-mK-aY9"/>
                                             <constraint firstAttribute="width" constant="24" id="hB3-yS-qBv"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iyK-IM-471">
-                                        <rect key="frame" x="253.66666666666666" y="84" width="34.333333333333343" height="18"/>
+                                        <rect key="frame" x="256.66666666666669" y="84" width="36.666666666666686" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="AbM-62-Srn"/>
                                         </constraints>
@@ -5013,7 +5019,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9dd-j8-bfa">
-                                        <rect key="frame" x="93" y="147" width="207" height="18"/>
+                                        <rect key="frame" x="86.333333333333329" y="147" width="220.66666666666669" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="mf8-7w-NZO"/>
                                         </constraints>
@@ -5297,6 +5303,9 @@
                                         <color key="tintColor" red="0.17838230729999999" green="0.401043117" blue="0.2374107838" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Resend OTP"/>
+                                        <connections>
+                                            <action selector="resendBtnTapped:" destination="GsS-RE-e3h" eventType="touchUpInside" id="6Hn-PM-hgj"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="46n-ZR-GY3">
                                         <rect key="frame" x="16" y="316" width="361" height="48"/>
@@ -5322,6 +5331,9 @@
                                                 <real key="value" value="50"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="verifyBtnTapped:" destination="GsS-RE-e3h" eventType="touchUpInside" id="97n-NH-y4d"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lOI-0P-24I">
                                         <rect key="frame" x="20" y="24" width="16" height="16"/>
@@ -5331,6 +5343,9 @@
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="back"/>
+                                        <connections>
+                                            <action selector="backBtnTapped:" destination="GsS-RE-e3h" eventType="touchUpInside" id="OwZ-Vv-fli"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
@@ -5471,6 +5486,9 @@
                                                 <real key="value" value="50"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="createPasswordBtnTapped:" destination="lGG-5r-2uh" eventType="touchUpInside" id="O9u-ua-Zwj"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w2P-IW-UwA">
                                         <rect key="frame" x="20" y="24" width="16" height="16"/>
@@ -5480,6 +5498,9 @@
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="back"/>
+                                        <connections>
+                                            <action selector="backBtnTapped:" destination="lGG-5r-2uh" eventType="touchUpInside" id="avl-uj-Hj4"/>
+                                        </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1KM-DP-OpK">
                                         <rect key="frame" x="16" y="83" width="361" height="52"/>
@@ -5521,6 +5542,9 @@
                                         <buttonConfiguration key="configuration" style="plain" image="view" imagePadding="0.0">
                                             <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="large"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="passwordViewBtnTapped:" destination="lGG-5r-2uh" eventType="touchUpInside" id="3R4-tx-ujr"/>
+                                        </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm New Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vzb-vl-AhX">
                                         <rect key="frame" x="16" y="211" width="361" height="52"/>
@@ -5548,6 +5572,9 @@
                                         <buttonConfiguration key="configuration" style="plain" image="view" imagePadding="0.0">
                                             <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="large"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="confirmPasswordViewBtnTapped:" destination="lGG-5r-2uh" eventType="touchUpInside" id="1Se-rW-TU5"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
@@ -5616,11 +5643,11 @@
                     </view>
                     <connections>
                         <outlet property="backBtn" destination="w2P-IW-UwA" id="8tm-lq-aIP"/>
-                        <outlet property="confirmPasswordTf" destination="vzb-vl-AhX" id="UPV-6f-ooy"/>
-                        <outlet property="confirmPasswordViewBtn" destination="vgb-FQ-rY9" id="vpb-he-1LF"/>
-                        <outlet property="createPasswordBtn" destination="SJQ-mx-Txf" id="FL6-Hx-17t"/>
-                        <outlet property="passwordTf" destination="1KM-DP-OpK" id="AWS-oj-xQT"/>
-                        <outlet property="passwordViewBtn" destination="2tO-KH-xpW" id="Ua5-57-lgK"/>
+                        <outlet property="confirmPasswordTf" destination="vzb-vl-AhX" id="dul-MG-uSb"/>
+                        <outlet property="confirmPasswordViewBtn" destination="vgb-FQ-rY9" id="JKO-RJ-16i"/>
+                        <outlet property="createPasswordBtn" destination="SJQ-mx-Txf" id="XO8-R8-Jg2"/>
+                        <outlet property="passwordTf" destination="1KM-DP-OpK" id="o3S-9G-ase"/>
+                        <outlet property="passwordViewBtn" destination="2tO-KH-xpW" id="YtP-K5-MNJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VXL-Az-iMp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -5685,6 +5712,9 @@
                                                 <real key="value" value="50"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="loginBtnTapped:" destination="mcU-3h-Rqd" eventType="touchUpInside" id="VW4-ns-3GJ"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yyd-Tb-S6j">
                                         <rect key="frame" x="20" y="24" width="16" height="16"/>
@@ -5694,6 +5724,9 @@
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="back"/>
+                                        <connections>
+                                            <action selector="backBtnTapped:" destination="mcU-3h-Rqd" eventType="touchUpInside" id="z6Q-jv-Pah"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BYe-jc-FwM">
                                         <rect key="frame" x="15.999999999999993" y="71" width="119.33333333333331" height="20"/>
@@ -5799,6 +5832,9 @@
                                                 </fragment>
                                             </attributedString>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="forgotPasswordBtnTapped:" destination="mcU-3h-Rqd" eventType="touchUpInside" id="cZk-fL-OJk"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D8E-ea-los">
                                         <rect key="frame" x="337" y="195" width="26" height="20"/>
@@ -5810,6 +5846,9 @@
                                         <buttonConfiguration key="configuration" style="plain" image="view" imagePadding="0.0">
                                             <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="large"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="viewBtnTapped:" destination="mcU-3h-Rqd" eventType="touchUpInside" id="mp3-4N-utr"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
@@ -5941,16 +5980,16 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray3Color">
-            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray4Color">
-            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGroupedBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemGroupedBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -23,6 +23,7 @@ class AssessmentSubjectSelectionVC: UIViewController {
     
     
     func getSubjects() {
+        showLoader()
         let subject_url = API.SUBJECTS + "\(grade_id)"
         NetworkManager.shared.request(urlString: subject_url,method: .GET) { (result: Result<APIResponse<[GradeSubject]>, NetworkError>)  in
             switch result {
@@ -32,6 +33,7 @@ class AssessmentSubjectSelectionVC: UIViewController {
                         DispatchQueue.main.async {
                             self.subjects = data
                             self.colVw.reloadData()
+                            self.hideLoader()
                         }
                     }
                 }else{
@@ -39,7 +41,9 @@ class AssessmentSubjectSelectionVC: UIViewController {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
+                    self.hideLoader()
                     DispatchQueue.main.async(execute: {
+                        self.hideLoader()
                         switch error {
 
                         case .noaccess:

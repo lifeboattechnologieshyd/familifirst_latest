@@ -268,7 +268,7 @@ class DailyChallengeViewController: UIViewController {
 //            "grade_id": UserManager.shared.vocabBee_selected_grade.id,
 //            "student_id": UserManager.shared.vocabBee_selected_student.studentID
         ]
-        
+        showLoader()
         NetworkManager.shared.request(
             urlString: API.VOCABEE_SUBMIT_WORD,
             method: .POST,
@@ -276,6 +276,7 @@ class DailyChallengeViewController: UIViewController {
         ) { (result: Result<APIResponse<WordAnswer>, NetworkError>) in
             
             DispatchQueue.main.async {
+                self.hideLoader() 
                 self.stopTimer()
                 switch result {
                     
