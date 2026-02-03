@@ -21,11 +21,13 @@ class LoginVC: UIViewController {
         mobileTf.keyboardType = .phonePad
         mobileTf.delegate = self
         mobileTf.addLeftPadding(40)
+        
+        // ✅ Hide back button on login screen (it's the root)
+        backBtn.isHidden = true
     }
     
     @IBAction func backBtnTapped(_ sender: UIButton) {
-        // ✅ Dismiss when presented modally
-        navigationController?.dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @IBAction func getOTPBtnTapped(_ sender: UIButton) {

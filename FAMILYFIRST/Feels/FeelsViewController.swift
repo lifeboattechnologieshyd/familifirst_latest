@@ -7,14 +7,7 @@
 
 import UIKit
 
-class FeelsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate {
-    
-    var page = 1
-    var pageSize = 20
-    var isLoading = false
-    var canLoadMore = true
-    var searchText = ""
-    var serialNumber = ""
+class FeelsViewController: UIViewController {
     
     @IBOutlet weak var goBtn: UIButton!
     @IBOutlet weak var searchTf: UITextField!
@@ -23,62 +16,49 @@ class FeelsViewController: UIViewController, UICollectionViewDelegate, UICollect
     @IBOutlet weak var videonoTf: UITextField!
     
     var items = [FeelItem]()
+    var page = 1
+    var pageSize = 20
+    var isLoading = false
+    var canLoadMore = true
+    var searchText = ""
+    var serialNumber = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fflogoImgVw.addCardShadow()
+        setupUI()
+        setupCollectionView()
+        setupTextFields()
         
+        // ✅ Load feels on start
+        getFeels()
+    }
+    
+    private func setupUI() {
+        fflogoImgVw.addCardShadow()
+    }
+    
+    private func setupCollectionView() {
         colVw.delegate = self
         colVw.dataSource = self
-        
+        colVw.register(UINib(nibName: "FeelsCollectionViewCell", bundle: nil),
+                       forCellWithReuseIdentifier: "FeelsCollectionViewCell")
+    }
+    
+    private func setupTextFields() {
         searchTf.delegate = self
         videonoTf.delegate = self
         
         searchTf.addTarget(self, action: #selector(searchTextChanged), for: .editingChanged)
         videonoTf.addTarget(self, action: #selector(videoNoTextChanged), for: .editingChanged)
-        
-        colVw.register(UINib(nibName: "FeelsCollectionViewCell", bundle: nil),
-                       forCellWithReuseIdentifier: "FeelsCollectionViewCell")
-        
-        getEdutainment()
     }
+    
+    // MARK: - Actions
     
     @IBAction func onClickBack(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func searchTextChanged() {
-        let query = searchTf.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        searchText = query
-        serialNumber = ""
-        videonoTf.text = ""
-        
-        page = 1
-        canLoadMore = true
-        
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(performSearch), object: nil)
-        perform(#selector(performSearch), with: nil, afterDelay: 0.5)
-    }
-    
-    @objc func performSearch() {
-        getEdutainment()
-    }
-    
-    @objc func videoNoTextChanged() {
-        let text = videonoTf.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        
-        // If cleared, show all videos
-        if text.isEmpty {
-            serialNumber = ""
-            searchText = ""
-            page = 1
-            canLoadMore = true
-            getEdutainment()
-        }
+        navigationController?.popViewController(animated: true)
     }
     
     @IBAction func onClickGo(_ sender: UIButton) {
-        
         let serial = videonoTf.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         
         if serial.isEmpty {
@@ -97,47 +77,148 @@ class FeelsViewController: UIViewController, UICollectionViewDelegate, UICollect
         page = 1
         canLoadMore = false
         
-        // Call API - will show in same collection view
-        getEdutainment()
+        getFeels()
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
+    // MARK: - Search Handlers
+    
+    @objc func searchTextChanged() {
+        let query = searchTf.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        searchText = query
+        serialNumber = ""
+        videonoTf.text = ""
+        
+        page = 1
+        canLoadMore = true
+        
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(performSearch), object: nil)
+        perform(#selector(performSearch), with: nil, afterDelay: 0.5)
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    @objc func performSearch() {
+        getFeels()
+    }
+    
+    @objc func videoNoTextChanged() {
+        let text = videonoTf.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         
-        let cell = colVw.dequeueReusableCell(withReuseIdentifier: "FeelsCollectionViewCell",
-                                             for: indexPath) as! FeelsCollectionViewCell
+        if text.isEmpty {
+            serialNumber = ""
+            searchText = ""
+            page = 1
+            canLoadMore = true
+            getFeels()
+        }
+    }
+    
+    // MARK: - API Call
+    
+    func getFeels() {
+        guard !isLoading else { return }
         
-        cell.imgVw.layer.cornerRadius = 8
-        cell.btnPlay.tag = indexPath.row
+        isLoading = true
+        showLoader()
         
-        if let url = self.items[indexPath.row].thumbnailImage {
-            cell.imgVw.loadImage(url: url)
-        } else {
-            if let urlstring = "\(self.items[indexPath.row].youtubeVideo!)".extractYoutubeId() {
-                cell.imgVw.loadImage(url: urlstring.youtubeThumbnailURL())
+        var url = API.GET_FEELS
+        var params: [String] = []
+        
+        // Serial number search
+        if !serialNumber.isEmpty {
+            params.append("serial_number=\(serialNumber)")
+        }
+        // Title search
+        else if !searchText.isEmpty {
+            params.append("page_size=\(pageSize)")
+            params.append("page=\(page)")
+            if let encoded = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+                params.append("title=\(encoded)")
             }
         }
-        
-        cell.playClicked = { index in
-            self.navigateToPlayer(index: index)
+        // Normal - show all with pagination
+        else {
+            params.append("page_size=\(pageSize)")
+            params.append("page=\(page)")
         }
         
-        cell.lblName.text = self.items[indexPath.row].title
+        // Build final URL
+        if !params.isEmpty {
+            url += "?" + params.joined(separator: "&")
+        }
         
-        return cell
+        print("📡 Fetching Feels: \(url)")
+        
+        // ✅ Using your NetworkManager
+        NetworkManager.shared.request(
+            urlString: url,
+            method: .GET,
+            parameters: nil
+        ) { [weak self] (result: Result<APIResponse<[FeelItem]>, NetworkError>) in
+            
+            guard let self = self else { return }
+            
+            self.isLoading = false
+            
+            DispatchQueue.main.async {
+                self.hideLoader()
+                
+                switch result {
+                case .success(let response):
+                    if response.success {
+                        self.handleSuccess(data: response.data ?? [])
+                    } else {
+                        self.showAlert(msg: response.description)
+                    }
+                    
+                case .failure(let error):
+                    self.handleError(error)
+                }
+            }
+        }
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+    private func handleSuccess(data: [FeelItem]) {
+        print("✅ Received \(data.count) feels")
         
-        let width = (collectionView.frame.size.width - 8) / 2
-        return CGSize(width: width, height: 284)
+        // Check if can load more
+        if data.count < pageSize {
+            canLoadMore = false
+        }
+        
+        // Update items
+        if page == 1 {
+            items = data
+        } else {
+            items.append(contentsOf: data)
+        }
+        
+        colVw.reloadData()
+        
+        // Show message if no results
+        if items.isEmpty {
+            showAlert(msg: "No feels found")
+        }
     }
+    
+    private func handleError(_ error: NetworkError) {
+        var message = "Something went wrong"
+        
+        switch error {
+        case .serverError(let msg):
+            message = msg
+        case .decodingError(let msg):
+            message = msg
+        case .invalidURL:
+            message = "Invalid URL"
+        case .noData:
+            message = "No data received"
+        case .noaccess:
+            message = "Unauthorized access"
+        }
+        
+        showAlert(msg: message)
+    }
+    
+    // MARK: - Navigation
     
     func navigateToPlayer(index: Int) {
         let stbd = UIStoryboard(name: "Feels", bundle: nil)
@@ -145,91 +226,77 @@ class FeelsViewController: UIViewController, UICollectionViewDelegate, UICollect
         vc.selected_feel_item = items[index]
         navigationController?.pushViewController(vc, animated: true)
     }
+}
+
+// MARK: - CollectionView DataSource & Delegate
+
+extension FeelsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return items.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = colVw.dequeueReusableCell(withReuseIdentifier: "FeelsCollectionViewCell", for: indexPath) as! FeelsCollectionViewCell
+        
+        let item = items[indexPath.row]
+        
+        cell.imgVw.layer.cornerRadius = 8
+        cell.btnPlay.tag = indexPath.row
+        
+        // Load thumbnail
+        if let thumbnailURL = item.thumbnailImage, !thumbnailURL.isEmpty {
+            cell.imgVw.loadImage(url: thumbnailURL)
+        } else if let youtubeURL = item.youtubeVideo, let videoID = youtubeURL.extractYoutubeId() {
+            cell.imgVw.loadImage(url: videoID.youtubeThumbnailURL())
+        } else {
+            cell.imgVw.image = UIImage(systemName: "photo")
+        }
+        
+        // Set title
+        cell.lblName.text = item.title ?? "No Title"
+        
+        // Play button callback
+        cell.playClicked = { [weak self] index in
+            self?.navigateToPlayer(index: index)
+        }
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (collectionView.frame.size.width - 8) / 2
+        return CGSize(width: width, height: 284)
+    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         navigateToPlayer(index: indexPath.row)
     }
+    
+    // MARK: - Pagination
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let frameHeight = scrollView.frame.height
         
+        // Load more when near bottom
         if offsetY > contentHeight - frameHeight - 200 {
-            if !isLoading && canLoadMore {
+            if !isLoading && canLoadMore && serialNumber.isEmpty {
                 page += 1
-                getEdutainment()
+                getFeels()
             }
         }
     }
+}
+
+// MARK: - TextField Delegate
+
+extension FeelsViewController: UITextFieldDelegate {
     
-    func getEdutainment() {
-        showLoader()
-        
-        guard !isLoading else { return }
-        isLoading = true
-        
-        var url = ""
-        
-        // Serial number search
-        if !serialNumber.isEmpty {
-            url = API.EDUTAIN_FEEL + "?serial_number=\(serialNumber)"
-        }
-        // Title search
-        else if !searchText.isEmpty {
-            url = API.EDUTAIN_FEEL + "?page_size=\(pageSize)&page=\(page)"
-            if let encoded = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-                url += "&title=\(encoded)"
-            }
-        }
-        // Normal - show all
-        else {
-            url = API.EDUTAIN_FEEL + "?page_size=\(pageSize)&page=\(page)"
-        }
-        
-        NetworkManager.shared.request(urlString: url, method: .GET)
-        { [weak self] (result: Result<APIResponse<[FeelItem]>, NetworkError>) in
-            
-            guard let self = self else { return }
-            self.isLoading = false
-            DispatchQueue.main.async {
-                self.hideLoader()
-            }
-            switch result {
-            case .success(let info):
-                
-                if info.success {
-                    if let data = info.data {
-                        
-                        if data.count < self.pageSize {
-                            self.canLoadMore = false
-                        }
-                        
-                        if self.page == 1 {
-                            self.items = data
-                        } else {
-                            self.items.append(contentsOf: data)
-                        }
-                    } else {
-                        if self.page == 1 {
-                            self.items = []
-                        }
-                    }
-                    
-                    DispatchQueue.main.async {
-                        self.colVw.reloadData()
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        self.showAlert(msg: info.description)
-                    }
-                }
-                
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self.showAlert(msg: error.localizedDescription)
-                }
-            }
-        }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

@@ -123,8 +123,8 @@ class SetPasswordVC: UIViewController {
                             UserManager.shared.saveTokens(access: access, refresh: refresh)
                         }
                         
-                        // ✅ Login complete - dismiss
-                        self?.dismissLoginFlow()
+                        // ✅ Login complete - Navigate to Home
+                        self?.navigateToHome()
                         
                     } else {
                         self?.showAlert(response.description)
@@ -137,9 +137,15 @@ class SetPasswordVC: UIViewController {
         }
     }
     
-    // ✅ Dismiss entire login flow
-    private func dismissLoginFlow() {
-        navigationController?.dismiss(animated: true)
+    // ✅ Navigate to Home
+    private func navigateToHome() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let homeVC = storyboard.instantiateViewController(withIdentifier: "CustomTabBarController")
+        
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+            sceneDelegate.window?.rootViewController = homeVC
+            sceneDelegate.window?.makeKeyAndVisible()
+        }
     }
     
     private func showLoading(_ show: Bool) {

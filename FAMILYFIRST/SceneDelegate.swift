@@ -22,12 +22,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let initialVC: UIViewController
         
         if !UserManager.shared.hasSeenOnboarding {
-            // ✅ First time → Onboarding/Splash
+            // ✅ First time → Splash screens
             initialVC = storyboard.instantiateViewController(withIdentifier: "SplashVCOne")
             
-        } else {
-            // ✅ Already seen onboarding → Always go to Home
+        } else if UserManager.shared.isLoggedIn {
+            // ✅ Already logged in → Home
             initialVC = storyboard.instantiateViewController(withIdentifier: "CustomTabBarController")
+            
+        } else {
+            // ✅ Seen onboarding but not logged in → LoginVC
+            let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC")
+            let nav = UINavigationController(rootViewController: loginVC)
+            nav.isNavigationBarHidden = true
+            initialVC = nav
         }
         
         window?.rootViewController = initialVC

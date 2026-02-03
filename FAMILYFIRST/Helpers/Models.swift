@@ -7,19 +7,21 @@ enum FeedCellType {
     case stories
 }
 
-// MARK: - FeelItem Model
-struct FeelItem: Identifiable, Codable, Hashable {
+import Foundation
+
+struct FeelItem: Codable {
     let id: String
-    let youtubeVideo: URL?
-    let title: String
-    let description: String
+    let youtubeVideo: String?
+    let title: String?
+    let description: String?
     let thumbnailImage: String?
-    let likesCount: Int
-    let shareCount: Int
-    let viewsCount: Int
-    let score: Int
-    let category: String
-    var isLiked: Bool
+    let likesCount: Int?
+    let shareCount: Int?
+    let viewsCount: Int?
+    let score: Int?
+    let category: String?
+    let serialNumber: Int?
+    var isLiked: Bool?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -32,7 +34,25 @@ struct FeelItem: Identifiable, Codable, Hashable {
         case viewsCount = "views_count"
         case score
         case category
+        case serialNumber = "serial_number"
         case isLiked = "is_liked"
+    }
+}
+
+// ✅ Response wrapper
+struct FeelsResponse: Codable {
+    let success: Bool
+    let errorCode: Int?
+    let description: String
+    let total: Int?
+    let data: [FeelItem]?
+    
+    enum CodingKeys: String, CodingKey {
+        case success
+        case errorCode
+        case description
+        case total
+        case data
     }
 }
 

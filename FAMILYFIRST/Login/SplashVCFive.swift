@@ -14,14 +14,17 @@ class SplashVCFive: UIViewController {
     
     @IBAction func getStartedTapped(_ sender: UIButton) {
         
+        // ✅ Mark onboarding complete
         UserManager.shared.setOnboardingComplete()
         
-        // Navigate to Home
+        // ✅ Navigate to LoginVC with NavigationController
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let homeVC = storyboard.instantiateViewController(withIdentifier: "CustomTabBarController")
+        let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC")
+        let nav = UINavigationController(rootViewController: loginVC)
+        nav.isNavigationBarHidden = true
         
         if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            sceneDelegate.window?.rootViewController = homeVC
+            sceneDelegate.window?.rootViewController = nav
             sceneDelegate.window?.makeKeyAndVisible()
         }
     }
