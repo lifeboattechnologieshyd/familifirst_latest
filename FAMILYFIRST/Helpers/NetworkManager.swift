@@ -271,7 +271,7 @@ struct API {
     static let CURRICULUM_TYPES = BASE_URL + "curriculum/curriculum"
     static let CURRICULUM_CATEGORIES = BASE_URL + "curriculum/categori?grade="
     static let SUBJECTS = BASE_URL + "curriculum/subject?grade="
-    static let SEND_OTP = BASE_URL + "auth/send-otp"
+    static let SEND_OTP = BASE_URL + "user/authentication/mobile/send-otp"
     static let VERIFY_OTP = BASE_URL + "user/authentication/mobile/verify-otp"
     static let RESEND_OTP = BASE_URL + "user/authentication/mobile/resend-otp"
     static let SET_PASSWORD = BASE_URL + "user/authentication/set-password"

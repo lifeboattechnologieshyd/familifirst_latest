@@ -20,10 +20,12 @@ class LoginVC: UIViewController {
     private func setupUI() {
         mobileTf.keyboardType = .phonePad
         mobileTf.delegate = self
+        mobileTf.addLeftPadding(40)
     }
     
     @IBAction func backBtnTapped(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+        // ✅ Dismiss when presented modally
+        navigationController?.dismiss(animated: true)
     }
     
     @IBAction func getOTPBtnTapped(_ sender: UIButton) {
@@ -60,14 +62,11 @@ class LoginVC: UIViewController {
                 switch result {
                 case .success(let response):
                     if response.success {
-                        // Save mobile number
                         UserManager.shared.saveMobile(mobile)
                         
                         if let data = response.data, data.passwordRequired {
-                            // Existing user with password → EnterPasswordVC
                             self?.goToEnterPasswordVC(mobile: mobile)
                         } else {
-                            // New user or no password → OtpVC
                             self?.goToOtpVC(mobile: mobile)
                         }
                     } else {

@@ -8,7 +8,7 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 // Prod.xcconfig
-server_url = https:/$()/api.schoolfirst.ai/
+server_url = https:/$()/api.familifirst.com
 APP_BUNDLE_IDENTIFIER = com.paranpara.familifirst
 APP_NAME = FAMILYFIRST
 APS_ENVIRONMENT = production

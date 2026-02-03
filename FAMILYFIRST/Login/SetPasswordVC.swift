@@ -30,8 +30,8 @@ class SetPasswordVC: UIViewController {
         passwordTf.isSecureTextEntry = true
         confirmPasswordTf.isSecureTextEntry = true
         
-        passwordViewBtn.setImage(UIImage(systemName: "view"), for: .normal)
-        confirmPasswordViewBtn.setImage(UIImage(systemName: "view"), for: .normal)
+        passwordViewBtn.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+        confirmPasswordViewBtn.setImage(UIImage(systemName: "eye.slash"), for: .normal)
     }
     
     @IBAction func backBtnTapped(_ sender: UIButton) {
@@ -42,7 +42,7 @@ class SetPasswordVC: UIViewController {
         isPasswordVisible.toggle()
         passwordTf.isSecureTextEntry = !isPasswordVisible
         
-        let imageName = isPasswordVisible ? "view" : "closeEye"
+        let imageName = isPasswordVisible ? "eye" : "eye.slash"
         passwordViewBtn.setImage(UIImage(systemName: imageName), for: .normal)
     }
     
@@ -50,7 +50,7 @@ class SetPasswordVC: UIViewController {
         isConfirmPasswordVisible.toggle()
         confirmPasswordTf.isSecureTextEntry = !isConfirmPasswordVisible
         
-        let imageName = isConfirmPasswordVisible ? "view" : "closeEye"
+        let imageName = isConfirmPasswordVisible ? "eye" : "eye.slash"
         confirmPasswordViewBtn.setImage(UIImage(systemName: imageName), for: .normal)
     }
     
@@ -74,7 +74,6 @@ class SetPasswordVC: UIViewController {
             return
         }
         
-        // Validate password format
         guard isValidPassword(password) else {
             showAlert("Password must be at least 6 characters, start with a capital letter, include one number and one special character.")
             return
@@ -84,17 +83,12 @@ class SetPasswordVC: UIViewController {
     }
     
     private func isValidPassword(_ password: String) -> Bool {
-        // At least 6 characters
         guard password.count >= 6 else { return false }
-        
-        // Starts with capital letter
         guard let firstChar = password.first, firstChar.isUppercase else { return false }
         
-        // Contains at least one number
         let hasNumber = password.contains { $0.isNumber }
         guard hasNumber else { return false }
         
-        // Contains at least one special character
         let specialCharacters = CharacterSet(charactersIn: "!@#$%^&*()_+-=[]{}|;':\",./<>?")
         let hasSpecial = password.unicodeScalars.contains { specialCharacters.contains($0) }
         guard hasSpecial else { return false }
@@ -123,14 +117,14 @@ class SetPasswordVC: UIViewController {
                 switch result {
                 case .success(let response):
                     if response.success {
-                        // Save tokens if available
                         if let data = response.data,
                            let access = data.accessToken,
                            let refresh = data.refreshToken {
                             UserManager.shared.saveTokens(access: access, refresh: refresh)
                         }
                         
-                        self?.goToHome()
+                        // ✅ Login complete - dismiss
+                        self?.dismissLoginFlow()
                         
                     } else {
                         self?.showAlert(response.description)
@@ -143,13 +137,9 @@ class SetPasswordVC: UIViewController {
         }
     }
     
-    private func goToHome() {
-        if let tabBarVC = storyboard?.instantiateViewController(withIdentifier: "CustomTabBarController") {
-            tabBarVC.modalPresentationStyle = .fullScreen
-            present(tabBarVC, animated: true)
-        }
-        
-      
+    // ✅ Dismiss entire login flow
+    private func dismissLoginFlow() {
+        navigationController?.dismiss(animated: true)
     }
     
     private func showLoading(_ show: Bool) {

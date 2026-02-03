@@ -5,6 +5,7 @@
 //  Created by Lifeboat on 28/01/26.
 //
 import UIKit
+import Lottie
 
 class OtpVC: UIViewController {
 
@@ -20,17 +21,45 @@ class OtpVC: UIViewController {
     var mobileNumber: String = ""
     private var resendTimer: Timer?
     private var resendSeconds = 30
+    private var animationView: LottieAnimationView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupOTPFields()
         startResendTimer()
+        setupLottie()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        animationView?.play()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         resendTimer?.invalidate()
+        animationView?.stop()
+    }
+    
+    private func setupLottie() {
+        animationView = LottieAnimationView(name: "otp")
+        guard let animationView = animationView else { return }
+        
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.animationSpeed = 1.0
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        lottieVw.addSubview(animationView)
+        
+        NSLayoutConstraint.activate([
+            animationView.topAnchor.constraint(equalTo: lottieVw.topAnchor),
+            animationView.bottomAnchor.constraint(equalTo: lottieVw.bottomAnchor),
+            animationView.leadingAnchor.constraint(equalTo: lottieVw.leadingAnchor),
+            animationView.trailingAnchor.constraint(equalTo: lottieVw.trailingAnchor)
+        ])
+        
+        animationView.play()
     }
     
     private func setupUI() {
@@ -137,10 +166,10 @@ class OtpVC: UIViewController {
                             if data.setNewPassword == true || data.isNewUser == true {
                                 self?.goToSetPasswordVC()
                             } else {
-                                self?.goToHome()
+                                // ✅ Login complete - dismiss
+                                self?.dismissLoginFlow()
                             }
                         } else {
-                            // No data but success - go to set password for new user
                             self?.goToSetPasswordVC()
                         }
                     } else {
@@ -195,20 +224,14 @@ class OtpVC: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    private func goToHome() {
-        // Option 1: If using TabBarController
-        if let tabBarVC = storyboard?.instantiateViewController(withIdentifier: "MainTabBarController") {
-            tabBarVC.modalPresentationStyle = .fullScreen
-            present(tabBarVC, animated: true)
-        }
-        
-        
+    // ✅ Dismiss entire login flow
+    private func dismissLoginFlow() {
+        navigationController?.dismiss(animated: true)
     }
     
     private func showLoading(_ show: Bool) {
         verifyBtn.isEnabled = !show
         verifyBtn.setTitle(show ? "Verifying..." : "Verify", for: .normal)
-        
         [otpTf1, otpTf2, otpTf3, otpTf4].forEach { $0?.isEnabled = !show }
     }
     
@@ -230,7 +253,6 @@ class OtpVC: UIViewController {
         let text = textField.text ?? ""
         
         if text.count >= 1 {
-            // Move to next field
             switch textField {
             case otpTf1: otpTf2.becomeFirstResponder()
             case otpTf2: otpTf3.becomeFirstResponder()
@@ -239,7 +261,6 @@ class OtpVC: UIViewController {
             default: break
             }
             
-            // Keep only first character
             if text.count > 1 {
                 textField.text = String(text.prefix(1))
             }
@@ -251,9 +272,7 @@ extension OtpVC: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        // Allow backspace
         if string.isEmpty {
-            // Move to previous field on backspace if current is empty
             if textField.text?.isEmpty == true {
                 switch textField {
                 case otpTf2: otpTf1.becomeFirstResponder()
@@ -265,7 +284,6 @@ extension OtpVC: UITextFieldDelegate {
             return true
         }
         
-        // Only allow numbers
         let allowedCharacters = CharacterSet.decimalDigits
         let characterSet = CharacterSet(charactersIn: string)
         
@@ -273,10 +291,8 @@ extension OtpVC: UITextFieldDelegate {
             return false
         }
         
-        // Replace current text with new digit
         textField.text = string
         
-        // Move to next field
         switch textField {
         case otpTf1: otpTf2.becomeFirstResponder()
         case otpTf2: otpTf3.becomeFirstResponder()

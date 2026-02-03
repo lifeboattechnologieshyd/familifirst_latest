@@ -30,15 +30,11 @@ class EnterPasswordVC: UIViewController {
     
     private func setupUI() {
         passwordTf.isSecureTextEntry = true
-        viewBtn.setImage(UIImage(systemName: "closeEye"), for: .normal)
+        viewBtn.setImage(UIImage(systemName: "eye.slash"), for: .normal)
         
-        // Display mobile number
         mobilenoLbl.text = formatMobileNumber(mobileNumber)
-        
-        // Display user name
         nameLbl.text = userName ?? "Welcome Back"
         
-        // Load profile image if available
         if let imageURL = profileImageURL, !imageURL.isEmpty {
             loadImage(from: imageURL)
         } else {
@@ -74,7 +70,7 @@ class EnterPasswordVC: UIViewController {
         isPasswordVisible.toggle()
         passwordTf.isSecureTextEntry = !isPasswordVisible
         
-        let imageName = isPasswordVisible ? "view" : "closeEye"
+        let imageName = isPasswordVisible ? "eye" : "eye.slash"
         viewBtn.setImage(UIImage(systemName: imageName), for: .normal)
     }
     
@@ -91,7 +87,6 @@ class EnterPasswordVC: UIViewController {
     }
     
     @IBAction func forgotPasswordBtnTapped(_ sender: UIButton) {
-        // Go to OTP screen for forgot password
         forgotPassword()
     }
     
@@ -121,7 +116,8 @@ class EnterPasswordVC: UIViewController {
                             UserManager.shared.saveTokens(access: access, refresh: refresh)
                         }
                         
-                        self?.goToHome()
+                        // ✅ Login complete - dismiss
+                        self?.dismissLoginFlow()
                         
                     } else {
                         self?.showAlert(response.description)
@@ -153,7 +149,6 @@ class EnterPasswordVC: UIViewController {
                 switch result {
                 case .success(let response):
                     if response.success {
-                        // Go to OTP screen
                         self?.goToOtpVC()
                     } else {
                         self?.showAlert(response.description)
@@ -172,11 +167,9 @@ class EnterPasswordVC: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    private func goToHome() {
-        if let tabBarVC = storyboard?.instantiateViewController(withIdentifier: "CustomTabBarController") {
-            tabBarVC.modalPresentationStyle = .fullScreen
-            present(tabBarVC, animated: true)
-        }
+    // ✅ Dismiss entire login flow
+    private func dismissLoginFlow() {
+        navigationController?.dismiss(animated: true)
     }
     
     private func showLoading(_ show: Bool) {

@@ -43,6 +43,44 @@ class FamiliVC: UIViewController {
         super.viewWillAppear(animated)
         familyLottieView?.play()
         eventsLottieView?.play()
+        
+        // ✅ Check login every time view appears
+        checkLoginStatus()
+    }
+    
+    // ✅ Check if user is logged in
+    private func checkLoginStatus() {
+        if UserManager.shared.isLoggedIn {
+            // User is logged in → Show family data
+            loadFamilyData()
+        } else {
+            // User not logged in → Show Login modally
+            showLoginVC()
+        }
+    }
+    
+    // ✅ Show Login VC modally
+    private func showLoginVC() {
+        // Check if already presenting to avoid duplicate presentation
+        if presentedViewController != nil {
+            return
+        }
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC else { return }
+        
+        let nav = UINavigationController(rootViewController: loginVC)
+        nav.isNavigationBarHidden = true
+        nav.modalPresentationStyle = .fullScreen
+        
+        present(nav, animated: true)
+    }
+    
+    // ✅ Load family data
+    private func loadFamilyData() {
+        // Your API call or data loading logic here
+        print("✅ Loading family data...")
+        tblVw.reloadData()
     }
     
     private func setupTableView() {
@@ -202,6 +240,7 @@ extension FamiliVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
+
 extension FamiliVC {
     
     private func navigateToAddMemberVC() {
