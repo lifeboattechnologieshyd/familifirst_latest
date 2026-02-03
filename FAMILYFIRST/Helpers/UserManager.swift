@@ -19,7 +19,17 @@ class UserManager {
         static let refreshToken = "refreshToken"
         static let isLoggedIn = "isLoggedIn"
         static let mobile = "mobile"
+        static let hasSeenOnboarding = "hasSeenOnboarding"
+
     }
+
+    var hasSeenOnboarding: Bool {
+          return defaults.bool(forKey: Keys.hasSeenOnboarding)
+      }
+      
+      func setOnboardingComplete() {
+          defaults.set(true, forKey: Keys.hasSeenOnboarding)
+      }
 
     func saveTokens(access: String, refresh: String) {
         defaults.set(access, forKey: Keys.accessToken)

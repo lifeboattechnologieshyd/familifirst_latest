@@ -9,14 +9,15 @@ import UIKit
 class SplashVCFour: UIViewController {
     
     @IBOutlet weak var nextBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-    @IBAction func nextBtnTapped(_ sender: UIButton) {
-        performSegue(withIdentifier: "goToSplashVCFive", sender: self)
     }
     
+    @IBAction func nextBtnTapped(_ sender: UIButton) {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "SplashVCFive") as! SplashVCFive
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true)
+    }
 }
-
-

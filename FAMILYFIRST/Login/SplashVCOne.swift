@@ -13,9 +13,11 @@ class SplashVCOne: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-        @IBAction func nextBtnTapped(_ sender: UIButton) {
-            performSegue(withIdentifier: "goToSplashVCTwo", sender: self)
+    
+    @IBAction func nextBtnTapped(_ sender: UIButton) {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "SplashVCTwo") as! SplashVCTwo
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve  // Smooth transition
+        present(vc, animated: true)
     }
 }
-
-

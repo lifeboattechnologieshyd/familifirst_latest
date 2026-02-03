@@ -202,11 +202,7 @@ class OtpVC: UIViewController {
             present(tabBarVC, animated: true)
         }
         
-        // Option 2: If using NavigationController with HomeVC
-        // let vc = storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
-        // let nav = UINavigationController(rootViewController: vc)
-        // nav.modalPresentationStyle = .fullScreen
-        // present(nav, animated: true)
+        
     }
     
     private func showLoading(_ show: Bool) {

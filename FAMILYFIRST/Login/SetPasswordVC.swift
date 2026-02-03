@@ -144,7 +144,7 @@ class SetPasswordVC: UIViewController {
     }
     
     private func goToHome() {
-        if let tabBarVC = storyboard?.instantiateViewController(withIdentifier: "MainTabBarController") {
+        if let tabBarVC = storyboard?.instantiateViewController(withIdentifier: "CustomTabBarController") {
             tabBarVC.modalPresentationStyle = .fullScreen
             present(tabBarVC, animated: true)
         }
