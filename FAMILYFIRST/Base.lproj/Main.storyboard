@@ -288,6 +288,9 @@
                                         <real key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="addBtnTapped:" destination="9fp-fl-KVf" eventType="touchUpInside" id="qc5-ar-ori"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="xhl-Ss-tEt"/>
@@ -309,9 +312,10 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="backBtn" destination="NEP-bu-GaN" id="wj1-6j-Zkc"/>
-                        <outlet property="tblVw" destination="1F6-Gz-XqF" id="4kc-fz-DMP"/>
-                        <outlet property="topVw" destination="yf7-Jv-fZG" id="QWf-M7-It2"/>
+                        <outlet property="addBtn" destination="0lu-De-bqg" id="5N2-hp-dbm"/>
+                        <outlet property="backBtn" destination="NEP-bu-GaN" id="y6Z-6F-05u"/>
+                        <outlet property="tblVw" destination="1F6-Gz-XqF" id="ebk-Po-8bX"/>
+                        <outlet property="topVw" destination="yf7-Jv-fZG" id="N2A-m0-QSL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ha1-Jz-6gf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -334,20 +338,21 @@
                         <viewLayoutGuide key="safeArea" id="Wmb-kb-YCw"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Wmb-kb-YCw" firstAttribute="trailing" secondItem="2bT-G5-BJN" secondAttribute="trailing" id="8A6-Yc-N1C"/>
-                            <constraint firstItem="Wmb-kb-YCw" firstAttribute="bottom" secondItem="2bT-G5-BJN" secondAttribute="bottom" id="NqS-Tc-IDF"/>
-                            <constraint firstItem="2bT-G5-BJN" firstAttribute="top" secondItem="Wmb-kb-YCw" secondAttribute="top" id="TAK-Ao-Tba"/>
-                            <constraint firstItem="2bT-G5-BJN" firstAttribute="leading" secondItem="Wmb-kb-YCw" secondAttribute="leading" id="c0P-dK-dHQ"/>
+                            <constraint firstItem="2bT-G5-BJN" firstAttribute="top" secondItem="Wmb-kb-YCw" secondAttribute="top" id="6EL-4e-OIb"/>
+                            <constraint firstItem="2bT-G5-BJN" firstAttribute="leading" secondItem="Wmb-kb-YCw" secondAttribute="leading" id="9G5-LS-IfJ"/>
+                            <constraint firstItem="2bT-G5-BJN" firstAttribute="trailing" secondItem="Wmb-kb-YCw" secondAttribute="trailing" id="Nwg-n2-gwI"/>
+                            <constraint firstItem="2bT-G5-BJN" firstAttribute="bottom" secondItem="Wmb-kb-YCw" secondAttribute="bottom" id="ux5-B5-zJm"/>
                         </constraints>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tblVw" destination="2bT-G5-BJN" id="XAr-Xs-gPO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zKh-29-oMW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5436" y="-39"/>
+            <point key="canvasLocation" x="5435.8778625954192" y="-39.436619718309863"/>
         </scene>
         <!--HomeVC-->
         <scene sceneID="eGj-4h-7Gg">
@@ -1684,7 +1689,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="swM-oP-I8D">
-                                <rect key="frame" x="8" y="152" width="377" height="583"/>
+                                <rect key="frame" x="8" y="164" width="377" height="571"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="8" minimumInteritemSpacing="8" id="on1-Lo-2YN">
                                     <size key="itemSize" width="128" height="128"/>
@@ -1820,6 +1825,7 @@
                                             </attributedString>
                                         </buttonConfiguration>
                                         <connections>
+                                            <action selector="onClickGo:" destination="5cO-3O-Ccf" eventType="touchUpInside" id="Jv1-Zk-XIm"/>
                                             <action selector="onClickGo:" destination="zG4-6R-kgA" eventType="touchUpInside" id="PR1-UC-YJl"/>
                                         </connections>
                                     </button>
@@ -1856,7 +1862,7 @@
                             <constraint firstItem="6T1-fp-rY2" firstAttribute="leading" secondItem="x7a-AN-UKI" secondAttribute="leading" id="gTx-3U-6Zy"/>
                             <constraint firstItem="1dm-0k-jhi" firstAttribute="leading" secondItem="8RM-Zy-Mv1" secondAttribute="trailing" constant="16" id="kQe-sl-AxF"/>
                             <constraint firstItem="8RM-Zy-Mv1" firstAttribute="leading" secondItem="XaE-QB-cpy" secondAttribute="leading" constant="16" id="mQP-ko-SEu"/>
-                            <constraint firstItem="swM-oP-I8D" firstAttribute="top" secondItem="1dm-0k-jhi" secondAttribute="bottom" id="vTg-dS-BXQ"/>
+                            <constraint firstItem="swM-oP-I8D" firstAttribute="top" secondItem="1dm-0k-jhi" secondAttribute="bottom" constant="12" id="vTg-dS-BXQ"/>
                             <constraint firstItem="swM-oP-I8D" firstAttribute="bottom" secondItem="XaE-QB-cpy" secondAttribute="bottom" id="vUs-5T-ypd"/>
                             <constraint firstItem="swM-oP-I8D" firstAttribute="leading" secondItem="XaE-QB-cpy" secondAttribute="leading" constant="8" id="yyJ-pN-RAr"/>
                         </constraints>
@@ -2000,7 +2006,7 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lfa-2S-pEa">
-                                <rect key="frame" x="8" y="228" width="377" height="556"/>
+                                <rect key="frame" x="8" y="234" width="377" height="550"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="8" minimumInteritemSpacing="8" id="gkl-sM-Ixg">
                                     <size key="itemSize" width="128" height="128"/>
@@ -2127,7 +2133,7 @@
                             <constraint firstItem="4J9-IK-sdo" firstAttribute="leading" secondItem="BDZ-fd-Dpx" secondAttribute="leading" constant="116" id="ehP-hK-ZHh"/>
                             <constraint firstItem="ETX-eo-1Gc" firstAttribute="leading" secondItem="8Rk-ot-PMf" secondAttribute="trailing" constant="25" id="gX9-wa-82I"/>
                             <constraint firstItem="9z2-v2-3P5" firstAttribute="trailing" secondItem="BDZ-fd-Dpx" secondAttribute="trailing" id="hTE-P1-LYG"/>
-                            <constraint firstItem="lfa-2S-pEa" firstAttribute="top" secondItem="9z2-v2-3P5" secondAttribute="bottom" constant="60" id="heC-V7-08T"/>
+                            <constraint firstItem="lfa-2S-pEa" firstAttribute="top" secondItem="9z2-v2-3P5" secondAttribute="bottom" constant="66" id="heC-V7-08T"/>
                             <constraint firstItem="8Rk-ot-PMf" firstAttribute="leading" secondItem="BDZ-fd-Dpx" secondAttribute="leading" constant="16" id="hhM-N2-bne"/>
                             <constraint firstItem="4J9-IK-sdo" firstAttribute="top" secondItem="9z2-v2-3P5" secondAttribute="bottom" constant="22" id="i4j-Km-Ham"/>
                             <constraint firstItem="ttT-N2-O3O" firstAttribute="top" secondItem="9z2-v2-3P5" secondAttribute="bottom" constant="27" id="iSj-Hr-xCe"/>
@@ -2138,12 +2144,9 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Feels" image="video.fill" catalog="system" id="ihK-2Q-BR2"/>
                     <connections>
-                        <outlet property="backButton" destination="KK9-9z-4e9" id="gaR-UZ-bXl"/>
                         <outlet property="colVw" destination="lfa-2S-pEa" id="TYJ-JE-oGq"/>
-                        <outlet property="feelsLbl" destination="Qfp-4y-38q" id="DYB-XC-EPR"/>
                         <outlet property="goBtn" destination="I7J-jS-8FK" id="jce-XV-jzX"/>
                         <outlet property="searchTf" destination="ZGK-2C-UdM" id="g5E-z8-Xb5"/>
-                        <outlet property="topVw" destination="9z2-v2-3P5" id="MNJ-mu-yOY"/>
                         <outlet property="videonoTf" destination="8Rk-ot-PMf" id="Bh0-cO-QmW"/>
                     </connections>
                 </viewController>

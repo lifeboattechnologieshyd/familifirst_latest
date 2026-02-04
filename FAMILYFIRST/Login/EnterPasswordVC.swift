@@ -30,7 +30,7 @@ class EnterPasswordVC: UIViewController {
     
     private func setupUI() {
         passwordTf.isSecureTextEntry = true
-        viewBtn.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+        viewBtn.setImage(UIImage(systemName: "closeEye"), for: .normal)
         
         mobilenoLbl.text = formatMobileNumber(mobileNumber)
         nameLbl.text = userName ?? "Welcome Back"
@@ -70,7 +70,7 @@ class EnterPasswordVC: UIViewController {
         isPasswordVisible.toggle()
         passwordTf.isSecureTextEntry = !isPasswordVisible
         
-        let imageName = isPasswordVisible ? "eye" : "eye.slash"
+        let imageName = isPasswordVisible ? "view" : "closeEye"
         viewBtn.setImage(UIImage(systemName: imageName), for: .normal)
     }
     
@@ -129,16 +129,14 @@ class EnterPasswordVC: UIViewController {
         }
     }
     
-    // ✅ FIXED: Use correct parameter "is_forgot_password"
     private func forgotPassword() {
         showLoading(true)
         
         let params: [String: Any] = [
             "mobile": mobileNumber,
-            "is_forgot_password": true  // ✅ CORRECT PARAMETER NAME
+            "is_forgot_password": true
         ]
         
-        print("📤 Calling SEND_OTP with is_forgot_password: \(params)")
         
         NetworkManager.shared.request(
             urlString: API.SEND_OTP,
@@ -154,7 +152,6 @@ class EnterPasswordVC: UIViewController {
                     print("📥 Forgot Password Response: \(response)")
                     
                     if response.success {
-                        // OTP sent successfully - go to OTP screen
                         self?.goToOtpVC(isForgotPassword: true)
                     } else {
                         self?.showAlert(response.description)

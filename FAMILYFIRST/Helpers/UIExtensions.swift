@@ -827,32 +827,21 @@ extension UITextField {
         leftViewMode = .always
     }
 }
-    /// Extract YouTube video ID from URL
-//    func extractYoutubeId() -> String? {
-//        // Handle different YouTube URL formats
-//        let patterns = [
-//            "(?<=v=)[^&#]+",                    // youtube.com/watch?v=VIDEO_ID
-//            "(?<=be/)[^&#]+",                   // youtu.be/VIDEO_ID
-//            "(?<=embed/)[^&#]+",                // youtube.com/embed/VIDEO_ID
-//            "(?<=shorts/)[^&#]+"                // youtube.com/shorts/VIDEO_ID
-//        ]
-//        
-//        for pattern in patterns {
-//            if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) {
-//                let nsString = self as NSString
-//                let results = regex.matches(in: self, range: NSRange(location: 0, length: nsString.length))
-//                
-//                if let match = results.first {
-//                    return nsString.substring(with: match.range)
-//                }
-//            }
-//        }
-//        
-//        return nil
-//    }
-//    
-//    /// Get YouTube thumbnail URL from video ID
-//    func youtubeThumbnailURL() -> String {
-//        return "https://img.youtube.com/vi/\(self)/hqdefault.jpg"
-//    }
-//}
+extension UIView {
+    func addDashedBorder(color: UIColor = .lightGray, lineWidth: CGFloat = 1, cornerRadius: CGFloat = 8, dashPattern: [NSNumber] = [4, 2]) {
+        // Remove previous dashed layer if it exists (to prevent stacking)
+        self.layer.sublayers?.filter { $0.name == "DashedBorder" }.forEach { $0.removeFromSuperlayer() }
+
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.name = "DashedBorder" // Tag to identify it later
+        shapeLayer.strokeColor = color.cgColor
+        shapeLayer.lineWidth = lineWidth
+        shapeLayer.lineDashPattern = dashPattern
+        shapeLayer.fillColor = nil
+        shapeLayer.frame = self.bounds
+        shapeLayer.path = UIBezierPath(roundedRect: self.bounds, cornerRadius: cornerRadius).cgPath
+        
+        self.layer.addSublayer(shapeLayer)
+    }
+}
+   

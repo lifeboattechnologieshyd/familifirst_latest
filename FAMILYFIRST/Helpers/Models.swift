@@ -1163,4 +1163,83 @@ struct VerifyOTPResponse: Decodable {
         case setNewPassword = "set_new_password"
     }
 }
+struct FamilyMember: Decodable {
+    let creatorId: String?
+    let memberId: String?
+    let fullName: String?
+    let mobile: MobileType?
+    let email: String?
+    let relationType: String?
+    let profileImage: String?
+    let dateOfBirth: String?
+    let notes: FamilyNotes?
+    let status: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case creatorId = "creator_id"
+        case memberId = "member_id"
+        case fullName = "full_name"
+        case mobile
+        case email
+        case relationType = "relation_type"
+        case profileImage = "profile_image"
+        case dateOfBirth = "date_of_birth"
+        case notes
+        case status
+    }
+}
 
+enum MobileType: Decodable {
+    case string(String)
+    case int(Int)
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let intValue = try? container.decode(Int.self) {
+            self = .int(intValue)
+        } else if let stringValue = try? container.decode(String.self) {
+            self = .string(stringValue)
+        } else {
+            self = .string("")
+        }
+    }
+    
+    var stringValue: String {
+        switch self {
+        case .string(let value): return value
+        case .int(let value): return String(value)
+        }
+    }
+}
+
+struct FamilyNotes: Decodable {
+    let hobbies: [String]?
+}
+
+struct AddFamilyMemberResponse: Decodable {
+    let createdBy: String?
+    let updatedBy: String?
+    let creatorId: String?
+    let memberId: String?
+    let fullName: String?
+    let mobile: String?
+    let email: String?
+    let relationType: String?
+    let profileImage: String?
+    let dateOfBirth: String?
+    let status: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case createdBy = "created_by"
+        case updatedBy = "updated_by"
+        case creatorId = "creator_id"
+        case memberId = "member_id"
+        case fullName = "full_name"
+        case mobile
+        case email
+        case relationType = "relation_type"
+        case profileImage = "profile_image"
+        case dateOfBirth = "date_of_birth"
+        case status
+    }
+}

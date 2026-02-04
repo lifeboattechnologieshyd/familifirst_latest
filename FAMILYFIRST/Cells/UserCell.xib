@@ -216,14 +216,12 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="bgVw" destination="cob-DS-9BV" id="GvP-PV-TFl"/>
-                <outlet property="copyLbl" destination="eVR-3P-IAM" id="YHz-iI-1fW"/>
-                <outlet property="editBtn" destination="T7g-8u-Cuf" id="kLl-o2-0dv"/>
+                <outlet property="editBtn" destination="T7g-8u-Cuf" id="4CS-T1-aGC"/>
                 <outlet property="nameLbl" destination="uFt-qR-6Jh" id="Apd-uD-eUa"/>
-                <outlet property="pictureEdit" destination="7LF-PN-8Ln" id="mN0-Mr-wMg"/>
-                <outlet property="profileImg" destination="vbz-tZ-Tnn" id="jGp-ow-uBQ"/>
-                <outlet property="referalVw" destination="kzr-8I-87h" id="Oq0-8j-9Bj"/>
-                <outlet property="referalcodeLbl" destination="dtJ-oQ-Qng" id="f7V-9H-G7z"/>
-                <outlet property="sahreBtn" destination="TCT-YD-qZZ" id="eUl-4n-GYU"/>
+                <outlet property="referVw" destination="kzr-8I-87h" id="7wo-PM-CRE"/>
+                <outlet property="referalcodeLbl" destination="dtJ-oQ-Qng" id="745-hB-a8K"/>
+                <outlet property="shareBTn" destination="TCT-YD-qZZ" id="Jeh-81-nMG"/>
+                <outlet property="userImg" destination="vbz-tZ-Tnn" id="Y5E-b1-ck8"/>
             </connections>
             <point key="canvasLocation" x="207.63358778625954" y="39.7887323943662"/>
         </tableViewCell>

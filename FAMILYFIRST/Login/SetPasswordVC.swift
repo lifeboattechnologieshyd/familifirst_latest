@@ -30,8 +30,8 @@ class SetPasswordVC: UIViewController {
         passwordTf.isSecureTextEntry = true
         confirmPasswordTf.isSecureTextEntry = true
         
-        passwordViewBtn.setImage(UIImage(systemName: "eye.slash"), for: .normal)
-        confirmPasswordViewBtn.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+        passwordViewBtn.setImage(UIImage(systemName: "closeEye"), for: .normal)
+        confirmPasswordViewBtn.setImage(UIImage(systemName: "closeEye"), for: .normal)
         
         if isPasswordReset {
             createPasswordBtn.setTitle("Reset Password", for: .normal)
@@ -45,14 +45,14 @@ class SetPasswordVC: UIViewController {
     @IBAction func passwordViewBtnTapped(_ sender: UIButton) {
         isPasswordVisible.toggle()
         passwordTf.isSecureTextEntry = !isPasswordVisible
-        let imageName = isPasswordVisible ? "eye" : "eye.slash"
+        let imageName = isPasswordVisible ? "view" : "closeEye"
         passwordViewBtn.setImage(UIImage(systemName: imageName), for: .normal)
     }
     
     @IBAction func confirmPasswordViewBtnTapped(_ sender: UIButton) {
         isConfirmPasswordVisible.toggle()
         confirmPasswordTf.isSecureTextEntry = !isConfirmPasswordVisible
-        let imageName = isConfirmPasswordVisible ? "eye" : "eye.slash"
+        let imageName = isConfirmPasswordVisible ? "view" : "closeEye"
         confirmPasswordViewBtn.setImage(UIImage(systemName: imageName), for: .normal)
     }
     

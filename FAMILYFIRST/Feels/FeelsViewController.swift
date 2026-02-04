@@ -29,7 +29,6 @@ class FeelsViewController: UIViewController {
         setupCollectionView()
         setupTextFields()
         
-        // ✅ Load feels on start
         getFeels()
     }
     
@@ -52,7 +51,6 @@ class FeelsViewController: UIViewController {
         videonoTf.addTarget(self, action: #selector(videoNoTextChanged), for: .editingChanged)
     }
     
-    // MARK: - Actions
     
     @IBAction func onClickBack(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
@@ -68,11 +66,9 @@ class FeelsViewController: UIViewController {
         
         view.endEditing(true)
         
-        // Clear title search
         searchTf.text = ""
         searchText = ""
         
-        // Set serial number
         serialNumber = serial
         page = 1
         canLoadMore = false
@@ -80,7 +76,6 @@ class FeelsViewController: UIViewController {
         getFeels()
     }
     
-    // MARK: - Search Handlers
     
     @objc func searchTextChanged() {
         let query = searchTf.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
@@ -111,7 +106,6 @@ class FeelsViewController: UIViewController {
         }
     }
     
-    // MARK: - API Call
     
     func getFeels() {
         guard !isLoading else { return }
@@ -122,11 +116,9 @@ class FeelsViewController: UIViewController {
         var url = API.GET_FEELS
         var params: [String] = []
         
-        // Serial number search
         if !serialNumber.isEmpty {
             params.append("serial_number=\(serialNumber)")
         }
-        // Title search
         else if !searchText.isEmpty {
             params.append("page_size=\(pageSize)")
             params.append("page=\(page)")
@@ -134,20 +126,17 @@ class FeelsViewController: UIViewController {
                 params.append("title=\(encoded)")
             }
         }
-        // Normal - show all with pagination
         else {
             params.append("page_size=\(pageSize)")
             params.append("page=\(page)")
         }
         
-        // Build final URL
         if !params.isEmpty {
             url += "?" + params.joined(separator: "&")
         }
         
         print("📡 Fetching Feels: \(url)")
         
-        // ✅ Using your NetworkManager
         NetworkManager.shared.request(
             urlString: url,
             method: .GET,
@@ -218,17 +207,14 @@ class FeelsViewController: UIViewController {
         showAlert(msg: message)
     }
     
-    // MARK: - Navigation
     
     func navigateToPlayer(index: Int) {
-        let stbd = UIStoryboard(name: "Feels", bundle: nil)
+        let stbd = UIStoryboard(name: "Main", bundle: nil)
         let vc = stbd.instantiateViewController(identifier: "FeelPlayerController") as! FeelPlayerController
         vc.selected_feel_item = items[index]
         navigationController?.pushViewController(vc, animated: true)
     }
 }
-
-// MARK: - CollectionView DataSource & Delegate
 
 extension FeelsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -274,7 +260,6 @@ extension FeelsViewController: UICollectionViewDelegate, UICollectionViewDataSou
         navigateToPlayer(index: indexPath.row)
     }
     
-    // MARK: - Pagination
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
@@ -291,7 +276,6 @@ extension FeelsViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
 }
 
-// MARK: - TextField Delegate
 
 extension FeelsViewController: UITextFieldDelegate {
     
