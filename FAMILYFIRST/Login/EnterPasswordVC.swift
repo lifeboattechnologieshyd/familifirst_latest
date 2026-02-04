@@ -115,10 +115,7 @@ class EnterPasswordVC: UIViewController {
                            let refresh = data.refreshToken {
                             UserManager.shared.saveTokens(access: access, refresh: refresh)
                         }
-                        
-                        // ✅ Login complete - Navigate to Home
                         self?.navigateToHome()
-                        
                     } else {
                         self?.showAlert(response.description)
                         self?.passwordTf.text = ""
@@ -132,10 +129,16 @@ class EnterPasswordVC: UIViewController {
         }
     }
     
+    // ✅ FIXED: Use correct parameter "is_forgot_password"
     private func forgotPassword() {
         showLoading(true)
         
-        let params: [String: Any] = ["mobile": mobileNumber]
+        let params: [String: Any] = [
+            "mobile": mobileNumber,
+            "is_forgot_password": true  // ✅ CORRECT PARAMETER NAME
+        ]
+        
+        print("📤 Calling SEND_OTP with is_forgot_password: \(params)")
         
         NetworkManager.shared.request(
             urlString: API.SEND_OTP,
@@ -148,8 +151,11 @@ class EnterPasswordVC: UIViewController {
                 
                 switch result {
                 case .success(let response):
+                    print("📥 Forgot Password Response: \(response)")
+                    
                     if response.success {
-                        self?.goToOtpVC()
+                        // OTP sent successfully - go to OTP screen
+                        self?.goToOtpVC(isForgotPassword: true)
                     } else {
                         self?.showAlert(response.description)
                     }
@@ -161,13 +167,13 @@ class EnterPasswordVC: UIViewController {
         }
     }
     
-    private func goToOtpVC() {
+    private func goToOtpVC(isForgotPassword: Bool = false) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "OtpVC") as! OtpVC
         vc.mobileNumber = mobileNumber
+        vc.isForgotPasswordFlow = isForgotPassword
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    // ✅ Navigate to Home
     private func navigateToHome() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let homeVC = storyboard.instantiateViewController(withIdentifier: "CustomTabBarController")
@@ -180,7 +186,8 @@ class EnterPasswordVC: UIViewController {
     
     private func showLoading(_ show: Bool) {
         loginBtn.isEnabled = !show
-        loginBtn.setTitle(show ? "Logging in..." : "Login", for: .normal)
+        forgotPasswordBtn.isEnabled = !show
+        loginBtn.setTitle(show ? "Please wait..." : "Login", for: .normal)
     }
     
     private func showAlert(_ message: String) {

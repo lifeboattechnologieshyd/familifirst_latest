@@ -14,10 +14,8 @@ class SplashVCFive: UIViewController {
     
     @IBAction func getStartedTapped(_ sender: UIButton) {
         
-        // ✅ Mark onboarding complete
         UserManager.shared.setOnboardingComplete()
         
-        // ✅ Navigate to LoginVC with NavigationController
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC")
         let nav = UINavigationController(rootViewController: loginVC)

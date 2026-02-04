@@ -10,7 +10,11 @@ import UIKit
 class ShopCell: UITableViewCell {
 
     @IBOutlet weak var viewAll: UIButton!
+    @IBOutlet weak var logoutbtn: UIButton!
     @IBOutlet weak var colVw: UICollectionView!
+    
+    var didTapLogout: (() -> Void)?
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -22,6 +26,11 @@ class ShopCell: UITableViewCell {
         colVw.register(nib, forCellWithReuseIdentifier: "ShopCollectionViewCell")
         
         colVw.reloadData()
+        logoutbtn.addTarget(self, action: #selector(logoutTapped), for: .touchUpInside)
+            }
+            
+            @objc private func logoutTapped() {
+                didTapLogout?()
     }
 }
 extension ShopCell: UICollectionViewDelegate,

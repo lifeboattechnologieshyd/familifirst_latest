@@ -886,6 +886,7 @@
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jWr-T0-Szc">
                                         <rect key="frame" x="16" y="84" width="263" height="70"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="MWf-DM-HVO"/>
                                         </constraints>
@@ -4542,6 +4543,7 @@
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eax-Yy-0h5">
                                         <rect key="frame" x="16" y="84" width="263" height="70"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="bgy-Wo-Sh8"/>
                                         </constraints>
@@ -4636,6 +4638,7 @@
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mgd-za-VNK">
                                         <rect key="frame" x="16" y="84" width="263" height="70"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="S8H-hZ-lpI"/>
                                         </constraints>
@@ -4730,6 +4733,7 @@
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J52-k6-Ba4">
                                         <rect key="frame" x="16" y="84" width="263" height="70"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="Fkz-Cu-e8U"/>
                                         </constraints>
@@ -4824,6 +4828,7 @@
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Abp-rm-2bE">
                                         <rect key="frame" x="16" y="84" width="287" height="70"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="aqR-gh-lTD"/>
                                         </constraints>
@@ -4847,7 +4852,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="next 2"/>
                                         <connections>
-                                            <action selector="nextBtnTapped:" destination="xXd-ET-6hB" eventType="touchUpInside" id="qk6-9z-HPt"/>
+                                            <action selector="getStartedTapped:" destination="xXd-ET-6hB" eventType="touchUpInside" id="AWc-x2-Cyj"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -4875,9 +4880,6 @@
                             <constraint firstItem="Cs0-fR-Vep" firstAttribute="leading" secondItem="Sr7-04-c6A" secondAttribute="leading" id="rog-tX-OCg"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="nextBtn" destination="2rU-7H-e4g" id="14B-Hu-RKX"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YMt-VT-hDw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -5141,6 +5143,11 @@
                             <constraint firstItem="63H-ZM-Gsr" firstAttribute="trailing" secondItem="tuy-QT-aHZ" secondAttribute="trailing" id="zhu-jm-xyC"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="backBtn" destination="E5a-sq-lri" id="o8S-ar-B7K"/>
+                        <outlet property="getotpBtn" destination="JNm-Qg-36v" id="WZm-2F-lN9"/>
+                        <outlet property="mobileTf" destination="xZX-W3-eKb" id="FGx-2k-eDR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E5Z-Cr-WGu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -5400,6 +5407,16 @@
                             <constraint firstItem="jqa-wH-TdT" firstAttribute="leading" secondItem="nKg-ft-DVn" secondAttribute="leading" id="pTz-dp-8e9"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="backBtn" destination="4iq-qS-Ykz" id="eWQ-8g-zp3"/>
+                        <outlet property="lottieVw" destination="scO-Zn-TJa" id="s0l-RC-UV7"/>
+                        <outlet property="otpTf1" destination="nHh-Dj-fRb" id="cD3-Xv-4bh"/>
+                        <outlet property="otpTf2" destination="0eB-X0-se4" id="3Nm-jm-Oac"/>
+                        <outlet property="otpTf3" destination="NGI-Vs-6Vg" id="DAg-uK-w1D"/>
+                        <outlet property="otpTf4" destination="m4f-i5-Ug7" id="N6p-1w-ao7"/>
+                        <outlet property="resendBtn" destination="9eW-mL-byL" id="t6u-Fn-3rW"/>
+                        <outlet property="verifyBtn" destination="y5b-WN-k4d" id="4zp-06-UBi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="esg-3P-C1c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -5408,7 +5425,6 @@
         <!--Set PasswordVC-->
         <scene sceneID="k3b-gU-amw">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VXL-Az-iMp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="SetPasswordVC" modalPresentationStyle="overCurrentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lGG-5r-2uh" customClass="SetPasswordVC" customModule="FAMILYFIRST" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9vI-0j-QaS">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
@@ -5606,7 +5622,16 @@
                             <constraint firstItem="TML-mu-gdc" firstAttribute="top" secondItem="9vI-0j-QaS" secondAttribute="top" id="xCg-7B-5QR"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="backBtn" destination="cQ8-g6-g3P" id="dGd-SZ-FQu"/>
+                        <outlet property="confirmPasswordTf" destination="HJI-q0-u62" id="df9-Hz-Hs4"/>
+                        <outlet property="confirmPasswordViewBtn" destination="fGu-3o-C8M" id="eg9-ra-bT9"/>
+                        <outlet property="createPasswordBtn" destination="sl1-GQ-nfw" id="noy-PM-lBd"/>
+                        <outlet property="passwordTf" destination="TrU-td-gm6" id="Piz-OR-vzu"/>
+                        <outlet property="passwordViewBtn" destination="nFn-Ba-eTZ" id="qpt-qj-yDG"/>
+                    </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VXL-Az-iMp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="6896.9465648854957" y="2280.9859154929577"/>
         </scene>
@@ -5861,6 +5886,16 @@
                             <constraint firstAttribute="bottom" secondItem="SQn-98-mDL" secondAttribute="bottom" constant="300" id="Zel-Yh-Qwn"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="backBtn" destination="zHI-rv-Hcf" id="HT9-Lk-nFL"/>
+                        <outlet property="forgotPasswordBtn" destination="pZz-0m-xj1" id="QEd-aU-PSx"/>
+                        <outlet property="imageVw" destination="B6a-NK-R1J" id="z4r-43-KyZ"/>
+                        <outlet property="loginBtn" destination="doS-uW-rlN" id="k9F-yl-CnX"/>
+                        <outlet property="mobilenoLbl" destination="xOK-x8-611" id="ogI-2G-TFg"/>
+                        <outlet property="nameLbl" destination="3za-va-c43" id="ed2-DV-5U9"/>
+                        <outlet property="passwordTf" destination="1Rk-9a-bVY" id="xlJ-Wp-tDL"/>
+                        <outlet property="viewBtn" destination="kmd-MN-p3u" id="obm-e6-LEG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BGY-aS-OxO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -5913,16 +5948,16 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray3Color">
-            <color red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray4Color">
-            <color red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGroupedBackgroundColor">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemGroupedBackgroundColor">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

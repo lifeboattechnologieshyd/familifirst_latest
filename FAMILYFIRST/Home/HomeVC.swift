@@ -149,6 +149,48 @@ class HomeVC: UIViewController {
             present(vc, animated: true)
         }
     }
+    private func showLogoutAlert() {
+        let alert = UIAlertController(
+            title: "Logout",
+            message: "Are you sure you want to logout?",
+            preferredStyle: .alert
+        )
+        
+        let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { [weak self] _ in
+            self?.performLogout()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(logoutAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
+
+    private func performLogout() {
+        // Clear user data
+        UserManager.shared.logout()
+        
+        // Navigate to Login screen
+        navigateToLogin()
+    }
+
+    private func navigateToLogin() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC")
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            window.rootViewController = UINavigationController(rootViewController: loginVC)
+            window.makeKeyAndVisible()
+            
+            // Add transition animation
+            UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil)
+        }
+        
+        
+    }
 }
 
 extension HomeVC: UITableViewDelegate, UITableViewDataSource {
@@ -211,8 +253,10 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ShopCell", for: indexPath) as! ShopCell
+            cell.didTapLogout = { [weak self] in
+                self?.showLogoutAlert()
+            }
             return cell
-            
         default:
             return UITableViewCell()
         }

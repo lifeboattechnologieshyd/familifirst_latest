@@ -17,7 +17,7 @@ class SetPasswordVC: UIViewController {
     @IBOutlet weak var createPasswordBtn: UIButton!
     
     var mobileNumber: String = ""
-    
+    var isPasswordReset: Bool = false
     private var isPasswordVisible = false
     private var isConfirmPasswordVisible = false
     
@@ -32,6 +32,10 @@ class SetPasswordVC: UIViewController {
         
         passwordViewBtn.setImage(UIImage(systemName: "eye.slash"), for: .normal)
         confirmPasswordViewBtn.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+        
+        if isPasswordReset {
+            createPasswordBtn.setTitle("Reset Password", for: .normal)
+        }
     }
     
     @IBAction func backBtnTapped(_ sender: UIButton) {
@@ -41,7 +45,6 @@ class SetPasswordVC: UIViewController {
     @IBAction func passwordViewBtnTapped(_ sender: UIButton) {
         isPasswordVisible.toggle()
         passwordTf.isSecureTextEntry = !isPasswordVisible
-        
         let imageName = isPasswordVisible ? "eye" : "eye.slash"
         passwordViewBtn.setImage(UIImage(systemName: imageName), for: .normal)
     }
@@ -49,7 +52,6 @@ class SetPasswordVC: UIViewController {
     @IBAction func confirmPasswordViewBtnTapped(_ sender: UIButton) {
         isConfirmPasswordVisible.toggle()
         confirmPasswordTf.isSecureTextEntry = !isConfirmPasswordVisible
-        
         let imageName = isConfirmPasswordVisible ? "eye" : "eye.slash"
         confirmPasswordViewBtn.setImage(UIImage(systemName: imageName), for: .normal)
     }
@@ -100,7 +102,6 @@ class SetPasswordVC: UIViewController {
         showLoading(true)
         
         let params: [String: Any] = [
-            "mobile": mobileNumber,
             "password": password,
             "confirm_password": confirmPassword
         ]
@@ -122,10 +123,7 @@ class SetPasswordVC: UIViewController {
                            let refresh = data.refreshToken {
                             UserManager.shared.saveTokens(access: access, refresh: refresh)
                         }
-                        
-                        // ✅ Login complete - Navigate to Home
-                        self?.navigateToHome()
-                        
+                        self?.showSuccessAndNavigate()
                     } else {
                         self?.showAlert(response.description)
                     }
@@ -137,7 +135,16 @@ class SetPasswordVC: UIViewController {
         }
     }
     
-    // ✅ Navigate to Home
+    private func showSuccessAndNavigate() {
+        let message = isPasswordReset ? "Password reset successfully!" : "Password created successfully!"
+        
+        let alert = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            self?.navigateToHome()
+        })
+        present(alert, animated: true)
+    }
+    
     private func navigateToHome() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let homeVC = storyboard.instantiateViewController(withIdentifier: "CustomTabBarController")
@@ -150,7 +157,9 @@ class SetPasswordVC: UIViewController {
     
     private func showLoading(_ show: Bool) {
         createPasswordBtn.isEnabled = !show
-        createPasswordBtn.setTitle(show ? "Creating..." : "Create Password", for: .normal)
+        let title = isPasswordReset ? "Resetting..." : "Creating..."
+        let normalTitle = isPasswordReset ? "Reset Password" : "Create Password"
+        createPasswordBtn.setTitle(show ? title : normalTitle, for: .normal)
     }
     
     private func showAlert(_ message: String) {
@@ -163,6 +172,7 @@ class SetPasswordVC: UIViewController {
         switch error {
         case .serverError(let msg): showAlert(msg)
         case .decodingError(let msg): showAlert(msg)
+        case .noaccess: showAlert("Session expired. Please try again.")
         default: showAlert("Something went wrong. Please try again.")
         }
     }

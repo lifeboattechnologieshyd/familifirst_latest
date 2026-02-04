@@ -19,6 +19,8 @@ class OtpVC: UIViewController {
     @IBOutlet weak var verifyBtn: UIButton!
     
     var mobileNumber: String = ""
+    var isForgotPasswordFlow: Bool = false
+    
     private var resendTimer: Timer?
     private var resendSeconds = 30
     private var animationView: LottieAnimationView?
@@ -121,11 +123,7 @@ class OtpVC: UIViewController {
     }
     
     private func getOTP() -> String {
-        let otp1 = otpTf1.text ?? ""
-        let otp2 = otpTf2.text ?? ""
-        let otp3 = otpTf3.text ?? ""
-        let otp4 = otpTf4.text ?? ""
-        return otp1 + otp2 + otp3 + otp4
+        return (otpTf1.text ?? "") + (otpTf2.text ?? "") + (otpTf3.text ?? "") + (otpTf4.text ?? "")
     }
     
     private func clearOTP() {
@@ -139,10 +137,14 @@ class OtpVC: UIViewController {
     private func verifyOTP(otp: String) {
         showLoading(true)
         
-        let params: [String: Any] = [
+        var params: [String: Any] = [
             "mobile": mobileNumber,
             "otp": otp
         ]
+        
+        if isForgotPasswordFlow {
+            params["is_forgot_password"] = true
+        }
         
         NetworkManager.shared.request(
             urlString: API.VERIFY_OTP,
@@ -156,22 +158,7 @@ class OtpVC: UIViewController {
                 switch result {
                 case .success(let response):
                     if response.success {
-                        if let data = response.data {
-                            // Save tokens if available
-                            if let access = data.accessToken, let refresh = data.refreshToken {
-                                UserManager.shared.saveTokens(access: access, refresh: refresh)
-                            }
-                            
-                            // Check if need to set password
-                            if data.setNewPassword == true || data.isNewUser == true {
-                                self?.goToSetPasswordVC()
-                            } else {
-                                // ✅ Login complete - Navigate to Home
-                                self?.navigateToHome()
-                            }
-                        } else {
-                            self?.goToSetPasswordVC()
-                        }
+                        self?.handleVerificationSuccess(response: response)
                     } else {
                         self?.showAlert(response.description)
                         self?.clearOTP()
@@ -185,17 +172,47 @@ class OtpVC: UIViewController {
         }
     }
     
+    private func handleVerificationSuccess(response: APIResponse<VerifyOTPResponse>) {
+        
+        if let data = response.data,
+           let access = data.accessToken,
+           let refresh = data.refreshToken {
+            UserManager.shared.saveTokens(access: access, refresh: refresh)
+        }
+        
+        if isForgotPasswordFlow {
+            goToSetPasswordVC(isReset: true)
+            return
+        }
+        
+        if let data = response.data {
+            if data.setNewPassword == true || data.isNewUser == true {
+                goToSetPasswordVC(isReset: false)
+            } else {
+                navigateToHome()
+            }
+        } else {
+            goToSetPasswordVC(isReset: false)
+        }
+    }
+    
     private func resendOTP() {
         resendBtn.isEnabled = false
         resendBtn.setTitle("Sending...", for: .normal)
         
-        let params: [String: Any] = ["mobile": mobileNumber]
+        var params: [String: Any] = ["mobile": mobileNumber]
+        
+        if isForgotPasswordFlow {
+            params["is_forgot_password"] = true
+        }
+        
+        let endpoint = isForgotPasswordFlow ? API.SEND_OTP : API.RESEND_OTP
         
         NetworkManager.shared.request(
-            urlString: API.RESEND_OTP,
+            urlString: endpoint,
             method: .POST,
             parameters: params
-        ) { [weak self] (result: Result<APIResponse<EmptyResponse>, NetworkError>) in
+        ) { [weak self] (result: Result<APIResponse<SendOTPResponse>, NetworkError>) in
             
             DispatchQueue.main.async {
                 switch result {
@@ -218,13 +235,13 @@ class OtpVC: UIViewController {
         }
     }
     
-    private func goToSetPasswordVC() {
+    private func goToSetPasswordVC(isReset: Bool = false) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "SetPasswordVC") as! SetPasswordVC
         vc.mobileNumber = mobileNumber
+        vc.isPasswordReset = isReset
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    // ✅ Navigate to Home
     private func navigateToHome() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let homeVC = storyboard.instantiateViewController(withIdentifier: "CustomTabBarController")
