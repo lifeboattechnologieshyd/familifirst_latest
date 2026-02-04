@@ -278,6 +278,8 @@ struct API {
     static let LOGIN_PASSWORD = BASE_URL + "user/authentication/mobile/login"
     static let GET_FEELS = BASE_URL + "event/get/feels"
     static let FAMILY_MASTER = BASE_URL + "family/familymaster"
+    static let CREATE_EVENT = BASE_URL + "event/event"
+
 
     
 

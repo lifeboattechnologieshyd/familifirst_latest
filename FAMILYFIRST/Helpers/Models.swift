@@ -1243,3 +1243,45 @@ struct AddFamilyMemberResponse: Decodable {
         case status
     }
 }
+struct CreateEventRequest: Codable {
+    let event_type: String
+    let event_name: String
+    let date: String
+    let time: String
+    let description: String
+    let event_users: [String]
+    let colour_code: String?
+}
+
+struct EventData: Codable {
+    let id: String?
+    let event_type: String?
+    let creator: String?
+    let event_users: [String]?
+    let date: String?
+    let time: String?
+    let event_name: String?
+    let description: String?
+    let colour_code: String?
+}
+
+class SelectableFamilyMember {
+    let member: FamilyMember
+    var isSelected: Bool = false
+    
+    init(member: FamilyMember) {
+        self.member = member
+    }
+}
+struct FamilyMemberModel {
+    let id: String
+    let username: String
+    let relation: String
+    let profileImage: String?
+}
+struct EventResponseData: Decodable {
+    let id: String
+    let event_name: String
+    let date: String
+    let time: String
+}

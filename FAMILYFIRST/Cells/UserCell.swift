@@ -36,10 +36,12 @@ class UserCell: UITableViewCell {
     func configure(with member: FamilyMember) {
         nameLbl.text = member.fullName ?? "User"
         
-        if let imageUrl = member.profileImage, let url = URL(string: imageUrl) {
+        // Check if string exists AND is not empty
+        if let imageUrl = member.profileImage, !imageUrl.isEmpty, let url = URL(string: imageUrl) {
             loadImage(from: url)
         } else {
-            userImg.image = UIImage(systemName: "person.circle.fill")
+            // Set your default asset image here
+            userImg.image = UIImage(named: "Picture")
         }
     }
     

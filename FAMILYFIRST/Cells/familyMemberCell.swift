@@ -34,10 +34,11 @@ class familyMemberCell: UITableViewCell {
         relationLbl.text = member.relationType ?? ""
         mobileNumber = member.mobile?.stringValue ?? ""
         
-        if let imageUrl = member.profileImage, let url = URL(string: imageUrl) {
+        if let imageUrl = member.profileImage, !imageUrl.isEmpty, let url = URL(string: imageUrl) {
             loadImage(from: url)
         } else {
-            userImg.image = UIImage(systemName: "person.circle.fill")
+            // Set your default asset image here
+            userImg.image = UIImage(named: "Picture")
         }
     }
     

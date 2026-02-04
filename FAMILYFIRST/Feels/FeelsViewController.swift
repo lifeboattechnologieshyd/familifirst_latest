@@ -245,6 +245,7 @@ extension FeelsViewController: UICollectionViewDelegate, UICollectionViewDataSou
         
         // Play button callback
         cell.playClicked = { [weak self] index in
+            print("Navigate requested for index: \(index)") // Add this debug print
             self?.navigateToPlayer(index: index)
         }
         

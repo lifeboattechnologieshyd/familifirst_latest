@@ -22,6 +22,7 @@ class DetailsCell: UITableViewCell {
     @IBOutlet weak var whatsappBtn: UIButton!
     @IBOutlet weak var phonenumberLbl: UILabel!
     @IBOutlet weak var mailBtn: UIButton!
+    @IBOutlet weak var notesFont: UILabel!
     @IBOutlet weak var mailCopy: UIButton!
     @IBOutlet weak var relationLbl: UILabel!
     @IBOutlet weak var nameLbl: UILabel!
@@ -39,6 +40,8 @@ class DetailsCell: UITableViewCell {
         mailBgVw.addCardShadow()
         imgVw.layer.cornerRadius = imgVw.frame.height / 2
         imgVw.clipsToBounds = true
+        notesFont.font = UIFont(name: "Lexend-SemiBold", size: 16)
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -64,19 +67,22 @@ class DetailsCell: UITableViewCell {
             dateofbirthLbl.text = "N/A"
         }
         
-        if let imageUrl = member.profileImage, let url = URL(string: imageUrl) {
+        if let imageUrl = member.profileImage, !imageUrl.isEmpty, let url = URL(string: imageUrl) {
             URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
                 if let data = data, let image = UIImage(data: data) {
                     DispatchQueue.main.async {
                         self?.imgVw.image = image
                     }
+                } else {
+                    DispatchQueue.main.async {
+                        self?.imgVw.image = UIImage(named: "Picture")
+                    }
                 }
             }.resume()
         } else {
-            imgVw.image = UIImage(systemName: "person.circle.fill")
+            imgVw.image = UIImage(named: "Picture")
         }
     }
-    
     @IBAction func callBtnTapped(_ sender: UIButton) {
         guard !mobileNumber.isEmpty, let url = URL(string: "tel://\(mobileNumber)") else { return }
         UIApplication.shared.open(url)

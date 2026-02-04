@@ -39,7 +39,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="48" height="64"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emJ-Qb-jfZ">
-                                        <rect key="frame" x="8" y="8" width="32" height="48"/>
+                                        <rect key="frame" x="6" y="8" width="34" height="48"/>
                                         <attributedString key="attributedText">
                                             <fragment content="12 JAN">
                                                 <attributes>
@@ -56,7 +56,7 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="emJ-Qb-jfZ" secondAttribute="trailing" constant="8" id="93m-Mw-5Ac"/>
                                     <constraint firstAttribute="bottom" secondItem="emJ-Qb-jfZ" secondAttribute="bottom" constant="8" id="JI3-cX-94s"/>
-                                    <constraint firstItem="emJ-Qb-jfZ" firstAttribute="leading" secondItem="kaE-54-xr5" secondAttribute="leading" constant="8" id="SNe-Li-5MX"/>
+                                    <constraint firstItem="emJ-Qb-jfZ" firstAttribute="leading" secondItem="kaE-54-xr5" secondAttribute="leading" constant="6" id="SNe-Li-5MX"/>
                                     <constraint firstAttribute="width" constant="48" id="jvG-8D-bIm"/>
                                     <constraint firstItem="emJ-Qb-jfZ" firstAttribute="top" secondItem="kaE-54-xr5" secondAttribute="top" constant="8" id="vRu-XR-8dj"/>
                                 </constraints>

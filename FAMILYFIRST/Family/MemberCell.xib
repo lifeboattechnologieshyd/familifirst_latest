@@ -4,7 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -68,7 +67,7 @@
                                 <buttonConfiguration key="configuration" style="plain" image="checkbox"/>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="t2Q-rl-Fsm" firstAttribute="top" secondItem="7ce-BQ-QCg" secondAttribute="top" constant="24" id="9YC-al-BOX"/>
                             <constraint firstItem="M4s-He-zUK" firstAttribute="leading" secondItem="hNR-1n-T6b" secondAttribute="trailing" constant="12" id="KKA-kw-E3X"/>
@@ -96,8 +95,9 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="checkmarkBtn" destination="t2Q-rl-Fsm" id="WA5-n8-ras"/>
                 <outlet property="imgVw" destination="7ce-BQ-QCg" id="cQ7-Pz-Dm7"/>
-                <outlet property="nameLbl" destination="7ce-BQ-QCg" id="CTA-N3-wrf"/>
+                <outlet property="nameLbl" destination="M4s-He-zUK" id="Wdi-X1-4wH"/>
                 <outlet property="relationLbl" destination="e33-mk-wUq" id="Xda-nV-Mtz"/>
             </connections>
             <point key="canvasLocation" x="-260.30534351145036" y="332.74647887323943"/>
@@ -106,8 +106,5 @@
     <resources>
         <image name="checkbox" width="32" height="32"/>
         <image name="userImage" width="40" height="40"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

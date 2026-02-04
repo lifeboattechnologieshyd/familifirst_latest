@@ -279,6 +279,7 @@ extension FamiliVC {
     private func navigateToCreateEventVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let vc = storyboard.instantiateViewController(withIdentifier: "CreateEventVC") as? CreateEventVC else { return }
+            vc.familyMembers = self.familyMembers
         navigationController?.pushViewController(vc, animated: true)
     }
 }
