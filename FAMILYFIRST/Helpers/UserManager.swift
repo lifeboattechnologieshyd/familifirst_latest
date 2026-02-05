@@ -20,16 +20,16 @@ class UserManager {
         static let isLoggedIn = "isLoggedIn"
         static let mobile = "mobile"
         static let hasSeenOnboarding = "hasSeenOnboarding"
-
+        static let userId = "userId"
     }
 
     var hasSeenOnboarding: Bool {
-          return defaults.bool(forKey: Keys.hasSeenOnboarding)
-      }
-      
-      func setOnboardingComplete() {
-          defaults.set(true, forKey: Keys.hasSeenOnboarding)
-      }
+        return defaults.bool(forKey: Keys.hasSeenOnboarding)
+    }
+    
+    func setOnboardingComplete() {
+        defaults.set(true, forKey: Keys.hasSeenOnboarding)
+    }
 
     func saveTokens(access: String, refresh: String) {
         defaults.set(access, forKey: Keys.accessToken)
@@ -39,6 +39,11 @@ class UserManager {
 
     func saveMobile(_ mobile: String) {
         defaults.set(mobile, forKey: Keys.mobile)
+    }
+    
+    func saveUserId(_ userId: String) {
+        defaults.set(userId, forKey: Keys.userId)
+        print("✅ Saved userId: \(userId)")
     }
 
     var accessToken: String {
@@ -56,11 +61,18 @@ class UserManager {
     var isLoggedIn: Bool {
         return defaults.bool(forKey: Keys.isLoggedIn) && !accessToken.isEmpty
     }
-
+    
+    var userId: String? {
+        let id = defaults.string(forKey: Keys.userId)
+        print("🔑 UserManager userId: \(id ?? "NIL")")
+        return id
+    }
+    
     func logout() {
         defaults.removeObject(forKey: Keys.accessToken)
         defaults.removeObject(forKey: Keys.refreshToken)
         defaults.removeObject(forKey: Keys.isLoggedIn)
         defaults.removeObject(forKey: Keys.mobile)
+        defaults.removeObject(forKey: Keys.userId)
     }
 }

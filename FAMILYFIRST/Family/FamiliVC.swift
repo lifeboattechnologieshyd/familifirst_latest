@@ -21,6 +21,8 @@ class FamiliVC: UIViewController {
     private var familyMembers: [FamilyMember] = []
     private var selfMember: FamilyMember?
     
+    private var monthlyEvents: [MonthEventsGroup] = []
+    
     enum TabSection {
         case family
         case events
@@ -53,6 +55,7 @@ class FamiliVC: UIViewController {
     private func checkLoginStatus() {
         if UserManager.shared.isLoggedIn {
             fetchFamilyMembers()
+            fetchEvents()
         } else {
             showLoginVC()
         }
@@ -70,6 +73,11 @@ class FamiliVC: UIViewController {
                     if response.success, let data = response.data {
                         self?.selfMember = data.first { $0.relationType?.lowercased() == "self" }
                         self?.familyMembers = data.filter { $0.relationType?.lowercased() != "self" }
+                        
+                        if let selfMember = self?.selfMember, let userId = selfMember.memberId {
+                            UserManager.shared.saveUserId(userId)
+                        }
+                        
                         self?.tblVw.reloadData()
                     }
                 case .failure(let error):
@@ -77,6 +85,61 @@ class FamiliVC: UIViewController {
                 }
             }
         }
+    }
+    
+    private func fetchEvents() {
+        guard let userId = UserManager.shared.userId else { return }
+        
+        let urlString = "\(API.GET_EVENTS)?event_users=\(userId)"
+        
+        NetworkManager.shared.request(
+            urlString: urlString,
+            method: .GET
+        ) { [weak self] (result: Result<APIResponse<[Event]>, NetworkError>) in
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    if response.success, let events = response.data {
+                        self?.groupEventsByMonth(events)
+                        self?.tblVw.reloadData()
+                    }
+                case .failure(let error):
+                    print("Error fetching events: \(error)")
+                }
+            }
+        }
+    }
+    
+    private func groupEventsByMonth(_ events: [Event]) {
+        var grouped: [String: [Event]] = [:]
+        var sortDates: [String: Date] = [:]
+        var monthNames: [String: String] = [:]
+        
+        for event in events {
+            let key = event.monthYearKey
+            if grouped[key] == nil {
+                grouped[key] = []
+            }
+            grouped[key]?.append(event)
+            
+            if sortDates[key] == nil, let date = event.eventDate {
+                sortDates[key] = date
+            }
+            
+            if monthNames[key] == nil {
+                monthNames[key] = event.monthOnlyKey
+            }
+        }
+        
+        monthlyEvents = grouped.map { (key, events) in
+            MonthEventsGroup(
+                monthYear: key,
+                monthOnly: monthNames[key] ?? key,
+                events: events.sorted { ($0.eventDate ?? Date()) < ($1.eventDate ?? Date()) },
+                sortOrder: sortDates[key] ?? Date()
+            )
+        }.sorted { $0.sortOrder < $1.sortOrder }
     }
     
     private func showLoginVC() {
@@ -156,6 +219,7 @@ class FamiliVC: UIViewController {
         guard currentSection != .events else { return }
         currentSection = .events
         updateSelectionUI()
+        fetchEvents()
         tblVw.reloadData()
     }
     
@@ -180,12 +244,26 @@ class FamiliVC: UIViewController {
 
 extension FamiliVC: UITableViewDelegate, UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        switch currentSection {
+        case .family:
+            return 1
+        case .events:
+            return 1 + monthlyEvents.count
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch currentSection {
         case .family:
             return 1 + familyMembers.count + 1
         case .events:
-            return 2
+            if section == 0 {
+                return 1
+            } else {
+                let monthIndex = section - 1
+                return monthlyEvents[monthIndex].events.count
+            }
         }
     }
     
@@ -212,16 +290,82 @@ extension FamiliVC: UITableViewDelegate, UITableViewDataSource {
             }
             
         case .events:
-            switch indexPath.row {
-            case 0:
+            if indexPath.section == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddEventCell", for: indexPath) as! AddEventCell
                 cell.onAddEventTapped = { [weak self] in
                     self?.navigateToCreateEventVC()
                 }
                 return cell
-            default:
-                return tableView.dequeueReusableCell(withIdentifier: "MonthCell", for: indexPath)
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "MonthCell", for: indexPath) as! MonthCell
+                let monthIndex = indexPath.section - 1
+                let event = monthlyEvents[monthIndex].events[indexPath.row]
+                cell.configure(with: event)
+                return cell
             }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        switch currentSection {
+        case .family:
+            return nil
+        case .events:
+            if section == 0 {
+                return nil
+            } else {
+                let headerView = UIView()
+                headerView.backgroundColor = .clear
+                
+                let lineColor = UIColor(hex: "#CDE1D7") ?? .lightGray
+                
+                let leftLine = UIView()
+                leftLine.backgroundColor = lineColor
+                leftLine.translatesAutoresizingMaskIntoConstraints = false
+                
+                let rightLine = UIView()
+                rightLine.backgroundColor = lineColor
+                rightLine.translatesAutoresizingMaskIntoConstraints = false
+                
+                let monthLabel = UILabel()
+                monthLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+                monthLabel.textColor = .darkGray
+                monthLabel.textAlignment = .center
+                monthLabel.translatesAutoresizingMaskIntoConstraints = false
+                
+                let monthIndex = section - 1
+                monthLabel.text = monthlyEvents[monthIndex].monthOnly
+                
+                headerView.addSubview(leftLine)
+                headerView.addSubview(monthLabel)
+                headerView.addSubview(rightLine)
+                
+                NSLayoutConstraint.activate([
+                    leftLine.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 0),
+                    leftLine.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+                    leftLine.heightAnchor.constraint(equalToConstant: 1),
+                    leftLine.trailingAnchor.constraint(equalTo: monthLabel.leadingAnchor, constant: -12),
+                    
+                    monthLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
+                    monthLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+                    
+                    rightLine.leadingAnchor.constraint(equalTo: monthLabel.trailingAnchor, constant: 12),
+                    rightLine.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: 0),
+                    rightLine.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+                    rightLine.heightAnchor.constraint(equalToConstant: 1)
+                ])
+                
+                return headerView
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        switch currentSection {
+        case .family:
+            return 0
+        case .events:
+            return section == 0 ? 0 : 40
         }
     }
     
@@ -236,10 +380,7 @@ extension FamiliVC: UITableViewDelegate, UITableViewDataSource {
                 return 60
             }
         case .events:
-            switch indexPath.row {
-            case 0: return 50
-            default: return 120
-            }
+            return indexPath.section == 0 ? 50 : 76
         }
     }
     
@@ -253,7 +394,11 @@ extension FamiliVC: UITableViewDelegate, UITableViewDataSource {
                 navigateToMemberDetailsVC(member: member)
             }
         case .events:
-            break
+            if indexPath.section > 0 {
+                let monthIndex = indexPath.section - 1
+                let event = monthlyEvents[monthIndex].events[indexPath.row]
+                print("Selected event: \(event.eventName)")
+            }
         }
     }
 }
@@ -279,7 +424,7 @@ extension FamiliVC {
     private func navigateToCreateEventVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let vc = storyboard.instantiateViewController(withIdentifier: "CreateEventVC") as? CreateEventVC else { return }
-            vc.familyMembers = self.familyMembers
+        vc.familyMembers = self.familyMembers
         navigationController?.pushViewController(vc, animated: true)
     }
 }

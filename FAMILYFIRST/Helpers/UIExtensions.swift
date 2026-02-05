@@ -844,4 +844,25 @@ extension UIView {
         self.layer.addSublayer(shapeLayer)
     }
 }
-   
+extension UIImageView {
+    func loadImage(from url: URL, placeholder: UIImage? = nil) {
+        self.image = placeholder
+        
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Image load error: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let data = data, let image = UIImage(data: data) else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.image = image
+            }
+        }.resume()
+    }
+}

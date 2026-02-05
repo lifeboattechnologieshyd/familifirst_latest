@@ -1285,3 +1285,125 @@ struct EventResponseData: Decodable {
     let date: String
     let time: String
 }
+
+struct EventResponse: Codable {
+    let success: Bool
+    let errorCode: Int?
+    let description: String?
+    let total: Int?
+    let data: [EventData]?
+}
+
+struct Event: Decodable {
+    let id: String
+    let eventType: String?
+    let creator: String
+    let eventUsers: [String]
+    let eventInfo: [EventUserInfo]?
+    let date: String
+    let time: String
+    let eventName: String
+    let description: String?
+    let colourCode: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case eventType = "event_type"
+        case creator
+        case eventUsers = "event_users"
+        case eventInfo = "event_info"
+        case date, time
+        case eventName = "event_name"
+        case description
+        case colourCode = "colour_code"
+    }
+    
+    var eventDate: Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.date(from: date)
+    }
+    
+    var monthYearKey: String {
+        guard let date = eventDate else { return "Unknown" }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM yyyy"
+        return formatter.string(from: date)
+    }
+    
+    var monthOnlyKey: String {
+        guard let date = eventDate else { return "Unknown" }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM"
+        return formatter.string(from: date)
+    }
+    
+    var dateFormatted: String {
+        guard let date = eventDate else { return "" }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMM"
+        return formatter.string(from: date).uppercased()
+    }
+    
+    var daysToGo: String {
+        guard let eventDate = eventDate else { return "" }
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let event = calendar.startOfDay(for: eventDate)
+        let components = calendar.dateComponents([.day], from: today, to: event)
+        
+        if let days = components.day {
+            if days == 0 {
+                return "Today"
+            } else if days == 1 {
+                return "1 Day"
+            } else if days > 0 {
+                return "\(days) Days"
+            } else if days == -1 {
+                return "Yesterday"
+            } else {
+                return "\(abs(days)) Days Ago"
+            }
+        }
+        return ""
+    }
+    
+    var dayNumber: String {
+        guard let date = eventDate else { return "" }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd"
+        return formatter.string(from: date)
+    }
+    
+    var dayName: String {
+        guard let date = eventDate else { return "" }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE"
+        return formatter.string(from: date)
+    }
+}
+
+struct EventUserInfo: Decodable {
+    let userId: String
+    let username: String
+    let profileImage: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case userId = "user_id"
+        case username
+        case profileImage = "profile_image"
+    }
+}
+
+struct EventDisplayItem {
+    let event: Event
+    let showMonthHeader: Bool
+    let monthName: String
+}
+
+struct MonthEventsGroup {
+    let monthYear: String
+    let monthOnly: String
+    let events: [Event]
+    let sortOrder: Date
+}
