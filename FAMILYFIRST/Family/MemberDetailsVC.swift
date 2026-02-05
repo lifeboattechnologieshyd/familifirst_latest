@@ -13,12 +13,18 @@ class MemberDetailsVC: UIViewController {
     
     var member: FamilyMember?
     var notesList: [String] = []
+    var memberEvents: [Event] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.hidesBackButton = true
+        
         setupData()
         setupTableView()
+        
+        if memberEvents.isEmpty {
+            fetchMemberEvents()
+        }
     }
     
     private func setupData() {
@@ -38,6 +44,30 @@ class MemberDetailsVC: UIViewController {
         tblVw.register(UINib(nibName: "AddAnotherNoteCell", bundle: nil), forCellReuseIdentifier: "AddAnotherNoteCell")
         tblVw.register(UINib(nibName: "EventsCell", bundle: nil), forCellReuseIdentifier: "EventsCell")
         tblVw.register(UINib(nibName: "CreateEventCell", bundle: nil), forCellReuseIdentifier: "CreateEventCell")
+    }
+    
+    private func fetchMemberEvents() {
+        guard let memberId = member?.effectiveId else { return }
+        
+        let urlString = "\(API.GET_EVENTS)?event_users=\(memberId)"
+        
+        NetworkManager.shared.request(
+            urlString: urlString,
+            method: .GET
+        ) { [weak self] (result: Result<APIResponse<[Event]>, NetworkError>) in
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    if let events = response.data {
+                        self?.memberEvents = events.sorted { ($0.eventDate ?? Date()) < ($1.eventDate ?? Date()) }
+                        self?.tblVw.reloadData()
+                    }
+                case .failure(let error):
+                    print("Error fetching events: \(error)")
+                }
+            }
+        }
     }
     
     private func showToast(message: String) {
@@ -65,7 +95,9 @@ class MemberDetailsVC: UIViewController {
 extension MemberDetailsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1 + max(notesList.count, 1) + 3
+        let notesCount = max(notesList.count, 1)
+        let eventsCount = max(memberEvents.count, 1)
+        return 1 + notesCount + 1 + eventsCount + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -105,8 +137,25 @@ extension MemberDetailsVC: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
         
-        if indexPath.row == notesEndIndex + 2 {
-            return tableView.dequeueReusableCell(withIdentifier: "EventsCell", for: indexPath) as! EventsCell
+        let eventsCount = max(memberEvents.count, 1)
+        let eventsStartIndex = notesEndIndex + 2
+        let eventsEndIndex = eventsStartIndex + eventsCount - 1
+        
+        if indexPath.row >= eventsStartIndex && indexPath.row <= eventsEndIndex {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "EventsCell", for: indexPath) as! EventsCell
+            if memberEvents.isEmpty {
+                cell.eventnameLbl.text = "No events"
+                cell.dateLbl.text = ""
+                cell.dayLbl.text = ""
+                cell.img1.isHidden = true
+                cell.img2.isHidden = true
+                cell.img3.isHidden = true
+                cell.moreBtn.isHidden = true
+            } else {
+                let eventIndex = indexPath.row - eventsStartIndex
+                cell.configure(with: memberEvents[eventIndex])
+            }
+            return cell
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "CreateEventCell", for: indexPath) as! CreateEventCell
@@ -115,10 +164,19 @@ extension MemberDetailsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 { return 418 }
-        let notesEndIndex = max(notesList.count, 1)
+        
+        let notesCount = max(notesList.count, 1)
+        let notesEndIndex = notesCount
+        
         if indexPath.row <= notesEndIndex { return 80 }
         if indexPath.row == notesEndIndex + 1 { return 88 }
-        if indexPath.row == notesEndIndex + 2 { return 90 }
+        
+        let eventsCount = max(memberEvents.count, 1)
+        let eventsStartIndex = notesEndIndex + 2
+        let eventsEndIndex = eventsStartIndex + eventsCount - 1
+        
+        if indexPath.row >= eventsStartIndex && indexPath.row <= eventsEndIndex { return 90 }
+        
         return 40
     }
 }

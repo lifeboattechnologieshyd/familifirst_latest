@@ -1187,6 +1187,10 @@ struct FamilyMember: Decodable {
         case notes
         case status
     }
+    
+    var effectiveId: String? {
+        return memberId ?? creatorId
+    }
 }
 
 enum MobileType: Decodable {
@@ -1243,6 +1247,7 @@ struct AddFamilyMemberResponse: Decodable {
         case status
     }
 }
+
 struct CreateEventRequest: Codable {
     let event_type: String
     let event_name: String
@@ -1273,12 +1278,14 @@ class SelectableFamilyMember {
         self.member = member
     }
 }
+
 struct FamilyMemberModel {
     let id: String
     let username: String
     let relation: String
     let profileImage: String?
 }
+
 struct EventResponseData: Decodable {
     let id: String
     let event_name: String

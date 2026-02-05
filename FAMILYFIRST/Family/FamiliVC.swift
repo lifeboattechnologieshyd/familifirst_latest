@@ -22,6 +22,7 @@ class FamiliVC: UIViewController {
     private var selfMember: FamilyMember?
     
     private var monthlyEvents: [MonthEventsGroup] = []
+    private var allEvents: [Event] = []
     
     enum TabSection {
         case family
@@ -74,7 +75,7 @@ class FamiliVC: UIViewController {
                         self?.selfMember = data.first { $0.relationType?.lowercased() == "self" }
                         self?.familyMembers = data.filter { $0.relationType?.lowercased() != "self" }
                         
-                        if let selfMember = self?.selfMember, let userId = selfMember.memberId {
+                        if let selfMember = self?.selfMember, let userId = selfMember.effectiveId {
                             UserManager.shared.saveUserId(userId)
                         }
                         
@@ -101,6 +102,7 @@ class FamiliVC: UIViewController {
                 switch result {
                 case .success(let response):
                     if response.success, let events = response.data {
+                        self?.allEvents = events
                         self?.groupEventsByMonth(events)
                         self?.tblVw.reloadData()
                     }
@@ -140,6 +142,12 @@ class FamiliVC: UIViewController {
                 sortOrder: sortDates[key] ?? Date()
             )
         }.sorted { $0.sortOrder < $1.sortOrder }
+    }
+    
+    private func getEventsForMember(_ memberId: String) -> [Event] {
+        return allEvents.filter { event in
+            event.eventUsers.contains(memberId)
+        }.sorted { ($0.eventDate ?? Date()) < ($1.eventDate ?? Date()) }
     }
     
     private func showLoginVC() {
@@ -417,7 +425,13 @@ extension FamiliVC {
     private func navigateToMemberDetailsVC(member: FamilyMember) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let vc = storyboard.instantiateViewController(withIdentifier: "MemberDetailsVC") as? MemberDetailsVC else { return }
+        
         vc.member = member
+        
+        if let memberId = member.effectiveId {
+            vc.memberEvents = getEventsForMember(memberId)
+        }
+        
         navigationController?.pushViewController(vc, animated: true)
     }
     
