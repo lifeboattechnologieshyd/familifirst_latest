@@ -828,12 +828,12 @@ extension UITextField {
     }
 }
 extension UIView {
-    func addDashedBorder(color: UIColor = .lightGray, lineWidth: CGFloat = 1, cornerRadius: CGFloat = 8, dashPattern: [NSNumber] = [4, 2]) {
+    func addDashedBorder(color: UIColor = .lightGray, lineWidth: CGFloat = 1, cornerRadius: CGFloat = 8, dashPattern: [NSNumber] = [8, 4]) {
         // Remove previous dashed layer if it exists (to prevent stacking)
         self.layer.sublayers?.filter { $0.name == "DashedBorder" }.forEach { $0.removeFromSuperlayer() }
 
         let shapeLayer = CAShapeLayer()
-        shapeLayer.name = "DashedBorder" // Tag to identify it later
+        shapeLayer.name = "DashedBorder" 
         shapeLayer.strokeColor = color.cgColor
         shapeLayer.lineWidth = lineWidth
         shapeLayer.lineDashPattern = dashPattern

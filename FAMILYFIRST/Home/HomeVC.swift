@@ -1,4 +1,3 @@
-//
 //  HomeVC.swift
 //  FamilyFirst
 //
@@ -9,11 +8,48 @@ import UIKit
 class HomeVC: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    
+    private var upcomingEvents: [Event] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         registerCells()
+        fetchUpcomingEvents()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if UserManager.shared.isLoggedIn {
+            fetchUpcomingEvents()
+        }
+    }
+    
+    private func fetchUpcomingEvents() {
+        guard let userId = UserManager.shared.userId else { return }
+        
+        let urlString = "\(API.GET_EVENTS)?event_users=\(userId)"
+        
+        NetworkManager.shared.request(
+            urlString: urlString,
+            method: .GET
+        ) { [weak self] (result: Result<APIResponse<[Event]>, NetworkError>) in
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    if response.success, let events = response.data {
+                        self?.upcomingEvents = Array(events
+                            .filter { ($0.eventDate ?? Date()) >= Date() }
+                            .sorted { ($0.eventDate ?? Date()) < ($1.eventDate ?? Date()) }
+                            .prefix(7))
+                        self?.tableView.reloadData()
+                    }
+                case .failure(let error):
+                    print("Error fetching events: \(error)")
+                }
+            }
+        }
     }
 
     private func setupTableView() {
@@ -85,17 +121,6 @@ class HomeVC: UIViewController {
         }
     }
     
-//    private func navigateToVocabBeesVC() {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let vc = storyboard.instantiateViewController(withIdentifier: "VocabBeesViewController") as! VocabBeesViewController
-//        if let navController = navigationController {
-//            navController.pushViewController(vc, animated: true)
-//        } else {
-//            vc.modalPresentationStyle = .fullScreen
-//            present(vc, animated: true)
-//        }
-//    }
-    
     private func navigateToProsperityTipsVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "ProsperityTipsViewController") as! ProsperityTipsViewController
@@ -117,16 +142,17 @@ class HomeVC: UIViewController {
             present(vc, animated: true)
         }
     }
+    
     private func navigateToAssessmentsVC() {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "AssessmentsViewController") as! AssessmentsViewController
-            if let navController = navigationController {
-                navController.pushViewController(vc, animated: true)
-            } else {
-                vc.modalPresentationStyle = .fullScreen
-                present(vc, animated: true)
-            }
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "AssessmentsViewController") as! AssessmentsViewController
+        if let navController = navigationController {
+            navController.pushViewController(vc, animated: true)
+        } else {
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
         }
+    }
     
     private func navigateToOfflineEventsVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -139,6 +165,7 @@ class HomeVC: UIViewController {
             present(vc, animated: true)
         }
     }
+    
     private func navigateToParentingTipsVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "ParentingTipsViewController") as! ParentingTipsViewController
@@ -149,6 +176,7 @@ class HomeVC: UIViewController {
             present(vc, animated: true)
         }
     }
+    
     private func showLogoutAlert() {
         let alert = UIAlertController(
             title: "Logout",
@@ -169,10 +197,7 @@ class HomeVC: UIViewController {
     }
 
     private func performLogout() {
-        // Clear user data
         UserManager.shared.logout()
-        
-        // Navigate to Login screen
         navigateToLogin()
     }
 
@@ -185,11 +210,8 @@ class HomeVC: UIViewController {
             window.rootViewController = UINavigationController(rootViewController: loginVC)
             window.makeKeyAndVisible()
             
-            // Add transition animation
             UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil)
         }
-        
-        
     }
 }
 
@@ -208,6 +230,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "CalenderCell", for: indexPath) as! CalenderCell
+            cell.events = upcomingEvents
             cell.didTapViewAll = { [weak self] in
                 self?.navigateToCalenderVC()
             }
@@ -246,17 +269,20 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             cell.didTapParentingTips = { [weak self] in
                 self?.navigateToParentingTipsVC()
             }
+            
             cell.didTapAssessments = { [weak self] in
                 self?.navigateToAssessmentsVC()
             }
             
             return cell
+            
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ShopCell", for: indexPath) as! ShopCell
             cell.didTapLogout = { [weak self] in
                 self?.showLogoutAlert()
             }
             return cell
+            
         default:
             return UITableViewCell()
         }
@@ -264,7 +290,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
-        case 0: return 114
+        case 0: return 96
         case 1: return 112
         case 2: return 712
         case 3: return 330

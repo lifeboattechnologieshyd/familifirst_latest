@@ -4,7 +4,6 @@
 //
 //  Created by Lifeboat on 10/01/26.
 //
-
 import UIKit
 
 class CalenderCollectionCell: UICollectionViewCell {
@@ -18,8 +17,16 @@ class CalenderCollectionCell: UICollectionViewCell {
         bgVw.addCardShadow()
         bgVw.layer.masksToBounds = true
     }
-
-  
-        // Configure the view for the selected state
-    }
     
+    func configure(with event: Event) {
+        calenderLbl.text = event.eventName
+        
+        if let eventDate = event.eventDate {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd MMM"
+            dateLbl.text = formatter.string(from: eventDate)
+        } else {
+            dateLbl.text = event.dateFormatted
+        }
+    }
+}

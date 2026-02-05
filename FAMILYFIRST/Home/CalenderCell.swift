@@ -15,6 +15,12 @@ class CalenderCell: UITableViewCell {
     var didTapViewAll: (() -> Void)?
     var didSelectCalenderItem: ((Int) -> Void)?
     
+    var events: [Event] = [] {
+        didSet {
+            colVw.reloadData()
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -33,6 +39,7 @@ class CalenderCell: UITableViewCell {
         super.prepareForReuse()
         didTapViewAll = nil
         didSelectCalenderItem = nil
+        events = []
     }
     
     @objc private func viewAllBtnTapped() {
@@ -46,7 +53,7 @@ extension CalenderCell: UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return 7
+        return min(events.count, 7)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -56,6 +63,11 @@ extension CalenderCell: UICollectionViewDelegate,
             withReuseIdentifier: "CalenderCollectionCell",
             for: indexPath
         ) as! CalenderCollectionCell
+        
+        if indexPath.item < events.count {
+            let event = events[indexPath.item]
+            cell.configure(with: event)
+        }
         
         return cell
     }

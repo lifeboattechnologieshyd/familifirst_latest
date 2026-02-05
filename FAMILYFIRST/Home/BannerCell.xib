@@ -1,127 +1,152 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="114" id="KGk-i7-Jjw" customClass="BannerCell" customModule="FamilyFirst" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="380" height="114"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="97" id="KGk-i7-Jjw" customClass="BannerCell" customModule="FAMILYFIRST" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="376" height="97"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="380" height="114"/>
+                <rect key="frame" x="0.0" y="0.0" width="376" height="97"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="banner" translatesAutoresizingMaskIntoConstraints="NO" id="jza-F4-z82">
-                        <rect key="frame" x="8" y="16" width="364" height="90"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SDV-Kd-VYm">
+                        <rect key="frame" x="16" y="8" width="344" height="80"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="banner 1" translatesAutoresizingMaskIntoConstraints="NO" id="vdQ-Ni-WQQ">
+                                <rect key="frame" x="8" y="0.0" width="336" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="YzV-qL-xH0"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="calender_date_icon" translatesAutoresizingMaskIntoConstraints="NO" id="inX-c3-u3y">
+                                <rect key="frame" x="8" y="16" width="44" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="eXR-DK-bPc"/>
+                                    <constraint firstAttribute="height" constant="60" id="zT4-rJ-SvE"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8tD-zS-8LA">
+                                <rect key="frame" x="20" y="24" width="22" height="12"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="22" id="UXj-cd-OOT"/>
+                                    <constraint firstAttribute="height" constant="12" id="c9u-cz-tdr"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="SEP">
+                                        <attributes>
+                                            <color key="NSColor" red="0.98908084630000004" green="0.94956141709999997" blue="0.31580013039999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <font key="NSFont" size="9" name="Lexend-SemiBold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ThX-nP-gwu">
+                                <rect key="frame" x="22" y="38" width="18" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="nsy-16-BMc"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="20">
+                                        <attributes>
+                                            <font key="NSFont" size="16" name="Lexend-Regular"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OwW-kh-iG7">
+                                <rect key="frame" x="60.000000000000014" y="12" width="251.33333333333337" height="18"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="f9s-NJ-kHR"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="DAILY LIFESKILLS VIDEO - TODAY">
+                                        <attributes>
+                                            <color key="NSColor" red="0.2367905974" green="0.51738053559999997" blue="0.14664050940000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <font key="NSFont" size="14" name="Lexend-SemiBold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <color key="highlightedColor" systemColor="viewFlipsideBackgroundColor"/>
+                                <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <size key="shadowOffset" width="2" height="2"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KgN-AQ-zoW">
+                                <rect key="frame" x="60" y="30" width="184" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="wCp-sF-Q0p"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="Today’s Prompt: Create a Vision Board with Family and implement the ultimate….">
+                                        <attributes>
+                                            <color key="NSColor" red="0.24749290939999999" green="0.3518002033" blue="0.57269883160000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <font key="NSFont" size="12" name="Lexend-Medium"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.87738651040000004" green="0.9210284352" blue="0.98992258310000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="90" id="i85-vI-I6c"/>
+                            <constraint firstAttribute="trailing" secondItem="KgN-AQ-zoW" secondAttribute="trailing" constant="100" id="78b-zs-Lhh"/>
+                            <constraint firstItem="KgN-AQ-zoW" firstAttribute="top" secondItem="OwW-kh-iG7" secondAttribute="bottom" id="7ZO-CP-9EX"/>
+                            <constraint firstAttribute="trailing" secondItem="vdQ-Ni-WQQ" secondAttribute="trailing" id="7kN-wK-vcl"/>
+                            <constraint firstItem="KgN-AQ-zoW" firstAttribute="leading" secondItem="OwW-kh-iG7" secondAttribute="leading" id="8F5-Qc-Vwf"/>
+                            <constraint firstItem="vdQ-Ni-WQQ" firstAttribute="leading" secondItem="SDV-Kd-VYm" secondAttribute="leading" constant="8" id="AU1-b8-VQG"/>
+                            <constraint firstAttribute="bottom" secondItem="vdQ-Ni-WQQ" secondAttribute="bottom" id="QEh-Cc-E7m"/>
+                            <constraint firstItem="ThX-nP-gwu" firstAttribute="centerX" secondItem="8tD-zS-8LA" secondAttribute="centerX" id="Thp-mX-TWC"/>
+                            <constraint firstItem="8tD-zS-8LA" firstAttribute="top" secondItem="SDV-Kd-VYm" secondAttribute="top" constant="24" id="UTW-fM-DM5"/>
+                            <constraint firstItem="ThX-nP-gwu" firstAttribute="top" secondItem="8tD-zS-8LA" secondAttribute="bottom" constant="2" id="V5T-od-vxn"/>
+                            <constraint firstItem="vdQ-Ni-WQQ" firstAttribute="top" secondItem="SDV-Kd-VYm" secondAttribute="top" id="a2o-Yi-jQj"/>
+                            <constraint firstItem="OwW-kh-iG7" firstAttribute="top" secondItem="SDV-Kd-VYm" secondAttribute="top" constant="12" id="bjb-rn-ior"/>
+                            <constraint firstItem="OwW-kh-iG7" firstAttribute="leading" secondItem="inX-c3-u3y" secondAttribute="trailing" constant="8" id="eWf-Pn-aP2"/>
+                            <constraint firstItem="inX-c3-u3y" firstAttribute="top" secondItem="SDV-Kd-VYm" secondAttribute="top" constant="16" id="gtI-Z2-RNz"/>
+                            <constraint firstItem="inX-c3-u3y" firstAttribute="leading" secondItem="SDV-Kd-VYm" secondAttribute="leading" constant="8" id="vDR-Y7-FrL"/>
+                            <constraint firstItem="8tD-zS-8LA" firstAttribute="leading" secondItem="SDV-Kd-VYm" secondAttribute="leading" constant="20" id="wvt-Zp-H4X"/>
+                            <constraint firstAttribute="height" constant="80" id="zyg-GZ-pWk"/>
                         </constraints>
-                    </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="calender 1" translatesAutoresizingMaskIntoConstraints="NO" id="0pc-cM-y3P">
-                        <rect key="frame" x="28" y="28" width="70" height="70"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="70" id="BXN-Li-aoQ"/>
-                            <constraint firstAttribute="height" constant="70" id="gbG-fJ-kZl"/>
-                        </constraints>
-                    </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pgK-po-huH">
-                        <rect key="frame" x="50" y="36" width="26.666666666666671" height="18"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="18" id="g43-TK-e7R"/>
-                        </constraints>
-                        <attributedString key="attributedText">
-                            <fragment content="JAN">
-                                <attributes>
-                                    <color key="NSColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <font key="NSFont" size="14" name="Lexend-SemiBold"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                        </attributedString>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qEz-Ye-UaB">
-                        <rect key="frame" x="45.333333333333336" y="60" width="36.000000000000007" height="28"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="36" id="hnX-N6-CZW"/>
-                        </constraints>
-                        <attributedString key="attributedText">
-                            <fragment content="14">
-                                <attributes>
-                                    <color key="NSColor" red="0.024009627525252486" green="0.024009627525252486" blue="0.024009627525252486" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <font key="NSFont" size="28" name="Rockwell-Bold"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                        </attributedString>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EB4-mX-9ee">
-                        <rect key="frame" x="110" y="28" width="244" height="18"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="18" id="UN8-6h-OWg"/>
-                        </constraints>
-                        <attributedString key="attributedText">
-                            <fragment content="FAMILY LIFE SKILLS CALENDAR">
-                                <attributes>
-                                    <color key="NSColor" red="0.99534406565656564" green="0.99534406565656564" blue="0.99534406565656564" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <font key="NSFont" size="14" name="Lexend-SemiBold"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                        </attributedString>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AcL-xa-4ma">
-                        <rect key="frame" x="110" y="50" width="244" height="40"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="40" id="Rkw-05-whn"/>
-                        </constraints>
-                        <attributedString key="attributedText">
-                            <fragment content="Today’s Prompt: Create a Vision Board for 2023 with your kids an…">
-                                <attributes>
-                                    <color key="NSColor" red="0.99534406565656564" green="0.99534406565656564" blue="0.99534406565656564" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <font key="NSFont" size="14" name="Lexend-Regular"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                        </attributedString>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="qEz-Ye-UaB" firstAttribute="top" secondItem="pgK-po-huH" secondAttribute="bottom" constant="6" id="4pX-2n-VFn"/>
-                    <constraint firstItem="EB4-mX-9ee" firstAttribute="top" secondItem="0pc-cM-y3P" secondAttribute="top" id="5ql-fB-WxV"/>
-                    <constraint firstItem="pgK-po-huH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="36" id="7M8-zH-r4t"/>
-                    <constraint firstItem="AcL-xa-4ma" firstAttribute="leading" secondItem="EB4-mX-9ee" secondAttribute="leading" id="8Ha-CR-8jT"/>
-                    <constraint firstItem="pgK-po-huH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="50" id="ADN-T5-NNn"/>
-                    <constraint firstAttribute="trailing" secondItem="jza-F4-z82" secondAttribute="trailing" constant="8" id="BMF-cz-pWN"/>
-                    <constraint firstItem="EB4-mX-9ee" firstAttribute="leading" secondItem="0pc-cM-y3P" secondAttribute="trailing" constant="12" id="CDc-l6-E3g"/>
-                    <constraint firstItem="AcL-xa-4ma" firstAttribute="top" secondItem="EB4-mX-9ee" secondAttribute="bottom" constant="4" id="Vof-1n-2EA"/>
-                    <constraint firstAttribute="trailing" secondItem="EB4-mX-9ee" secondAttribute="trailing" constant="26" id="XFz-dV-TjB"/>
-                    <constraint firstItem="jza-F4-z82" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="bUO-Oy-XQH"/>
-                    <constraint firstItem="qEz-Ye-UaB" firstAttribute="centerX" secondItem="pgK-po-huH" secondAttribute="centerX" id="eZt-An-dKq"/>
-                    <constraint firstAttribute="trailing" secondItem="AcL-xa-4ma" secondAttribute="trailing" constant="26" id="jT4-3p-Ca5"/>
-                    <constraint firstItem="0pc-cM-y3P" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="28" id="vcV-WM-4Hg"/>
-                    <constraint firstItem="0pc-cM-y3P" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="28" id="wK6-CW-xCp"/>
-                    <constraint firstItem="jza-F4-z82" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="x0f-0J-Tzo"/>
+                    <constraint firstItem="SDV-Kd-VYm" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="81I-9x-xgS"/>
+                    <constraint firstItem="SDV-Kd-VYm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="913-pd-jAI"/>
+                    <constraint firstAttribute="trailing" secondItem="SDV-Kd-VYm" secondAttribute="trailing" constant="16" id="l5L-UA-FQk"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="dateLbl" destination="qEz-Ye-UaB" id="88X-nq-atz"/>
-                <outlet property="monthLbl" destination="pgK-po-huH" id="8mh-dT-cEg"/>
+                <outlet property="dateLbl" destination="ThX-nP-gwu" id="j6n-Vm-gsq"/>
+                <outlet property="monthLbl" destination="8tD-zS-8LA" id="UhF-F2-SQX"/>
             </connections>
-            <point key="canvasLocation" x="175.57251908396947" y="13.380281690140846"/>
+            <point key="canvasLocation" x="172.51908396946564" y="7.394366197183099"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="banner" width="461.33334350585938" height="145.33332824707031"/>
-        <image name="calender 1" width="107.33333587646484" height="104"/>
+        <image name="banner 1" width="682.66668701171875" height="170.66667175292969"/>
+        <image name="calender_date_icon" width="62" height="58"/>
+        <systemColor name="viewFlipsideBackgroundColor">
+            <color red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

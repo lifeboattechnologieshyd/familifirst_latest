@@ -15,19 +15,15 @@ class CreateEventVC: UIViewController {
     @IBOutlet weak var createeventBtn: UIButton!
     
     var familyMembers: [FamilyMember] = []
-    
+    var onEventCreated: (() -> Void)?
     var selectedUserIds: Set<String> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("CreateEventVC Loaded. Family Members Count: \(familyMembers.count)")
-        
+                
         setupTableView()
         topVw.addBottomShadow()
-        
         createeventBtn.addTarget(self, action: #selector(createEventTapped), for: .touchUpInside)
-        
         tblVw.reloadData()
     }
     

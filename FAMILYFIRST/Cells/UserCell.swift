@@ -13,6 +13,10 @@ class UserCell: UITableViewCell {
     @IBOutlet weak var userImg: UIImageView!
     @IBOutlet weak var shareBTn: UIButton!
     @IBOutlet weak var referVw: UIView!
+    @IBOutlet weak var youLbl: UILabel!
+    @IBOutlet weak var copyLbl: UILabel!
+    @IBOutlet weak var shareLbl: UILabel!
+    @IBOutlet weak var referLbl: UILabel!
     @IBOutlet weak var referalcodeLbl: UILabel!
     @IBOutlet weak var editBtn: UIButton!
     @IBOutlet weak var bgVw: UIView!
@@ -27,20 +31,22 @@ class UserCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         referVw.addDashedBorder()
+        shareLbl.font = UIFont(name: "Lexend-Regular", size: 14)
+        copyLbl.font = UIFont(name: "Lexend-Light", size: 14)
+        youLbl.font = UIFont(name: "Lexend-Light", size: 14)
+        referLbl.font = UIFont(name: "Lexend-Light", size: 14)
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
     func configure(with member: FamilyMember) {
         nameLbl.text = member.fullName ?? "User"
         
-        // Check if string exists AND is not empty
         if let imageUrl = member.profileImage, !imageUrl.isEmpty, let url = URL(string: imageUrl) {
             loadImage(from: url)
         } else {
-            // Set your default asset image here
             userImg.image = UIImage(named: "Picture")
         }
     }

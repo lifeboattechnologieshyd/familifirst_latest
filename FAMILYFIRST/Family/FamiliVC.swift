@@ -381,7 +381,7 @@ extension FamiliVC: UITableViewDelegate, UITableViewDataSource {
         switch currentSection {
         case .family:
             if indexPath.row == 0 {
-                return 176
+                return 166
             } else if indexPath.row <= familyMembers.count {
                 return 84
             } else {
