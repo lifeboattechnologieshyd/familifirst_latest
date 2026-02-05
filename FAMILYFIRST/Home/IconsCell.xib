@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUV-34-Rg2">
-                        <rect key="frame" x="157.33333333333334" y="16" width="105.33333333333334" height="20"/>
+                        <rect key="frame" x="166.66666666666666" y="16" width="87" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="cJr-gI-UhY"/>
                         </constraints>
@@ -38,6 +38,9 @@
                                 <rect key="frame" x="42" y="12" width="84" height="71.666666666666671"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="myfamily"/>
+                                <connections>
+                                    <action selector="myfamiltBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="coA-VT-yE3"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rf0-AG-MiF">
                                 <rect key="frame" x="294" y="12" width="84" height="71.666666666666671"/>
@@ -48,6 +51,9 @@
                                 <rect key="frame" x="168" y="12" width="84" height="71.666666666666671"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="myevents"/>
+                                <connections>
+                                    <action selector="myeventsbtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="kfS-DV-dC9"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NeJ-0s-YO3">
                                 <rect key="frame" x="61" y="91.666666666666657" width="46" height="38"/>
@@ -136,7 +142,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pND-8B-YXA">
-                        <rect key="frame" x="154.33333333333334" y="202" width="111.66666666666666" height="20"/>
+                        <rect key="frame" x="156.33333333333334" y="202" width="107.33333333333334" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="bIe-XI-Rds"/>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="ebq-33-QHT"/>
@@ -258,7 +264,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vLe-Jq-Q7Z">
-                        <rect key="frame" x="146.33333333333334" y="388" width="127.33333333333334" height="20"/>
+                        <rect key="frame" x="149" y="388" width="122" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="Zld-MN-nYj"/>
                         </constraints>
@@ -563,7 +569,8 @@
                 <outlet property="coursesBtn" destination="apL-bY-sT2" id="zq8-Ub-3SU"/>
                 <outlet property="edutainmentBtn" destination="1hU-yL-Ptg" id="wlD-bX-clq"/>
                 <outlet property="feelsBtn" destination="hay-dk-6F3" id="XRb-hr-qcA"/>
-                <outlet property="offlineeventsBtn" destination="Fhp-CK-VEY" id="egL-rk-ZBT"/>
+                <outlet property="myeventsbtn" destination="hnD-w3-vCR" id="iYB-OQ-tuS"/>
+                <outlet property="myfamiltBtn" destination="G4A-8Q-lMi" id="oVA-Pf-154"/>
                 <outlet property="parentingTipsBtn" destination="tCe-sI-DSw" id="6ix-pD-qeG"/>
                 <outlet property="prosperitytipsBtn" destination="pH8-KM-Onz" id="8b5-nW-gP1"/>
                 <outlet property="storeBtn" destination="LKG-It-zEf" id="dth-Ry-Ej1"/>

@@ -30,10 +30,10 @@ class FamiliVC: UIViewController {
     }
     
     private var currentSection: TabSection = .family
+    var initialSection: TabSection = .family
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.hidesBackButton = true
         
         setupTableView()
         setupLottieAnimations()
@@ -42,21 +42,38 @@ class FamiliVC: UIViewController {
         familybgVw.addCardShadow()
         eventsbgVw.addCardShadow()
         
+        currentSection = initialSection
         updateSelectionUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.tabBarController?.tabBar.isHidden = false
+        
         familyLottieView?.play()
         eventsLottieView?.play()
         
+        currentSection = initialSection
+        updateSelectionUI()
+        tblVw.reloadData()
+        
         checkLoginStatus()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     private func checkLoginStatus() {
         if UserManager.shared.isLoggedIn {
             fetchFamilyMembers()
-            fetchEvents()
+            if currentSection == .events {
+                fetchEvents()
+            }
         } else {
             showLoginVC()
         }
@@ -219,6 +236,7 @@ class FamiliVC: UIViewController {
     @objc private func familyTapped() {
         guard currentSection != .family else { return }
         currentSection = .family
+        initialSection = .family
         updateSelectionUI()
         tblVw.reloadData()
     }
@@ -226,6 +244,7 @@ class FamiliVC: UIViewController {
     @objc private func eventsTapped() {
         guard currentSection != .events else { return }
         currentSection = .events
+        initialSection = .events
         updateSelectionUI()
         fetchEvents()
         tblVw.reloadData()
@@ -419,6 +438,7 @@ extension FamiliVC {
         vc.onMemberAdded = { [weak self] in
             self?.fetchFamilyMembers()
         }
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -432,6 +452,7 @@ extension FamiliVC {
             vc.memberEvents = getEventsForMember(memberId)
         }
         
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -439,6 +460,7 @@ extension FamiliVC {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let vc = storyboard.instantiateViewController(withIdentifier: "CreateEventVC") as? CreateEventVC else { return }
         vc.familyMembers = self.familyMembers
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
 }

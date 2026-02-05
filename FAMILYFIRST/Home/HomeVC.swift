@@ -20,6 +20,8 @@ class HomeVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        self.tabBarController?.tabBar.isHidden = false
         if UserManager.shared.isLoggedIn {
             fetchUpcomingEvents()
         }
@@ -177,6 +179,34 @@ class HomeVC: UIViewController {
         }
     }
     
+    private func navigateToFamilyVC() {
+        if let tabBarController = self.tabBarController {
+            for (index, viewController) in (tabBarController.viewControllers ?? []).enumerated() {
+                if let navController = viewController as? UINavigationController,
+                   let familiVC = navController.viewControllers.first as? FamiliVC {
+                    familiVC.initialSection = .family
+                    tabBarController.selectedIndex = index
+                    navController.popToRootViewController(animated: false)
+                    return
+                }
+            }
+        }
+    }
+    
+    private func navigateToEventsVC() {
+        if let tabBarController = self.tabBarController {
+            for (index, viewController) in (tabBarController.viewControllers ?? []).enumerated() {
+                if let navController = viewController as? UINavigationController,
+                   let familiVC = navController.viewControllers.first as? FamiliVC {
+                    familiVC.initialSection = .events
+                    tabBarController.selectedIndex = index
+                    navController.popToRootViewController(animated: false)
+                    return
+                }
+            }
+        }
+    }
+    
     private func showLogoutAlert() {
         let alert = UIAlertController(
             title: "Logout",
@@ -262,16 +292,20 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
                 self?.navigateToEdStoreVC()
             }
             
-            cell.didTapOfflineEvents = { [weak self] in
-                self?.navigateToOfflineEventsVC()
-            }
-            
             cell.didTapParentingTips = { [weak self] in
                 self?.navigateToParentingTipsVC()
             }
             
             cell.didTapAssessments = { [weak self] in
                 self?.navigateToAssessmentsVC()
+            }
+            
+            cell.didTapMyFamily = { [weak self] in
+                self?.navigateToFamilyVC()
+            }
+            
+            cell.didTapMyEvents = { [weak self] in
+                self?.navigateToEventsVC()
             }
             
             return cell

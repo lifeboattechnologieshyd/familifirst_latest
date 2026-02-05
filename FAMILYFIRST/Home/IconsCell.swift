@@ -13,9 +13,10 @@ class IconsCell: UITableViewCell {
     @IBOutlet weak var feelsBtn: UIButton!
     @IBOutlet weak var edutainmentBtn: UIButton!
     @IBOutlet weak var storeBtn: UIButton!
+    @IBOutlet weak var myfamiltBtn: UIButton!
+    @IBOutlet weak var myeventsbtn: UIButton!
     @IBOutlet weak var assessmentsBtn: UIButton!
     @IBOutlet weak var prosperitytipsBtn: UIButton!
-    @IBOutlet weak var offlineeventsBtn: UIButton!
     @IBOutlet weak var parentingTipsBtn: UIButton!
     
     var didTapCourses: (() -> Void)?
@@ -24,9 +25,10 @@ class IconsCell: UITableViewCell {
     var didTapVocabBee: (() -> Void)?
     var didTapProsperityTips: (() -> Void)?
     var didTapStore: (() -> Void)?
-    var didTapOfflineEvents: (() -> Void)?
     var didTapParentingTips: (() -> Void)?
     var didTapAssessments: (() -> Void)?
+    var didTapMyFamily: (() -> Void)?
+    var didTapMyEvents: (() -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -41,9 +43,10 @@ class IconsCell: UITableViewCell {
         didTapVocabBee = nil
         didTapProsperityTips = nil
         didTapStore = nil
-        didTapOfflineEvents = nil
         didTapParentingTips = nil
         didTapAssessments = nil
+        didTapMyFamily = nil
+        didTapMyEvents = nil
     }
 
     @IBAction func coursesBtnTapped(_ sender: UIButton) {
@@ -65,10 +68,6 @@ class IconsCell: UITableViewCell {
     @IBAction func storeBtnTapped(_ sender: UIButton) {
         didTapStore?()
     }
-
-    @IBAction func offlineEventsBtnTapped(_ sender: UIButton) {
-        didTapOfflineEvents?()
-    }
     
     @IBAction func parentingTipsBtnTapped(_ sender: UIButton) {
         didTapParentingTips?()
@@ -76,5 +75,13 @@ class IconsCell: UITableViewCell {
     
     @IBAction func assessmentsBtnTapped(_ sender: UIButton) {
         didTapAssessments?()
+    }
+    
+    @IBAction func myeventsbtnTapped(_ sender: UIButton) {
+        didTapMyEvents?()
+    }
+    
+    @IBAction func myfamiltBtnTapped(_ sender: UIButton) {
+        didTapMyFamily?()
     }
 }
