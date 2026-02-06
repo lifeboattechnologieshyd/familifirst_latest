@@ -110,8 +110,8 @@
                         <state key="normal" title="Button"/>
                         <buttonConfiguration key="configuration" style="plain" image="calender"/>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12-12-2002" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Rf-bK-5CI">
-                        <rect key="frame" x="64" y="145" width="90" height="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="— / — / ——" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Rf-bK-5CI">
+                        <rect key="frame" x="63.999999999999993" y="145" width="85.333333333333314" height="18"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="18" id="ii6-tn-hat"/>
                         </constraints>
@@ -128,8 +128,8 @@
                         <state key="normal" title="Button"/>
                         <buttonConfiguration key="configuration" style="plain" image="clock"/>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nye-Am-9jK">
-                        <rect key="frame" x="244.66666666666666" y="145" width="42.666666666666657" height="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="__ : __" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nye-Am-9jK">
+                        <rect key="frame" x="244.66666666666663" y="145" width="50" height="18"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="18" id="2bd-nU-DEW"/>
                             <constraint firstAttribute="height" constant="18" id="Sxc-mA-8B9"/>
@@ -267,15 +267,7 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="100" id="m7b-Ie-nkS"/>
                         </constraints>
-                        <attributedString key="attributedText">
-                            <fragment content="Add more details about your Upcoming Event">
-                                <attributes>
-                                    <color key="NSColor" systemColor="labelColor"/>
-                                    <font key="NSFont" size="14" name="Lexend-Light"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                        </attributedString>
+                        <attributedString key="attributedText"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -415,9 +407,6 @@
     <resources>
         <image name="calender" width="21.333333969116211" height="21.333333969116211"/>
         <image name="clock" width="21.333333969116211" height="21.333333969116211"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

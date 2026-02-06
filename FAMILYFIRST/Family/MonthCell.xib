@@ -81,7 +81,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="giU-1e-NFX">
-                                <rect key="frame" x="251" y="6" width="50" height="15"/>
+                                <rect key="frame" x="251" y="6" width="50" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="giO-Ms-bjU"/>
                                 </constraints>
@@ -96,7 +96,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y7m-OI-4xZ">
-                                <rect key="frame" x="277" y="27" width="24" height="24"/>
+                                <rect key="frame" x="277" y="26" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="nQ6-aM-Fnn"/>
                                     <constraint firstAttribute="width" constant="24" id="xfM-RI-Atq"/>
@@ -151,7 +151,9 @@
                 <outlet property="dayLbl" destination="giU-1e-NFX" id="4vy-JD-aCA"/>
                 <outlet property="eventLbl" destination="Ruu-TM-dkI" id="ahP-TM-v8S"/>
                 <outlet property="imgVw" destination="fY5-Py-Y2p" id="hxM-oR-Lgv"/>
+                <outlet property="leftVw" destination="FlA-yi-CQ2" id="c4K-ku-DL8"/>
                 <outlet property="mainVw" destination="2VC-8d-rIi" id="LuU-E7-kAw"/>
+                <outlet property="moreBtn" destination="Y7m-OI-4xZ" id="SNX-c1-XHy"/>
             </connections>
             <point key="canvasLocation" x="165.64885496183206" y="120.77464788732395"/>
         </tableViewCell>
