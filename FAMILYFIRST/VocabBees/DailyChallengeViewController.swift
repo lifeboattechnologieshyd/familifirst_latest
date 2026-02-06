@@ -23,6 +23,7 @@ class DailyChallengeViewController: UIViewController {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var btnBack: UIButton!
     @IBOutlet weak var audioButtonsStackView: UIStackView!
+    @IBOutlet weak var nextWord: UIButton!
     
     @IBOutlet weak var timerLbl: UILabel!
     @IBOutlet weak var congratsLbl: UILabel!
@@ -61,6 +62,10 @@ class DailyChallengeViewController: UIViewController {
         slider.minimumValue = 0
         slider.maximumValue = 10
         viewLottie.isHidden = true
+        
+        if #available(iOS 15.0, *) {
+            nextWord.configuration = nil
+        }
         
         if let date = selectedDate {
             lblTitle.text = "Daily Challenge - \(date.date.fromyyyyMMddtoDDMMYYYY())"
@@ -289,7 +294,7 @@ class DailyChallengeViewController: UIViewController {
         guard hasValidWord else { return }
         
         let payload: [String: Any] = [
-            "user_answer": "",
+            "answer": "",
             "word_id": words[currentWordIndex].id,
             "grade_id": selectedGradeId
         ]
@@ -317,7 +322,7 @@ class DailyChallengeViewController: UIViewController {
         let enteredText = txtField.text ?? ""
         
         let payload: [String: Any] = [
-            "user_answer": enteredText,
+            "answer": enteredText,
             "word_id": words[currentWordIndex].id,
             "grade_id": selectedGradeId
         ]

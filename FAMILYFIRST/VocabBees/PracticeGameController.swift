@@ -21,6 +21,7 @@ class PracticeGameController: UIViewController {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var btnBack: UIButton!
     @IBOutlet weak var lblWordsCount: UILabel!
+    @IBOutlet weak var nextWord: UIButton!
     
     @IBOutlet weak var timerLbl: UILabel!
     @IBOutlet weak var congratsLbl: UILabel!
@@ -43,6 +44,8 @@ class PracticeGameController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        nextWord.tintColor = UIColor(red: 254/255, green: 242/255, blue: 0/255, alpha: 1.0)
+
 
         let gradeName = selectedGradeName.isEmpty ? "Practice" : selectedGradeName
         lblTitle.text = "Practice | \(gradeName)"
