@@ -280,6 +280,11 @@ struct API {
     static let FAMILY_MASTER = BASE_URL + "family/familymaster"
     static let CREATE_EVENT = BASE_URL + "event/event"
     static let GET_EVENTS = "\(BASE_URL)event/get/event"
+    static let VOCABEE_WORDS_HISTORY = "\(BASE_URL)vocabee/words/history"
+    static let VOCABEE_ATTEMPT_WORDS = "\(BASE_URL)vocabee/attempt/words"
+    static let VOCABEE_DAILY_HISTORY = "\(BASE_URL)vocabee/daily/history"
+}
+
 
     
 
@@ -292,4 +297,4 @@ struct API {
 
 
    
-}
+

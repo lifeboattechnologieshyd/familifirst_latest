@@ -567,25 +567,14 @@ struct AddressModel: Codable {
 }
 
 
-// MARK: VocabBee Models
 struct VocabBeeStatistics: Codable {
-    let totalQuestions: Int?
-    let correctAnswers: Int?
-    let wrongAnswers: Int?
-    let totalPoints: Int?
-    let lastAnswerPoints: Int?
-    let level: Int?
-    let totalWords: Int?
-    
-    enum CodingKeys: String, CodingKey {
-        case totalQuestions = "total_questions"
-        case correctAnswers = "correct_answers"
-        case wrongAnswers = "wrong_answers"
-        case totalPoints = "total_points"
-        case lastAnswerPoints = "last_answer_points"
-        case level
-        case totalWords = "total_words"
-    }
+    var total_questions: Int?
+    var correct_answers: Int?
+    var wrong_answers: Int?
+    var total_points: Int?
+    var last_answer_points: Int?
+    var level: Int?
+    var total_words: Int?
 }
 
 struct VocabBeeWordResponse: Codable {

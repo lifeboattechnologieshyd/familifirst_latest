@@ -18,7 +18,7 @@ class DateViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         topbarView.addBottomShadow()
         
-//        getDates()
+        getDates()
         
         tblVw.register(UINib(nibName: "VocabBeeDateCell", bundle: nil), forCellReuseIdentifier: "VocabBeeDateCell")
         
@@ -26,38 +26,36 @@ class DateViewController: UIViewController, UITableViewDelegate, UITableViewData
         tblVw.delegate = self
     }
     
-//    func getDates() {
-  //  showLoader()
-//        let url = API.VOCABEE_GET_DATES + "?student_id=\(UserManager.shared.vocabBee_selected_student.gradeID)&grade=\(UserManager.shared.vocabBee_selected_grade.id)"
-//        NetworkManager.shared.request(urlString: url, method: .GET) { (result: Result<APIResponse<[VocabeeDate]>, NetworkError>)  in
-  //  DispatchQueue.main.async {
-//               self.hideLoader() 
-//           }
-//            switch result {
-//            case .success(let info):
-//                if info.success {
-//                    if let data = info.data {
-//                        self.dates = data
-//                    }
-//                    DispatchQueue.main.async {
-//                        self.tblVw.reloadData()
-//                    }
-//                }else{
-//                    print(info.description)
-//                }
-//            case .failure(let error):
-//                DispatchQueue.main.async {
-//                    switch error {
-//                    case .noaccess:
-//                        self.handleLogout()
-//                    default:
-//                        self.showAlert(msg: error.localizedDescription)
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    
+    func getDates() {
+        showLoader()
+        let url = API.VOCABEE_GET_DATES + "?student_id=\(UserManager.shared.vocabBee_selected_student.gradeID)&grade=\(UserManager.shared.vocabBee_selected_grade.id)"
+        NetworkManager.shared.request(urlString: url, method: .GET) { (result: Result<APIResponse<[VocabeeDate]>, NetworkError>)  in
+            self.hideLoader()
+            switch result {
+            case .success(let info):
+                if info.success {
+                    if let data = info.data {
+                        self.dates = data
+                    }
+                    DispatchQueue.main.async {
+                        self.tblVw.reloadData()
+                    }
+                }else{
+                    print(info.description)
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    switch error {
+                    case .noaccess:
+                        self.handleLogout()
+                    default:
+                        self.showAlert(msg: error.localizedDescription)
+                    }
+                }
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dates.count
     }
@@ -73,7 +71,7 @@ class DateViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        UserManager.shared.vocabBee_selected_date = self.dates[indexPath.row]
+        UserManager.shared.vocabBee_selected_date = self.dates[indexPath.row]
         let storyboard = UIStoryboard(name: "VocabBees", bundle: nil)
         if let nextVC = storyboard.instantiateViewController(withIdentifier: "DailyChallengeViewController") as? DailyChallengeViewController {
             self.navigationController?.pushViewController(nextVC, animated: true)

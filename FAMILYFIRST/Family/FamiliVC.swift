@@ -189,7 +189,7 @@ class FamiliVC: UIViewController {
         tblVw.register(UINib(nibName: "UserCell", bundle: nil), forCellReuseIdentifier: "UserCell")
         tblVw.register(UINib(nibName: "familyMemberCell", bundle: nil), forCellReuseIdentifier: "familyMemberCell")
         tblVw.register(UINib(nibName: "AddMemberCell", bundle: nil), forCellReuseIdentifier: "AddMemberCell")
-        tblVw.register(UINib(nibName: "AddEventCell", bundle: nil), forCellReuseIdentifier: "AddEventCell")
+        tblVw.register(UINib(nibName: "AddCell", bundle: nil), forCellReuseIdentifier: "AddCell")
         tblVw.register(UINib(nibName: "MonthCell", bundle: nil), forCellReuseIdentifier: "MonthCell")
     }
     
@@ -318,7 +318,7 @@ extension FamiliVC: UITableViewDelegate, UITableViewDataSource {
             
         case .events:
             if indexPath.section == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "AddEventCell", for: indexPath) as! AddEventCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AddCell", for: indexPath) as! AddCell
                 cell.onAddEventTapped = { [weak self] in
                     self?.navigateToCreateEventVC()
                 }

@@ -192,6 +192,16 @@ class HomeVC: UIViewController {
             }
         }
     }
+    private func navigateToVocabBeeVC() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil) // Update storyboard name if different
+        let vc = storyboard.instantiateViewController(withIdentifier: "VocabBeesViewController") as! VocabBeesViewController
+        if let navController = navigationController {
+            navController.pushViewController(vc, animated: true)
+        } else {
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
+        }
+    }
     
     private func navigateToEventsVC() {
         if let tabBarController = self.tabBarController {
@@ -271,7 +281,14 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IconsCell", for: indexPath) as! IconsCell
+                        
+            cell.didTapVocabBee = { [weak self] in
+                self?.navigateToVocabBeeVC()
+            }
             
+            cell.didTapEdStore = { [weak self] in
+                self?.navigateToEdStoreVC()
+            }
             cell.didTapCourses = { [weak self] in
                 self?.navigateToCoursesVC()
             }

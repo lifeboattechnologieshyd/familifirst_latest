@@ -173,7 +173,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="VocaBees Game"/>
                                 <connections>
-                                    <action selector="offlineEventsBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="TN9-Zl-YJq"/>
+                                    <action selector="vocabbeeBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="4BY-l1-rlL"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JgH-ks-a5v">
@@ -295,6 +295,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="02-shop"/>
                                 <connections>
+                                    <action selector="edStoreBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Hue-in-aj4"/>
                                     <action selector="storeBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="fOf-dZ-zYS"/>
                                 </connections>
                             </button>
@@ -567,6 +568,7 @@
             <connections>
                 <outlet property="assessmentsBtn" destination="JgH-ks-a5v" id="hlq-wi-5VB"/>
                 <outlet property="coursesBtn" destination="apL-bY-sT2" id="zq8-Ub-3SU"/>
+                <outlet property="edStoreBtn" destination="LKG-It-zEf" id="7qn-8u-V0b"/>
                 <outlet property="edutainmentBtn" destination="1hU-yL-Ptg" id="wlD-bX-clq"/>
                 <outlet property="feelsBtn" destination="hay-dk-6F3" id="XRb-hr-qcA"/>
                 <outlet property="myeventsbtn" destination="hnD-w3-vCR" id="iYB-OQ-tuS"/>
@@ -574,6 +576,7 @@
                 <outlet property="parentingTipsBtn" destination="tCe-sI-DSw" id="6ix-pD-qeG"/>
                 <outlet property="prosperitytipsBtn" destination="pH8-KM-Onz" id="8b5-nW-gP1"/>
                 <outlet property="storeBtn" destination="LKG-It-zEf" id="dth-Ry-Ej1"/>
+                <outlet property="vocabbeBtn" destination="Fhp-CK-VEY" id="bQF-ch-FSW"/>
             </connections>
             <point key="canvasLocation" x="201.52671755725191" y="213.38028169014086"/>
         </tableViewCell>
