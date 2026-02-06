@@ -193,7 +193,7 @@ class HomeVC: UIViewController {
         }
     }
     private func navigateToVocabBeeVC() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil) // Update storyboard name if different
+        let storyboard = UIStoryboard(name: "VocabBees", bundle: nil) 
         let vc = storyboard.instantiateViewController(withIdentifier: "VocabBeesViewController") as! VocabBeesViewController
         if let navController = navigationController {
             navController.pushViewController(vc, animated: true)

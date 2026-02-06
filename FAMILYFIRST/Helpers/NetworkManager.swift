@@ -257,10 +257,8 @@ struct API {
     static let VOCABEE_GET_DATES = BASE_URL + "vocabee/words/history"
     static let VOCABEE_GET_WORDS_BY_DATES = BASE_URL + "vocabee/daily/words"
     static let VOCABEE_PRACTICE_SUBMIT = BASE_URL + "vocabee/word"
-    static let VOCABEE_SUBMIT_WORD = BASE_URL + "vocabee/attempt/words"
     static let VOCABEE_GET_PRACTISE_WORDS = BASE_URL + "vocabee/get/word"
     static let GRADES = BASE_URL + "school/grade/unassigned"
-    static let VOCABEE_STATISTICS = BASE_URL + "vocabee/get/statistics"
     static let ADD_STUDENT = BASE_URL + "school/general/student"
     static let GRADES_LIST = BASE_URL + "school/grade/unassigned"
     static let ASSESSMENT_CREATE = BASE_URL + "assessments/create/assessments"
@@ -280,9 +278,20 @@ struct API {
     static let FAMILY_MASTER = BASE_URL + "family/familymaster"
     static let CREATE_EVENT = BASE_URL + "event/event"
     static let GET_EVENTS = "\(BASE_URL)event/get/event"
+    
+    static let VOCABEE_STATISTICS = "\(BASE_URL)vocabee/get/statistics"
+    static let VOCABEE_GET_WORD = "\(BASE_URL)vocabee/get/word"
+    static let VOCABEE_SUBMIT_WORD = "\(BASE_URL)vocabee/word"
     static let VOCABEE_WORDS_HISTORY = "\(BASE_URL)vocabee/words/history"
     static let VOCABEE_ATTEMPT_WORDS = "\(BASE_URL)vocabee/attempt/words"
+    static let VOCABEE_DAILY_WORDS = "\(BASE_URL)vocabee/daily/words"
     static let VOCABEE_DAILY_HISTORY = "\(BASE_URL)vocabee/daily/history"
+    static let VOCABEE_GET_GRADES = "\(BASE_URL)vocabee/grade"
+    static let VOCABEE_WORD_LEVEL = "\(BASE_URL)vocabee/word/level"
+    static let VOCABEE_GET_MYWORDS = "\(BASE_URL)vocabee/get/mywords"
+    static let VOCABEE_GET_CONTEST = "\(BASE_URL)vocabee/get/contest"
+    static let VOCABEE_GET_CONTEST_WORD = "\(BASE_URL)vocabee/get/contestword"
+    static let VOCABEE_ATTEMPT_CONTEST_WORD = "\(BASE_URL)vocabee/attempt/contestword"
 }
 
 

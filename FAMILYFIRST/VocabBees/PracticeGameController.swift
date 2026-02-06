@@ -34,6 +34,8 @@ class PracticeGameController: UIViewController {
     
     var word_info: WordInfo?
     var wordsCompleted: Int = 0
+    var selectedGradeId: String = ""
+    var selectedGradeName: String = ""
     
     var hasWord: Bool {
         return word_info != nil
@@ -42,7 +44,7 @@ class PracticeGameController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let gradeName = UserManager.shared.vocabBee_selected_grade.name ?? "Grade"
+        let gradeName = selectedGradeName.isEmpty ? "Practice" : selectedGradeName
         lblTitle.text = "Practice | \(gradeName)"
 
         resultView.isHidden = true
@@ -127,12 +129,13 @@ class PracticeGameController: UIViewController {
         let payload: [String: Any] = [
             "user_answer": "",
             "word_id": word.id,
-            "grade_id": UserManager.shared.vocabBee_selected_grade.id,
-            "student_id": UserManager.shared.vocabBee_selected_student.studentID
+            "grade_id": selectedGradeId
         ]
         
+        let url = "\(API.BASE_URL)vocabee/word"
+        
         NetworkManager.shared.request(
-            urlString: API.VOCABEE_PRACTICE_SUBMIT,
+            urlString: url,
             method: .POST,
             parameters: payload
         ) { (result: Result<APIResponse<VocabBeeWordResponse>, NetworkError>) in
@@ -204,12 +207,13 @@ class PracticeGameController: UIViewController {
         let payload: [String: Any] = [
             "user_answer": enteredText,
             "word_id": word.id,
-            "grade_id": UserManager.shared.vocabBee_selected_grade.id,
-            "student_id": UserManager.shared.vocabBee_selected_student.studentID
+            "grade_id": selectedGradeId
         ]
         
+        let url = "\(API.BASE_URL)vocabee/word"
+        
         NetworkManager.shared.request(
-            urlString: API.VOCABEE_PRACTICE_SUBMIT,
+            urlString: url,
             method: .POST,
             parameters: payload
         ) { [weak self] (result: Result<APIResponse<VocabBeeWordResponse>, NetworkError>) in
@@ -312,7 +316,7 @@ class PracticeGameController: UIViewController {
                 case .failure(let error):
                     switch error {
                     case .noaccess:
-                        self.handleLogout()
+                        self.performLogout()
                     default:
                         self.showAlert(msg: error.localizedDescription)
                     }
@@ -324,9 +328,7 @@ class PracticeGameController: UIViewController {
     func getWords(playAudio: Bool = true) {
         showLoader()
         
-        let url = API.VOCABEE_GET_PRACTISE_WORDS +
-            "?student_id=\(UserManager.shared.vocabBee_selected_student.studentID)" +
-            "&grade=\(UserManager.shared.vocabBee_selected_grade.id)"
+        let url = "\(API.BASE_URL)vocabee/get/word?grade=\(selectedGradeId)"
         
         let shouldPlayAudio = playAudio
 
@@ -358,11 +360,27 @@ class PracticeGameController: UIViewController {
                 case .failure(let error):
                     switch error {
                     case .noaccess:
-                        self.handleLogout()
+                        self.performLogout()
                     default:
                         self.showAlert(msg: error.localizedDescription)
                     }
                 }
+            }
+        }
+    }
+    
+    func performLogout() {
+        UserManager.shared.logout()
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
+            let navController = UINavigationController(rootViewController: loginVC)
+            navController.modalPresentationStyle = .fullScreen
+            
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first {
+                window.rootViewController = navController
+                window.makeKeyAndVisible()
             }
         }
     }

@@ -15,7 +15,6 @@ class VocabBeesViewController: UIViewController {
     
     var vocabBeeStats: VocabBeeStatistics?
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,25 +25,14 @@ class VocabBeesViewController: UIViewController {
         
         tblVw.delegate = self
         tblVw.dataSource = self
-        
-//        NotificationCenter.default.addObserver(
-//            self,
-//            selector: #selector(updateStatsLocally(_:)),
-//            name: .vocabBeeStatsUpdated,
-//            object: nil
-//        )
-
     }
-//    var didOptimisticUpdate = false
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Check if user is logged in
         guard let userId = UserManager.shared.userId, !userId.isEmpty else {
             print("No user logged in for VocabBees")
             
-            // Simple alert without completion
             let alert = UIAlertController(
                 title: "Not Logged In",
                 message: "Please login first to use VocabBees",
@@ -69,31 +57,20 @@ class VocabBeesViewController: UIViewController {
             return
         }
         
-        // Updated API endpoint
-        let url = "\(API.BASE_URL)vocabee/get/statistics"
-        
-        // Using userId instead of student_id
         let parameters: [String: Any] = ["user_id": userId]
         
         print("📊 Fetching statistics for user: \(userId)")
-        print("📊 API URL: \(url)")
         
-        NetworkManager.shared.request(urlString: url, parameters: parameters) { [weak self] (result: Result<APIResponse<[VocabBeeStatistics]>, NetworkError>) in
+        NetworkManager.shared.request(urlString: API.VOCABEE_STATISTICS, parameters: parameters) { [weak self] (result: Result<APIResponse<[VocabBeeStatistics]>, NetworkError>) in
             DispatchQueue.main.async {
                 self?.hideLoader()
                 switch result {
                 case .success(let response):
-//                    if self?.didOptimisticUpdate == true {
-//                        self?.didOptimisticUpdate = false
-//                        return
-//                    }
-
                     print("📊 API Response: \(response)")
                     
                     if let statsArray = response.data, let stats = statsArray.first {
                         self?.vocabBeeStats = stats
                         
-                        // ✅ Debug print
                         print("✅ Stats loaded:")
                         print("   - Correct: \(stats.correct_answers ?? 0)")
                         print("   - Wrong: \(stats.wrong_answers ?? 0)")
@@ -116,7 +93,6 @@ class VocabBeesViewController: UIViewController {
                     
                 case .failure(let error):
                     print("❌ Error fetching statistics: \(error)")
-                    // Set default stats on error
                     self?.vocabBeeStats = VocabBeeStatistics(
                         total_questions: 0,
                         correct_answers: 0,
@@ -156,7 +132,6 @@ extension VocabBeesViewController: UITableViewDataSource, UITableViewDelegate {
                 
                 cell.wordsImage.text = "\(attempted)/\(totalWords)"
                 
-                // ✅ Debug print
                 print("📝 Cell updated: \(attempted)/\(totalWords)")
                 
             } else {
@@ -179,7 +154,6 @@ extension VocabBeesViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Store selected mode in UserDefaults or a singleton
         var selectedMode = ""
         
         if indexPath.row == 0 {
@@ -190,7 +164,6 @@ extension VocabBeesViewController: UITableViewDataSource, UITableViewDelegate {
             selectedMode = "COMPETE"
         }
         
-        // Save mode to UserDefaults for use in next screen
         UserDefaults.standard.set(selectedMode, forKey: "vocabBee_selected_mode")
         
         let storyboard = UIStoryboard(name: "VocabBees", bundle: nil)

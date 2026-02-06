@@ -42,6 +42,9 @@ class DailyChallengeViewController: UIViewController {
     var typedText: String = ""
     var words = [WordInfo]()
     var totalWords = 10
+    var selectedGradeId: String = ""
+    var selectedGradeName: String = ""
+    var selectedDate: VocabeeDate?
     
     var currentWordIndex = 0 {
         didSet { updateProgressLabel() }
@@ -58,7 +61,13 @@ class DailyChallengeViewController: UIViewController {
         slider.minimumValue = 0
         slider.maximumValue = 10
         viewLottie.isHidden = true
-        lblTitle.text = "Daily Challenge - \(UserManager.shared.vocabBee_selected_date.date.fromyyyyMMddtoDDMMYYYY())"
+        
+        if let date = selectedDate {
+            lblTitle.text = "Daily Challenge - \(date.date.fromyyyyMMddtoDDMMYYYY())"
+        } else {
+            lblTitle.text = "Daily Challenge"
+        }
+        
         timerLbl.text = "60 Seconds Left..."
 
         getWords()
@@ -280,14 +289,13 @@ class DailyChallengeViewController: UIViewController {
         guard hasValidWord else { return }
         
         let payload: [String: Any] = [
-            "answer": "",
+            "user_answer": "",
             "word_id": words[currentWordIndex].id,
-            "grade_id": UserManager.shared.vocabBee_selected_grade.id,
-            "student_id": UserManager.shared.vocabBee_selected_student.studentID
+            "grade_id": selectedGradeId
         ]
         
         NetworkManager.shared.request(
-            urlString: API.VOCABEE_SUBMIT_WORD,
+            urlString: API.VOCABEE_ATTEMPT_WORDS,
             method: .POST,
             parameters: payload
         ) { (result: Result<APIResponse<WordAnswer>, NetworkError>) in
@@ -309,14 +317,13 @@ class DailyChallengeViewController: UIViewController {
         let enteredText = txtField.text ?? ""
         
         let payload: [String: Any] = [
-            "answer": enteredText,
+            "user_answer": enteredText,
             "word_id": words[currentWordIndex].id,
-            "grade_id": UserManager.shared.vocabBee_selected_grade.id,
-            "student_id": UserManager.shared.vocabBee_selected_student.studentID
+            "grade_id": selectedGradeId
         ]
         
         NetworkManager.shared.request(
-            urlString: API.VOCABEE_SUBMIT_WORD,
+            urlString: API.VOCABEE_ATTEMPT_WORDS,
             method: .POST,
             parameters: payload
         ) { (result: Result<APIResponse<WordAnswer>, NetworkError>) in
@@ -399,7 +406,7 @@ class DailyChallengeViewController: UIViewController {
                 case .failure(let error):
                     switch error {
                     case .noaccess:
-                        self.handleLogout()
+                        self.performLogout()
                     default:
                         self.showAlert(msg: error.localizedDescription)
                     }
@@ -410,10 +417,7 @@ class DailyChallengeViewController: UIViewController {
     
     func getWords() {
         showLoader()
-        let url = API.VOCABEE_GET_WORDS_BY_DATES +
-            "?student_id=\(UserManager.shared.vocabBee_selected_student.studentID)" +
-            "&grade=\(UserManager.shared.vocabBee_selected_grade.id)" +
-            "&date=\(UserManager.shared.vocabBee_selected_date.date)"
+        let url = API.VOCABEE_DAILY_WORDS + "?grade=\(selectedGradeId)"
         
         NetworkManager.shared.request(
             urlString: url,
@@ -435,16 +439,34 @@ class DailyChallengeViewController: UIViewController {
                         } else {
                             self.showNoWordsMessage()
                         }
+                    } else {
+                        self.showNoWordsMessage()
                     }
                     
                 case .failure(let error):
                     switch error {
                     case .noaccess:
-                        self.handleLogout()
+                        self.performLogout()
                     default:
                         self.showAlert(msg: error.localizedDescription)
                     }
                 }
+            }
+        }
+    }
+    
+    func performLogout() {
+        UserManager.shared.logout()
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
+            let navController = UINavigationController(rootViewController: loginVC)
+            navController.modalPresentationStyle = .fullScreen
+            
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first {
+                window.rootViewController = navController
+                window.makeKeyAndVisible()
             }
         }
     }
