@@ -104,6 +104,23 @@ class AssessmentLessonVC: UIViewController {
         }
     }
     
+    @objc func lessonButtonTapped(_ sender: UIButton) {
+        let index = sender.tag
+        guard index < lessons.count else { return }
+        
+        lessons[index].selected.toggle()
+        
+        if lessons[index].selected {
+            if !selectedLessonIds.contains(lessons[index].id) {
+                selectedLessonIds.append(lessons[index].id)
+            }
+        } else {
+            selectedLessonIds.removeAll { $0 == lessons[index].id }
+        }
+        
+        tblVw.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+    }
+    
     func performLogout() {
         UserManager.shared.logout()
         
@@ -124,39 +141,24 @@ class AssessmentLessonVC: UIViewController {
 extension AssessmentLessonVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.lessons.count
+        return lessons.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "LessonCell") as! LessonCell
-        cell.lblName.text = "\(indexPath.row + 1). " + self.lessons[indexPath.row].lessonName
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LessonCell", for: indexPath) as! LessonCell
+        
+        let lesson = lessons[indexPath.row]
+        cell.lblName.text = "\(indexPath.row + 1). " + lesson.lessonName
         cell.btnSelect.tag = indexPath.row
         
-        cell.onSelectingLesson = { index in
-            self.lessons[index].selected.toggle()
-            
-            if self.lessons[index].selected {
-                if !self.selectedLessonIds.contains(self.lessons[index].id) {
-                    self.selectedLessonIds.append(self.lessons[index].id)
-                }
-            } else {
-                self.selectedLessonIds.removeAll { $0 == self.lessons[index].id }
-            }
-            
-            if self.lessons[index].selected {
-                cell.btnSelect.setImage(UIImage(named: "lesson_selection"), for: .normal)
-            } else {
-                cell.btnSelect.setImage(UIImage(named: "add"), for: .normal)
-            }
-            
-            self.tblVw.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
-        }
-        
-        if self.lessons[indexPath.row].selected {
+        if lesson.selected {
             cell.btnSelect.setImage(UIImage(named: "lesson_selection"), for: .normal)
         } else {
             cell.btnSelect.setImage(UIImage(named: "add"), for: .normal)
         }
+        
+        cell.btnSelect.removeTarget(nil, action: nil, for: .allEvents)
+        cell.btnSelect.addTarget(self, action: #selector(lessonButtonTapped(_:)), for: .touchUpInside)
         
         return cell
     }
@@ -166,17 +168,14 @@ extension AssessmentLessonVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.lessons[indexPath.row].selected.toggle()
-        
-        if self.lessons[indexPath.row].selected {
-            if !self.selectedLessonIds.contains(self.lessons[indexPath.row].id) {
-                self.selectedLessonIds.append(self.lessons[indexPath.row].id)
-            }
-        } else {
-            self.selectedLessonIds.removeAll { $0 == self.lessons[indexPath.row].id }
-        }
-        
-        self.tblVw.reloadRows(at: [indexPath], with: .none)
+        lessonButtonTapped(UIButton().apply { $0.tag = indexPath.row })
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension UIButton {
+    func apply(_ block: (UIButton) -> Void) -> UIButton {
+        block(self)
+        return self
     }
 }
