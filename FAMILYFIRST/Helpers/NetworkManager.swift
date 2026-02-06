@@ -239,11 +239,6 @@ struct API {
         return url.hasSuffix("/") ? url : url + "/"
     }()
     
-    static let EDUTAIN_SEARCH = BASE_URL + "edutain/search"
-    static let EDUTAIN_FEED = BASE_URL + "edutain/feed"
-    static let LIKE_FEED = BASE_URL + "edutain/feed/"
-    static let POST_COMMENT = BASE_URL + "edutain/comment"
-    static let WHATSAPP_SHARE = BASE_URL + "edutain/whatsappshare"
     static let GET_COMMENTS = BASE_URL + "edutain/comment"
     static let EDUTAIN_FEEL = BASE_URL + "events/get/feels"
     static let ONLINE_COURSES = BASE_URL + "courses/online/courses"
@@ -292,6 +287,15 @@ struct API {
     static let VOCABEE_GET_CONTEST = "\(BASE_URL)vocabee/get/contest"
     static let VOCABEE_GET_CONTEST_WORD = "\(BASE_URL)vocabee/get/contestword"
     static let VOCABEE_ATTEMPT_CONTEST_WORD = "\(BASE_URL)vocabee/attempt/contestword"
+    
+    static let EDUTAIN_FEEDS = "\(BASE_URL)edutain/feeds"
+    static let EDUTAIN_FEED = "\(BASE_URL)edutain/feed"
+    static let EDUTAIN_LIKE = "\(BASE_URL)edutain/like"
+    static let EDUTAIN_COMMENT = "\(BASE_URL)edutain/comment"
+    static let EDUTAIN_SEARCH = "\(BASE_URL)edutain/search"
+    static let LIKE_FEED = "\(BASE_URL)edutain/feed/"
+    static let POST_COMMENT = "\(BASE_URL)edutain/comment"
+    static let WHATSAPP_SHARE = "\(BASE_URL)edutain/whatsapp/share"
 }
 
 

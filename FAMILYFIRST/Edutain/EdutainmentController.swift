@@ -397,7 +397,7 @@ class EdutainmentController: UIViewController {
     
     
     func postQuickComment(feedId: String, comment: String, at index: Int, completion: @escaping (Bool) -> Void) {
-        let url = API.POST_COMMENT  // Replace with your actual comment API endpoint
+        let url = API.POST_COMMENT  
         
         let parameters: [String: Any] = [
             "feed_id": feedId,
