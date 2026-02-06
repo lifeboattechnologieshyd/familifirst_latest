@@ -183,7 +183,7 @@ class HomeVC: UIViewController {
     
     private func navigateToAssessmentsVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "AssessmentsViewController") as! AssessmentsViewController
+        let vc = storyboard.instantiateViewController(withIdentifier: "AssessmentsGradeSelectionVC") as! AssessmentsGradeSelectionVC
         if let navController = navigationController {
             navController.pushViewController(vc, animated: true)
         } else {

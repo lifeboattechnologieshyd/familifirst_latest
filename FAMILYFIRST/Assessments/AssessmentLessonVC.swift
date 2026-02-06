@@ -14,15 +14,12 @@ class AssessmentLessonVC: UIViewController {
     var subject_id = ""
     var grade_id = ""
     var lessons = [Lesson]()
+    var selectedLessonIds: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
-        
-        // getLessons()
-        
-        // Placeholder data for testing UI
-        loadPlaceholderData()
+        getLessons()
     }
     
     private func setupTableView() {
@@ -31,29 +28,39 @@ class AssessmentLessonVC: UIViewController {
         tblVw.dataSource = self
     }
     
-    private func loadPlaceholderData() {
-        // self.lessons = []
-        self.tblVw.reloadData()
-    }
-    
     @IBAction func onClickBack(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func onClickStartTest(_ sender: UIButton) {
+        guard !selectedLessonIds.isEmpty else {
+            self.showAlert(msg: "Please select at least one lesson to start the assessment")
+            return
+        }
+        
         guard let vc = storyboard?.instantiateViewController(identifier: "AssessmentPreparationVC") as? AssessmentPreparationVC else {
             return
         }
+        
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    
-    /*
     func getLessons() {
-     showLoader()
-        let subject_url = API.LESSON + "?grade=\(grade_id)&subject=\(subject_id)"
+        guard let userId = UserManager.shared.userId else {
+            self.showAlert(msg: "User ID not found. Please login again.")
+            return
+        }
         
-        NetworkManager.shared.request(urlString: subject_url, method: .GET) { (result: Result<APIResponse<[Lesson]>, NetworkError>) in
+        guard !grade_id.isEmpty, !subject_id.isEmpty else {
+            self.showAlert(msg: "Grade or Subject not selected. Please go back and select them.")
+            return
+        }
+        
+        showLoader()
+        
+        let lesson_url = "\(API.EDUTAIN_LESSONS)?grade=\(grade_id)&subject=\(subject_id)&user_id=\(userId)"
+        
+        NetworkManager.shared.request(urlString: lesson_url, method: .GET) { (result: Result<APIResponse<[Lesson]>, NetworkError>) in
             switch result {
             case .success(let info):
                 if info.success {
@@ -62,17 +69,29 @@ class AssessmentLessonVC: UIViewController {
                             self.lessons = data
                             self.tblVw.reloadData()
                             self.hideLoader()
+                            
+                            if data.isEmpty {
+                                self.showAlert(msg: "No lessons available for this subject.")
+                            }
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.hideLoader()
+                            self.showAlert(msg: "No lessons available for this subject")
                         }
                     }
                 } else {
-                    print(info.description)
+                    DispatchQueue.main.async {
+                        self.hideLoader()
+                        self.showAlert(msg: info.description)
+                    }
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-            self.hideLoader()
+                    self.hideLoader()
                     switch error {
                     case .noaccess:
-                        self.handleLogout()
+                        self.performLogout()
                     default:
                         self.showAlert(msg: error.localizedDescription)
                     }
@@ -80,7 +99,22 @@ class AssessmentLessonVC: UIViewController {
             }
         }
     }
-    */
+    
+    func performLogout() {
+        UserManager.shared.logout()
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
+            let navController = UINavigationController(rootViewController: loginVC)
+            navController.modalPresentationStyle = .fullScreen
+            
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first {
+                window.rootViewController = navController
+                window.makeKeyAndVisible()
+            }
+        }
+    }
 }
 
 extension AssessmentLessonVC: UITableViewDelegate, UITableViewDataSource {
@@ -95,13 +129,23 @@ extension AssessmentLessonVC: UITableViewDelegate, UITableViewDataSource {
         cell.btnSelect.tag = indexPath.row
         
         cell.onSelectingLesson = { index in
-            print("selected row")
             self.lessons[index].selected.toggle()
             
-            // UserManager.shared.assessment_selected_lesson_ids.append(self.lessons[index].id) // Uncomment when ready
+            if self.lessons[index].selected {
+                if !self.selectedLessonIds.contains(self.lessons[index].id) {
+                    self.selectedLessonIds.append(self.lessons[index].id)
+                }
+            } else {
+                self.selectedLessonIds.removeAll { $0 == self.lessons[index].id }
+            }
             
-            cell.btnSelect.setImage(UIImage(named: "lesson_selection"), for: .normal)
-            self.tblVw.reloadData()
+            if self.lessons[index].selected {
+                cell.btnSelect.setImage(UIImage(named: "lesson_selection"), for: .normal)
+            } else {
+                cell.btnSelect.setImage(UIImage(named: "add"), for: .normal)
+            }
+            
+            self.tblVw.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
         }
         
         if self.lessons[indexPath.row].selected {
@@ -118,9 +162,17 @@ extension AssessmentLessonVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // UserManager.shared.assessment_selected_lesson_ids.append(self.lessons[indexPath.row].id) // Uncomment when ready
+        self.lessons[indexPath.row].selected.toggle()
         
-        // Placeholder action
-        print("Selected lesson: \(indexPath.row)")
+        if self.lessons[indexPath.row].selected {
+            if !self.selectedLessonIds.contains(self.lessons[indexPath.row].id) {
+                self.selectedLessonIds.append(self.lessons[indexPath.row].id)
+            }
+        } else {
+            self.selectedLessonIds.removeAll { $0 == self.lessons[indexPath.row].id }
+        }
+        
+        self.tblVw.reloadRows(at: [indexPath], with: .none)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

@@ -65,7 +65,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OwW-kh-iG7">
-                                <rect key="frame" x="60.000000000000014" y="12" width="251.33333333333337" height="18"/>
+                                <rect key="frame" x="60" y="12" width="184" height="18"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="f9s-NJ-kHR"/>
@@ -99,7 +99,7 @@
                                 <attributedString key="attributedText">
                                     <fragment content="Today’s Prompt: Create a Vision Board with Family and implement the ultimate….">
                                         <attributes>
-                                            <color key="NSColor" red="0.35218596460000001" green="0.44652873279999999" blue="0.63959264760000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <color key="NSColor" red="0.38215082880000001" green="0.47503036259999998" blue="0.65851569180000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <font key="NSFont" size="12" name="Lexend-Medium"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -110,6 +110,7 @@
                         </subviews>
                         <color key="backgroundColor" red="0.87738651040000004" green="0.9210284352" blue="0.98992258310000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="OwW-kh-iG7" secondAttribute="trailing" constant="100" id="5xt-JB-fhe"/>
                             <constraint firstAttribute="trailing" secondItem="KgN-AQ-zoW" secondAttribute="trailing" constant="100" id="78b-zs-Lhh"/>
                             <constraint firstItem="KgN-AQ-zoW" firstAttribute="top" secondItem="OwW-kh-iG7" secondAttribute="bottom" id="7ZO-CP-9EX"/>
                             <constraint firstAttribute="trailing" secondItem="vdQ-Ni-WQQ" secondAttribute="trailing" id="7kN-wK-vcl"/>

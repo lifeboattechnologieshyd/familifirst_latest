@@ -297,6 +297,9 @@ struct API {
     static let POST_COMMENT = "\(BASE_URL)edutain/comment"
     static let WHATSAPP_SHARE = "\(BASE_URL)edutain/whatsapp/share"
     static let BROADCAST_CALENDAR = BASE_URL + "broadcast/calendar"
+    static let EDUTAIN_SUBJECTS = "\(BASE_URL)edutain/subject"
+    static let EDUTAIN_LESSONS = "\(BASE_URL)edutain/lesson" 
+
 }
 
 

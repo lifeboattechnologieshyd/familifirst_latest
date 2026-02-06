@@ -57,10 +57,7 @@ class AssessmentsViewController: UIViewController {
         navigationController?.popToRootViewController(animated: true)
     }
     
-    func goToAddKidVC() {
-        let vc = storyboard?.instantiateViewController(identifier: "AddKidVC") as! AddKidVC
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
+   
 }
 
 extension AssessmentsViewController: UITableViewDelegate, UITableViewDataSource {
@@ -98,20 +95,7 @@ extension AssessmentsViewController: UITableViewDelegate, UITableViewDataSource 
         cell.backgroundColor = .clear
         return cell
         
-        /*
-        if indexPath.row == UserManager.shared.kids.count {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AddKidsCell", for: indexPath) as! AddKidsCell
-            cell.selectionStyle = .none
-            cell.backgroundColor = .clear
-            return cell
-        }
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "KidsCell", for: indexPath) as! KidsCell
-        cell.backgroundView?.backgroundColor = .primary
-        cell.contentView.backgroundColor = .primary
-        cell.setupCell(student: UserManager.shared.kids[indexPath.row])
-        return cell
-        */
+     
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -138,19 +122,7 @@ extension AssessmentsViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        // When no kids
-        if !hasKids {
-            if indexPath.row == 1 {
-                let vc = storyboard?.instantiateViewController(identifier: "AddKidVC") as! AddKidVC
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-            return
-        }
-        
-        // Placeholder: Just go to AddKidVC
-        let vc = storyboard?.instantiateViewController(identifier: "AddKidVC") as! AddKidVC
-        self.navigationController?.pushViewController(vc, animated: true)
-        
+         
         /*
         if indexPath.row == UserManager.shared.kids.count {
             let vc = storyboard?.instantiateViewController(identifier: "AddKidVC") as! AddKidVC

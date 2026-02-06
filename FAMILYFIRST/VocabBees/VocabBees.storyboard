@@ -391,11 +391,11 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="SXv-5F-ryB">
                                         <rect key="frame" x="0.0" y="0.0" width="90.333333333333329" height="76"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vocabbee_bg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="yGZ-Fv-4bM">
-                                                <rect key="frame" x="0.0" y="0.0" width="90.333333333333329" height="50.666666666666664"/>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greeen" translatesAutoresizingMaskIntoConstraints="NO" id="yGZ-Fv-4bM">
+                                                <rect key="frame" x="0.0" y="0.0" width="90.333333333333329" height="68"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M5I-dX-dag">
-                                                <rect key="frame" x="0.0" y="58.666666666666693" width="90.333333333333329" height="17.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="76" width="90.333333333333329" height="0.0"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="Definition">
                                                         <attributes>
@@ -415,11 +415,11 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="BKM-BE-DMb">
                                         <rect key="frame" x="90.333333333333343" y="0.0" width="90.333333333333343" height="76"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vocabbee_bg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="fGV-oh-8qR">
-                                                <rect key="frame" x="0.0" y="0.0" width="90.333333333333329" height="50.666666666666664"/>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greeen" translatesAutoresizingMaskIntoConstraints="NO" id="fGV-oh-8qR">
+                                                <rect key="frame" x="0.0" y="0.0" width="90.333333333333329" height="68"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DBt-Y3-aph">
-                                                <rect key="frame" x="0.0" y="58.666666666666693" width="90.333333333333329" height="17.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="76" width="90.333333333333329" height="0.0"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="Origin">
                                                         <attributes>
@@ -439,11 +439,11 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Lwf-Hp-kEU">
                                         <rect key="frame" x="180.66666666666666" y="0.0" width="89.999999999999972" height="76"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vocabbee_bg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="FY2-hD-KYs">
-                                                <rect key="frame" x="0.0" y="0.0" width="90" height="50.666666666666664"/>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greeen" translatesAutoresizingMaskIntoConstraints="NO" id="FY2-hD-KYs">
+                                                <rect key="frame" x="0.0" y="0.0" width="90" height="68"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="axi-5Q-GDM">
-                                                <rect key="frame" x="0.0" y="58.666666666666693" width="90" height="17.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="76" width="90" height="0.0"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="Usage">
                                                         <attributes>
@@ -463,11 +463,11 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="cqp-7j-G1O">
                                         <rect key="frame" x="270.66666666666669" y="0.0" width="90.333333333333314" height="76"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vocabbee_bg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="963-jI-OLf">
-                                                <rect key="frame" x="0.0" y="0.0" width="90.333333333333329" height="50.666666666666664"/>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greeen" translatesAutoresizingMaskIntoConstraints="NO" id="963-jI-OLf">
+                                                <rect key="frame" x="0.0" y="0.0" width="90.333333333333329" height="68"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcq-qH-gWo">
-                                                <rect key="frame" x="0.0" y="58.666666666666693" width="90.333333333333329" height="17.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="76" width="90.333333333333329" height="0.0"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="Other">
                                                         <attributes>
@@ -490,28 +490,28 @@
                                 </constraints>
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defination" translatesAutoresizingMaskIntoConstraints="NO" id="wQb-fH-Whh">
-                                <rect key="frame" x="51" y="351.33333333333331" width="20" height="20"/>
+                                <rect key="frame" x="51" y="360" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="cUL-mh-WuZ"/>
                                     <constraint firstAttribute="height" constant="20" id="j82-rM-eu8"/>
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="origin" translatesAutoresizingMaskIntoConstraints="NO" id="M7b-SN-uMW">
-                                <rect key="frame" x="141.33333333333334" y="351.33333333333331" width="20" height="20"/>
+                                <rect key="frame" x="141.33333333333334" y="360" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="CwM-bv-p52"/>
                                     <constraint firstAttribute="height" constant="20" id="bRd-nG-xA8"/>
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="usage" translatesAutoresizingMaskIntoConstraints="NO" id="8u6-SG-YWA">
-                                <rect key="frame" x="231.66666666666666" y="351.33333333333331" width="20" height="20"/>
+                                <rect key="frame" x="231.66666666666666" y="360" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="Zlu-hN-nrt"/>
                                     <constraint firstAttribute="width" constant="20" id="l6j-xG-RFY"/>
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="others" translatesAutoresizingMaskIntoConstraints="NO" id="M0W-cL-h68">
-                                <rect key="frame" x="322" y="351.33333333333331" width="20" height="20"/>
+                                <rect key="frame" x="322" y="360" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="RVe-Yq-isy"/>
                                     <constraint firstAttribute="width" constant="20" id="lIh-sD-XqG"/>
@@ -652,11 +652,11 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="gSI-pQ-TWI">
                                                 <rect key="frame" x="0.0" y="0.0" width="84.333333333333329" height="76"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vocabbee_bg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="htU-XU-gE4">
-                                                        <rect key="frame" x="0.0" y="0.0" width="84.333333333333329" height="50.666666666666664"/>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greeen" translatesAutoresizingMaskIntoConstraints="NO" id="htU-XU-gE4">
+                                                        <rect key="frame" x="0.0" y="0.0" width="84.333333333333329" height="68"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JgH-EO-D6r">
-                                                        <rect key="frame" x="0.0" y="58.666666666666693" width="84.333333333333329" height="17.333333333333336"/>
+                                                        <rect key="frame" x="0.0" y="76" width="84.333333333333329" height="0.0"/>
                                                         <attributedString key="attributedText">
                                                             <fragment content="Definition">
                                                                 <attributes>
@@ -673,11 +673,11 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Znc-RB-Dqq">
                                                 <rect key="frame" x="84.333333333333314" y="0.0" width="84.666666666666686" height="76"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vocabbee_bg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="i5g-HJ-6ya">
-                                                        <rect key="frame" x="0.0" y="0.0" width="84.666666666666671" height="50.666666666666664"/>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greeen" translatesAutoresizingMaskIntoConstraints="NO" id="i5g-HJ-6ya">
+                                                        <rect key="frame" x="0.0" y="0.0" width="84.666666666666671" height="68"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbu-tl-DOj">
-                                                        <rect key="frame" x="0.0" y="58.666666666666693" width="84.666666666666671" height="17.333333333333336"/>
+                                                        <rect key="frame" x="0.0" y="76" width="84.666666666666671" height="0.0"/>
                                                         <attributedString key="attributedText">
                                                             <fragment content="Origin">
                                                                 <attributes>
@@ -694,11 +694,11 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pXR-pi-WHQ">
                                                 <rect key="frame" x="169" y="0.0" width="84.333333333333314" height="76"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vocabbee_bg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Eer-ow-2tV">
-                                                        <rect key="frame" x="0.0" y="0.0" width="84.333333333333329" height="50.666666666666664"/>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greeen" translatesAutoresizingMaskIntoConstraints="NO" id="Eer-ow-2tV">
+                                                        <rect key="frame" x="0.0" y="0.0" width="84.333333333333329" height="68"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jZe-Rf-Q1t">
-                                                        <rect key="frame" x="0.0" y="58.666666666666693" width="84.333333333333329" height="17.333333333333336"/>
+                                                        <rect key="frame" x="0.0" y="76" width="84.333333333333329" height="0.0"/>
                                                         <attributedString key="attributedText">
                                                             <fragment content="Usage">
                                                                 <attributes>
@@ -715,11 +715,11 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="BYl-0d-tHV">
                                                 <rect key="frame" x="253.33333333333334" y="0.0" width="84.333333333333343" height="76"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vocabbee_bg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="QUY-03-bh2">
-                                                        <rect key="frame" x="0.0" y="0.0" width="84.333333333333329" height="50.666666666666664"/>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greeen" translatesAutoresizingMaskIntoConstraints="NO" id="QUY-03-bh2">
+                                                        <rect key="frame" x="0.0" y="0.0" width="84.333333333333329" height="68"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mja-ut-riy">
-                                                        <rect key="frame" x="0.0" y="58.666666666666693" width="84.333333333333329" height="17.333333333333336"/>
+                                                        <rect key="frame" x="0.0" y="76" width="84.333333333333329" height="0.0"/>
                                                         <attributedString key="attributedText">
                                                             <fragment content="Other">
                                                                 <attributes>
@@ -754,7 +754,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defination" translatesAutoresizingMaskIntoConstraints="NO" id="NQf-iU-3Kw">
-                                        <rect key="frame" x="48.333333333333336" y="248.33333333333331" width="20.000000000000007" height="20"/>
+                                        <rect key="frame" x="48.333333333333336" y="257" width="20.000000000000007" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="qob-nq-itX"/>
                                             <constraint firstAttribute="height" constant="20" id="wfY-7L-wLk"/>
@@ -769,7 +769,7 @@
                                         </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="others" translatesAutoresizingMaskIntoConstraints="NO" id="JqR-pu-k9I">
-                                        <rect key="frame" x="301.33333333333331" y="248.33333333333331" width="20" height="20"/>
+                                        <rect key="frame" x="301.33333333333331" y="257" width="20" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="1f3-fE-dJS"/>
                                             <constraint firstAttribute="height" constant="20" id="NMy-ir-zaz"/>
@@ -784,7 +784,7 @@
                                         </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="origin" translatesAutoresizingMaskIntoConstraints="NO" id="x5V-TB-jIx">
-                                        <rect key="frame" x="134.66666666666669" y="250.33333333333331" width="16" height="16"/>
+                                        <rect key="frame" x="134.66666666666669" y="259" width="16" height="16"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Bb-8T-fGB">
                                         <rect key="frame" x="100.33333333333331" y="233" width="84.666666666666686" height="76"/>
@@ -795,7 +795,7 @@
                                         </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="usage" translatesAutoresizingMaskIntoConstraints="NO" id="Xaf-Jz-XjL">
-                                        <rect key="frame" x="217" y="250.33333333333331" width="20" height="16"/>
+                                        <rect key="frame" x="217" y="259" width="20" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="jhY-VP-Dp1"/>
                                         </constraints>
@@ -1139,11 +1139,11 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="BqT-U4-pxJ">
                                         <rect key="frame" x="0.0" y="0.0" width="90.333333333333329" height="76"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vocabbee_bg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="MWC-Fo-9Qk">
-                                                <rect key="frame" x="0.0" y="0.0" width="90.333333333333329" height="50.666666666666664"/>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greeen" translatesAutoresizingMaskIntoConstraints="NO" id="MWC-Fo-9Qk">
+                                                <rect key="frame" x="0.0" y="0.0" width="90.333333333333329" height="68"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fgn-wM-TgO">
-                                                <rect key="frame" x="0.0" y="58.666666666666693" width="90.333333333333329" height="17.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="76" width="90.333333333333329" height="0.0"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="Definition">
                                                         <attributes>
@@ -1163,11 +1163,11 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="uEn-Ud-O27">
                                         <rect key="frame" x="90.333333333333343" y="0.0" width="90.333333333333343" height="76"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vocabbee_bg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="GQe-pf-eqH">
-                                                <rect key="frame" x="0.0" y="0.0" width="90.333333333333329" height="50.666666666666664"/>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greeen" translatesAutoresizingMaskIntoConstraints="NO" id="GQe-pf-eqH">
+                                                <rect key="frame" x="0.0" y="0.0" width="90.333333333333329" height="68"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bQ3-CF-WG3">
-                                                <rect key="frame" x="0.0" y="58.666666666666693" width="90.333333333333329" height="17.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="76" width="90.333333333333329" height="0.0"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="Origin">
                                                         <attributes>
@@ -1187,11 +1187,11 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Jnf-VC-tWo">
                                         <rect key="frame" x="180.66666666666666" y="0.0" width="89.999999999999972" height="76"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vocabbee_bg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Uab-Fs-CxI">
-                                                <rect key="frame" x="0.0" y="0.0" width="90" height="50.666666666666664"/>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greeen" translatesAutoresizingMaskIntoConstraints="NO" id="Uab-Fs-CxI">
+                                                <rect key="frame" x="0.0" y="0.0" width="90" height="68"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eeg-05-Tfe">
-                                                <rect key="frame" x="0.0" y="58.666666666666693" width="90" height="17.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="76" width="90" height="0.0"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="Usage">
                                                         <attributes>
@@ -1211,11 +1211,11 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="HTu-Cu-iQ2">
                                         <rect key="frame" x="270.66666666666669" y="0.0" width="90.333333333333314" height="76"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vocabbee_bg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="dZr-Oj-o2A">
-                                                <rect key="frame" x="0.0" y="0.0" width="90.333333333333329" height="50.666666666666664"/>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greeen" translatesAutoresizingMaskIntoConstraints="NO" id="dZr-Oj-o2A">
+                                                <rect key="frame" x="0.0" y="0.0" width="90.333333333333329" height="68"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="642-XC-WHB">
-                                                <rect key="frame" x="0.0" y="58.666666666666693" width="90.333333333333329" height="17.333333333333336"/>
+                                                <rect key="frame" x="0.0" y="76" width="90.333333333333329" height="0.0"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="Other">
                                                         <attributes>
@@ -1238,28 +1238,28 @@
                                 </constraints>
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defination" translatesAutoresizingMaskIntoConstraints="NO" id="0bf-t5-tmT">
-                                <rect key="frame" x="51" y="351.33333333333331" width="20" height="20"/>
+                                <rect key="frame" x="51" y="360" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="Sjp-0d-Mec"/>
                                     <constraint firstAttribute="width" constant="20" id="nob-Pq-JEu"/>
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="origin" translatesAutoresizingMaskIntoConstraints="NO" id="A45-7v-MhR">
-                                <rect key="frame" x="141.33333333333334" y="351.33333333333331" width="20" height="20"/>
+                                <rect key="frame" x="141.33333333333334" y="360" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="1oz-PQ-854"/>
                                     <constraint firstAttribute="width" constant="20" id="LaK-53-Y52"/>
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="usage" translatesAutoresizingMaskIntoConstraints="NO" id="3xD-IT-P9Y">
-                                <rect key="frame" x="231.66666666666666" y="351.33333333333331" width="20" height="20"/>
+                                <rect key="frame" x="231.66666666666666" y="360" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="2tE-29-zCj"/>
                                     <constraint firstAttribute="height" constant="20" id="GpK-BB-Bnr"/>
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="others" translatesAutoresizingMaskIntoConstraints="NO" id="WK4-L9-3dT">
-                                <rect key="frame" x="322" y="351.33333333333331" width="20" height="20"/>
+                                <rect key="frame" x="322" y="360" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="AE4-Mu-n5g"/>
                                     <constraint firstAttribute="width" constant="20" id="VbR-sA-nmD"/>
@@ -1398,7 +1398,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="qOD-T7-gRR">
                                                 <rect key="frame" x="0.0" y="0.0" width="84.333333333333329" height="76"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vocabbee_bg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Qha-BV-atr">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greeen" translatesAutoresizingMaskIntoConstraints="NO" id="Qha-BV-atr">
                                                         <rect key="frame" x="0.0" y="0.0" width="84.333333333333329" height="50.666666666666664"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qKg-Ni-Vlj">
@@ -1419,7 +1419,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="RP8-DI-Xjr">
                                                 <rect key="frame" x="84.333333333333314" y="0.0" width="84.666666666666686" height="76"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vocabbee_bg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="86K-4i-FsD">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greeen" translatesAutoresizingMaskIntoConstraints="NO" id="86K-4i-FsD">
                                                         <rect key="frame" x="0.0" y="0.0" width="84.666666666666671" height="50.666666666666664"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cNN-gJ-K9L">
@@ -1440,7 +1440,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="6F4-Ry-Hv5">
                                                 <rect key="frame" x="169" y="0.0" width="84.333333333333314" height="76"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vocabbee_bg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="NyG-wJ-WMI">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greeen" translatesAutoresizingMaskIntoConstraints="NO" id="NyG-wJ-WMI">
                                                         <rect key="frame" x="0.0" y="0.0" width="84.333333333333329" height="50.666666666666664"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0N1-OJ-m3y">
@@ -1461,7 +1461,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="sjD-UN-bum">
                                                 <rect key="frame" x="253.33333333333334" y="0.0" width="84.333333333333343" height="76"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vocabbee_bg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="X1Z-MB-Hm9">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greeen" translatesAutoresizingMaskIntoConstraints="NO" id="X1Z-MB-Hm9">
                                                         <rect key="frame" x="0.0" y="0.0" width="84.333333333333329" height="50.666666666666664"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1B-z9-3b8">
@@ -1756,11 +1756,11 @@
         <image name="DailyChallengeMainImg" width="374" height="748"/>
         <image name="arrow.backward" catalog="system" width="128" height="95"/>
         <image name="defination" width="16" height="16"/>
+        <image name="greeen" width="336" height="272"/>
         <image name="greenmic" width="34" height="34"/>
         <image name="origin" width="16" height="16"/>
         <image name="others" width="16" height="16"/>
         <image name="usage" width="16" height="16"/>
-        <image name="vocabbee_bg_icon" width="46.333332061767578" height="46.333332061767578"/>
         <namedColor name="primaryColor">
             <color red="0.043137254901960784" green="0.33725490196078434" blue="0.60392156862745094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

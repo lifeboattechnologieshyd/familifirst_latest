@@ -3121,105 +3121,6 @@
             </objects>
             <point key="canvasLocation" x="6717" y="-1147"/>
         </scene>
-        <!--Add KidVC-->
-        <scene sceneID="nyp-hc-N81">
-            <objects>
-                <viewController storyboardIdentifier="AddKidVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mxt-KV-cpY" customClass="AddKidVC" customModule="FAMILYFIRST" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="1ta-eZ-T5f">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uHs-Rr-fV6">
-                                <rect key="frame" x="0.0" y="118" width="393" height="50"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SS7-IE-3i5">
-                                        <rect key="frame" x="16" y="17" width="16" height="16"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="16" id="0XX-pQ-sr3"/>
-                                            <constraint firstAttribute="height" constant="16" id="GmV-jg-Sev"/>
-                                        </constraints>
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="arrow.backward" catalog="system" title=" "/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="onClickBack:" destination="Mxt-KV-cpY" eventType="touchUpInside" id="gIQ-dH-VSX"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Kid" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v5J-9U-dIN">
-                                        <rect key="frame" x="44" y="15" width="89" height="20"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="20" id="D1B-e8-Ldc"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="4iY-z9-YYG"/>
-                                    <constraint firstAttribute="trailing" secondItem="v5J-9U-dIN" secondAttribute="trailing" constant="260" id="8EZ-kJ-fkJ"/>
-                                    <constraint firstItem="SS7-IE-3i5" firstAttribute="leading" secondItem="uHs-Rr-fV6" secondAttribute="leading" constant="16" id="X68-Wc-bf5"/>
-                                    <constraint firstItem="SS7-IE-3i5" firstAttribute="top" secondItem="uHs-Rr-fV6" secondAttribute="top" constant="17" id="YYO-t7-EcV"/>
-                                    <constraint firstItem="v5J-9U-dIN" firstAttribute="leading" secondItem="SS7-IE-3i5" secondAttribute="trailing" constant="12" id="dCF-a8-RRS"/>
-                                    <constraint firstItem="v5J-9U-dIN" firstAttribute="centerY" secondItem="SS7-IE-3i5" secondAttribute="centerY" id="iex-0W-6rE"/>
-                                </constraints>
-                            </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="xZz-Sm-yFX">
-                                <rect key="frame" x="0.0" y="178" width="393" height="546"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QJc-ef-wg8">
-                                <rect key="frame" x="16" y="736" width="361" height="48"/>
-                                <color key="backgroundColor" red="0.17838230729999999" green="0.401043117" blue="0.2374107838" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="i3Z-B4-F9D"/>
-                                </constraints>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="ADD KID"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="24"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="onClickAddKid:" destination="Mxt-KV-cpY" eventType="touchUpInside" id="8OP-y7-EnM"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="uhb-jj-7di"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="uhb-jj-7di" firstAttribute="trailing" secondItem="xZz-Sm-yFX" secondAttribute="trailing" id="CDS-lo-WPh"/>
-                            <constraint firstItem="uhb-jj-7di" firstAttribute="trailing" secondItem="QJc-ef-wg8" secondAttribute="trailing" constant="16" id="RmE-qZ-wET"/>
-                            <constraint firstItem="uHs-Rr-fV6" firstAttribute="leading" secondItem="uhb-jj-7di" secondAttribute="leading" id="S6l-QP-gDQ"/>
-                            <constraint firstItem="uhb-jj-7di" firstAttribute="bottom" secondItem="QJc-ef-wg8" secondAttribute="bottom" id="efx-uP-hPr"/>
-                            <constraint firstItem="uhb-jj-7di" firstAttribute="bottom" secondItem="xZz-Sm-yFX" secondAttribute="bottom" constant="60" id="oI8-g7-9Rk"/>
-                            <constraint firstItem="xZz-Sm-yFX" firstAttribute="top" secondItem="uHs-Rr-fV6" secondAttribute="bottom" constant="10" id="pN8-d4-znn"/>
-                            <constraint firstItem="uHs-Rr-fV6" firstAttribute="trailing" secondItem="uhb-jj-7di" secondAttribute="trailing" id="qHI-47-NVZ"/>
-                            <constraint firstItem="uHs-Rr-fV6" firstAttribute="top" secondItem="uhb-jj-7di" secondAttribute="top" id="qjX-g3-96c"/>
-                            <constraint firstItem="QJc-ef-wg8" firstAttribute="leading" secondItem="uhb-jj-7di" secondAttribute="leading" constant="16" id="wVh-PQ-4fj"/>
-                            <constraint firstItem="xZz-Sm-yFX" firstAttribute="leading" secondItem="uhb-jj-7di" secondAttribute="leading" id="zdK-Gl-uM2"/>
-                        </constraints>
-                    </view>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="addkidButton" destination="QJc-ef-wg8" id="3Hk-jQ-FFX"/>
-                        <outlet property="backButton" destination="SS7-IE-3i5" id="OPi-fa-amX"/>
-                        <outlet property="tblVw" destination="xZz-Sm-yFX" id="yk6-0G-HhQ"/>
-                        <outlet property="topVw" destination="uHs-Rr-fV6" id="IkA-DJ-zJQ"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kdh-T1-SHd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="7637" y="-1147"/>
-        </scene>
         <!--Start TestVC-->
         <scene sceneID="Qyd-Lf-x8H">
             <objects>
@@ -3246,7 +3147,6 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="onClickBack:" destination="Mxt-KV-cpY" eventType="touchUpInside" id="HAH-7C-yER"/>
                                             <action selector="onClickBack:" destination="bsc-SN-lga" eventType="touchUpInside" id="VEY-78-9eM"/>
                                         </connections>
                                     </button>
@@ -4380,7 +4280,6 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="backButtonTapped:" destination="dSA-2C-Db6" eventType="touchUpInside" id="Zcc-hQ-6cV"/>
-                                            <action selector="onClickBack:" destination="Mxt-KV-cpY" eventType="touchUpInside" id="6Sq-Uu-2sL"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Past Assessments of Ranjith" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lwa-HX-EPa">
@@ -4463,7 +4362,6 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="backButtonTapped:" destination="Ei0-Kq-R1M" eventType="touchUpInside" id="b0B-5X-nH3"/>
-                                            <action selector="onClickBack:" destination="Mxt-KV-cpY" eventType="touchUpInside" id="McA-a8-LNA"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Past Assessments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Uj-fn-gnK">
@@ -4603,7 +4501,7 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
             </objects>
-            <point key="canvasLocation" x="8500" y="-1131"/>
+            <point key="canvasLocation" x="7650" y="-1147"/>
         </scene>
         <!--SplashVC Two-->
         <scene sceneID="4nV-2N-NML">

@@ -21,18 +21,16 @@ class BannerCell: UITableViewCell {
     func configure(with calendarData: CalendarData?) {
         guard let data = calendarData else { return }
         
-        // Parse date string "dd-MM-yyyy"
+        // Date Parsing
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MM-yyyy"
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         
         if let date = dateFormatter.date(from: data.date) {
-            // Get Month Name (e.g. "February")
             let monthFormatter = DateFormatter()
-            monthFormatter.dateFormat = "MMMM"
-            monthLbl.text = monthFormatter.string(from: date)
-            
-            // Get Day (e.g. "04")
+            monthFormatter.dateFormat = "MMM"
+            monthLbl.text = monthFormatter.string(from: date).uppercased()
+
             let dayFormatter = DateFormatter()
             dayFormatter.dateFormat = "dd"
             dateLbl.text = dayFormatter.string(from: date)
@@ -41,7 +39,10 @@ class BannerCell: UITableViewCell {
             dateLbl.text = ""
         }
         
-        calenderTitleLbl.text = "Today's Prompt"
-        calenderPromptLbl.text = data.prompt
+        // Mapping API Prompt -> Title Label
+        calenderTitleLbl.text = data.prompt
+        
+        // Mapping API Description -> Prompt/Body Label
+        calenderPromptLbl.text = data.description
     }
 }
