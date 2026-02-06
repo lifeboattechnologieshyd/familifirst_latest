@@ -302,6 +302,7 @@ struct API {
     static let EDUTAIN_CREATE_ASSESSMENT = "\(BASE_URL)edutain/create/assessments"
     static let EDUTAIN_ASSESSMENT_ATTEMPT = "\(BASE_URL)edutain/attempt/assessment"
     static let EDUTAIN_ASSESSMENT_RESULTS = "\(BASE_URL)edutain/assessments/result"
+    static let EDUTAIN_MY_RESULTS = "\(BASE_URL)edutain/myresults"
 
 }
 

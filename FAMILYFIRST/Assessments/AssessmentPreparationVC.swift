@@ -38,10 +38,23 @@ class AssessmentPreparationVC: UIViewController {
     }
     
     func goToStartTestVC() {
-        guard let vc = storyboard?.instantiateViewController(identifier: "StartTestVC") as? StartTestVC else {
+        print("📱 Navigating to StartTestVC")
+        print("📱 Assessment: \(createdAssessment?.id ?? "nil")")
+        
+        guard let createdAssessment = createdAssessment else {
+            print("❌ Assessment is nil")
+            showAlert(msg: "Assessment creation failed")
+            navigationController?.popViewController(animated: true)
             return
         }
+        
+        guard let vc = storyboard?.instantiateViewController(identifier: "StartTestVC") as? StartTestVC else {
+            print("❌ Failed to instantiate StartTestVC")
+            return
+        }
+        
         vc.assessment = createdAssessment
+        print("✅ Pushing to StartTestVC")
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -58,38 +71,114 @@ class AssessmentPreparationVC: UIViewController {
             return
         }
         
+        print("📱 Creating assessment...")
+        
         let payload: [String: Any] = [
             "grade_id": grade_id,
             "subject_id": subject_id,
             "lesson_ids": selectedLessonIds
         ]
         
-        NetworkManager.shared.request(urlString: API.EDUTAIN_CREATE_ASSESSMENT, method: .POST, parameters: payload) { [weak self] (result: Result<APIResponse<Assessment>, NetworkError>) in
+        guard let url = URL(string: API.EDUTAIN_CREATE_ASSESSMENT) else {
+            showAlert(msg: "Invalid URL")
+            navigationController?.popViewController(animated: true)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Fixed: accessToken is String, not Optional
+        let token = UserManager.shared.accessToken
+        if !token.isEmpty {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: payload, options: [])
+        } catch {
+            showAlert(msg: "Failed to encode request")
+            navigationController?.popViewController(animated: true)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            guard let self = self else { return }
             
             DispatchQueue.main.async {
-                guard let self = self else { return }
+                if let error = error {
+                    print("❌ Network error: \(error)")
+                    self.showAlert(msg: error.localizedDescription)
+                    self.navigationController?.popViewController(animated: true)
+                    return
+                }
                 
-                switch result {
-                case .success(let info):
-                    if info.success, let assessment = info.data {
-                        self.createdAssessment = assessment
-                        self.goToStartTestVC()
-                    } else {
-                        self.showAlert(msg: info.description)
-                        self.navigationController?.popViewController(animated: true)
+                guard let data = data else {
+                    print("❌ No data received")
+                    self.showAlert(msg: "No data received")
+                    self.navigationController?.popViewController(animated: true)
+                    return
+                }
+                
+                do {
+                    if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                        print("📱 Received JSON response")
+                        
+                        if let success = json["success"] as? Bool, success {
+                            if let dataArray = json["data"] as? [[String: Any]], let firstAssessment = dataArray.first {
+                                
+                                print("📱 Parsing assessment from JSON...")
+                                
+                                let assessmentData = try JSONSerialization.data(withJSONObject: firstAssessment, options: [])
+                                let decoder = JSONDecoder()
+                                let assessment = try decoder.decode(Assessment.self, from: assessmentData)
+                                
+                                print("✅ Assessment parsed successfully!")
+                                print("   ID: \(assessment.id)")
+                                print("   Questions: \(assessment.questions.count)")
+                                
+                                self.createdAssessment = assessment
+                                self.goToStartTestVC()
+                                
+                            } else {
+                                print("❌ Data array is empty")
+                                self.showAlert(msg: "No assessment created")
+                                self.navigationController?.popViewController(animated: true)
+                            }
+                        } else {
+                            print("❌ API returned success = false")
+                            self.showAlert(msg: "Failed to create assessment")
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                } catch {
+                    print("❌ JSON Parsing error: \(error)")
+                    print("❌ Error details: \(error.localizedDescription)")
+                    
+                    if let decodingError = error as? DecodingError {
+                        switch decodingError {
+                        case .keyNotFound(let key, let context):
+                            print("❌ Missing key: \(key.stringValue)")
+                            print("❌ Context: \(context.debugDescription)")
+                        case .typeMismatch(let type, let context):
+                            print("❌ Type mismatch for type: \(type)")
+                            print("❌ Context: \(context.debugDescription)")
+                        case .valueNotFound(let type, let context):
+                            print("❌ Value not found for type: \(type)")
+                            print("❌ Context: \(context.debugDescription)")
+                        case .dataCorrupted(let context):
+                            print("❌ Data corrupted: \(context.debugDescription)")
+                        @unknown default:
+                            print("❌ Unknown decoding error")
+                        }
                     }
                     
-                case .failure(let error):
-                    switch error {
-                    case .noaccess:
-                        self.performLogout()
-                    default:
-                        self.showAlert(msg: error.localizedDescription)
-                        self.navigationController?.popViewController(animated: true)
-                    }
+                    self.showAlert(msg: "Error parsing assessment data")
+                    self.navigationController?.popViewController(animated: true)
                 }
             }
-        }
+        }.resume()
     }
     
     func performLogout() {

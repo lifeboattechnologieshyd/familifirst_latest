@@ -218,7 +218,7 @@ class QuestionVC: UIViewController {
             return
         }
         
-        let selected_ans = assessment.questions[current_question].options[view.tag]
+        let selected_ans = String(view.tag)
         attemptAns(ans: selected_ans, index: view.tag)
         
         for v in stackViewOptions.arrangedSubviews {
@@ -262,7 +262,9 @@ class QuestionVC: UIViewController {
                 self.resetOptionsAndMoveToNextQuestion()
             }
         } else {
-            getStats()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.getStats()
+            }
         }
     }
     
@@ -327,30 +329,27 @@ class QuestionVC: UIViewController {
     }
     
     func getStats() {
-        guard let userId = UserManager.shared.userId,
-              let assessment = assessment else {
-            showAlert(msg: "User or assessment data not found")
+        guard let assessment = assessment else {
+            showAlert(msg: "Assessment data not found")
             return
         }
         
-        let payload: [String: Any] = [
-            "assessment_id": assessment.id,
-            "user_id": userId
-        ]
+        // ✅ CHANGED: Using GET method with query parameter instead of POST with payload
+        let url = "\(API.EDUTAIN_MY_RESULTS)?assessment_id=\(assessment.id)"
         
-        NetworkManager.shared.request(urlString: API.EDUTAIN_ASSESSMENT_RESULTS, method: .POST, parameters: payload) { (result: Result<APIResponse<AssessmentResult>, NetworkError>) in
+        NetworkManager.shared.request(urlString: url, method: .GET) { (result: Result<APIResponse<AssessmentAnswerResponse>, NetworkError>) in
             switch result {
             case .success(let info):
                 if info.success, let data = info.data {
                     DispatchQueue.main.async {
                         self.displayResultPopup()
-                        self.slider.value = Float(data.studentMarks)
-                        self.slider.maximumValue = Float(data.totalMarks)
-                        let percentage = Int(Float(data.studentMarks) / Float(data.totalMarks) * 100)
+                        self.slider.value = Float(data.totalMarks)
+                        self.slider.maximumValue = Float(assessment.totalMarks)
+                        let percentage = assessment.totalMarks > 0 ? Int(Float(data.totalMarks) / Float(assessment.totalMarks) * 100) : 0
                         self.lblPercentage.text = "\(percentage) %"
                         self.slider.minimumValue = 0
-                        self.lblMarks.text = "\(data.studentMarks)"
-                        self.lblTotalMarks.text = "\(data.totalMarks)"
+                        self.lblMarks.text = "\(data.totalMarks)"
+                        self.lblTotalMarks.text = "\(assessment.totalMarks)"
                         self.lblwrongAns.text = "\(data.wrongQuestions)"
                         self.lblCorrectAns.text = "\(data.correctQuestions)"
                         self.lblSkipAns.text = "\(data.skippedQuestions)"
@@ -373,16 +372,13 @@ class QuestionVC: UIViewController {
             }
         }
     }
-    
     func attemptAns(ans: String, index: Int) {
-        guard let userId = UserManager.shared.userId,
-              let assessment = assessment,
+        guard let assessment = assessment,
               current_question < assessment.questions.count else { return }
         
         let payload: [String: Any] = [
             "question_id": assessment.questions[current_question].id,
             "assessment_id": assessment.id,
-            "user_id": userId,
             "answer": ans
         ]
         

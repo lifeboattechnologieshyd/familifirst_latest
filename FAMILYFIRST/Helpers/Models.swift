@@ -949,31 +949,33 @@ struct AssessmentResult: Codable {
         case skippedQuestions = "skipped_questions"
     }
 }
-class AssessmentAnswerResponse: Codable {
+struct AssessmentAnswerResponse: Codable {
     let id: String
     let questionId: String
     let assessmentId: String
     let userId: String
-    let studentId: String
-    let userAnswer: String
     let isCorrect: Bool
     let marks: Int
     let totalMarks: Int
     let attemptedQuestions: Int
+    let correctQuestions: Int
+    let wrongQuestions: Int
+    let skippedQuestions: Int
     let totalQuestions: Int
     let assessmentStatus: String
-
+    
     enum CodingKeys: String, CodingKey {
         case id
         case questionId = "question_id"
         case assessmentId = "assessment_id"
         case userId = "user_id"
-        case studentId = "student_id"
-        case userAnswer = "user_answer"
         case isCorrect = "is_correct"
         case marks
         case totalMarks = "total_marks"
         case attemptedQuestions = "attempted_questions"
+        case correctQuestions = "correct_questions"
+        case wrongQuestions = "wrong_questions"
+        case skippedQuestions = "skipped_questions"
         case totalQuestions = "total_questions"
         case assessmentStatus = "assessment_status"
     }
@@ -993,33 +995,57 @@ struct Curriculum: Codable, Identifiable {
 }
 struct Assessment: Codable {
     let id: String
-    let gradeID: String
-    let gradeName: String
-    let subjectID: String
-    let subjectName: String
+    let gradeId: String
+    let subjectId: String
     let name: String
     let description: String
     let numberOfQuestions: Int
     let attemptedQuestions: Int
-    let isEvaluationRequired: Bool
     let totalMarks: Int
     let status: String
-    let questions: [AssessmentQuestion]
-
+    let questions: [Question]
+    
     enum CodingKeys: String, CodingKey {
         case id
-        case gradeID = "grade_id"
-        case gradeName = "grade_name"
-        case subjectID = "subject_id"
-        case subjectName = "subject_name"
+        case gradeId = "grade_id"
+        case subjectId = "subject_id"
         case name
         case description
         case numberOfQuestions = "number_of_questions"
         case attemptedQuestions = "attempted_questions"
-        case isEvaluationRequired = "is_evaluation_required"
         case totalMarks = "total_marks"
         case status
         case questions
+    }
+}
+
+struct Question: Codable {
+    let id: String
+    let questionType: String
+    let question: String
+    let options: [String]
+    let answer: String
+    let description: String
+    let marks: Int
+    let subjectId: String
+    let gradeId: String
+    let hint: String
+    let skillTested: String
+    let levelOfDifficulty: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case questionType = "question_type"
+        case question
+        case options
+        case answer
+        case description
+        case marks
+        case subjectId = "subject_id"
+        case gradeId = "grade_id"
+        case hint
+        case skillTested = "skill_tested"
+        case levelOfDifficulty = "level_of_difficulty"
     }
 }
 struct AssessmentQuestion: Codable {
