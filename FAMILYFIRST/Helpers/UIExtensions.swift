@@ -522,28 +522,28 @@ class PillLabel: UILabel {
                       height: size.height + contentInsets.top + contentInsets.bottom)
     }
 }
-extension UIButton {
-    func loadImage(url: String, placeholder: UIImage? = nil) {
-        // Set placeholder if provided
-        if let placeholder = placeholder {
-            self.setImage(placeholder, for: .normal)
-        } else {
-            self.setImage(nil, for: .normal)
-        }
-        
-        guard let imageUrl = URL(string: url) else { return }
-
-        // Fetch image asynchronously
-        URLSession.shared.dataTask(with: imageUrl) { data, _, error in
-            guard let data = data, error == nil,
-                  let image = UIImage(data: data) else { return }
-
-            DispatchQueue.main.async {
-                self.setImage(image, for: .normal)
-            }
-        }.resume()
-    }
-}
+//extension UIButton {
+//    func loadImage(url: String, placeholder: UIImage? = nil) {
+//        // Set placeholder if provided
+//        if let placeholder = placeholder {
+//            self.setImage(placeholder, for: .normal)
+//        } else {
+//            self.setImage(nil, for: .normal)
+//        }
+//        
+//        guard let imageUrl = URL(string: url) else { return }
+//
+//        // Fetch image asynchronously
+//        URLSession.shared.dataTask(with: imageUrl) { data, _, error in
+//            guard let data = data, error == nil,
+//                  let image = UIImage(data: data) else { return }
+//
+//            DispatchQueue.main.async {
+//                self.setImage(image, for: .normal)
+//            }
+//        }.resume()
+//    }
+//}
 extension String {
     func stripHTML() -> String {
         guard let data = self.data(using: .utf8) else { return self }
@@ -844,15 +844,83 @@ extension UIView {
         self.layer.addSublayer(shapeLayer)
     }
 }
+
+private var imageUrlKey: UInt8 = 0
+private var imageTaskKey: UInt8 = 1
+
 extension UIImageView {
+    
+    private var currentImageUrl: String? {
+        get { objc_getAssociatedObject(self, &imageUrlKey) as? String }
+        set { objc_setAssociatedObject(self, &imageUrlKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+    
+    private var imageTask: URLSessionDataTask? {
+        get { objc_getAssociatedObject(self, &imageTaskKey) as? URLSessionDataTask }
+        set { objc_setAssociatedObject(self, &imageTaskKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+    
     func loadImage(from url: URL, placeholder: UIImage? = nil) {
+        imageTask?.cancel()
+        imageTask = nil
+        
         self.image = placeholder
         
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+        let urlString = url.absoluteString
+        currentImageUrl = urlString
+        
+        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             guard let self = self else { return }
             
+            if let error = error as NSError?, error.code == NSURLErrorCancelled {
+                return
+            }
+            
             if let error = error {
-                print("Image load error: \(error.localizedDescription)")
+                print("❌ Image load error: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let data = data, let image = UIImage(data: data) else {
+                print("❌ Invalid image data")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                if self.currentImageUrl == urlString {
+                    self.image = image
+                } else {
+                    print("⚠️ Image skipped (cell reused)")
+                }
+            }
+        }
+        
+        imageTask = task
+        task.resume()
+    }
+    
+    func setImage(url: String, placeHolderImage: String = "ffSplash") {
+        imageTask?.cancel()
+        imageTask = nil
+        
+        let placeholder = UIImage(named: placeHolderImage)
+        self.image = placeholder
+        
+        guard !url.isEmpty, let imageUrl = URL(string: url) else {
+            return
+        }
+        
+        currentImageUrl = url
+        
+        let task = URLSession.shared.dataTask(with: imageUrl) { [weak self] data, response, error in
+            guard let self = self else { return }
+            
+            if let error = error as NSError?, error.code == NSURLErrorCancelled {
+                return
+            }
+            
+            if let error = error {
+                print("❌ Image load error: \(error.localizedDescription)")
                 return
             }
             
@@ -861,8 +929,14 @@ extension UIImageView {
             }
             
             DispatchQueue.main.async {
-                self.image = image
+                if self.currentImageUrl == url {
+                    self.image = image
+                }
             }
-        }.resume()
+        }
+        
+        imageTask = task
+        task.resume()
     }
+    
 }

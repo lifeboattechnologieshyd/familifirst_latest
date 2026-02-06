@@ -307,7 +307,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ol8-Tk-0ZO">
                                 <rect key="frame" x="118" y="508" width="157" height="40"/>
-                                <color key="backgroundColor" name="primaryColor"/>
+                                <color key="backgroundColor" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="2cN-TU-s2H"/>
                                 </constraints>
@@ -329,6 +329,7 @@
                             </button>
                             <slider opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="nPd-kE-N2y">
                                 <rect key="frame" x="16" y="308" width="361" height="20"/>
+                                <color key="tintColor" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="AGg-qR-Hqo"/>
                                 </constraints>
@@ -363,7 +364,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jhP-1z-MBD">
                                 <rect key="frame" x="154.66666666666666" y="271" width="84" height="25"/>
-                                <color key="backgroundColor" name="primaryColor"/>
+                                <color key="backgroundColor" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="1Fj-y0-bcw"/>
                                     <constraint firstAttribute="width" constant="84" id="EIt-XF-Co0"/>
@@ -525,7 +526,7 @@
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                                     </textField>
                                 </subviews>
-                                <color key="backgroundColor" name="primaryColor"/>
+                                <color key="backgroundColor" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="UHh-QH-I9g" secondAttribute="trailing" constant="4" id="7i6-C8-vcc"/>
                                     <constraint firstAttribute="height" constant="64" id="DnU-s6-cjh"/>
@@ -815,7 +816,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="EXIT">
                                             <fontDescription key="titleFontDescription" name="Lexend-Medium" family="Lexend" pointSize="15"/>
-                                            <color key="baseForegroundColor" name="primaryColor"/>
+                                            <color key="baseForegroundColor" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </buttonConfiguration>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -825,7 +826,7 @@
                                                 <real key="value" value="1"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                <color key="value" name="primaryColor"/>
+                                                <color key="value" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
@@ -834,12 +835,12 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qDz-G1-iPe">
                                         <rect key="frame" x="155.33333333333331" y="392" width="198.33333333333331" height="40"/>
-                                        <color key="backgroundColor" name="primaryColor"/>
+                                        <color key="backgroundColor" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <fontDescription key="fontDescription" name="Lexend-Medium" family="Lexend" pointSize="16"/>
                                         <color key="tintColor" red="0.98908084630000004" green="0.94956141709999997" blue="0.31580013039999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="NEXT WORD">
-                                            <color key="titleColor" name="secondaryColor"/>
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -1054,7 +1055,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y8S-cd-cld">
                                 <rect key="frame" x="118" y="508" width="157" height="40"/>
-                                <color key="backgroundColor" name="primaryColor"/>
+                                <color key="backgroundColor" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Wmb-rg-3yc"/>
                                 </constraints>
@@ -1076,6 +1077,7 @@
                             </button>
                             <slider opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="qES-kH-H0a">
                                 <rect key="frame" x="16" y="308" width="361" height="20"/>
+                                <color key="tintColor" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="ADo-Zd-5yY"/>
                                 </constraints>
@@ -1110,7 +1112,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xgm-dU-qfk">
                                 <rect key="frame" x="154.66666666666666" y="271" width="84" height="25"/>
-                                <color key="backgroundColor" name="primaryColor"/>
+                                <color key="backgroundColor" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="84" id="PA2-g0-iUv"/>
                                     <constraint firstAttribute="height" constant="25" id="qTG-xM-PXX"/>
@@ -1560,7 +1562,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="EXIT">
                                             <fontDescription key="titleFontDescription" name="Lexend-Medium" family="Lexend" pointSize="15"/>
-                                            <color key="baseForegroundColor" name="primaryColor"/>
+                                            <color key="baseForegroundColor" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </buttonConfiguration>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -1570,7 +1572,7 @@
                                                 <real key="value" value="1"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                <color key="value" name="primaryColor"/>
+                                                <color key="value" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
@@ -1579,12 +1581,12 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DOC-ly-9sU">
                                         <rect key="frame" x="155.33333333333331" y="392" width="198.33333333333331" height="40"/>
-                                        <color key="backgroundColor" name="primaryColor"/>
+                                        <color key="backgroundColor" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <fontDescription key="fontDescription" name="Lexend-Medium" family="Lexend" pointSize="16"/>
                                         <color key="tintColor" red="0.98908084630000004" green="0.94956141709999997" blue="0.31580013039999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="NEXT WORD">
-                                            <color key="titleColor" name="secondaryColor"/>
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -1746,7 +1748,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="4262" y="-35"/>
+            <point key="canvasLocation" x="4261.8320610687024" y="-35.211267605633807"/>
         </scene>
     </scenes>
     <resources>
@@ -1761,9 +1763,6 @@
         <image name="vocabbee_bg_icon" width="46.333332061767578" height="46.333332061767578"/>
         <namedColor name="primaryColor">
             <color red="0.043137254901960784" green="0.33725490196078434" blue="0.60392156862745094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="secondaryColor">
-            <color red="0.99607843137254903" green="0.94901960784313721" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -110,7 +110,7 @@ class StoriesCell: UITableViewCell {
         
         youtubeURL = feed.youtubeVideo
         removePlayerView()
-        imgVw.loadImage(url: feed.image ?? "", placeHolderImage: "login_img")
+        imgVw.loadImage(url: feed.image ?? "", placeHolderImage: "FF Logo")
         btnPlay?.isHidden = (feed.youtubeVideo ?? "").isEmpty
         
         colVw.reloadData()

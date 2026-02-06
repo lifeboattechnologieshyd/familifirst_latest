@@ -40,7 +40,7 @@ class EdutainCell: UITableViewCell {
     var whatsappClicked: ((Int, Feed) -> Void)?
     var shareClicked: ((Int, Feed) -> Void)?
     var commentClicked: ((Int, Feed) -> Void)?
-    var tagClicked: ((Int, Feed, String) -> Void)?  // NEW: Tag click callback
+    var tagClicked: ((Int, Feed, String) -> Void)?
 
     // Track states
     var isLiked: Bool = false
@@ -167,7 +167,7 @@ class EdutainCell: UITableViewCell {
         lblTime.text = time
         
         // Image
-        imgVw.loadImage(url: feed.image ?? "", placeHolderImage: "login_img")
+        imgVw.loadImage(url: feed.image ?? "", placeHolderImage: "FF Logo")
         
         // Like Count & State
         currentLikeCount = feed.likesCount

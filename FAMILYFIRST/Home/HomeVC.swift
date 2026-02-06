@@ -1,3 +1,4 @@
+//
 //  HomeVC.swift
 //  FamilyFirst
 //
@@ -10,12 +11,14 @@ class HomeVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     private var upcomingEvents: [Event] = []
+    private var todaysCalendarData: CalendarData?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         registerCells()
         fetchUpcomingEvents()
+        fetchCalendarData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -24,6 +27,39 @@ class HomeVC: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
         if UserManager.shared.isLoggedIn {
             fetchUpcomingEvents()
+            fetchCalendarData()
+        }
+    }
+    
+    private func fetchCalendarData() {
+        NetworkManager.shared.request(
+            urlString: API.BROADCAST_CALENDAR,
+            method: .GET
+        ) { [weak self] (result: Result<APIResponse<[CalendarData]>, NetworkError>) in
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    if response.success, let calendarList = response.data {
+                        // Find today's entry
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "dd-MM-yyyy"
+                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                        let todayString = dateFormatter.string(from: Date())
+                        
+                        self?.todaysCalendarData = calendarList.first { $0.date == todayString }
+                        
+                        // If no entry for today, fallback to the first one or latest one
+                        if self?.todaysCalendarData == nil {
+                            self?.todaysCalendarData = calendarList.first
+                        }
+                        
+                        self?.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+                    }
+                case .failure(let error):
+                    print("Error fetching calendar: \(error)")
+                }
+            }
         }
     }
     
@@ -193,7 +229,7 @@ class HomeVC: UIViewController {
         }
     }
     private func navigateToVocabBeeVC() {
-        let storyboard = UIStoryboard(name: "VocabBees", bundle: nil) 
+        let storyboard = UIStoryboard(name: "VocabBees", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "VocabBeesViewController") as! VocabBeesViewController
         if let navController = navigationController {
             navController.pushViewController(vc, animated: true)
@@ -266,6 +302,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "BannerCell", for: indexPath) as! BannerCell
+            cell.configure(with: todaysCalendarData)
             return cell
             
         case 1:

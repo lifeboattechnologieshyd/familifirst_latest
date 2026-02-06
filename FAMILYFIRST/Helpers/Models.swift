@@ -1403,3 +1403,17 @@ struct MonthEventsGroup {
     let events: [Event]
     let sortOrder: Date
 }
+struct CalendarData: Codable {
+    let id: String
+    let date: String
+    let prompt: String
+    let benefit: String
+    let youtubeVideoUrl: String?
+    let description: String
+    let image: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id, date, prompt, benefit, description, image
+        case youtubeVideoUrl = "youtube_video_url"
+    }
+}
