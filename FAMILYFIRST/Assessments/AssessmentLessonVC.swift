@@ -104,8 +104,7 @@ class AssessmentLessonVC: UIViewController {
         }
     }
     
-    @objc func lessonButtonTapped(_ sender: UIButton) {
-        let index = sender.tag
+    func toggleLesson(at index: Int) {
         guard index < lessons.count else { return }
         
         lessons[index].selected.toggle()
@@ -118,7 +117,11 @@ class AssessmentLessonVC: UIViewController {
             selectedLessonIds.removeAll { $0 == lessons[index].id }
         }
         
-        tblVw.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+        tblVw.reloadData()
+    }
+    
+    @objc func lessonButtonTapped(_ sender: UIButton) {
+        toggleLesson(at: sender.tag)
     }
     
     func performLogout() {
@@ -153,9 +156,16 @@ extension AssessmentLessonVC: UITableViewDelegate, UITableViewDataSource {
         
         if lesson.selected {
             cell.btnSelect.setImage(UIImage(named: "lesson_selection"), for: .normal)
+            cell.bgView.backgroundColor = UIColor(hex: "#E8F5E9")
         } else {
             cell.btnSelect.setImage(UIImage(named: "add"), for: .normal)
+            cell.bgView.backgroundColor = .white
         }
+        
+        cell.btnSelect.isUserInteractionEnabled = true
+        cell.btnSelect.isEnabled = true
+        cell.contentView.isUserInteractionEnabled = true
+        cell.isUserInteractionEnabled = true
         
         cell.btnSelect.removeTarget(nil, action: nil, for: .allEvents)
         cell.btnSelect.addTarget(self, action: #selector(lessonButtonTapped(_:)), for: .touchUpInside)
@@ -168,14 +178,7 @@ extension AssessmentLessonVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        lessonButtonTapped(UIButton().apply { $0.tag = indexPath.row })
+        toggleLesson(at: indexPath.row)
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
-extension UIButton {
-    func apply(_ block: (UIButton) -> Void) -> UIButton {
-        block(self)
-        return self
     }
 }

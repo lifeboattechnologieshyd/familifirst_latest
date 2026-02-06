@@ -46,12 +46,6 @@ class AssessmentPreparationVC: UIViewController {
     }
     
     func createAssessment() {
-        guard let userId = UserManager.shared.userId else {
-            showAlert(msg: "User ID not found. Please login again.")
-            navigationController?.popViewController(animated: true)
-            return
-        }
-        
         guard !selectedLessonIds.isEmpty else {
             showAlert(msg: "Please select at least one lesson")
             navigationController?.popViewController(animated: true)
@@ -67,18 +61,17 @@ class AssessmentPreparationVC: UIViewController {
         let payload: [String: Any] = [
             "grade_id": grade_id,
             "subject_id": subject_id,
-            "lesson_ids": selectedLessonIds,
-            "user_id": userId
+            "lesson_ids": selectedLessonIds
         ]
         
-        NetworkManager.shared.request(urlString: API.EDUTAIN_CREATE_ASSESSMENT, method: .POST, parameters: payload) { [weak self] (result: Result<APIResponse<[Assessment]>, NetworkError>) in
+        NetworkManager.shared.request(urlString: API.EDUTAIN_CREATE_ASSESSMENT, method: .POST, parameters: payload) { [weak self] (result: Result<APIResponse<Assessment>, NetworkError>) in
             
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 
                 switch result {
                 case .success(let info):
-                    if info.success, let data = info.data, let assessment = data.first {
+                    if info.success, let assessment = info.data {
                         self.createdAssessment = assessment
                         self.goToStartTestVC()
                     } else {
