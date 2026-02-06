@@ -47,6 +47,7 @@ class QuestionVC: UIViewController {
     @IBOutlet weak var lblCorrectAns: UILabel!
     @IBOutlet weak var lblTotalMarks: UILabel!
     
+    var assessment: Assessment?
     var current_question = 0
     var darkOverlayView: UIView!
     let slashLayer = CAShapeLayer()
@@ -56,26 +57,29 @@ class QuestionVC: UIViewController {
         setupUI()
         setupHintView()
         setupQuestionsView()
-//        drawSlash()
     }
     
     private func setupUI() {
+        guard assessment != nil else {
+            showAlert(msg: "Assessment data not found")
+            navigationController?.popViewController(animated: true)
+            return
+        }
+        
         lblOptionA.text = ""
         lblOptionB.text = ""
         lblOptionC.text = ""
         lblOptionD.text = ""
         lblOptionHint.text = ""
-        
-        self.lblDesciption.text = ""
-        self.stackViewOptions.isHidden = true
-        self.resultPopup.isHidden = true
+        lblDesciption.text = ""
+        stackViewOptions.isHidden = true
+        resultPopup.isHidden = true
     }
     
     func setupHintView() {
         hintVw.isHidden = true
         hintVw.layer.masksToBounds = true
         
-        // Create dark overlay
         darkOverlayView = UIView(frame: view.bounds)
         darkOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         darkOverlayView.isHidden = true
@@ -130,14 +134,13 @@ class QuestionVC: UIViewController {
     }
     
     func showHintView() {
-        // let currentHint = UserManager.shared.assessment_created_assessment.questions[current_question].hint
-        // hintLbl.text = currentHint
+        guard let assessment = assessment,
+              current_question < assessment.questions.count else { return }
         
-        hintLbl.text = "This is a hint" // Placeholder text
+        hintLbl.text = assessment.questions[current_question].hint
         
         darkOverlayView.isHidden = false
         darkOverlayView.alpha = 0
-        
         hintVw.isHidden = false
         
         view.bringSubviewToFront(darkOverlayView)
@@ -146,13 +149,13 @@ class QuestionVC: UIViewController {
         okBtn.isUserInteractionEnabled = true
         hintVw.isUserInteractionEnabled = true
         
-        UIView.animate(withDuration: 0) {
+        UIView.animate(withDuration: 0.3) {
             self.darkOverlayView.alpha = 0.5
         }
     }
     
     func hideHintView() {
-        UIView.animate(withDuration: 0, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.darkOverlayView.alpha = 0
         }) { completed in
             if completed {
@@ -163,41 +166,38 @@ class QuestionVC: UIViewController {
     }
     
     @IBAction func onClickOkBtn(_ sender: UIButton) {
-        self.okBtn.titleLabel?.font = UIFont.lexend(.semiBold, size: 16)
+        okBtn.titleLabel?.font = UIFont.lexend(.semiBold, size: 16)
         hideHintView()
     }
     
     func changeQuestion() {
+        guard let assessment = assessment,
+              current_question < assessment.questions.count else { return }
+        
         hintVw.isHidden = true
         darkOverlayView.isHidden = true
         
-        lblQuestionNumber.text = "Question \(current_question + 1)/10"
-        lblQuestion.text = "Sample Question Text"
-        lblDesciption.text = "Sample Description"
-        lblOptionA.text = "Option A"
-        lblOptionB.text = "Option B"
-        lblOptionC.text = "Option C"
-        lblOptionD.text = "Option D"
-        lblOptionHint.text = "I don't know"
-        self.stackViewOptions.isHidden = false
+        let question = assessment.questions[current_question]
         
-        /*
-        lblQuestionNumber.text = "Question \(current_question + 1)/\(UserManager.shared.assessment_created_assessment.numberOfQuestions)"
-        lblQuestion.animateTyping(text: UserManager.shared.assessment_created_assessment.questions[current_question].question) {
-            self.lblDesciption.animateTyping(text: UserManager.shared.assessment_created_assessment.questions[self.current_question].description) {
-                self.lblOptionA.text = UserManager.shared.assessment_created_assessment.questions[self.current_question].options[0]
-                self.lblOptionB.text = UserManager.shared.assessment_created_assessment.questions[self.current_question].options[1]
-                self.lblOptionC.text = UserManager.shared.assessment_created_assessment.questions[self.current_question].options[2]
-                self.lblOptionD.text = UserManager.shared.assessment_created_assessment.questions[self.current_question].options[3]
+        lblQuestionNumber.text = "Question \(current_question + 1)/\(assessment.numberOfQuestions)"
+        lblQuestion.animateTyping(text: question.question) {
+            self.lblDesciption.animateTyping(text: question.description) {
+                if question.options.count >= 4 {
+                    self.lblOptionA.text = question.options[0]
+                    self.lblOptionB.text = question.options[1]
+                    self.lblOptionC.text = question.options[2]
+                    self.lblOptionD.text = question.options[3]
+                }
                 self.lblOptionHint.text = "I don't know"
                 self.stackViewOptions.isHidden = false
             }
         }
-        */
     }
     
     @objc func optionTapped(_ sender: UITapGestureRecognizer) {
-        guard let view = sender.view else { return }
+        guard let view = sender.view,
+              let assessment = assessment,
+              current_question < assessment.questions.count else { return }
         
         let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.prepare()
@@ -208,22 +208,18 @@ class QuestionVC: UIViewController {
             view.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
         },
                        completion: { _ in
-            UIView.animate(withDuration: 0) {
+            UIView.animate(withDuration: 0.1) {
                 view.transform = .identity
             }
         })
         
         if view.tag == 4 {
-            self.showHintView()
+            showHintView()
             return
         }
         
-        // let selected_ans = UserManager.shared.assessment_created_assessment.questions[self.current_question].options[view.tag]
-        // self.attemptAns(ans: selected_ans, index: view.tag)
-        
-        // Placeholder action
-        print("Option \(view.tag) tapped")
-        self.highlightSelection(at: view.tag)
+        let selected_ans = assessment.questions[current_question].options[view.tag]
+        attemptAns(ans: selected_ans, index: view.tag)
         
         for v in stackViewOptions.arrangedSubviews {
             v.isUserInteractionEnabled = false
@@ -231,177 +227,144 @@ class QuestionVC: UIViewController {
     }
     
     func highlightSelection(at index: Int) {
-        // Placeholder - Uncomment when API is ready
-        // let ans = UserManager.shared.assessment_created_assessment.questions[self.current_question].answer
+        guard let assessment = assessment,
+              current_question < assessment.questions.count else { return }
         
-        let ans = "Option A" // Placeholder answer
+        let ans = assessment.questions[current_question].answer
         
         switch index {
         case 0:
-            self.optionAView.backgroundColor = ans == lblOptionA.text ? UIColor(hex: "00BB00") : UIColor(hex: "#FFA700")
+            optionAView.backgroundColor = ans == lblOptionA.text ? UIColor(hex: "00BB00") : UIColor(hex: "#FFA700")
         case 1:
-            self.optionBView.backgroundColor = ans == lblOptionB.text ? UIColor(hex: "00BB00") : UIColor(hex: "#FFA700")
+            optionBView.backgroundColor = ans == lblOptionB.text ? UIColor(hex: "00BB00") : UIColor(hex: "#FFA700")
         case 2:
-            self.optionCView.backgroundColor = ans == lblOptionC.text ? UIColor(hex: "00BB00") : UIColor(hex: "#FFA700")
+            optionCView.backgroundColor = ans == lblOptionC.text ? UIColor(hex: "00BB00") : UIColor(hex: "#FFA700")
         case 3:
-            self.optionDView.backgroundColor = ans == lblOptionD.text ? UIColor(hex: "00BB00") : UIColor(hex: "#FFA700")
+            optionDView.backgroundColor = ans == lblOptionD.text ? UIColor(hex: "00BB00") : UIColor(hex: "#FFA700")
         case 4:
-            self.optionHintView.backgroundColor = UIColor(hex: "#FFA700")
+            optionHintView.backgroundColor = UIColor(hex: "#FFA700")
         default:
             break
         }
         
         if ans == lblOptionA.text {
-            self.optionAView.backgroundColor = UIColor(hex: "00BB00")
+            optionAView.backgroundColor = UIColor(hex: "00BB00")
         } else if ans == lblOptionB.text {
-            self.optionBView.backgroundColor = UIColor(hex: "00BB00")
+            optionBView.backgroundColor = UIColor(hex: "00BB00")
         } else if ans == lblOptionC.text {
-            self.optionCView.backgroundColor = UIColor(hex: "00BB00")
+            optionCView.backgroundColor = UIColor(hex: "00BB00")
         } else if ans == lblOptionD.text {
-            self.optionDView.backgroundColor = UIColor(hex: "00BB00")
+            optionDView.backgroundColor = UIColor(hex: "00BB00")
         }
         
-        /*
-        if UserManager.shared.assessment_created_assessment.numberOfQuestions > current_question + 1 {
+        if assessment.numberOfQuestions > current_question + 1 {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 self.resetOptionsAndMoveToNextQuestion()
             }
         } else {
-            self.getStats()
-        }
-        */
-        
-        // Placeholder logic
-        if current_question < 9 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-//                self.resetOptionsAndMoveToNextQuestion()
-            }
-        } else {
-//            self.displayResultPopup()
+            getStats()
         }
     }
     
-        /*func resetOptionsAndMoveToNextQuestion() {
-        for (_, v) in self.stackViewOptions.arrangedSubviews.enumerated() {
+    func resetOptionsAndMoveToNextQuestion() {
+        for v in stackViewOptions.arrangedSubviews {
             v.backgroundColor = .systemBackground
             v.isUserInteractionEnabled = true
-            v.layer.borderColor = UIColor.primary.cgColor
+            v.layer.borderColor = UIColor.systemBlue.cgColor
         }
         
-        self.lblDesciption.text = ""
-        self.stackViewOptions.isHidden = true
+        lblDesciption.text = ""
+        stackViewOptions.isHidden = true
         
-        self.lblTitleA.backgroundColor = .primary
-        self.lblTitleA.textColor = .secondary
-        self.lblOptionA.textColor = .black
+        lblTitleA.backgroundColor = .systemBlue
+        lblTitleA.textColor = .white
+        lblOptionA.textColor = .black
         
-        self.lblTitleB.backgroundColor = .primary
-        self.lblTitleB.textColor = .secondary
-        self.lblOptionB.textColor = .black
+        lblTitleB.backgroundColor = .systemBlue
+        lblTitleB.textColor = .white
+        lblOptionB.textColor = .black
         
-        self.lblTitleC.backgroundColor = .primary
-        self.lblTitleC.textColor = .secondary
-        self.lblOptionC.textColor = .black
+        lblTitleC.backgroundColor = .systemBlue
+        lblTitleC.textColor = .white
+        lblOptionC.textColor = .black
         
-        self.lblTitleD.backgroundColor = .primary
-        self.lblTitleD.textColor = .secondary
-        self.lblOptionD.textColor = .black
+        lblTitleD.backgroundColor = .systemBlue
+        lblTitleD.textColor = .white
+        lblOptionD.textColor = .black
         
-        self.lblTitleHint.backgroundColor = .primary
-        self.lblTitleHint.textColor = .secondary
-        self.lblOptionHint.textColor = .black
+        lblTitleHint.backgroundColor = .systemBlue
+        lblTitleHint.textColor = .white
+        lblOptionHint.textColor = .black
         
-        self.hintVw.isHidden = true
-        self.darkOverlayView.isHidden = true
+        hintVw.isHidden = true
+        darkOverlayView.isHidden = true
         
-        self.current_question += 1
-        self.changeQuestion()
+        current_question += 1
+        changeQuestion()
     }
     
     func displayResultPopup() {
-        self.bgView.isHidden = true
-        self.resultPopup.isHidden = false
-        
-        // Placeholder values
-        self.slider.maximumValue = 100
-        self.slider.value = 75
-        self.lblTotalMarks.text = "100"
-        self.lblMarks.text = "75"
-        self.lblPercentage.text = "75 %"
-        self.lblCorrectAns.text = "7"
-        self.lblwrongAns.text = "2"
-        self.lblSkipAns.text = "1"
-        
-        self.viewanswersButton.titleLabel?.font = UIFont.lexend(.semiBold, size: 20)
-        
-        // Uncomment when API is ready
-        // self.slider.maximumValue = Float(UserManager.shared.assessment_created_assessment.totalMarks)
-        // self.lblTotalMarks.text = "\((UserManager.shared.assessment_created_assessment.totalMarks))"
+        bgView.isHidden = true
+        resultPopup.isHidden = false
+        viewanswersButton.titleLabel?.font = UIFont.lexend(.semiBold, size: 20)
     }
     
     @IBAction func onClickHome() {
-        self.navigationController?.popToRootViewController(animated: true)
+        navigationController?.popToRootViewController(animated: true)
     }
     
     @IBAction func onClickPlayMore() {
-        let vc = storyboard?.instantiateViewController(identifier: "AssessmentsViewController") as! AssessmentsViewController
-        self.navigationController?.popToViewController(vc, animated: true)
+        guard let vc = storyboard?.instantiateViewController(identifier: "AssessmentsGradeSelectionVC") as? AssessmentsGradeSelectionVC else { return }
+        navigationController?.popToViewController(vc, animated: true)
     }
     
     @IBAction func onClickAnswers(_ sender: UIButton) {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "AllQuestionsVC") as! AllQuestionsVC
-        // vc.assessmentId = UserManager.shared.assessment_created_assessment.id
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: "AllQuestionsVC") as? AllQuestionsVC,
+              let assessment = assessment else { return }
+        vc.assessmentId = assessment.id
         vc.is_back_to_root = true
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func drawSlash() {
-        slashLayer.removeFromSuperlayer()
-        let path = UIBezierPath()
-        path.move(to: CGPoint(x: scoreVw.bounds.width * 0.20, y: scoreVw.bounds.height * 0.85))
-        path.addLine(to: CGPoint(x: scoreVw.bounds.width * 0.85, y: scoreVw.bounds.height * 0.20))
-        slashLayer.path = path.cgPath
-        slashLayer.strokeColor = UIColor.primary.cgColor
-        slashLayer.lineWidth = 4
-        scoreVw.layer.addSublayer(slashLayer)
-    }*/
-    
-    
-    /*
     func getStats() {
-        let payload = [
-            "assessment_id": "\(UserManager.shared.assessment_created_assessment.id)",
-            "student_id": "\(UserManager.shared.assessmentSelectedStudent.studentID)"
+        guard let userId = UserManager.shared.userId,
+              let assessment = assessment else {
+            showAlert(msg: "User or assessment data not found")
+            return
+        }
+        
+        let payload: [String: Any] = [
+            "assessment_id": assessment.id,
+            "user_id": userId
         ]
         
-        NetworkManager.shared.request(urlString: API.ASSESSMENT_RESULTS, method: .POST, parameters: payload) { (result: Result<APIResponse<AssessmentResult>, NetworkError>) in
+        NetworkManager.shared.request(urlString: API.EDUTAIN_ASSESSMENT_RESULTS, method: .POST, parameters: payload) { (result: Result<APIResponse<AssessmentResult>, NetworkError>) in
             switch result {
             case .success(let info):
-                if info.success {
-                    if let data = info.data {
-                        DispatchQueue.main.async {
-                            self.displayResultPopup()
-                            self.slider.value = Float(data.studentMarks)
-                            self.slider.maximumValue = Float(data.totalMarks)
-                            let percentage = Int(Float(data.studentMarks) / Float(data.totalMarks) * 100)
-                            self.lblPercentage.text = "\(percentage) %"
-                            
-                            self.slider.minimumValue = 0
-                            self.lblMarks.text = "\(data.studentMarks)"
-                            self.lblTotalMarks.text = "\(data.totalMarks)"
-                            self.lblwrongAns.text = "\(data.wrongQuestions)"
-                            self.lblCorrectAns.text = "\(data.correctQuestions)"
-                            self.lblSkipAns.text = "\(data.skippedQuestions)"
-                        }
+                if info.success, let data = info.data {
+                    DispatchQueue.main.async {
+                        self.displayResultPopup()
+                        self.slider.value = Float(data.studentMarks)
+                        self.slider.maximumValue = Float(data.totalMarks)
+                        let percentage = Int(Float(data.studentMarks) / Float(data.totalMarks) * 100)
+                        self.lblPercentage.text = "\(percentage) %"
+                        self.slider.minimumValue = 0
+                        self.lblMarks.text = "\(data.studentMarks)"
+                        self.lblTotalMarks.text = "\(data.totalMarks)"
+                        self.lblwrongAns.text = "\(data.wrongQuestions)"
+                        self.lblCorrectAns.text = "\(data.correctQuestions)"
+                        self.lblSkipAns.text = "\(data.skippedQuestions)"
                     }
                 } else {
-                    print(info.description)
+                    DispatchQueue.main.async {
+                        self.showAlert(msg: info.description)
+                    }
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
                     switch error {
                     case .noaccess:
-                        self.handleLogout()
+                        self.performLogout()
                     default:
                         self.showAlert(msg: error.localizedDescription)
                         self.navigationController?.popViewController(animated: true)
@@ -410,35 +373,36 @@ class QuestionVC: UIViewController {
             }
         }
     }
-    */
     
-    /*
     func attemptAns(ans: String, index: Int) {
-        let url = API.ASSESSMENT_ATTEMPT
-        let payload = [
-            "question_id": "\(UserManager.shared.assessment_created_assessment.questions[self.current_question].id)",
-            "assessment_id": "\(UserManager.shared.assessment_created_assessment.id)",
-            "student_id": "\(UserManager.shared.assessmentSelectedStudent.studentID)",
+        guard let userId = UserManager.shared.userId,
+              let assessment = assessment,
+              current_question < assessment.questions.count else { return }
+        
+        let payload: [String: Any] = [
+            "question_id": assessment.questions[current_question].id,
+            "assessment_id": assessment.id,
+            "user_id": userId,
             "answer": ans
         ]
         
-        NetworkManager.shared.request(urlString: url, method: .POST, parameters: payload) { (result: Result<APIResponse<AssessmentAnswerResponse>, NetworkError>) in
+        NetworkManager.shared.request(urlString: API.EDUTAIN_ASSESSMENT_ATTEMPT, method: .POST, parameters: payload) { (result: Result<APIResponse<AssessmentAnswerResponse>, NetworkError>) in
             switch result {
             case .success(let info):
                 if info.success {
-                    if let _ = info.data {
-                        DispatchQueue.main.async {
-                            self.highlightSelection(at: index)
-                        }
+                    DispatchQueue.main.async {
+                        self.highlightSelection(at: index)
                     }
                 } else {
-                    print(info.description)
+                    DispatchQueue.main.async {
+                        self.showAlert(msg: info.description)
+                    }
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
                     switch error {
                     case .noaccess:
-                        self.handleLogout()
+                        self.performLogout()
                     default:
                         self.showAlert(msg: error.localizedDescription)
                         self.navigationController?.popViewController(animated: true)
@@ -447,5 +411,20 @@ class QuestionVC: UIViewController {
             }
         }
     }
-    */
+    
+    func performLogout() {
+        UserManager.shared.logout()
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
+            let navController = UINavigationController(rootViewController: loginVC)
+            navController.modalPresentationStyle = .fullScreen
+            
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first {
+                window.rootViewController = navController
+                window.makeKeyAndVisible()
+            }
+        }
+    }
 }

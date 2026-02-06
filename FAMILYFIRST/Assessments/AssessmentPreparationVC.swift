@@ -12,15 +12,15 @@ class AssessmentPreparationVC: UIViewController {
     
     @IBOutlet weak var imgVw: LottieAnimationView!
     
+    var grade_id = ""
+    var subject_id = ""
+    var selectedLessonIds: [String] = []
+    var createdAssessment: Assessment?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         playLottieFile()
-        
-        
-        // Placeholder: Go to next screen after 2 seconds
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.goToStartTestVC()
-        }
+        createAssessment()
     }
     
     func playLottieFile() {
@@ -41,42 +41,45 @@ class AssessmentPreparationVC: UIViewController {
         guard let vc = storyboard?.instantiateViewController(identifier: "StartTestVC") as? StartTestVC else {
             return
         }
+        vc.assessment = createdAssessment
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    
-    /*
     func createAssessment() {
-        guard !UserManager.shared.assessment_selected_lesson_ids.isEmpty else {
+        guard let userId = UserManager.shared.userId else {
+            showAlert(msg: "User ID not found. Please login again.")
+            navigationController?.popViewController(animated: true)
+            return
+        }
+        
+        guard !selectedLessonIds.isEmpty else {
             showAlert(msg: "Please select at least one lesson")
             navigationController?.popViewController(animated: true)
             return
         }
         
-        guard let grade = UserManager.shared.assessment_selected_grade,
-              let subject = UserManager.shared.assessment_selected_subject,
-              let student = UserManager.shared.assessmentSelectedStudent else {
+        guard !grade_id.isEmpty, !subject_id.isEmpty else {
             showAlert(msg: "Missing required assessment data. Please try again.")
             navigationController?.popViewController(animated: true)
             return
         }
-     showLoader()
+        
         let payload: [String: Any] = [
-            "grade_id": grade.id,
-            "subject_id": subject.id,
-            "lesson_ids": UserManager.shared.assessment_selected_lesson_ids,
-            "student_id": student.studentID
+            "grade_id": grade_id,
+            "subject_id": subject_id,
+            "lesson_ids": selectedLessonIds,
+            "user_id": userId
         ]
         
-        NetworkManager.shared.request(urlString: API.ASSESSMENT_CREATE, method: .POST, parameters: payload) { [weak self] (result: Result<APIResponse<[Assessment]>, NetworkError>) in
+        NetworkManager.shared.request(urlString: API.EDUTAIN_CREATE_ASSESSMENT, method: .POST, parameters: payload) { [weak self] (result: Result<APIResponse<[Assessment]>, NetworkError>) in
             
             DispatchQueue.main.async {
                 guard let self = self else { return }
-     self.hideLoader()
+                
                 switch result {
                 case .success(let info):
                     if info.success, let data = info.data, let assessment = data.first {
-                        UserManager.shared.assessment_created_assessment = assessment
+                        self.createdAssessment = assessment
                         self.goToStartTestVC()
                     } else {
                         self.showAlert(msg: info.description)
@@ -84,9 +87,10 @@ class AssessmentPreparationVC: UIViewController {
                     }
                     
                 case .failure(let error):
-                    if case .noaccess = error {
-                        self.handleLogout()
-                    } else {
+                    switch error {
+                    case .noaccess:
+                        self.performLogout()
+                    default:
                         self.showAlert(msg: error.localizedDescription)
                         self.navigationController?.popViewController(animated: true)
                     }
@@ -94,5 +98,20 @@ class AssessmentPreparationVC: UIViewController {
             }
         }
     }
-    */
+    
+    func performLogout() {
+        UserManager.shared.logout()
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
+            let navController = UINavigationController(rootViewController: loginVC)
+            navController.modalPresentationStyle = .fullScreen
+            
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first {
+                window.rootViewController = navController
+                window.makeKeyAndVisible()
+            }
+        }
+    }
 }

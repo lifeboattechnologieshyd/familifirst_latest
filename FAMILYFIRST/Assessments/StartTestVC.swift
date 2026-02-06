@@ -17,7 +17,7 @@ class StartTestVC: UIViewController {
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var btnStart: UIButton!
     
-    private var assessment: Assessment?
+    var assessment: Assessment?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,25 +25,16 @@ class StartTestVC: UIViewController {
     }
     
     private func setupUI() {
-        // Placeholder data for UI testing
-        lblName.text = "Sample Test"
-        lblSubjectName.text = "Mathematics"
-        lblDescription.text = "It's a focused test designed to help students practice selected topics, making it easier to understand concepts and apply them with confidence."
-        lblQuestions.text = "10 Questions | 100 Marks"
-        
-        /*
-        guard let assessment = UserManager.shared.assessment_created_assessment else {
+        guard let assessment = assessment else {
+            showAlert(msg: "Assessment data not found. Please try again.")
             navigationController?.popViewController(animated: true)
             return
         }
-        
-        self.assessment = assessment
         
         lblName.text = assessment.name
         lblSubjectName.text = assessment.subjectName
         lblDescription.text = "It's a focused test designed to help students practice selected topics, making it easier to understand concepts and apply them with confidence."
         lblQuestions.text = "\(assessment.numberOfQuestions) Questions | \(assessment.totalMarks) Marks"
-        */
     }
     
     @IBAction func onClickBack(_ sender: UIButton) {
@@ -51,9 +42,16 @@ class StartTestVC: UIViewController {
     }
 
     @IBAction func onClickStartButton(_ sender: UIButton) {
+        guard let assessment = assessment else {
+            showAlert(msg: "Assessment data not found.")
+            return
+        }
+        
         guard let vc = storyboard?.instantiateViewController(identifier: "QuestionVC") as? QuestionVC else {
             return
         }
+        
+        vc.assessment = assessment
         navigationController?.pushViewController(vc, animated: true)
     }
 }

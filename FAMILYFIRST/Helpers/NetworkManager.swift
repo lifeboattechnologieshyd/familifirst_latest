@@ -298,7 +298,10 @@ struct API {
     static let WHATSAPP_SHARE = "\(BASE_URL)edutain/whatsapp/share"
     static let BROADCAST_CALENDAR = BASE_URL + "broadcast/calendar"
     static let EDUTAIN_SUBJECTS = "\(BASE_URL)edutain/subject"
-    static let EDUTAIN_LESSONS = "\(BASE_URL)edutain/lesson" 
+    static let EDUTAIN_LESSONS = "\(BASE_URL)edutain/lesson"
+    static let EDUTAIN_CREATE_ASSESSMENT = "\(BASE_URL)edutain/create/assessments"
+    static let EDUTAIN_ASSESSMENT_ATTEMPT = "\(BASE_URL)edutain/attempt/assessment"
+    static let EDUTAIN_ASSESSMENT_RESULTS = "\(BASE_URL)edutain/assessments/result"
 
 }
 

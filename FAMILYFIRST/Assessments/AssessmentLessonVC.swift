@@ -42,6 +42,10 @@ class AssessmentLessonVC: UIViewController {
             return
         }
         
+        vc.grade_id = grade_id
+        vc.subject_id = subject_id
+        vc.selectedLessonIds = selectedLessonIds
+        
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
