@@ -845,10 +845,10 @@ struct AssessmentQuestionHistoryDetails: Codable {
     let answerDescription: String?
     let questionMarks: Int
     let userId: String
-    let studentId: String
     let userAnswer: String?
     let isCorrect: Bool
     let marks: Int
+    let difficultyLevel: String?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -862,10 +862,10 @@ struct AssessmentQuestionHistoryDetails: Codable {
         case answerDescription = "ans_description"
         case questionMarks = "question_marks"
         case userId = "user_id"
-        case studentId = "student_id"
         case userAnswer = "user_answer"
         case isCorrect = "is_correct"
         case marks
+        case difficultyLevel = "difficulty_level"
     }
 }
 struct AssessmentSummary: Codable {

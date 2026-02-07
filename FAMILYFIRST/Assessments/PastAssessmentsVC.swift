@@ -1,3 +1,10 @@
+//
+//  PastAssessmentsVC.swift
+//  SchoolFirst
+//
+//  Created by Lifeboat on 10/11/25.
+//
+
 import UIKit
 
 class PastAssessmentsVC: UIViewController {
@@ -10,6 +17,10 @@ class PastAssessmentsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         getHistory()
     }
     
@@ -17,6 +28,8 @@ class PastAssessmentsVC: UIViewController {
         tblVw.register(UINib(nibName: "AssessmentCardCell", bundle: nil), forCellReuseIdentifier: "AssessmentCardCell")
         tblVw.delegate = self
         tblVw.dataSource = self
+        tblVw.separatorStyle = .none
+        tblVw.backgroundColor = .clear
     }
     
     private func navigateToAllQuestions(ass_id: String) {
@@ -34,16 +47,25 @@ class PastAssessmentsVC: UIViewController {
         showLoader()
         let url = API.EDUTAIN_MY_RESULTS
         
+        print("🔍 Fetching past assessments from: \(url)")
+        
         NetworkManager.shared.request(urlString: url, method: .GET) { (result: Result<APIResponse<[EdutainResultData]>, NetworkError>) in
             self.hideLoader()
             switch result {
             case .success(let info):
+                print("✅ API Success: \(info.success)")
+                print("📊 Total assessments: \(info.total ?? 0)")
+                
                 if info.success {
                     if let data = info.data {
+                        print("📦 Data count: \(data.count)")
                         DispatchQueue.main.async {
                             self.assessments = data
+                            print("🔄 Reloading table with \(self.assessments.count) assessments")
                             self.tblVw.reloadData()
                         }
+                    } else {
+                        print("⚠️ Data is nil")
                     }
                 } else {
                     DispatchQueue.main.async {
@@ -51,6 +73,7 @@ class PastAssessmentsVC: UIViewController {
                     }
                 }
             case .failure(let error):
+                print("❌ API Error: \(error.localizedDescription)")
                 DispatchQueue.main.async {
                     switch error {
                     case .noaccess:
@@ -83,15 +106,18 @@ class PastAssessmentsVC: UIViewController {
 extension PastAssessmentsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("📱 numberOfRows called - returning: \(assessments.count)")
         return assessments.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AssessmentCardCell") as! AssessmentCardCell
+        print("🔧 cellForRowAt: \(indexPath.row)")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AssessmentCardCell", for: indexPath) as! AssessmentCardCell
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
         cell.btnSeeAns.tag = indexPath.row
         cell.onSelectAns = { index in
+            print("👆 See answers tapped for index: \(index)")
             self.navigateToAllQuestions(ass_id: self.assessments[index].assessment_id)
         }
         cell.setupEdutain(assessment: self.assessments[indexPath.row])

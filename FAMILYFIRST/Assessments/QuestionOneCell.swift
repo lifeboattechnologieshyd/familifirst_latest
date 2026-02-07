@@ -89,7 +89,7 @@ class QuestionOneCell: UITableViewCell {
         self.optionCView.backgroundColor = question.options[2] == question.correctAnswer ? UIColor(hex: "#00BB00") : question.userAnswer == question.options[2] ? UIColor(hex: "#FFA700") : .white
         self.optionDView.backgroundColor = question.options[3] == question.correctAnswer ? UIColor(hex: "#00BB00") : question.userAnswer == question.options[3] ? UIColor(hex: "#FFA700") : .white
         
-        /* self.lblTitleA.backgroundColor = question.options[0] == question.correctAnswer ? .white : question.userAnswer == question.options[0] ? .white : .primary
+         self.lblTitleA.backgroundColor = question.options[0] == question.correctAnswer ? .white : question.userAnswer == question.options[0] ? .white : .primary
          self.lblTitleB.backgroundColor = question.options[1] == question.correctAnswer ? .white : question.userAnswer == question.options[1] ? .white : .primary
          self.lblTitleC.backgroundColor = question.options[2] == question.correctAnswer ? .white : question.userAnswer == question.options[2] ? .white : .primary
          self.lblTitleD.backgroundColor = question.options[3] == question.correctAnswer ? .white : question.userAnswer == question.options[3] ? .white : .primary
@@ -103,6 +103,5 @@ class QuestionOneCell: UITableViewCell {
          self.lblTitleD.textColor = question.options[3] == question.correctAnswer ? UIColor(hex: "#00BB00") : question.userAnswer == question.options[3] ? UIColor(hex: "#FFA700") : .secondary
          
          }
-         }*/
-    }
-}
+         }
+    

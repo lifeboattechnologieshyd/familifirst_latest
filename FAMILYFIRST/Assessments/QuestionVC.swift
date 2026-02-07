@@ -514,9 +514,7 @@ class QuestionVC: UIViewController {
                         
                         self.scoreNumberLbl?.text = "\(userMarks)"
                         self.totalLbl?.text = "/\(totalMarks)"
-                        
-                        self.viewanswersButton.titleLabel?.font = UIFont.lexend(.semiBold, size: 20)
-                        
+                                            
                         if self.speechSynthesizer.isSpeaking {
                             self.speechSynthesizer.stopSpeaking(at: .immediate)
                         }
