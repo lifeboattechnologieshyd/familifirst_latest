@@ -7,6 +7,7 @@
 
 import UIKit
 import Lottie
+import AVFoundation
 
 class QuestionVC: UIViewController {
     
@@ -20,7 +21,10 @@ class QuestionVC: UIViewController {
     @IBOutlet weak var bgView: UIView!
     @IBOutlet weak var lblQuestionNumber: UILabel!
     @IBOutlet weak var lblQuestion: UILabel!
+    @IBOutlet weak var questionscoreLbl: UILabel!
     @IBOutlet weak var lblDesciption: UILabel!
+    @IBOutlet weak var topVw: UIView!
+    @IBOutlet weak var playBtn: UIButton!
     @IBOutlet weak var hintVw: UIView!
     @IBOutlet weak var hintLbl: UILabel!
     @IBOutlet weak var stackViewOptions: UIStackView!
@@ -51,12 +55,22 @@ class QuestionVC: UIViewController {
     var current_question = 0
     var darkOverlayView: UIView!
     let slashLayer = CAShapeLayer()
+    let startCircleLayer = CAShapeLayer()
+    let endCircleLayer = CAShapeLayer()
+    let speechSynthesizer = AVSpeechSynthesizer()
+    var celebrationLottieView: LottieAnimationView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupHintView()
         setupQuestionsView()
+        setupCelebrationLottie()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        drawSlash()
     }
     
     private func setupUI() {
@@ -74,6 +88,47 @@ class QuestionVC: UIViewController {
         lblDesciption.text = ""
         stackViewOptions.isHidden = true
         resultPopup.isHidden = true
+        lottieViewImage.isHidden = true
+        questionscoreLbl.text = ""
+    }
+    
+    func setupCelebrationLottie() {
+        celebrationLottieView = LottieAnimationView()
+        celebrationLottieView.animation = LottieAnimation.named("Celebration")
+        celebrationLottieView.contentMode = .scaleAspectFit
+        celebrationLottieView.loopMode = .playOnce
+        celebrationLottieView.animationSpeed = 1.0
+        celebrationLottieView.backgroundColor = .clear
+        celebrationLottieView.isHidden = true
+        celebrationLottieView.isUserInteractionEnabled = false
+        
+        view.addSubview(celebrationLottieView)
+        
+        celebrationLottieView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            celebrationLottieView.topAnchor.constraint(equalTo: view.topAnchor),
+            celebrationLottieView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            celebrationLottieView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            celebrationLottieView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
+    
+    func playCorrectAnswerLottie() {
+        guard celebrationLottieView != nil else { return }
+        guard celebrationLottieView.animation != nil else { return }
+        
+        view.bringSubviewToFront(celebrationLottieView)
+        celebrationLottieView.isHidden = false
+        celebrationLottieView.currentProgress = 0
+        
+        celebrationLottieView.play { [weak self] completed in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.celebrationLottieView.stop()
+                self.celebrationLottieView.isHidden = true
+                self.celebrationLottieView.currentProgress = 0
+            }
+        }
     }
     
     func setupHintView() {
@@ -114,6 +169,36 @@ class QuestionVC: UIViewController {
         lblTitleC.layer.masksToBounds = true
         lblTitleD.layer.masksToBounds = true
         lblTitleHint.layer.masksToBounds = true
+        
+        lblTitleA.backgroundColor = .primary
+        lblTitleA.textColor = .secondary
+        
+        lblTitleB.backgroundColor = .primary
+        lblTitleB.textColor = .secondary
+        
+        lblTitleC.backgroundColor = .primary
+        lblTitleC.textColor = .secondary
+        
+        lblTitleD.backgroundColor = .primary
+        lblTitleD.textColor = .secondary
+        
+        lblTitleHint.backgroundColor = .primary
+        lblTitleHint.textColor = .secondary
+        
+        optionAView.layer.borderColor = UIColor.primary.cgColor
+        optionAView.layer.borderWidth = 1
+        
+        optionBView.layer.borderColor = UIColor.primary.cgColor
+        optionBView.layer.borderWidth = 1
+        
+        optionCView.layer.borderColor = UIColor.primary.cgColor
+        optionCView.layer.borderWidth = 1
+        
+        optionDView.layer.borderColor = UIColor.primary.cgColor
+        optionDView.layer.borderWidth = 1
+        
+        optionHintView.layer.borderColor = UIColor.primary.cgColor
+        optionHintView.layer.borderWidth = 1
         
         for (index, view) in stackViewOptions.arrangedSubviews.enumerated() {
             view.tag = index
@@ -165,6 +250,26 @@ class QuestionVC: UIViewController {
         }
     }
     
+    @IBAction func onClickPlayBtn(_ sender: UIButton) {
+        guard let assessment = assessment,
+              current_question < assessment.questions.count else { return }
+        
+        let questionText = assessment.questions[current_question].question
+        let descriptionText = assessment.questions[current_question].description
+        let fullText = "\(questionText). \(descriptionText)"
+        
+        if speechSynthesizer.isSpeaking {
+            speechSynthesizer.stopSpeaking(at: .immediate)
+        }
+        
+        let utterance = AVSpeechUtterance(string: fullText)
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        utterance.rate = 0.5
+        utterance.pitchMultiplier = 1.0
+        
+        speechSynthesizer.speak(utterance)
+    }
+    
     @IBAction func onClickOkBtn(_ sender: UIButton) {
         okBtn.titleLabel?.font = UIFont.lexend(.semiBold, size: 16)
         hideHintView()
@@ -179,7 +284,9 @@ class QuestionVC: UIViewController {
         
         let question = assessment.questions[current_question]
         
+        questionscoreLbl.text = "\(question.marks)"
         lblQuestionNumber.text = "Question \(current_question + 1)/\(assessment.numberOfQuestions)"
+        
         lblQuestion.animateTyping(text: question.question) {
             self.lblDesciption.animateTyping(text: question.description) {
                 if question.options.count >= 4 {
@@ -203,11 +310,9 @@ class QuestionVC: UIViewController {
         generator.prepare()
         generator.impactOccurred()
         
-        UIView.animate(withDuration: 0.1,
-                       animations: {
+        UIView.animate(withDuration: 0.1, animations: {
             view.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-        },
-                       completion: { _ in
+        }, completion: { _ in
             UIView.animate(withDuration: 0.1) {
                 view.transform = .identity
             }
@@ -218,7 +323,7 @@ class QuestionVC: UIViewController {
             return
         }
         
-        let selected_ans = String(view.tag)
+        let selected_ans = assessment.questions[current_question].options[view.tag]
         attemptAns(ans: selected_ans, index: view.tag)
         
         for v in stackViewOptions.arrangedSubviews {
@@ -231,30 +336,41 @@ class QuestionVC: UIViewController {
               current_question < assessment.questions.count else { return }
         
         let ans = assessment.questions[current_question].answer
+        var isCorrectAnswer = false
         
         switch index {
         case 0:
-            optionAView.backgroundColor = ans == lblOptionA.text ? UIColor(hex: "00BB00") : UIColor(hex: "#FFA700")
+            isCorrectAnswer = (ans == lblOptionA.text)
+            optionAView.backgroundColor = isCorrectAnswer ? UIColor(hex: "00BB00") : UIColor(hex: "#FFA700")
         case 1:
-            optionBView.backgroundColor = ans == lblOptionB.text ? UIColor(hex: "00BB00") : UIColor(hex: "#FFA700")
+            isCorrectAnswer = (ans == lblOptionB.text)
+            optionBView.backgroundColor = isCorrectAnswer ? UIColor(hex: "00BB00") : UIColor(hex: "#FFA700")
         case 2:
-            optionCView.backgroundColor = ans == lblOptionC.text ? UIColor(hex: "00BB00") : UIColor(hex: "#FFA700")
+            isCorrectAnswer = (ans == lblOptionC.text)
+            optionCView.backgroundColor = isCorrectAnswer ? UIColor(hex: "00BB00") : UIColor(hex: "#FFA700")
         case 3:
-            optionDView.backgroundColor = ans == lblOptionD.text ? UIColor(hex: "00BB00") : UIColor(hex: "#FFA700")
+            isCorrectAnswer = (ans == lblOptionD.text)
+            optionDView.backgroundColor = isCorrectAnswer ? UIColor(hex: "00BB00") : UIColor(hex: "#FFA700")
         case 4:
             optionHintView.backgroundColor = UIColor(hex: "#FFA700")
         default:
             break
         }
         
-        if ans == lblOptionA.text {
-            optionAView.backgroundColor = UIColor(hex: "00BB00")
-        } else if ans == lblOptionB.text {
-            optionBView.backgroundColor = UIColor(hex: "00BB00")
-        } else if ans == lblOptionC.text {
-            optionCView.backgroundColor = UIColor(hex: "00BB00")
-        } else if ans == lblOptionD.text {
-            optionDView.backgroundColor = UIColor(hex: "00BB00")
+        if isCorrectAnswer {
+            playCorrectAnswerLottie()
+        }
+        
+        if !isCorrectAnswer {
+            if ans == lblOptionA.text {
+                optionAView.backgroundColor = UIColor(hex: "00BB00")
+            } else if ans == lblOptionB.text {
+                optionBView.backgroundColor = UIColor(hex: "00BB00")
+            } else if ans == lblOptionC.text {
+                optionCView.backgroundColor = UIColor(hex: "00BB00")
+            } else if ans == lblOptionD.text {
+                optionDView.backgroundColor = UIColor(hex: "00BB00")
+            }
         }
         
         if assessment.numberOfQuestions > current_question + 1 {
@@ -262,9 +378,7 @@ class QuestionVC: UIViewController {
                 self.resetOptionsAndMoveToNextQuestion()
             }
         } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                self.getStats()
-            }
+            self.getStats()
         }
     }
     
@@ -272,52 +386,79 @@ class QuestionVC: UIViewController {
         for v in stackViewOptions.arrangedSubviews {
             v.backgroundColor = .systemBackground
             v.isUserInteractionEnabled = true
-            v.layer.borderColor = UIColor.systemBlue.cgColor
+            v.layer.borderColor = UIColor.primary.cgColor
         }
         
         lblDesciption.text = ""
         stackViewOptions.isHidden = true
         
-        lblTitleA.backgroundColor = .systemBlue
-        lblTitleA.textColor = .white
+        lblTitleA.backgroundColor = .primary
+        lblTitleA.textColor = .secondary
         lblOptionA.textColor = .black
         
-        lblTitleB.backgroundColor = .systemBlue
-        lblTitleB.textColor = .white
+        lblTitleB.backgroundColor = .primary
+        lblTitleB.textColor = .secondary
         lblOptionB.textColor = .black
         
-        lblTitleC.backgroundColor = .systemBlue
-        lblTitleC.textColor = .white
+        lblTitleC.backgroundColor = .primary
+        lblTitleC.textColor = .secondary
         lblOptionC.textColor = .black
         
-        lblTitleD.backgroundColor = .systemBlue
-        lblTitleD.textColor = .white
+        lblTitleD.backgroundColor = .primary
+        lblTitleD.textColor = .secondary
         lblOptionD.textColor = .black
         
-        lblTitleHint.backgroundColor = .systemBlue
-        lblTitleHint.textColor = .white
+        lblTitleHint.backgroundColor = .primary
+        lblTitleHint.textColor = .secondary
         lblOptionHint.textColor = .black
+        
+        optionAView.layer.borderColor = UIColor.primary.cgColor
+        optionBView.layer.borderColor = UIColor.primary.cgColor
+        optionCView.layer.borderColor = UIColor.primary.cgColor
+        optionDView.layer.borderColor = UIColor.primary.cgColor
+        optionHintView.layer.borderColor = UIColor.primary.cgColor
         
         hintVw.isHidden = true
         darkOverlayView.isHidden = true
+        
+        lottieViewImage.isHidden = true
+        lottieViewImage.stop()
+        
+        celebrationLottieView?.stop()
+        celebrationLottieView?.isHidden = true
+        celebrationLottieView?.currentProgress = 0
+        
+        if speechSynthesizer.isSpeaking {
+            speechSynthesizer.stopSpeaking(at: .immediate)
+        }
         
         current_question += 1
         changeQuestion()
     }
     
-    func displayResultPopup() {
-        bgView.isHidden = true
-        resultPopup.isHidden = false
-        viewanswersButton.titleLabel?.font = UIFont.lexend(.semiBold, size: 20)
-    }
-    
     @IBAction func onClickHome() {
+        if speechSynthesizer.isSpeaking {
+            speechSynthesizer.stopSpeaking(at: .immediate)
+        }
         navigationController?.popToRootViewController(animated: true)
     }
     
     @IBAction func onClickPlayMore() {
-        guard let vc = storyboard?.instantiateViewController(identifier: "AssessmentsGradeSelectionVC") as? AssessmentsGradeSelectionVC else { return }
-        navigationController?.popToViewController(vc, animated: true)
+        if speechSynthesizer.isSpeaking {
+            speechSynthesizer.stopSpeaking(at: .immediate)
+        }
+        guard let navController = navigationController else { return }
+        
+        for controller in navController.viewControllers {
+            if controller is AssessmentsGradeSelectionVC {
+                navController.popToViewController(controller, animated: true)
+                return
+            }
+        }
+        
+        if let vc = storyboard?.instantiateViewController(identifier: "AssessmentsGradeSelectionVC") as? AssessmentsGradeSelectionVC {
+            navController.pushViewController(vc, animated: true)
+        }
     }
     
     @IBAction func onClickAnswers(_ sender: UIButton) {
@@ -334,29 +475,52 @@ class QuestionVC: UIViewController {
             return
         }
         
-        // ✅ CHANGED: Using GET method with query parameter instead of POST with payload
+        showLoader()
         let url = "\(API.EDUTAIN_MY_RESULTS)?assessment_id=\(assessment.id)"
         
-        NetworkManager.shared.request(urlString: url, method: .GET) { (result: Result<APIResponse<AssessmentAnswerResponse>, NetworkError>) in
+        NetworkManager.shared.request(urlString: url, method: .GET) { (result: Result<APIResponse<[EdutainResultData]>, NetworkError>) in
+            self.hideLoader()
             switch result {
             case .success(let info):
-                if info.success, let data = info.data {
+                if let resultData = info.data?.first {
                     DispatchQueue.main.async {
-                        self.displayResultPopup()
-                        self.slider.value = Float(data.totalMarks)
-                        self.slider.maximumValue = Float(assessment.totalMarks)
-                        let percentage = assessment.totalMarks > 0 ? Int(Float(data.totalMarks) / Float(assessment.totalMarks) * 100) : 0
-                        self.lblPercentage.text = "\(percentage) %"
+                        self.bgView.isHidden = true
+                        self.resultPopup.isHidden = false
+                        self.topVw?.isHidden = true
+                        
+                        let userMarks = resultData.total_marks
+                        let totalMarks = assessment.totalMarks
+                        let attemptedQuestions = resultData.attempted_questions
+                        let totalQuestions = resultData.number_of_questions
+                        let skippedQuestions = totalQuestions - attemptedQuestions
+                        let correctQuestions = attemptedQuestions
+                        let wrongQuestions = 0
+                        
+                        self.slider.value = Float(userMarks)
+                        self.slider.maximumValue = Float(totalMarks)
                         self.slider.minimumValue = 0
-                        self.lblMarks.text = "\(data.totalMarks)"
-                        self.lblTotalMarks.text = "\(assessment.totalMarks)"
-                        self.lblwrongAns.text = "\(data.wrongQuestions)"
-                        self.lblCorrectAns.text = "\(data.correctQuestions)"
-                        self.lblSkipAns.text = "\(data.skippedQuestions)"
+                        
+                        let percentage = totalMarks > 0 ? Int(Float(userMarks) / Float(totalMarks) * 100) : 0
+                        self.lblPercentage.text = "\(percentage)%"
+                        
+                        self.lblMarks.text = "\(userMarks)"
+                        self.lblTotalMarks.text = "\(totalMarks)"
+                        self.lblwrongAns.text = "\(wrongQuestions)"
+                        self.lblCorrectAns.text = "\(correctQuestions)"
+                        self.lblSkipAns.text = "\(skippedQuestions)"
+                        
+                        self.scoreNumberLbl?.text = "\(userMarks)"
+                        self.totalLbl?.text = "/\(totalMarks)"
+                        
+                        self.viewanswersButton.titleLabel?.font = UIFont.lexend(.semiBold, size: 20)
+                        
+                        if self.speechSynthesizer.isSpeaking {
+                            self.speechSynthesizer.stopSpeaking(at: .immediate)
+                        }
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self.showAlert(msg: info.description)
+                        self.showAlert(msg: "No results found. Please try again.")
                     }
                 }
             case .failure(let error):
@@ -372,10 +536,12 @@ class QuestionVC: UIViewController {
             }
         }
     }
+    
     func attemptAns(ans: String, index: Int) {
         guard let assessment = assessment,
               current_question < assessment.questions.count else { return }
         
+        showLoader()
         let payload: [String: Any] = [
             "question_id": assessment.questions[current_question].id,
             "assessment_id": assessment.id,
@@ -383,6 +549,7 @@ class QuestionVC: UIViewController {
         ]
         
         NetworkManager.shared.request(urlString: API.EDUTAIN_ASSESSMENT_ATTEMPT, method: .POST, parameters: payload) { (result: Result<APIResponse<AssessmentAnswerResponse>, NetworkError>) in
+            self.hideLoader()
             switch result {
             case .success(let info):
                 if info.success {
@@ -406,6 +573,38 @@ class QuestionVC: UIViewController {
                 }
             }
         }
+    }
+    
+    func drawSlash() {
+        slashLayer.removeFromSuperlayer()
+        startCircleLayer.removeFromSuperlayer()
+        endCircleLayer.removeFromSuperlayer()
+        
+        let startPoint = CGPoint(x: scoreVw.bounds.width * 0.20, y: scoreVw.bounds.height * 0.85)
+        let endPoint = CGPoint(x: scoreVw.bounds.width * 0.85, y: scoreVw.bounds.height * 0.20)
+        
+        let path = UIBezierPath()
+        path.move(to: startPoint)
+        path.addLine(to: endPoint)
+        slashLayer.path = path.cgPath
+        slashLayer.strokeColor = UIColor.lightGray.cgColor
+        slashLayer.lineWidth = 4
+        slashLayer.fillColor = UIColor.clear.cgColor
+        scoreVw.layer.addSublayer(slashLayer)
+        
+        let startCirclePath = UIBezierPath(arcCenter: startPoint, radius: 8, startAngle: 0, endAngle: .pi * 2, clockwise: true)
+        startCircleLayer.path = startCirclePath.cgPath
+        startCircleLayer.fillColor = UIColor.primary.cgColor
+        startCircleLayer.strokeColor = UIColor.primary.cgColor
+        startCircleLayer.lineWidth = 2
+        scoreVw.layer.addSublayer(startCircleLayer)
+        
+        let endCirclePath = UIBezierPath(arcCenter: endPoint, radius: 8, startAngle: 0, endAngle: .pi * 2, clockwise: true)
+        endCircleLayer.path = endCirclePath.cgPath
+        endCircleLayer.fillColor = UIColor.primary.cgColor
+        endCircleLayer.strokeColor = UIColor.primary.cgColor
+        endCircleLayer.lineWidth = 2
+        scoreVw.layer.addSublayer(endCircleLayer)
     }
     
     func performLogout() {

@@ -940,3 +940,13 @@ extension UIImageView {
     }
     
 }
+extension UIColor {
+
+    static var primary: UIColor {
+        return UIColor(hex: "#076839") ?? .green
+    }
+
+    static var secondary: UIColor {
+        return .white
+    }
+}

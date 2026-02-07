@@ -949,6 +949,19 @@ struct AssessmentResult: Codable {
         case skippedQuestions = "skipped_questions"
     }
 }
+struct EdutainResultData: Codable {
+    let id: String
+    let user_id: String
+    let user_name: String
+    let assessment_id: String
+    let assessment_name: String
+    let number_of_questions: Int
+    let attempted_questions: Int
+    let total_marks: Int
+    let result: String?
+    let rank: Int
+    let status: String
+}
 struct AssessmentAnswerResponse: Codable {
     let id: String
     let questionId: String
