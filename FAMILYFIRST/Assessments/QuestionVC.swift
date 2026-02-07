@@ -66,6 +66,9 @@ class QuestionVC: UIViewController {
         setupHintView()
         setupQuestionsView()
         setupCelebrationLottie()
+        scoreVw.layer.borderWidth = 0
+        scoreVw.layer.borderColor = UIColor.clear.cgColor
+        scoreVw.layer.cornerRadius = 0
     }
     
     override func viewDidLayoutSubviews() {
@@ -578,33 +581,27 @@ class QuestionVC: UIViewController {
     func drawSlash() {
         slashLayer.removeFromSuperlayer()
         startCircleLayer.removeFromSuperlayer()
-        endCircleLayer.removeFromSuperlayer()
         
-        let startPoint = CGPoint(x: scoreVw.bounds.width * 0.20, y: scoreVw.bounds.height * 0.85)
-        let endPoint = CGPoint(x: scoreVw.bounds.width * 0.85, y: scoreVw.bounds.height * 0.20)
+        let centerX = scoreVw.bounds.width / 2
+        let centerY = scoreVw.bounds.height / 2
+        let radius = min(scoreVw.bounds.width, scoreVw.bounds.height) / 2 - 4
         
-        let path = UIBezierPath()
-        path.move(to: startPoint)
-        path.addLine(to: endPoint)
-        slashLayer.path = path.cgPath
-        slashLayer.strokeColor = UIColor.lightGray.cgColor
-        slashLayer.lineWidth = 4
-        slashLayer.fillColor = UIColor.clear.cgColor
-        scoreVw.layer.addSublayer(slashLayer)
-        
-        let startCirclePath = UIBezierPath(arcCenter: startPoint, radius: 8, startAngle: 0, endAngle: .pi * 2, clockwise: true)
-        startCircleLayer.path = startCirclePath.cgPath
-        startCircleLayer.fillColor = UIColor.primary.cgColor
+        let circlePath = UIBezierPath(arcCenter: CGPoint(x: centerX, y: centerY), radius: radius, startAngle: 0, endAngle: .pi * 2, clockwise: true)
+        startCircleLayer.path = circlePath.cgPath
+        startCircleLayer.fillColor = UIColor.clear.cgColor
         startCircleLayer.strokeColor = UIColor.primary.cgColor
-        startCircleLayer.lineWidth = 2
+        startCircleLayer.lineWidth = 3
         scoreVw.layer.addSublayer(startCircleLayer)
         
-        let endCirclePath = UIBezierPath(arcCenter: endPoint, radius: 8, startAngle: 0, endAngle: .pi * 2, clockwise: true)
-        endCircleLayer.path = endCirclePath.cgPath
-        endCircleLayer.fillColor = UIColor.primary.cgColor
-        endCircleLayer.strokeColor = UIColor.primary.cgColor
-        endCircleLayer.lineWidth = 2
-        scoreVw.layer.addSublayer(endCircleLayer)
+        let slashPath = UIBezierPath()
+        slashPath.move(to: CGPoint(x: centerX - radius * 0.5, y: centerY + radius * 0.5))
+        slashPath.addLine(to: CGPoint(x: centerX + radius * 0.5, y: centerY - radius * 0.5))
+        slashLayer.path = slashPath.cgPath
+        slashLayer.strokeColor = UIColor.primary.cgColor
+        slashLayer.lineWidth = 3
+        slashLayer.fillColor = UIColor.clear.cgColor
+        slashLayer.lineCap = .round
+        scoreVw.layer.addSublayer(slashLayer)
     }
     
     func performLogout() {

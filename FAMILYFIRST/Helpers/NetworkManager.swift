@@ -303,6 +303,13 @@ struct API {
     static let EDUTAIN_ASSESSMENT_ATTEMPT = "\(BASE_URL)edutain/attempt/assessment"
     static let EDUTAIN_ASSESSMENT_RESULTS = "\(BASE_URL)edutain/assessments/result"
     static let EDUTAIN_MY_RESULTS = "\(BASE_URL)edutain/myresults"
+    static let EDUTAIN_GRADES = "\(BASE_URL)edutain/grades"
+    static let EDUTAIN_GET_ASSESSMENTS = "\(BASE_URL)edutain/assessments"
+    static let EDUTAIN_PAST_ASSESSMENTS = "\(BASE_URL)edutain/past/assessments"
+    static let EDUTAIN_RESULT = "\(BASE_URL)edutain/result"
+    static let EDUTAIN_GET_QUESTIONS = "\(BASE_URL)edutain/get/questions"
+    static let EDUTAIN_MY_ANSWERS = "\(BASE_URL)edutain/myanswers"
+    
 
 }
 

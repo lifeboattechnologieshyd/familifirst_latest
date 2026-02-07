@@ -18,28 +18,31 @@ class AssessmentCardCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
-    func setup(assessment : AssessmentSummary){
+    func setup(assessment: AssessmentSummary) {
         self.lblTitle.text = assessment.assessmentName
         self.lblDescription.text = assessment.description
-        self.lblScore.text = "You’ve scored \(assessment.studentMarks)/\(assessment.totalMarks)"
+        self.lblScore.text = "You've scored \(assessment.studentMarks)/\(assessment.totalMarks)"
         
         let progress = Float(assessment.studentMarks) / Float(assessment.totalMarks)
         progressView.setProgress(progress, animated: false)
+    }
+    
+    func setupEdutain(assessment: EdutainResultData) {
+        self.lblTitle.text = assessment.assessment_name
+        self.lblDescription.text = "\(assessment.attempted_questions)/\(assessment.number_of_questions) Questions Attempted"
+        self.lblScore.text = "You've scored \(assessment.total_marks) Marks"
         
-//        self.imgStudent.loadImage(url: UserManager.shared.assessmentSelectedStudent.image ?? "")
+        let progress = assessment.number_of_questions > 0 ? Float(assessment.attempted_questions) / Float(assessment.number_of_questions) : 0
+        progressView.setProgress(progress, animated: false)
     }
     
     @IBAction func onClickSeeAnswers(_ sender: UIButton) {
         onSelectAns(sender.tag)
     }
-    
 }

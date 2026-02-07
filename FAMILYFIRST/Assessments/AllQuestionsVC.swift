@@ -20,11 +20,7 @@ class AllQuestionsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
-        
-        // getHistoryQuestions()
-        
-        // Placeholder data for testing UI
-        loadPlaceholderData()
+        getHistoryQuestions()
     }
     
     private func setupTableView() {
@@ -40,11 +36,6 @@ class AllQuestionsVC: UIViewController {
         tblVw.register(UINib(nibName: "QuestionTwoCell", bundle: nil), forCellReuseIdentifier: "QuestionTwoCell")
     }
     
-    private func loadPlaceholderData() {
-        // self.questions = []
-        self.tblVw.reloadData()
-    }
-    
     @IBAction func backButtonTapped(_ sender: UIButton) {
         if is_back_to_root {
             navigationController?.popToRootViewController(animated: true)
@@ -53,13 +44,12 @@ class AllQuestionsVC: UIViewController {
         }
     }
     
-    
-    /*
     func getHistoryQuestions() {
-     showLoader()
-        let url = API.ASSESSMENT_HISTORY_ANSWERS + "?student_id=\(UserManager.shared.assessmentSelectedStudent.studentID)&assessment=\(assessmentId!)"
+        showLoader()
+        let url = "\(API.EDUTAIN_MY_ANSWERS)?assessment=\(assessmentId!)"
         
         NetworkManager.shared.request(urlString: url, method: .GET) { (result: Result<APIResponse<[AssessmentQuestionHistoryDetails]>, NetworkError>) in
+            self.hideLoader()
             switch result {
             case .success(let info):
                 if info.success {
@@ -67,18 +57,18 @@ class AllQuestionsVC: UIViewController {
                         DispatchQueue.main.async {
                             self.questions = data
                             self.tblVw.reloadData()
-                        self.hideLoader()
                         }
                     }
                 } else {
-                    print(info.description)
+                    DispatchQueue.main.async {
+                        self.showAlert(msg: info.description)
+                    }
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                self.hideLoader()
                     switch error {
                     case .noaccess:
-                        self.handleLogout()
+                        self.performLogout()
                     default:
                         self.showAlert(msg: error.localizedDescription)
                     }
@@ -86,7 +76,22 @@ class AllQuestionsVC: UIViewController {
             }
         }
     }
-    */
+    
+    func performLogout() {
+        UserManager.shared.logout()
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
+            let navController = UINavigationController(rootViewController: loginVC)
+            navController.modalPresentationStyle = .fullScreen
+            
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first {
+                window.rootViewController = navController
+                window.makeKeyAndVisible()
+            }
+        }
+    }
 }
 
 extension AllQuestionsVC: UITableViewDelegate, UITableViewDataSource {

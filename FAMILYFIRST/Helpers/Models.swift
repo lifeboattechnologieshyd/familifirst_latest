@@ -872,7 +872,6 @@ struct AssessmentSummary: Codable {
     let assessmentId: String
     let assessmentName: String
     let description: String
-//    let answer: String
     let numberOfQuestions: Int
     let totalMarks: Int
     let studentMarks: Int
@@ -882,11 +881,63 @@ struct AssessmentSummary: Codable {
         case assessmentId = "assessment_id"
         case assessmentName = "assessment_name"
         case description
-//        case answer
         case numberOfQuestions = "number_of_questions"
         case totalMarks = "total_marks"
         case studentMarks = "student_marks"
         case status
+    }
+}
+
+struct EdutainPastAssessment: Codable {
+    let id: String
+    let userId: String
+    let userName: String
+    let assessmentId: String
+    let assessmentName: String
+    let numberOfQuestions: Int
+    let attemptedQuestions: Int
+    let totalMarks: Int
+    let result: String?
+    let rank: Int
+    let status: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case userId = "user_id"
+        case userName = "user_name"
+        case assessmentId = "assessment_id"
+        case assessmentName = "assessment_name"
+        case numberOfQuestions = "number_of_questions"
+        case attemptedQuestions = "attempted_questions"
+        case totalMarks = "total_marks"
+        case result
+        case rank
+        case status
+    }
+}
+struct EdutainAnswerDetail: Codable {
+    let id: String
+    let questionId: String
+    let question: String
+    let description: String
+    let options: [String]
+    let answer: String
+    let userAnswer: String?
+    let isCorrect: Bool
+    let marks: Int
+    let hint: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case questionId = "question_id"
+        case question
+        case description
+        case options
+        case answer
+        case userAnswer = "user_answer"
+        case isCorrect = "is_correct"
+        case marks
+        case hint
     }
 }
 struct Lesson: Codable {

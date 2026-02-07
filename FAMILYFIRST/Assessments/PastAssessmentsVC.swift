@@ -1,10 +1,3 @@
-//
-//  PastAssessmentsVC.swift
-//  SchoolFirst
-//
-//  Created by Lifeboat on 10/11/25.
-//
-
 import UIKit
 
 class PastAssessmentsVC: UIViewController {
@@ -12,28 +5,18 @@ class PastAssessmentsVC: UIViewController {
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var tblVw: UITableView!
     
-    var assessments = [AssessmentSummary]()
+    var assessments = [EdutainResultData]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
-        
-        // getHistory()
-        
-        // Placeholder data for testing UI
-        loadPlaceholderData()
+        getHistory()
     }
     
     private func setupTableView() {
         tblVw.register(UINib(nibName: "AssessmentCardCell", bundle: nil), forCellReuseIdentifier: "AssessmentCardCell")
         tblVw.delegate = self
         tblVw.dataSource = self
-    }
-    
-    private func loadPlaceholderData() {
-        // Add dummy assessments for UI testing
-        // self.assessments = []
-        self.tblVw.reloadData()
     }
     
     private func navigateToAllQuestions(ass_id: String) {
@@ -47,13 +30,12 @@ class PastAssessmentsVC: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    
-    /*
     func getHistory() {
-     showLoader()
-        let url = API.ASSESSMENT_HISTORY + "?student_id=\(UserManager.shared.assessmentSelectedStudent.studentID)"
+        showLoader()
+        let url = API.EDUTAIN_MY_RESULTS
         
-        NetworkManager.shared.request(urlString: url, method: .GET) { (result: Result<APIResponse<[AssessmentSummary]>, NetworkError>) in
+        NetworkManager.shared.request(urlString: url, method: .GET) { (result: Result<APIResponse<[EdutainResultData]>, NetworkError>) in
+            self.hideLoader()
             switch result {
             case .success(let info):
                 if info.success {
@@ -61,18 +43,18 @@ class PastAssessmentsVC: UIViewController {
                         DispatchQueue.main.async {
                             self.assessments = data
                             self.tblVw.reloadData()
-                            self.hideLoader()
                         }
                     }
                 } else {
-                    print(info.description)
+                    DispatchQueue.main.async {
+                        self.showAlert(msg: info.description)
+                    }
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                self.hideLoader() 
                     switch error {
                     case .noaccess:
-                        self.handleLogout()
+                        self.performLogout()
                     default:
                         self.showAlert(msg: error.localizedDescription)
                     }
@@ -80,7 +62,22 @@ class PastAssessmentsVC: UIViewController {
             }
         }
     }
-    */
+    
+    func performLogout() {
+        UserManager.shared.logout()
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
+            let navController = UINavigationController(rootViewController: loginVC)
+            navController.modalPresentationStyle = .fullScreen
+            
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first {
+                window.rootViewController = navController
+                window.makeKeyAndVisible()
+            }
+        }
+    }
 }
 
 extension PastAssessmentsVC: UITableViewDelegate, UITableViewDataSource {
@@ -92,11 +89,12 @@ extension PastAssessmentsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AssessmentCardCell") as! AssessmentCardCell
         cell.backgroundColor = .clear
+        cell.selectionStyle = .none
         cell.btnSeeAns.tag = indexPath.row
         cell.onSelectAns = { index in
-            self.navigateToAllQuestions(ass_id: self.assessments[index].assessmentId)
+            self.navigateToAllQuestions(ass_id: self.assessments[index].assessment_id)
         }
-        cell.setup(assessment: self.assessments[indexPath.row])
+        cell.setupEdutain(assessment: self.assessments[indexPath.row])
         return cell
     }
     
