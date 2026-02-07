@@ -360,30 +360,6 @@ struct Course: Codable {
         case demoVideo = "demo_video"
     }
 }
-
-// MARK: - OnlineCourse Model
-struct OnlineCourse: Codable {
-    let id: String
-    let name: String
-    let description: String
-    let duration: Int
-    let audience: String
-    let thumbnailImage: String
-    let profileImage: String?
-    let demoVideo: [String]?
-    let courseFee: String
-    let finalCourseFee: String
-    let trending: Bool
-
-    enum CodingKeys: String, CodingKey {
-        case id, name, description, duration, audience, trending
-        case thumbnailImage = "thumbnail_image"
-        case profileImage = "profile_image"
-        case demoVideo = "demo_video"
-        case courseFee = "course_fee"
-        case finalCourseFee = "final_course_fee"
-    }
-}
 struct Product: Decodable {
     let id: String
     let itemName: String
@@ -396,7 +372,7 @@ struct Product: Decodable {
     let highlights: [String]?
     let isTrending: Bool
     let variants: Variants?
-    let specification: [String]?  // 👈 This is important
+    let specification: [String]? 
 
 
     enum CodingKeys: String, CodingKey {
@@ -416,55 +392,92 @@ struct Product: Decodable {
     }
 }
 
-// MARK: - OfflineCourse Model
 struct OfflineCourse: Codable {
     let id: String
     let name: String
-    let description: String
+    let description: String?
     let audience: String
+    let hosts: [String]?
     let venue: String
-    let venueFullAddress: String
     let venueLocationLink: String
+    let venueFullAddress: String
     let totalSlots: Int
-    let totalEnrolled: Int
-    let entryFee: String
-    let thumbnailImage: String
-    let date: Int64
-    let trending: Bool
-    
-    enum CodingKeys: String, CodingKey {
-        case id, name, description, audience, venue, date, trending
-        case venueFullAddress = "venue_full_address"
-        case venueLocationLink = "venue_location_link"
-        case totalSlots = "total_slots"
-        case totalEnrolled = "total_enrolled"
-        case entryFee = "entry_fee"
-        case thumbnailImage = "thumbnail_image"
-    }
-}
-
-// MARK: - Webinar Model
-struct Webinar: Codable {
-    let id: String
-    let name: String
-    let description: String
-    let audience: String
-    let webinarLink: String
-    let totalSlots: Int
-    let totalEnrolled: Int
     let entryFee: String
     let duration: Int
     let thumbnailImage: String
-    let date: Int64
+    let logo: String
+    let images: [String]
+    let language: String
+    let totalEnrolled: Int
+    let date: Int?
     let trending: Bool
     
     enum CodingKeys: String, CodingKey {
-        case id, name, description, audience, duration, date, trending
-        case webinarLink = "webinar_link"
+        case id, name, description, audience, hosts, venue, duration, logo, images, language, trending, date
+        case venueLocationLink = "venue_location_link"
+        case venueFullAddress = "venue_full_address"
         case totalSlots = "total_slots"
-        case totalEnrolled = "total_enrolled"
         case entryFee = "entry_fee"
         case thumbnailImage = "thumbnail_image"
+        case totalEnrolled = "total_enrolled"
+    }
+}
+struct Webinar: Codable {
+    let id: String
+    let name: String
+    let description: String?
+    let audience: String
+    let hosts: [String]?
+    let webinarLink: String
+    let totalSlots: Int
+    let entryFee: String
+    let duration: Int
+    let thumbnailImage: String
+    let logo: String
+    let images: [String]
+    let language: String
+    let totalEnrolled: Int
+    let date: Int?
+    let trending: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case id, name, description, audience, hosts, duration, logo, images, language, trending, date
+        case webinarLink = "webinar_link"
+        case totalSlots = "total_slots"
+        case entryFee = "entry_fee"
+        case thumbnailImage = "thumbnail_image"
+        case totalEnrolled = "total_enrolled"
+    }
+}
+struct OnlineCourse: Codable {
+    let id: String
+    let name: String
+    let description: String?
+    let duration: Int
+    let hosts: [String]?
+    let thumbnailImage: String
+    let profileImage: String?
+    let images: [String]
+    let courseFee: String
+    let finalCourseFee: String
+    let audience: String
+    let language: String
+    let enrollments: Int
+    let numberOfChapters: Int
+    let numberOfLessons: Int
+    let completions: Int
+    let trending: Bool
+    let demoVideo: [String]?
+    
+    enum CodingKeys: String, CodingKey {
+        case id, name, description, duration, hosts, images, audience, language, enrollments, completions, trending
+        case thumbnailImage = "thumbnail_image"
+        case profileImage = "profile_image"
+        case courseFee = "course_fee"
+        case finalCourseFee = "final_course_fee"
+        case numberOfChapters = "number_of_chapters"
+        case numberOfLessons = "number_of_lessons"
+        case demoVideo = "demo_video"
     }
 }
 // MARK: - Create Order Response

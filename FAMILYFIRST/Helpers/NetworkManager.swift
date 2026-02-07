@@ -241,9 +241,6 @@ struct API {
     
     static let GET_COMMENTS = BASE_URL + "edutain/comment"
     static let EDUTAIN_FEEL = BASE_URL + "events/get/feels"
-    static let ONLINE_COURSES = BASE_URL + "courses/online/courses"
-    static let WEBINARS = BASE_URL + "courses/get/webinar"
-    static let OFFLINE_COURSES = BASE_URL + "courses/get/course"
     static let GET_ADDRESS = BASE_URL + "onlinestore/address"
     static let ONLINE_STORE_PRODUCTS = BASE_URL + "onlinestore/products"
     static let ONLINE_STORE_ADDRESS = BASE_URL + "onlinestore/address"
@@ -309,6 +306,11 @@ struct API {
     static let EDUTAIN_RESULT = "\(BASE_URL)edutain/result"
     static let EDUTAIN_GET_QUESTIONS = "\(BASE_URL)edutain/get/questions"
     static let EDUTAIN_MY_ANSWERS = "\(BASE_URL)edutain/myanswers"
+    
+    // Courses APIs
+    static let OFFLINE_COURSES = "\(BASE_URL)courses/get/course"
+    static let ONLINE_COURSES = "\(BASE_URL)courses/online/courses"
+    static let WEBINARS = "\(BASE_URL)courses/get/webinar"
     
 
 }

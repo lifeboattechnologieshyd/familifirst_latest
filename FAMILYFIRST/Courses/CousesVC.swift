@@ -1,5 +1,5 @@
 //
-//  CousesVC.swift
+//  CoursesVC.swift
 //  FamilyFirst
 //
 //  Created by Lifeboat on 14/01/26.
@@ -22,10 +22,10 @@ class CoursesVC: UIViewController {
     var webinars = [Webinar]()
 
     let tabs = [
-        ["name": "All", "image": "all"],
-        ["name": "Online", "image": "online"],
-        ["name": "Webinars", "image": "live"],
-        ["name": "Offline", "image": "offlinee"]
+        ["name": "All", "image": "ALLL"],
+        ["name": "Online", "image": "ONLINE 1"],
+        ["name": "Webinars", "image": "WEBINAR"],
+        ["name": "Offline", "image": "OFFLINE 1"]
     ]
     
     override func viewDidLoad() {
@@ -48,6 +48,8 @@ class CoursesVC: UIViewController {
     }
 
     func setupViews() {
+        colVw.backgroundColor = UIColor(named: "primaryColor")
+        
         colVw.register(UINib(nibName: "TabCell", bundle: nil), forCellWithReuseIdentifier: "TabCell")
         tblVw.register(UINib(nibName: "CourseCell", bundle: nil), forCellReuseIdentifier: "CourseCell")
         tblVw.register(UINib(nibName: "OfflineCell", bundle: nil), forCellReuseIdentifier: "OfflineCell")
@@ -72,28 +74,67 @@ class CoursesVC: UIViewController {
     }
 
     func fetchOnline() {
+        showLoader()
         NetworkManager.shared.request(urlString: API.ONLINE_COURSES, method: .GET) { [weak self] (result: Result<APIResponse<[OnlineCourse]>, NetworkError>) in
-            if case .success(let res) = result, let data = res.data {
-                self?.onlineCourses = data
-                DispatchQueue.main.async { self?.tblVw.reloadData() }
+            DispatchQueue.main.async {
+                self?.hideLoader()
+                switch result {
+                case .success(let res):
+                    if let data = res.data {
+                        self?.onlineCourses = data
+                        print("✅ Online courses loaded: \(data.count)")
+                        self?.tblVw.reloadData()
+                    } else {
+                        print("⚠️ No online course data")
+                    }
+                case .failure(let error):
+                    print("❌ Error fetching online courses: \(error)")
+                    self?.showAlert("Failed to load online courses")
+                }
             }
         }
     }
 
     func fetchWebinars() {
+        showLoader()
         NetworkManager.shared.request(urlString: API.WEBINARS, method: .GET) { [weak self] (result: Result<APIResponse<[Webinar]>, NetworkError>) in
-            if case .success(let res) = result, let data = res.data {
-                self?.webinars = data
-                DispatchQueue.main.async { self?.tblVw.reloadData() }
+            DispatchQueue.main.async {
+                self?.hideLoader()
+                switch result {
+                case .success(let res):
+                    if let data = res.data {
+                        self?.webinars = data
+                        print("✅ Webinars loaded: \(data.count)")
+                        self?.tblVw.reloadData()
+                    } else {
+                        print("⚠️ No webinar data")
+                    }
+                case .failure(let error):
+                    print("❌ Error fetching webinars: \(error)")
+                    self?.showAlert("Failed to load webinars")
+                }
             }
         }
     }
 
     func fetchOffline() {
+        showLoader()
         NetworkManager.shared.request(urlString: API.OFFLINE_COURSES, method: .GET) { [weak self] (result: Result<APIResponse<[OfflineCourse]>, NetworkError>) in
-            if case .success(let res) = result, let data = res.data {
-                self?.offlineCourses = data
-                DispatchQueue.main.async { self?.tblVw.reloadData() }
+            DispatchQueue.main.async {
+                self?.hideLoader()
+                switch result {
+                case .success(let res):
+                    if let data = res.data {
+                        self?.offlineCourses = data
+                        print("✅ Offline courses loaded: \(data.count)")
+                        self?.tblVw.reloadData()
+                    } else {
+                        print("⚠️ No offline course data")
+                    }
+                case .failure(let error):
+                    print("❌ Error fetching offline courses: \(error)")
+                    self?.showAlert("Failed to load offline courses")
+                }
             }
         }
     }
@@ -118,33 +159,40 @@ class CoursesVC: UIViewController {
         a.addAction(UIAlertAction(title: "OK", style: .default))
         present(a, animated: true)
     }
+    
+    private func formatEntryFee(_ fee: String) -> String {
+        if let feeValue = Double(fee) {
+            if feeValue == 0 {
+                return "FREE"
+            } else {
+                return "₹\(Int(feeValue))"
+            }
+        }
+        return "₹0"
+    }
 }
 
 extension CoursesVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ cv: UICollectionView, numberOfItemsInSection s: Int) -> Int {
-        return cv.tag == 1 ? tabs.count : 3
+        return tabs.count
     }
 
     func collectionView(_ cv: UICollectionView, cellForItemAt ip: IndexPath) -> UICollectionViewCell {
-        if cv.tag == 1 {
-            let cell = cv.dequeueReusableCell(withReuseIdentifier: "TabCell", for: ip) as! TabCell
-            cell.loadCell(option: tabs[ip.row])
-            cell.selectedView.backgroundColor = ip.row == selectedTab ? UIColor(named: "primaryColor") : .clear
-            return cell
-        }
-        return cv.dequeueReusableCell(withReuseIdentifier: "BannerrCell", for: ip) as! BannerrCell
+        let cell = cv.dequeueReusableCell(withReuseIdentifier: "TabCell", for: ip) as! TabCell
+        cell.backgroundColor = .clear
+        cell.contentView.backgroundColor = .clear
+        cell.loadCell(option: tabs[ip.row])
+        cell.selectedView.backgroundColor = ip.row == selectedTab ? .white : .clear
+        return cell
     }
 
     func collectionView(_ cv: UICollectionView, didSelectItemAt ip: IndexPath) {
-        if cv.tag == 1 { loadTab(ip.row) }
+        loadTab(ip.row)
     }
     
     func collectionView(_ cv: UICollectionView, layout: UICollectionViewLayout, sizeForItemAt ip: IndexPath) -> CGSize {
-        if cv.tag == 1 {
-            return CGSize(width: 80, height: 80)
-        }
-        return CGSize(width: cv.frame.width - 40, height: 150)
+        return CGSize(width: 80, height: 80)
     }
 }
 

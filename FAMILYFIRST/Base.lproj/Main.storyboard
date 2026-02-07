@@ -795,7 +795,7 @@
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3cV-NH-sH5">
                                 <rect key="frame" x="0.0" y="100" width="393" height="80"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="MHK-Bu-gd4"/>
                                 </constraints>
@@ -1007,8 +1007,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="iM7-B5-rXi">
-                                <rect key="frame" x="0.0" y="176" width="393" height="80"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <rect key="frame" x="0.0" y="168" width="393" height="80"/>
+                                <color key="backgroundColor" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="8qy-9v-mO8"/>
                                 </constraints>
@@ -1021,14 +1021,14 @@
                                 <cells/>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dD5-2B-umM">
-                                <rect key="frame" x="0.0" y="256" width="393" height="1"/>
+                                <rect key="frame" x="0.0" y="248" width="393" height="1"/>
                                 <color key="backgroundColor" red="0.79607843140000001" green="0.8980392157" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="X8x-6v-kA8"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eua-35-npj">
-                                <rect key="frame" x="0.0" y="257" width="393" height="0.0"/>
+                                <rect key="frame" x="0.0" y="249" width="393" height="0.0"/>
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hkr-hl-MwM">
                                         <rect key="frame" x="16" y="0.0" width="361" height="0.0"/>
@@ -1054,7 +1054,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Dwu-Fz-Nkx">
-                                <rect key="frame" x="0.0" y="257" width="393" height="497"/>
+                                <rect key="frame" x="0.0" y="249" width="393" height="505"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qtb-69-S54">
@@ -1104,7 +1104,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="lwf-3M-u66" firstAttribute="bottom" secondItem="Dwu-Fz-Nkx" secondAttribute="bottom" constant="30" id="3jE-fq-p56"/>
-                            <constraint firstItem="iM7-B5-rXi" firstAttribute="top" secondItem="qtb-69-S54" secondAttribute="bottom" constant="8" id="4Bg-mD-VAF"/>
+                            <constraint firstItem="iM7-B5-rXi" firstAttribute="top" secondItem="qtb-69-S54" secondAttribute="bottom" id="4Bg-mD-VAF"/>
                             <constraint firstItem="qtb-69-S54" firstAttribute="top" secondItem="lwf-3M-u66" secondAttribute="top" id="8ht-oT-gND"/>
                             <constraint firstItem="qtb-69-S54" firstAttribute="trailing" secondItem="lwf-3M-u66" secondAttribute="trailing" id="FMl-ou-uZV"/>
                             <constraint firstItem="qtb-69-S54" firstAttribute="top" secondItem="NCl-n1-Pxs" secondAttribute="bottom" id="JIO-hA-ffG"/>
@@ -5856,8 +5856,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nWg-Jf-8Hx">
                                         <rect key="frame" x="195" y="458.66666666666663" width="134.66666666666663" height="35"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="games" imagePlacement="trailing" title="Play More  ">
-                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="default"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="games" title="  Play More  ">
                                             <fontDescription key="titleFontDescription" name="Lexend-Regular" family="Lexend" pointSize="14"/>
                                             <color key="baseForegroundColor" red="0.17767944929999999" green="0.39973968269999999" blue="0.2390528619" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </buttonConfiguration>
@@ -6027,9 +6026,9 @@
         <image name="close" width="21.666666030883789" height="21.666666030883789"/>
         <image name="courses_tab" width="20" height="20"/>
         <image name="ffSplash" width="150.66667175292969" height="48"/>
-        <image name="games" width="64" height="42.666667938232422"/>
+        <image name="games" width="16" height="10.666666984558105"/>
         <image name="google-4" width="32" height="32"/>
-        <image name="home 1" width="28" height="28"/>
+        <image name="home 1" width="16" height="16"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="mail" width="32" height="32"/>
         <image name="next 2" width="44.333332061767578" height="44.333332061767578"/>
@@ -6058,19 +6057,19 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray3Color">
-            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray4Color">
-            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGroupedBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="tertiarySystemGroupedBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -10,46 +10,58 @@ import Kingfisher
 
 class CoursesViewController: UIViewController {
 
-    @IBOutlet weak var imgVw: UIImageView!
+    
     @IBOutlet weak var tblVw: UITableView!
+    @IBOutlet weak var backBtn: UIButton!
+    @IBOutlet weak var topVw: UIView!
     @IBOutlet weak var colVw: UICollectionView!
-    @IBOutlet weak var bannerColVw: UICollectionView!
-
+    
     var selectedTab = 0
+    var initialTabIndex: Int = 0
     var onlineCourses = [OnlineCourse]()
     var offlineCourses = [OfflineCourse]()
     var webinars = [Webinar]()
 
     let tabs = [
-        ["name": "All", "image": "all"],
-        ["name": "Online", "image": "online"],
-        ["name": "Webinars", "image": "live"],
-        ["name": "Offline", "image": "offlinee"]
+        ["name": "All", "image": "ALLL"],
+        ["name": "Online", "image": "ONLINE 1"],
+        ["name": "Webinars", "image": "WEBINAR"],
+        ["name": "Offline", "image": "OFFLINE 1"]
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      //  imgVw.loadImage(url: UserManager.shared.selectedSchool?.fullLogo ?? "")
         setupViews()
-        loadTab(0)
+        topVw.addBottomShadow()
+        loadTab(initialTabIndex)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if initialTabIndex > 0 {
+            let indexPath = IndexPath(item: initialTabIndex, section: 0)
+            colVw.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        }
+    }
+    
+    @IBAction func backBtnTapped(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
 
     func setupViews() {
+        colVw.backgroundColor = UIColor(named: "primaryColor")
+        
         colVw.register(UINib(nibName: "TabCell", bundle: nil), forCellWithReuseIdentifier: "TabCell")
-        bannerColVw.register(UINib(nibName: "BannerrCell", bundle: nil), forCellWithReuseIdentifier: "BannerrCell")
         tblVw.register(UINib(nibName: "CourseCell", bundle: nil), forCellReuseIdentifier: "CourseCell")
         tblVw.register(UINib(nibName: "OfflineCell", bundle: nil), forCellReuseIdentifier: "OfflineCell")
         tblVw.register(UINib(nibName: "WebinarsCell", bundle: nil), forCellReuseIdentifier: "WebinarsCell")
 
         colVw.tag = 1
-        bannerColVw.tag = 2
 
         tblVw.delegate = self
         tblVw.dataSource = self
         colVw.delegate = self
         colVw.dataSource = self
-        bannerColVw.delegate = self
-        bannerColVw.dataSource = self
     }
 
     func loadTab(_ index: Int) {
@@ -65,11 +77,21 @@ class CoursesViewController: UIViewController {
     func fetchOnline() {
         showLoader()
         NetworkManager.shared.request(urlString: API.ONLINE_COURSES, method: .GET) { [weak self] (result: Result<APIResponse<[OnlineCourse]>, NetworkError>) in
-            if case .success(let res) = result, let data = res.data {
-                self?.onlineCourses = data
-                DispatchQueue.main.async {
-                    self?.hideLoader()
-                    self?.tblVw.reloadData() }
+            DispatchQueue.main.async {
+                self?.hideLoader()
+                switch result {
+                case .success(let res):
+                    if let data = res.data {
+                        self?.onlineCourses = data
+                        print("✅ Online courses loaded: \(data.count)")
+                        self?.tblVw.reloadData()
+                    } else {
+                        print("⚠️ No online course data")
+                    }
+                case .failure(let error):
+                    print("❌ Error fetching online courses: \(error)")
+                    self?.showAlert("Failed to load online courses")
+                }
             }
         }
     }
@@ -77,11 +99,21 @@ class CoursesViewController: UIViewController {
     func fetchWebinars() {
         showLoader()
         NetworkManager.shared.request(urlString: API.WEBINARS, method: .GET) { [weak self] (result: Result<APIResponse<[Webinar]>, NetworkError>) in
-            if case .success(let res) = result, let data = res.data {
-                self?.webinars = data
-                DispatchQueue.main.async {
-                    self?.hideLoader()
-                    self?.tblVw.reloadData() }
+            DispatchQueue.main.async {
+                self?.hideLoader()
+                switch result {
+                case .success(let res):
+                    if let data = res.data {
+                        self?.webinars = data
+                        print("✅ Webinars loaded: \(data.count)")
+                        self?.tblVw.reloadData()
+                    } else {
+                        print("⚠️ No webinar data")
+                    }
+                case .failure(let error):
+                    print("❌ Error fetching webinars: \(error)")
+                    self?.showAlert("Failed to load webinars")
+                }
             }
         }
     }
@@ -89,11 +121,21 @@ class CoursesViewController: UIViewController {
     func fetchOffline() {
         showLoader()
         NetworkManager.shared.request(urlString: API.OFFLINE_COURSES, method: .GET) { [weak self] (result: Result<APIResponse<[OfflineCourse]>, NetworkError>) in
-            if case .success(let res) = result, let data = res.data {
-                self?.offlineCourses = data
-                DispatchQueue.main.async {
-                    self?.hideLoader()
-                    self?.tblVw.reloadData() }
+            DispatchQueue.main.async {
+                self?.hideLoader()
+                switch result {
+                case .success(let res):
+                    if let data = res.data {
+                        self?.offlineCourses = data
+                        print("✅ Offline courses loaded: \(data.count)")
+                        self?.tblVw.reloadData()
+                    } else {
+                        print("⚠️ No offline course data")
+                    }
+                case .failure(let error):
+                    print("❌ Error fetching offline courses: \(error)")
+                    self?.showAlert("Failed to load offline courses")
+                }
             }
         }
     }
@@ -118,33 +160,40 @@ class CoursesViewController: UIViewController {
         a.addAction(UIAlertAction(title: "OK", style: .default))
         present(a, animated: true)
     }
+    
+    private func formatEntryFee(_ fee: String) -> String {
+        if let feeValue = Double(fee) {
+            if feeValue == 0 {
+                return "FREE"
+            } else {
+                return "₹\(Int(feeValue))"
+            }
+        }
+        return "₹0"
+    }
 }
 
 extension CoursesViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ cv: UICollectionView, numberOfItemsInSection s: Int) -> Int {
-        cv.tag == 1 ? tabs.count : 3
+        return tabs.count
     }
 
     func collectionView(_ cv: UICollectionView, cellForItemAt ip: IndexPath) -> UICollectionViewCell {
-        if cv.tag == 1 {
-            let cell = cv.dequeueReusableCell(withReuseIdentifier: "TabCell", for: ip) as! TabCell
-            cell.loadCell(option: tabs[ip.row])
-            cell.selectedView.backgroundColor = ip.row == selectedTab ? UIColor(named: "primaryColor") : .clear
-            return cell
-        }
-        return cv.dequeueReusableCell(withReuseIdentifier: "BannerrCell", for: ip) as! BannerrCell
+        let cell = cv.dequeueReusableCell(withReuseIdentifier: "TabCell", for: ip) as! TabCell
+        cell.backgroundColor = .clear
+        cell.contentView.backgroundColor = .clear
+        cell.loadCell(option: tabs[ip.row])
+        cell.selectedView.backgroundColor = ip.row == selectedTab ? .white : .clear
+        return cell
     }
 
     func collectionView(_ cv: UICollectionView, didSelectItemAt ip: IndexPath) {
-        if cv.tag == 1 { loadTab(ip.row) }
+        loadTab(ip.row)
     }
     
     func collectionView(_ cv: UICollectionView, layout: UICollectionViewLayout, sizeForItemAt ip: IndexPath) -> CGSize {
-        if cv.tag == 1 {
-            return CGSize(width: 80, height: 80)
-        }
-        return CGSize(width: cv.frame.width - 40, height: 150)
+        return CGSize(width: 80, height: 80)
     }
 }
 
@@ -174,7 +223,7 @@ extension CoursesViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.lblAudience.text = c.audience
                 cell.btnCost.setTitle("₹\(c.finalCourseFee)", for: .normal)
                 cell.onWatchDemoTapped = { [weak self] in self?.playDemo(c.demoVideo?.first) }
-                cell.onBuyTapped = { print("Buy Online:", c.name) }
+                cell.onBuyTapped = { }
                 return cell
             }
             else if ip.row < onlineCount + webinarCount {
@@ -186,12 +235,8 @@ extension CoursesViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.lblAudience.text = w.audience
                 let remaining = w.totalSlots - w.totalEnrolled
                 cell.noofslotsLbl.text = "Hurry up! Only \(remaining) Slots are left"
-                
-                // Dynamic Entry Fee Button
                 let webinarFee = formatEntryFee(w.entryFee)
                 cell.enrollBtn.setTitle("Enroll at \(webinarFee)", for: .normal)
-                
-              
                 return cell
             }
             else {
@@ -203,11 +248,8 @@ extension CoursesViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.locationLbl.text = o.venue
                 let remaining = o.totalSlots - o.totalEnrolled
                 cell.noofslotsLbl.text = "Hurry up! Only \(remaining) Slots are left"
-                
-                // Dynamic Entry Fee Button
                 let offlineFee = formatEntryFee(o.entryFee)
                 cell.enrollBtn.setTitle("Enroll at \(offlineFee)", for: .normal)
-            
                 return cell
             }
         }
@@ -222,7 +264,7 @@ extension CoursesViewController: UITableViewDataSource, UITableViewDelegate {
             cell.lblAudience.text = c.audience
             cell.btnCost.setTitle("₹\(c.finalCourseFee)", for: .normal)
             cell.onWatchDemoTapped = { [weak self] in self?.playDemo(c.demoVideo?.first) }
-            cell.onBuyTapped = { print("Buy:", c.name) }
+            cell.onBuyTapped = { }
             return cell
             
         case 2:
@@ -234,8 +276,6 @@ extension CoursesViewController: UITableViewDataSource, UITableViewDelegate {
             cell.lblAudience.text = w.audience
             let remaining = w.totalSlots - w.totalEnrolled
             cell.noofslotsLbl.text = "Hurry up! Only \(remaining) Slots are left"
-            
-            // Dynamic Entry Fee Button
             let webinarFee = formatEntryFee(w.entryFee)
             cell.enrollBtn.setTitle("Enroll at \(webinarFee)", for: .normal)
             return cell
@@ -249,8 +289,6 @@ extension CoursesViewController: UITableViewDataSource, UITableViewDelegate {
             cell.locationLbl.text = o.venue
             let remaining = o.totalSlots - o.totalEnrolled
             cell.noofslotsLbl.text = "Hurry up! Only \(remaining) Slots are left"
-            
-            // Dynamic Entry Fee Button
             let offlineFee = formatEntryFee(o.entryFee)
             cell.enrollBtn.setTitle("Enroll at \(offlineFee)", for: .normal)
             return cell
@@ -277,6 +315,5 @@ extension CoursesViewController: UITableViewDataSource, UITableViewDelegate {
         default: return 394
         }
     }
-    
 }
 
