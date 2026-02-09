@@ -18,6 +18,36 @@
             endingLineNumber = "52"
             landmarkName = "tableView(_:didSelectRowAt:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A42B070B-2B14-4183-B0F8-6F1D2D152F2B - f682990cb5ffceb2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FAMILYFIRST.SelectCurriculumVC.tableView(_: __C.UITableView, didSelectRowAt: Foundation.IndexPath) -&gt; ()"
+                  moduleName = "FAMILYFIRST.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lifeboat/Desktop/familifirst_latest/FAMILYFIRST/Assessments/SelectCurriculumVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52">
+               </Location>
+               <Location
+                  uuid = "A42B070B-2B14-4183-B0F8-6F1D2D152F2B - e11b58af79b3a33f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "function signature specialization &lt;Arg[0] = Dead&gt; of FAMILYFIRST.SelectCurriculumVC.tableView(_: __C.UITableView, didSelectRowAt: Foundation.IndexPath) -&gt; ()"
+                  moduleName = "FAMILYFIRST"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lifeboat/Desktop/familifirst_latest/FAMILYFIRST/Assessments/SelectCurriculumVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

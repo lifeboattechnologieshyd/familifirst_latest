@@ -574,29 +574,24 @@ struct FullAddress: Codable {
 }
 
 struct AddressModel: Codable {
-    let id: String
-    let userId: String?
+    let id: String?
+    let fullName: String?  // ✅ Add this
     let contactNumber: Int?
-    let fullName: String?
     let fullAddress: FullAddress?
-    let mobile: Int?
     let placeName: String?
     let stateName: String?
     let pinCode: String?
     
     enum CodingKeys: String, CodingKey {
         case id
-        case userId = "user_id"
+        case fullName = "full_name"  // ✅ Add this
         case contactNumber = "contact_number"
-        case fullName = "full_name"
         case fullAddress = "full_address"
-        case mobile
         case placeName = "place_name"
         case stateName = "state_name"
         case pinCode = "pin_code"
     }
 }
-
 
 struct VocabBeeStatistics: Codable {
     var total_questions: Int?

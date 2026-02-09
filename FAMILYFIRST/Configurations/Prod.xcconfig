@@ -12,3 +12,4 @@ server_url = https:/$()/api.familifirst.com
 APP_BUNDLE_IDENTIFIER = com.paranpara.familifirst
 APP_NAME = FAMILYFIRST
 APS_ENVIRONMENT = production
+CASHFREE_ENVIRONMENT = PRODUCTION

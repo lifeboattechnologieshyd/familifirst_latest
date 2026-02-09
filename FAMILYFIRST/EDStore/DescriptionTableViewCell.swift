@@ -43,8 +43,11 @@ class DescriptionTableViewCell: UITableViewCell {
         blueVw.clipsToBounds = true
         blueVw2.clipsToBounds = true
         
+        // ✅ Hide variant2 and blueVw2 by default
+        blueVw2.isHidden = true
+        variant2.text = ""
+        
         interestingLbl.numberOfLines = 0
-        sizesLbl.numberOfLines = 0
         descriptionTv.isEditable = false
         descriptionTv.isScrollEnabled = false
         
@@ -92,13 +95,20 @@ class DescriptionTableViewCell: UITableViewCell {
         }
     }
     
+    // ✅ Configure only ONE variant in blueVw
     func configureVariantViews(with product: Product) {
+        
+        // ✅ Always hide variant2 and blueVw2
+        variant2.text = ""
+        blueVw2.isHidden = true
+        
         if let variants = product.variants, !variants.isEmpty {
             let variantArray = Array(variants)
             
             let maxWidth = UIScreen.main.bounds.width - 40
-            let padding: CGFloat = 24  
+            let padding: CGFloat = 24
             
+            // ✅ Show only first variant in blueVw
             if variantArray.indices.contains(0) {
                 let (key, values) = variantArray[0]
                 let variantText = "\(key.capitalized): \(values.joined(separator: ", "))"
@@ -112,39 +122,16 @@ class DescriptionTableViewCell: UITableViewCell {
                 // Set width constraint
                 blueVwWidthConstraint.constant = min(viewWidth, maxWidth)
                 
-                print("📏 BlueVw1 width: \(blueVwWidthConstraint.constant)")
+                print("📏 BlueVw width: \(blueVwWidthConstraint.constant)")
                 
             } else {
                 variant1.text = ""
                 blueVw.isHidden = true
             }
             
-            // ✅ Second variant
-            if variantArray.indices.contains(1) {
-                let (key, values) = variantArray[1]
-                let variantText = "\(key.capitalized): \(values.joined(separator: ", "))"
-                variant2.text = variantText
-                blueVw2.isHidden = false
-                
-                // Calculate required width
-                let textWidth = calculateTextWidth(for: variantText, font: variant2.font, maxWidth: maxWidth - padding)
-                let viewWidth = textWidth + padding
-                
-                // Set width constraint
-                blueVw2WidthConstraint.constant = min(viewWidth, maxWidth)
-                
-                print("📏 BlueVw2 width: \(blueVw2WidthConstraint.constant)")
-                
-            } else {
-                variant2.text = ""
-                blueVw2.isHidden = true
-            }
-            
         } else {
             variant1.text = ""
-            variant2.text = ""
             blueVw.isHidden = true
-            blueVw2.isHidden = true
         }
         
         // ✅ Force layout update
@@ -173,5 +160,9 @@ class DescriptionTableViewCell: UITableViewCell {
         super.prepareForReuse()
         strikeThroughLine?.removeFromSuperview()
         strikeThroughLine = nil
+        
+        // ✅ Reset variant2 and blueVw2 on reuse
+        variant2.text = ""
+        blueVw2.isHidden = true
     }
 }

@@ -124,24 +124,26 @@ class SaveAddressVC: UIViewController {
         showLoader()
         
         guard let addressId = existingAddress?.id else {
+            hideLoader()
             showAlert(message: "Address ID not found")
             return
         }
         
         let mobile = Int(cell.phoneTf.text ?? "0") ?? 0
         
-        // ✅ Updated to match API structure
         let fullAddressDict: [String: Any] = [
             "house_no": cell.businessTv.text ?? "",
-            "street": "",  // You can add a street field if needed
-            "landmark": "",  // You can add a landmark field if needed
+            "street": "",
+            "landmark": "",
             "village": cell.cityTf.text ?? "",
             "district": cell.cityTf.text ?? "",
             "state": cell.stateTf.text ?? "",
             "country": "India"
         ]
         
+        // ✅ Added full_name field
         let parameters: [String: Any] = [
+            "full_name": cell.nameTf.text ?? "",  // ✅ THIS WAS MISSING!
             "contact_number": mobile,
             "full_address": fullAddressDict,
             "place_name": cell.cityTf.text ?? "",
@@ -185,18 +187,19 @@ class SaveAddressVC: UIViewController {
         
         let mobile = Int(cell.phoneTf.text ?? "0") ?? 0
         
-        // ✅ Updated to match API structure exactly
         let fullAddressDict: [String: Any] = [
             "house_no": cell.businessTv.text ?? "",
-            "street": "Uppula street",  // Default or from another field
-            "landmark": "Near office",  // Default or from another field
+            "street": "",
+            "landmark": "",
             "village": cell.cityTf.text ?? "",
             "district": cell.cityTf.text ?? "",
             "state": cell.stateTf.text ?? "",
             "country": "India"
         ]
         
+        // ✅ Added full_name field - THIS WAS MISSING!
         let parameters: [String: Any] = [
+            "full_name": cell.nameTf.text ?? "",  // ✅ REQUIRED BY API
             "contact_number": mobile,
             "full_address": fullAddressDict,
             "place_name": cell.cityTf.text ?? "",

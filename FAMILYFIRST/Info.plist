@@ -6,6 +6,11 @@
     <!-- 🔗 SERVER CONFIG -->
     <key>server_url</key>
     <string>$(server_url)</string>
+    
+    <!-- 💳 CASHFREE ENVIRONMENT -->
+        <key>CashfreeEnvironment</key>
+        <string>$(CASHFREE_ENVIRONMENT)</string>
+
 
     <!-- 🔤 APP FONTS -->
     <key>UIAppFonts</key>

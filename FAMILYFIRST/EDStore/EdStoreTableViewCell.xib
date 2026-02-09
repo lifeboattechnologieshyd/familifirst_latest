@@ -52,6 +52,7 @@
                                         <attributes>
                                             <color key="NSColor" red="0.1759343743" green="0.39617854359999999" blue="0.23679262400000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <font key="NSFont" size="16" name="Lexend-SemiBold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>

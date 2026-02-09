@@ -94,7 +94,6 @@ class EdStoreViewController: UIViewController {
             deliveryLbl.text = "Add your Delivery Address"
         } else {
             deliveryLbl.text = displayAddress
-            deliveryLbl.textColor = .black
         }
     }
     

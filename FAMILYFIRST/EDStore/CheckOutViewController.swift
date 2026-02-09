@@ -79,18 +79,23 @@ class CheckOutViewController: UIViewController {
                 
                 switch result {
                 case .success(let response):
+                    print("📍 Address API Response: \(response)")
+                    print("📍 Address Data Count: \(response.data?.count ?? 0)")
+                    
                     if let addresses = response.data, !addresses.isEmpty {
                         self.savedAddresses = addresses
                         self.selectedAddress = addresses.first
+                        print("✅ Selected Address: \(self.selectedAddress)")
                         self.updateDeliveryLabel()
                     } else {
+                        print("⚠️ No addresses found!")
                         self.savedAddresses = []
                         self.selectedAddress = nil
                         self.deliveryLbl.text = "Add your Delivery Address"
                     }
                     
                 case .failure(let error):
-                    print("Address Fetch Error:", error)
+                    print("❌ Address Fetch Error:", error)
                     self.savedAddresses = []
                     self.selectedAddress = nil
                     self.deliveryLbl.text = "Add your Delivery Address"
@@ -111,7 +116,6 @@ class CheckOutViewController: UIViewController {
             deliveryLbl.text = "Add your Delivery Address"
         } else {
             deliveryLbl.text = displayAddress
-            deliveryLbl.textColor = .black
         }
     }
     
@@ -163,6 +167,10 @@ class CheckOutViewController: UIViewController {
     }
     
     @IBAction func buyNowButtonTapped(_ sender: UIButton) {
+        print("🛒 Buy Now tapped")
+        print("🛒 Selected Address: \(String(describing: selectedAddress))")
+        print("🛒 Saved Addresses Count: \(savedAddresses.count)")
+        
         guard selectedAddress != nil else {
             showAlert("Please add a delivery address first")
             return

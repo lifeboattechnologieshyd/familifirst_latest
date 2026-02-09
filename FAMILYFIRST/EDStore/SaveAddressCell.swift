@@ -137,23 +137,13 @@ class SaveAddressCell: UITableViewCell {
     }
     
     func populateAddress(_ address: AddressModel) {
-        nameTf.text = address.fullName
-        
-        if let mobile = address.mobile {
-            phoneTf.text = "\(mobile)"
-        } else if let contactNumber = address.contactNumber {
-            phoneTf.text = "\(contactNumber)"
-        }
-        
+        nameTf.text = address.fullName ?? ""  
+        phoneTf.text = address.contactNumber != nil ? "\(address.contactNumber!)" : ""
         businessTv.text = address.fullAddress?.houseNo ?? ""
-        
-        // Set city from district or placeName
-        cityTf.text = address.fullAddress?.district ?? address.placeName
-        
-        stateTf.text = address.stateName
-        pincodeTf.text = address.pinCode
-        
-        // Set picker to correct state if exists
+        cityTf.text = address.placeName ?? address.fullAddress?.village ?? ""
+        stateTf.text = address.stateName ?? address.fullAddress?.state ?? ""
+        pincodeTf.text = address.pinCode ?? ""
+    
         if let stateName = address.stateName,
            let index = indianStates.firstIndex(of: stateName) {
             statePicker.selectRow(index, inComponent: 0, animated: false)
@@ -166,13 +156,11 @@ extension SaveAddressCell: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        // Prevent typing in state text field (only picker selection allowed)
         if textField == stateTf {
             return false
         }
         
         if textField == phoneTf || textField == pincodeTf {
-            // Allow only digits
             let allowedCharacters = CharacterSet.decimalDigits
             let characterSet = CharacterSet(charactersIn: string)
             
@@ -180,7 +168,6 @@ extension SaveAddressCell: UITextFieldDelegate {
                 return false
             }
             
-            // Limit length
             let currentText = textField.text ?? ""
             let newLength = currentText.count + string.count - range.length
             

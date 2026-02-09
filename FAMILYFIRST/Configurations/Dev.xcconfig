@@ -13,3 +13,4 @@ server_url = https:/$()/dev-api.familifirst.com
 APP_BUNDLE_IDENTIFIER = com.paranpara.familifirst.dev
 APP_NAME = FAMILYFIRST
 APS_ENVIRONMENT = development
+CASHFREE_ENVIRONMENT = SANDBOX
