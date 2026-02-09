@@ -899,7 +899,7 @@ extension UIImageView {
         task.resume()
     }
     
-    func setImage(url: String, placeHolderImage: String = "ffSplash") {
+    func setImage(url: String, placeHolderImage: String = "FF Logo") {
         imageTask?.cancel()
         imageTask = nil
         

@@ -130,20 +130,20 @@ class SaveAddressVC: UIViewController {
         
         let mobile = Int(cell.phoneTf.text ?? "0") ?? 0
         
+        // ✅ Updated to match API structure
         let fullAddressDict: [String: Any] = [
-            "street": "",
-            "country": "India",
-            "village": "",
-            "district": cell.cityTf.text ?? "",
             "house_no": cell.businessTv.text ?? "",
-            "landmark": ""
+            "street": "",  // You can add a street field if needed
+            "landmark": "",  // You can add a landmark field if needed
+            "village": cell.cityTf.text ?? "",
+            "district": cell.cityTf.text ?? "",
+            "state": cell.stateTf.text ?? "",
+            "country": "India"
         ]
         
         let parameters: [String: Any] = [
             "contact_number": mobile,
-            "full_name": cell.nameTf.text ?? "",
             "full_address": fullAddressDict,
-            "mobile": mobile,
             "place_name": cell.cityTf.text ?? "",
             "state_name": cell.stateTf.text ?? "",
             "pin_code": cell.pincodeTf.text ?? ""
@@ -151,7 +151,8 @@ class SaveAddressVC: UIViewController {
         
         let editURL = API.ONLINE_STORE_ADDRESS + "/\(addressId)"
         
-        print("Edit URL: \(editURL)")
+        print("📤 Edit URL: \(editURL)")
+        print("📤 Edit Parameters: \(parameters)")
         
         NetworkManager.shared.request(
             urlString: editURL,
@@ -172,7 +173,7 @@ class SaveAddressVC: UIViewController {
                     }
                     
                 case .failure(let error):
-                    print("Edit Address Error:", error)
+                    print("❌ Edit Address Error:", error)
                     self.showAlert(message: "Failed to update address. Please try again.")
                 }
             }
@@ -184,37 +185,41 @@ class SaveAddressVC: UIViewController {
         
         let mobile = Int(cell.phoneTf.text ?? "0") ?? 0
         
+        // ✅ Updated to match API structure exactly
         let fullAddressDict: [String: Any] = [
-            "street": "",
-            "country": "India",
-            "village": "",
-            "district": cell.cityTf.text ?? "",
             "house_no": cell.businessTv.text ?? "",
-            "landmark": ""
+            "street": "Uppula street",  // Default or from another field
+            "landmark": "Near office",  // Default or from another field
+            "village": cell.cityTf.text ?? "",
+            "district": cell.cityTf.text ?? "",
+            "state": cell.stateTf.text ?? "",
+            "country": "India"
         ]
         
         let parameters: [String: Any] = [
             "contact_number": mobile,
-            "full_name": cell.nameTf.text ?? "",
             "full_address": fullAddressDict,
-            "mobile": mobile,
             "place_name": cell.cityTf.text ?? "",
             "state_name": cell.stateTf.text ?? "",
             "pin_code": cell.pincodeTf.text ?? ""
         ]
         
+        print("📤 Create Address URL: \(API.ONLINE_STORE_ADDRESS)")
+        print("📤 Create Parameters: \(parameters)")
+        
         NetworkManager.shared.request(
             urlString: API.ONLINE_STORE_ADDRESS,
             method: .POST,
             parameters: parameters
-        ) { [weak self] (result: Result<APIResponse<CreateAddressResponseModel>, NetworkError>) in
+        ) { [weak self] (result: Result<APIResponse<AddressModel>, NetworkError>) in
             
             DispatchQueue.main.async {
-                self?.hideLoader() 
+                self?.hideLoader()
                 guard let self = self else { return }
                 
                 switch result {
                 case .success(let response):
+                    print("✅ Address Response: \(response)")
                     if response.success {
                         self.showSuccessAndGoBack(message: "Address saved successfully!")
                     } else {
@@ -222,7 +227,7 @@ class SaveAddressVC: UIViewController {
                     }
                     
                 case .failure(let error):
-                    print("Create Address Error:", error)
+                    print("❌ Create Address Error:", error)
                     self.showAlert(message: "Failed to save address. Please try again.")
                 }
             }

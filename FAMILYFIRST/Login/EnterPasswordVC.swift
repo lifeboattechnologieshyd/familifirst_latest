@@ -30,7 +30,7 @@ class EnterPasswordVC: UIViewController {
     
     private func setupUI() {
         passwordTf.isSecureTextEntry = true
-        viewBtn.setImage(UIImage(systemName: "closeEye"), for: .normal)
+        viewBtn.setImage(UIImage(named: "view"), for: .normal)
         
         mobilenoLbl.text = formatMobileNumber(mobileNumber)
         nameLbl.text = userName ?? "Welcome Back"
@@ -40,6 +40,14 @@ class EnterPasswordVC: UIViewController {
         } else {
             imageVw.image = UIImage(systemName: "person.circle.fill")
         }
+    }
+
+    @IBAction func viewBtnTapped(_ sender: UIButton) {
+        isPasswordVisible.toggle()
+        passwordTf.isSecureTextEntry = !isPasswordVisible
+        
+        let imageName = isPasswordVisible ? "closeEye" : "view"
+        viewBtn.setImage(UIImage(named: imageName), for: .normal)
     }
     
     private func formatMobileNumber(_ number: String) -> String {
@@ -66,13 +74,6 @@ class EnterPasswordVC: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func viewBtnTapped(_ sender: UIButton) {
-        isPasswordVisible.toggle()
-        passwordTf.isSecureTextEntry = !isPasswordVisible
-        
-        let imageName = isPasswordVisible ? "view" : "closeEye"
-        viewBtn.setImage(UIImage(systemName: imageName), for: .normal)
-    }
     
     @IBAction func loginBtnTapped(_ sender: UIButton) {
         view.endEditing(true)

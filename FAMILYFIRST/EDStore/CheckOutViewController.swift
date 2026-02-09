@@ -33,19 +33,35 @@ class CheckOutViewController: UIViewController {
         tblVw.dataSource = self
         tblVw.delegate = self
         
+        tblVw.separatorStyle = .none
+        
         topbarVw.addBottomShadow()
         bottomVw.addTopShadow()
         
-        
-        if let product = selectedProduct {
-            amountLbl.text = "₹\(product.mrp)"
-        }
+        setupProductDetails()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // Fetch address every time view appears
         getAddressAPI()
+    }
+    
+    private func setupProductDetails() {
+        guard let product = selectedProduct else { return }
+        
+        // Set final price with GST
+        let finalPrice = Double(product.finalPrice) ?? 0
+        let gstAmount = Double(product.gstAmount ?? "0") ?? 0
+        let totalAmount = finalPrice + gstAmount
+        
+        amountLbl.text = "₹\(Int(totalAmount))"
+        
+        // Set GST amount
+        if gstAmount > 0 {
+            gstLbl.text = "GST: ₹\(Int(gstAmount))"
+        } else {
+            gstLbl.text = "GST: Included"
+        }
     }
     
     func getAddressAPI() {
@@ -96,7 +112,6 @@ class CheckOutViewController: UIViewController {
         } else {
             deliveryLbl.text = displayAddress
             deliveryLbl.textColor = .black
-
         }
     }
     
@@ -131,14 +146,6 @@ class CheckOutViewController: UIViewController {
         return addressComponents.joined(separator: ", ")
     }
     
-    private func setupTopbarShadow() {
-        topbarVw.layer.shadowColor = UIColor.black.cgColor
-        topbarVw.layer.shadowOpacity = 0.15
-        topbarVw.layer.shadowOffset = CGSize(width: 0, height: 3)
-        topbarVw.layer.shadowRadius = 5
-        topbarVw.layer.masksToBounds = false
-    }
-    
     @IBAction func backButtonTapped(_ sender: UIButton) {
         if let nav = navigationController {
             nav.popViewController(animated: true)
@@ -156,11 +163,23 @@ class CheckOutViewController: UIViewController {
     }
     
     @IBAction func buyNowButtonTapped(_ sender: UIButton) {
+        guard selectedAddress != nil else {
+            showAlert("Please add a delivery address first")
+            return
+        }
+        
         let storyboard = UIStoryboard(name: "EdStore", bundle: nil)
         if let nextVC = storyboard.instantiateViewController(withIdentifier: "MakePaymentViewController") as? MakePaymentViewController {
             nextVC.selectedProduct = selectedProduct
+            nextVC.selectedAddress = selectedAddress
             self.navigationController?.pushViewController(nextVC, animated: true)
         }
+    }
+    
+    private func showAlert(_ message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 }
 
@@ -177,53 +196,16 @@ extension CheckOutViewController: UITableViewDataSource, UITableViewDelegate {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "CheckOutImageTableViewCell", for: indexPath) as! CheckOutImageTableViewCell
             cell.selectionStyle = .none
-            if let url = URL(string: product.thumbnailImage) {
-                cell.imgVw.loadImage(from: url)
-            }
+            
+            cell.imgVw.setImage(url: product.thumbnailImage, placeHolderImage: "FF Logo")
+            
             return cell
             
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "DescriptionTableViewCell", for: indexPath) as! DescriptionTableViewCell
             cell.selectionStyle = .none
             
-            cell.descriptionTv.text = product.itemDescription
-            self.amountLbl.text = "₹\(Int(Double(product.finalPrice) ?? 0))"
-            cell.strikeOutPrice.text = "₹\(Int(Double(product.finalPrice) ?? 0))"
-
-            
-            // STRIKEOUT PRICE VISIBILITY
-            let mrp = product.mrp.trimmingCharacters(in: .whitespaces)
-            
-            if !mrp.isEmpty && mrp != "0" {
-
-                let mrpValue = Int(Double(mrp) ?? 0)
-                cell.strikeOutPrice.text = "₹\(mrpValue)"
-                cell.strikeOutPrice.isHidden = false
-                cell.strikeLineImg.isHidden = false
-            } else {
-                cell.strikeOutPrice.isHidden = true
-                cell.strikeLineImg.isHidden = true
-            }
-            
-            if let discountTag = product.discountTag {
-                cell.offLbl?.text = discountTag.components(separatedBy: "-").first
-            } else {
-                cell.offLbl?.text = "0% off"
-            }
-            
-            cell.interestingLbl.text = product.highlights?.joined(separator: ", ") ?? ""
-            
-            let highlights = product.highlights ?? []
-            if highlights.count >= 2 {
-                cell.variant1.text = highlights[0]
-                cell.variant2.text = highlights[1]
-            } else if highlights.count == 1 {
-                cell.variant1.text = highlights[0]
-                cell.variant2.text = "--"
-            } else {
-                cell.variant1.text = "--"
-                cell.variant2.text = "--"
-            }
+            configureDescriptionCell(cell, with: product)
             
             return cell
             
@@ -232,11 +214,60 @@ extension CheckOutViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    private func configureDescriptionCell(_ cell: DescriptionTableViewCell, with product: Product) {
+        
+        cell.aboutLbl.text = product.itemName
+        
+        cell.descriptionTv.text = product.itemDescription ?? "No description available"
+        
+        let finalPrice = Double(product.finalPrice) ?? 0
+        cell.amount2Lbl.text = "₹\(Int(finalPrice))"
+        
+        cell.mrpLbl.text = "MRP"
+        
+        let mrpValue = Double(product.mrp) ?? 0
+        
+        if mrpValue > 0 && mrpValue > finalPrice {
+            let mrpText = "₹\(Int(mrpValue))"
+            cell.setStrikethroughPrice(mrpText, shouldStrike: true)
+            cell.strikeOutPrice.isHidden = false
+            cell.mrpLbl.isHidden = false
+        } else {
+            cell.strikeOutPrice.isHidden = true
+            cell.mrpLbl.isHidden = true
+        }
+
+        if let discountTag = product.discountTag, !discountTag.isEmpty {
+            cell.offLbl.text = discountTag
+            cell.offLbl.isHidden = false
+        } else {
+            if mrpValue > 0 && finalPrice > 0 && mrpValue > finalPrice {
+                let discountPercent = Int(((mrpValue - finalPrice) * 100) / mrpValue)
+                cell.offLbl.text = "\(discountPercent)% off"
+                cell.offLbl.isHidden = false
+            } else {
+                cell.offLbl.isHidden = true
+            }
+        }
+        
+        let highlights = product.highlights ?? []
+        if !highlights.isEmpty {
+            cell.interestingLbl.text = "• " + highlights.joined(separator: "\n• ")
+        } else {
+            cell.interestingLbl.text = "No highlights available"
+        }
+        
+        cell.configureVariantViews(with: product)
+        
+        let gstAmount = Double(product.gstAmount ?? "0") ?? 0
+        let totalAmount = finalPrice + gstAmount
+        self.amountLbl.text = "₹\(Int(totalAmount))"
+    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
         case 0: return 212
-        case 1: return 528
-        default: return UITableView.automaticDimension
+        case 1: return 550  
+        default: return 400
         }
     }
 }

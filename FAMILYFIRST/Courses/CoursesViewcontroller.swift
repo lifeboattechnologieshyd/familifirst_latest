@@ -12,8 +12,6 @@ class CoursesViewController: UIViewController {
 
     
     @IBOutlet weak var tblVw: UITableView!
-    @IBOutlet weak var backBtn: UIButton!
-    @IBOutlet weak var topVw: UIView!
     @IBOutlet weak var colVw: UICollectionView!
     
     var selectedTab = 0
@@ -26,13 +24,16 @@ class CoursesViewController: UIViewController {
         ["name": "All", "image": "ALLL"],
         ["name": "Online", "image": "ONLINE 1"],
         ["name": "Webinars", "image": "WEBINAR"],
-        ["name": "Offline", "image": "OFFLINE 1"]
+        ["name": "Offline", "image": "OFFLINE 1"],
+        ["name": "", "image": ""],
+        ["name": "", "image": ""]
+
+
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        topVw.addBottomShadow()
         loadTab(initialTabIndex)
     }
     
@@ -44,12 +45,13 @@ class CoursesViewController: UIViewController {
         }
     }
     
-    @IBAction func backBtnTapped(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
-    }
-
     func setupViews() {
+        view.backgroundColor = UIColor(named: "primaryColor")
         colVw.backgroundColor = UIColor(named: "primaryColor")
+        colVw.backgroundColor = UIColor(named: "primaryColor")
+        colVw.superview?.backgroundColor = UIColor(named: "primaryColor")
+
+        colVw.clipsToBounds = true
         
         colVw.register(UINib(nibName: "TabCell", bundle: nil), forCellWithReuseIdentifier: "TabCell")
         tblVw.register(UINib(nibName: "CourseCell", bundle: nil), forCellReuseIdentifier: "CourseCell")
@@ -83,13 +85,11 @@ class CoursesViewController: UIViewController {
                 case .success(let res):
                     if let data = res.data {
                         self?.onlineCourses = data
-                        print("✅ Online courses loaded: \(data.count)")
                         self?.tblVw.reloadData()
                     } else {
                         print("⚠️ No online course data")
                     }
                 case .failure(let error):
-                    print("❌ Error fetching online courses: \(error)")
                     self?.showAlert("Failed to load online courses")
                 }
             }
@@ -105,13 +105,11 @@ class CoursesViewController: UIViewController {
                 case .success(let res):
                     if let data = res.data {
                         self?.webinars = data
-                        print("✅ Webinars loaded: \(data.count)")
                         self?.tblVw.reloadData()
                     } else {
                         print("⚠️ No webinar data")
                     }
                 case .failure(let error):
-                    print("❌ Error fetching webinars: \(error)")
                     self?.showAlert("Failed to load webinars")
                 }
             }
@@ -127,13 +125,10 @@ class CoursesViewController: UIViewController {
                 case .success(let res):
                     if let data = res.data {
                         self?.offlineCourses = data
-                        print("✅ Offline courses loaded: \(data.count)")
                         self?.tblVw.reloadData()
                     } else {
-                        print("⚠️ No offline course data")
                     }
                 case .failure(let error):
-                    print("❌ Error fetching offline courses: \(error)")
                     self?.showAlert("Failed to load offline courses")
                 }
             }
@@ -185,13 +180,25 @@ extension CoursesViewController: UICollectionViewDataSource, UICollectionViewDel
         cell.contentView.backgroundColor = .clear
         cell.loadCell(option: tabs[ip.row])
         cell.selectedView.backgroundColor = ip.row == selectedTab ? .white : .clear
+        
+        // Disable last 2 tabs visually
+        if ip.row >= 4 {
+            cell.isUserInteractionEnabled = false
+            cell.alpha = 0.3 // Make them appear disabled
+        } else {
+            cell.isUserInteractionEnabled = true
+            cell.alpha = 1.0
+        }
+        
         return cell
     }
 
     func collectionView(_ cv: UICollectionView, didSelectItemAt ip: IndexPath) {
-        loadTab(ip.row)
+        // Only allow selection of first 4 tabs
+        if ip.row < 4 {
+            loadTab(ip.row)
+        }
     }
-    
     func collectionView(_ cv: UICollectionView, layout: UICollectionViewLayout, sizeForItemAt ip: IndexPath) -> CGSize {
         return CGSize(width: 80, height: 80)
     }

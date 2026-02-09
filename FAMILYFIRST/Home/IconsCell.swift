@@ -26,7 +26,6 @@ class IconsCell: UITableViewCell {
     var didTapEdutainment: (() -> Void)?
     var didTapVocabBee: (() -> Void)?
     var didTapProsperityTips: (() -> Void)?
-    var didTapStore: (() -> Void)?
     var didTapParentingTips: (() -> Void)?
     var didTapAssessments: (() -> Void)?
     var didTapMyFamily: (() -> Void)?
@@ -46,7 +45,6 @@ class IconsCell: UITableViewCell {
         didTapEdutainment = nil
         didTapVocabBee = nil
         didTapProsperityTips = nil
-        didTapStore = nil
         didTapParentingTips = nil
         didTapAssessments = nil
         didTapMyFamily = nil
@@ -68,10 +66,6 @@ class IconsCell: UITableViewCell {
 
     @IBAction func prosperitytipsBtnTapped(_ sender: UIButton) {
         didTapProsperityTips?()
-    }
-
-    @IBAction func storeBtnTapped(_ sender: UIButton) {
-        didTapStore?()
     }
     
     @IBAction func parentingTipsBtnTapped(_ sender: UIButton) {

@@ -360,35 +360,47 @@ struct Course: Codable {
         case demoVideo = "demo_video"
     }
 }
-struct Product: Decodable {
+struct Product: Codable {
     let id: String
     let itemName: String
-    let itemDescription: String
+    let itemDescription: String?
+    let itemCategory: String?
+    let variants: [String: [String]]?
     let thumbnailImage: String
-    let listOfImages: [String]
+    let listOfImages: [String]?
+    let specification: [String]?
+    let isActive: Bool?
     let mrp: String
     let finalPrice: String
+    let gstPercentage: String?
+    let gstAmount: String?
+    let thumbnailTag1: String?
+    let thumbnailTag2: String?
     let discountTag: String?
     let highlights: [String]?
-    let isTrending: Bool
-    let variants: Variants?
-    let specification: [String]? 
-
-
+    let priority: Int?
+    let isTrending: Bool?
+    
     enum CodingKeys: String, CodingKey {
         case id
         case itemName = "item_name"
         case itemDescription = "item_description"
+        case itemCategory = "item_category"
+        case variants
         case thumbnailImage = "thumbnail_image"
         case listOfImages = "list_of_images"
+        case specification
+        case isActive = "is_active"
         case mrp
         case finalPrice = "final_price"
+        case gstPercentage = "gst_percentage"
+        case gstAmount = "gst_amount"
+        case thumbnailTag1 = "thumbnail_tag_1"
+        case thumbnailTag2 = "thumbnail_tag_2"
         case discountTag = "discount_tag"
         case highlights
+        case priority
         case isTrending = "is_trending"
-        case variants
-        case specification
-
     }
 }
 
@@ -542,16 +554,22 @@ struct CreateAddressResponseModel: Codable {
 }
 
 struct FullAddress: Codable {
+    let houseNo: String?
     let street: String?
-    let country: String?
+    let landmark: String?
     let village: String?
     let district: String?
-    let houseNo: String?
-    let landmark: String?
+    let state: String?
+    let country: String?
     
     enum CodingKeys: String, CodingKey {
-        case street, country, village, district, landmark
         case houseNo = "house_no"
+        case street
+        case landmark
+        case village
+        case district
+        case state
+        case country
     }
 }
 

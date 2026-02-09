@@ -342,10 +342,6 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
                 self?.navigateToProsperityTipsVC()
             }
             
-            cell.didTapStore = { [weak self] in
-                self?.navigateToEdStoreVC()
-            }
-            
             cell.didTapParentingTips = { [weak self] in
                 self?.navigateToParentingTipsVC()
             }

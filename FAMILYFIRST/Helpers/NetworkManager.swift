@@ -242,8 +242,6 @@ struct API {
     static let GET_COMMENTS = BASE_URL + "edutain/comment"
     static let EDUTAIN_FEEL = BASE_URL + "events/get/feels"
     static let GET_ADDRESS = BASE_URL + "onlinestore/address"
-    static let ONLINE_STORE_PRODUCTS = BASE_URL + "onlinestore/products"
-    static let ONLINE_STORE_ADDRESS = BASE_URL + "onlinestore/address"
     static let CREATE_ADDRESS = BASE_URL + "onlinestore/address"
     static let CREATE_ORDER = BASE_URL + "onlinestore/order"
     static let VOCABEE_GET_DATES = BASE_URL + "vocabee/words/history"
@@ -265,7 +263,7 @@ struct API {
     static let VERIFY_OTP = BASE_URL + "user/authentication/mobile/verify-otp"
     static let RESEND_OTP = BASE_URL + "user/authentication/mobile/resend-otp"
     static let SET_PASSWORD = BASE_URL + "user/authentication/set-password"
-    static let LOGIN_PASSWORD = BASE_URL + "user/authentication/mobile/login"
+    static let LOGIN_PASSWORD = BASE_URL + "user/authentication/login"
     static let GET_FEELS = BASE_URL + "event/get/feels"
     static let FAMILY_MASTER = BASE_URL + "family/familymaster"
     static let CREATE_EVENT = BASE_URL + "event/event"
@@ -311,6 +309,11 @@ struct API {
     static let OFFLINE_COURSES = "\(BASE_URL)courses/get/course"
     static let ONLINE_COURSES = "\(BASE_URL)courses/online/courses"
     static let WEBINARS = "\(BASE_URL)courses/get/webinar"
+    
+    static let ONLINE_STORE_ADDRESS = BASE_URL + "onlinestore/address"
+    static let ONLINE_STORE_PRODUCTS = BASE_URL + "onlinestore/products"
+    static let ONLINE_STORE_ORDER = BASE_URL + "onlinestore/order"
+    
     
 
 }

@@ -25,13 +25,16 @@ class CoursesVC: UIViewController {
         ["name": "All", "image": "ALLL"],
         ["name": "Online", "image": "ONLINE 1"],
         ["name": "Webinars", "image": "WEBINAR"],
-        ["name": "Offline", "image": "OFFLINE 1"]
+        ["name": "Offline", "image": "OFFLINE 1"],
+        ["name": "", "image": ""],
+        ["name": "", "image": ""]
+
+
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        topVw.addBottomShadow()
         loadTab(initialTabIndex)
     }
     
@@ -184,11 +187,24 @@ extension CoursesVC: UICollectionViewDataSource, UICollectionViewDelegate, UICol
         cell.contentView.backgroundColor = .clear
         cell.loadCell(option: tabs[ip.row])
         cell.selectedView.backgroundColor = ip.row == selectedTab ? .white : .clear
+        
+        // Disable last 2 tabs visually
+        if ip.row >= 4 {
+            cell.isUserInteractionEnabled = false
+            cell.alpha = 0.3 // Make them appear disabled
+        } else {
+            cell.isUserInteractionEnabled = true
+            cell.alpha = 1.0
+        }
+        
         return cell
     }
 
     func collectionView(_ cv: UICollectionView, didSelectItemAt ip: IndexPath) {
-        loadTab(ip.row)
+        // Only allow selection of first 4 tabs
+        if ip.row < 4 {
+            loadTab(ip.row)
+        }
     }
     
     func collectionView(_ cv: UICollectionView, layout: UICollectionViewLayout, sizeForItemAt ip: IndexPath) -> CGSize {

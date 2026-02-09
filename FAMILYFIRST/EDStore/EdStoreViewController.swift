@@ -207,33 +207,32 @@ extension EdStoreViewController: UITableViewDataSource, UITableViewDelegate, EdS
         let product = products[indexPath.row]
         cell.delegate = self
         
+        // Title
         cell.titleLbl.text = product.itemName
-        cell.priceLbl.text = "₹\(Int(Double(product.finalPrice) ?? 0))"
-        cell.discountLbl.text = product.discountTag
         
-        if let discountTag = product.discountTag {
+        // Price
+        cell.priceLbl.text = "₹\(Int(Double(product.finalPrice) ?? 0))"
+        
+        // Discount Tag
+        if let discountTag = product.discountTag, !discountTag.isEmpty {
             let pattern = "\\d+%\\s*off"
             let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive)
-
             let range = NSRange(location: 0, length: discountTag.utf16.count)
+            
             if let match = regex?.firstMatch(in: discountTag, options: [], range: range),
                let matchRange = Range(match.range, in: discountTag) {
                 cell.discountLbl.text = String(discountTag[matchRange])
-                cell.discountLbl.isHidden = false
             } else {
-                cell.discountLbl.text = ""
-                cell.discountLbl.isHidden = true
+                cell.discountLbl.text = discountTag
             }
+            cell.discountLbl.isHidden = false
         } else {
             cell.discountLbl.text = ""
             cell.discountLbl.isHidden = true
         }
 
-        if let url = URL(string: product.thumbnailImage) {
-            cell.imgVw.loadImage(from: url)
-        } else {
-            cell.imgVw.image = UIImage(named: "thumbnailImage")
-        }
+        // ✅ Image loading with your extension
+        cell.imgVw.setImage(url: product.thumbnailImage, placeHolderImage: "FF Logo")
         
         return cell
     }
