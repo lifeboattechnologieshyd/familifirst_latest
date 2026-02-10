@@ -1,9 +1,3 @@
-//
-//  HomeVC.swift
-//  FamilyFirst
-//
-//  Created by Lifeboat on 10/01/26.
-//
 import UIKit
 
 class HomeVC: UIViewController {
@@ -12,6 +6,7 @@ class HomeVC: UIViewController {
     
     private var upcomingEvents: [Event] = []
     private var todaysCalendarData: CalendarData?
+    private var products: [Product] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +14,7 @@ class HomeVC: UIViewController {
         registerCells()
         fetchUpcomingEvents()
         fetchCalendarData()
+        fetchProducts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -28,6 +24,7 @@ class HomeVC: UIViewController {
         if UserManager.shared.isLoggedIn {
             fetchUpcomingEvents()
             fetchCalendarData()
+            fetchProducts()
         }
     }
     
@@ -41,7 +38,6 @@ class HomeVC: UIViewController {
                 switch result {
                 case .success(let response):
                     if response.success, let calendarList = response.data {
-                        // Find today's entry
                         let dateFormatter = DateFormatter()
                         dateFormatter.dateFormat = "dd-MM-yyyy"
                         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
@@ -49,7 +45,6 @@ class HomeVC: UIViewController {
                         
                         self?.todaysCalendarData = calendarList.first { $0.date == todayString }
                         
-                        // If no entry for today, fallback to the first one or latest one
                         if self?.todaysCalendarData == nil {
                             self?.todaysCalendarData = calendarList.first
                         }
@@ -85,6 +80,26 @@ class HomeVC: UIViewController {
                     }
                 case .failure(let error):
                     print("Error fetching events: \(error)")
+                }
+            }
+        }
+    }
+    
+    private func fetchProducts() {
+        NetworkManager.shared.request(
+            urlString: API.ONLINE_STORE_PRODUCTS,
+            method: .GET,
+            parameters: ["page": 1, "limit": 10]
+        ) { [weak self] (result: Result<APIResponse<[Product]>, NetworkError>) in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    if let products = response.data, !products.isEmpty {
+                        self?.products = products
+                        self?.tableView.reloadRows(at: [IndexPath(row: 3, section: 0)], with: .none)
+                    }
+                case .failure(let error):
+                    print("Error fetching products: \(error)")
                 }
             }
         }
@@ -181,6 +196,18 @@ class HomeVC: UIViewController {
         }
     }
     
+    private func navigateToCheckoutVC(with product: Product) {
+        let storyboard = UIStoryboard(name: "EdStore", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "CheckOutViewController") as! CheckOutViewController
+        vc.selectedProduct = product
+        if let navController = navigationController {
+            navController.pushViewController(vc, animated: true)
+        } else {
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
+        }
+    }
+    
     private func navigateToAssessmentsVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "AssessmentsGradeSelectionVC") as! AssessmentsGradeSelectionVC
@@ -228,6 +255,7 @@ class HomeVC: UIViewController {
             }
         }
     }
+    
     private func navigateToVocabBeeVC() {
         let storyboard = UIStoryboard(name: "VocabBees", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "VocabBeesViewController") as! VocabBeesViewController
@@ -362,8 +390,15 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ShopCell", for: indexPath) as! ShopCell
+            cell.products = products
             cell.didTapLogout = { [weak self] in
                 self?.showLogoutAlert()
+            }
+            cell.didTapViewAll = { [weak self] in
+                self?.navigateToEdStoreVC()
+            }
+            cell.didSelectProduct = { [weak self] product in
+                self?.navigateToCheckoutVC(with: product)
             }
             return cell
             

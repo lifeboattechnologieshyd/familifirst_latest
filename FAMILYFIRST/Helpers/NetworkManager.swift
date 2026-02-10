@@ -314,20 +314,24 @@ struct API {
     static let ONLINE_STORE_PRODUCTS = BASE_URL + "onlinestore/products"
     static let ONLINE_STORE_ORDER = BASE_URL + "onlinestore/order"
     
+    static let FAMILY_UPDATE_MEMBER = "\(BASE_URL)family/familymember"
+    static let FAMILY_DELETE_MEMBER = "\(BASE_URL)family/familymember"
+        
     
-
+    
+    
 }
 
 
-    
-
-   
- 
 
 
 
 
 
 
-   
+
+
+
+
+
 

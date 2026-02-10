@@ -29,7 +29,7 @@ class DetailsCell: UITableViewCell {
     
     var onShowToast: ((String) -> Void)?
     var onBackTapped: (() -> Void)?
-
+    var onEditTapped: (() -> Void)?
     
     private var mobileNumber: String = ""
     private var email: String = ""
@@ -41,15 +41,48 @@ class DetailsCell: UITableViewCell {
         imgVw.layer.cornerRadius = imgVw.frame.height / 2
         imgVw.clipsToBounds = true
         notesFont.font = UIFont(name: "Lexend-SemiBold", size: 16)
-
+        selectionStyle = .none
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+    
     @IBAction func backBtnTapped(_ sender: UIButton) {
-            onBackTapped?()
-        }
+        onBackTapped?()
+    }
+    
+    @IBAction func editBtnTapped(_ sender: UIButton) {
+        print("Edit button tapped in DetailsCell")
+        onEditTapped?()
+    }
+    
+    @IBAction func callBtnTapped(_ sender: UIButton) {
+        guard !mobileNumber.isEmpty, let url = URL(string: "tel://\(mobileNumber)") else { return }
+        UIApplication.shared.open(url)
+    }
+    
+    @IBAction func whatsappBtnTapped(_ sender: UIButton) {
+        guard !mobileNumber.isEmpty, let url = URL(string: "https://wa.me/91\(mobileNumber)") else { return }
+        UIApplication.shared.open(url)
+    }
+    
+    @IBAction func phonenoCopyTapped(_ sender: UIButton) {
+        guard !mobileNumber.isEmpty else { return }
+        UIPasteboard.general.string = mobileNumber
+        onShowToast?("Mobile number copied successfully")
+    }
+    
+    @IBAction func mailBtnTapped(_ sender: UIButton) {
+        guard !email.isEmpty, let url = URL(string: "mailto:\(email)") else { return }
+        UIApplication.shared.open(url)
+    }
+    
+    @IBAction func mailCopyTapped(_ sender: UIButton) {
+        guard !email.isEmpty else { return }
+        UIPasteboard.general.string = email
+        onShowToast?("Email copied successfully")
+    }
     
     func configure(with member: FamilyMember) {
         nameLbl.text = member.fullName ?? "N/A"
@@ -82,31 +115,5 @@ class DetailsCell: UITableViewCell {
         } else {
             imgVw.image = UIImage(named: "Picture")
         }
-    }
-    @IBAction func callBtnTapped(_ sender: UIButton) {
-        guard !mobileNumber.isEmpty, let url = URL(string: "tel://\(mobileNumber)") else { return }
-        UIApplication.shared.open(url)
-    }
-    
-    @IBAction func whatsappBtnTapped(_ sender: UIButton) {
-        guard !mobileNumber.isEmpty, let url = URL(string: "https://wa.me/91\(mobileNumber)") else { return }
-        UIApplication.shared.open(url)
-    }
-    
-    @IBAction func phonenoCopyTapped(_ sender: UIButton) {
-        guard !mobileNumber.isEmpty else { return }
-        UIPasteboard.general.string = mobileNumber
-        onShowToast?("Mobile number copied successfully")
-    }
-    
-    @IBAction func mailBtnTapped(_ sender: UIButton) {
-        guard !email.isEmpty, let url = URL(string: "mailto:\(email)") else { return }
-        UIApplication.shared.open(url)
-    }
-    
-    @IBAction func mailCopyTapped(_ sender: UIButton) {
-        guard !email.isEmpty else { return }
-        UIPasteboard.general.string = email
-        onShowToast?("Email copied successfully")
     }
 }

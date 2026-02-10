@@ -239,6 +239,7 @@
 				DEVELOPMENT_TEAM = 7CN8AS9ANR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FAMILYFIRST/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Famili First";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -271,6 +272,7 @@
 				DEVELOPMENT_TEAM = 7CN8AS9ANR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FAMILYFIRST/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Famili First";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -498,6 +500,7 @@
 				DEVELOPMENT_TEAM = 7CN8AS9ANR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FAMILYFIRST/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Famili First";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -590,6 +593,7 @@
 				DEVELOPMENT_TEAM = 7CN8AS9ANR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FAMILYFIRST/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Famili First";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

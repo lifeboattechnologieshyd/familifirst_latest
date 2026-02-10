@@ -41,10 +41,6 @@ class PopUpVC: UIViewController {
         if !message.isEmpty {
             descriptionLbl.text = message
         }
-        
-        // Style the OK button
-        okBtn.layer.cornerRadius = 8
-        okBtn.setTitleColor(.white, for: .normal)
     }
     
     private func playLottieAnimation(named animationName: String) {

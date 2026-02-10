@@ -39,6 +39,9 @@
                         </constraints>
                         <state key="normal" title="Button"/>
                         <buttonConfiguration key="configuration" style="plain" image="edit"/>
+                        <connections>
+                            <action selector="editBtnTapped:" destination="Gx0-Cp-2vp" eventType="touchUpInside" id="1Xr-Uu-2Ko"/>
+                        </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZE1-mR-rOq">
                         <rect key="frame" x="133.66666666666666" y="138" width="130.99999999999997" height="24"/>

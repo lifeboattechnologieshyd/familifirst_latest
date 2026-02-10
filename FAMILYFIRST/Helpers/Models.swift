@@ -1269,6 +1269,7 @@ struct VerifyOTPResponse: Decodable {
     }
 }
 struct FamilyMember: Decodable {
+    let id: String?
     let creatorId: String?
     let memberId: String?
     let fullName: String?
@@ -1281,6 +1282,7 @@ struct FamilyMember: Decodable {
     let status: String?
     
     enum CodingKeys: String, CodingKey {
+        case id
         case creatorId = "creator_id"
         case memberId = "member_id"
         case fullName = "full_name"
@@ -1294,8 +1296,43 @@ struct FamilyMember: Decodable {
     }
     
     var effectiveId: String? {
-        return memberId ?? creatorId
+        return id ?? memberId ?? creatorId
     }
+}
+struct FamilyMemberResponse: Codable {
+    let id: String?
+    let creatorId: String?
+    let memberId: String?
+    let fullName: String?
+    let mobile: String?
+    let relationType: String?
+    let email: String?
+    let profileImage: String?
+    let dateOfBirth: String?
+    let notes: NotesResponse?
+    let status: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case creatorId = "creator_id"
+        case memberId = "member_id"
+        case fullName = "full_name"
+        case mobile
+        case relationType = "relation_type"
+        case email
+        case profileImage = "profile_image"
+        case dateOfBirth = "date_of_birth"
+        case notes
+        case status
+    }
+}
+
+struct NotesResponse: Codable {
+    let hobbies: [String]?
+}
+
+struct DeleteResponse: Codable {
+    let error: String?
 }
 
 enum MobileType: Decodable {

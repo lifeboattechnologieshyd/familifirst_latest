@@ -27,6 +27,11 @@ class MemberDetailsVC: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     private func setupData() {
         if let hobbies = member?.notes?.hobbies {
             notesList = hobbies
@@ -70,6 +75,30 @@ class MemberDetailsVC: UIViewController {
         }
     }
     
+    private func fetchMemberDetails() {
+        guard let memberId = member?.effectiveId else { return }
+        
+        let urlString = "\(API.FAMILY_UPDATE_MEMBER)/\(memberId)"
+        
+        NetworkManager.shared.request(
+            urlString: urlString,
+            method: .GET
+        ) { [weak self] (result: Result<APIResponse<FamilyMember>, NetworkError>) in
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    if let updatedMember = response.data {
+                        self?.member = updatedMember
+                        self?.setupData()
+                    }
+                case .failure(let error):
+                    print("Error fetching member: \(error)")
+                }
+            }
+        }
+    }
+    
     private func showToast(message: String) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         present(alert, animated: true)
@@ -90,6 +119,32 @@ class MemberDetailsVC: UIViewController {
         })
         present(alert, animated: true)
     }
+    
+    private func navigateToEditMemberVC() {
+        print("Navigating to EditMemberVC")
+        
+        guard let member = member else {
+            print("Member is nil")
+            return
+        }
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let vc = storyboard.instantiateViewController(withIdentifier: "EditMemberVC") as? EditMemberVC else {
+            print("Failed to instantiate EditMemberVC")
+            return
+        }
+        
+        vc.member = member
+        vc.onMemberUpdated = { [weak self] in
+            self?.fetchMemberDetails()
+        }
+        vc.onMemberDeleted = { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
+        vc.hidesBottomBarWhenPushed = true
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension MemberDetailsVC: UITableViewDelegate, UITableViewDataSource {
@@ -104,12 +159,22 @@ extension MemberDetailsVC: UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsCell", for: indexPath) as! DetailsCell
-            if let member = member { cell.configure(with: member) }
             
-            cell.onShowToast = { [weak self] msg in self?.showToast(message: msg) }
+            if let member = member {
+                cell.configure(with: member)
+            }
+            
+            cell.onShowToast = { [weak self] msg in
+                self?.showToast(message: msg)
+            }
             
             cell.onBackTapped = { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
+            }
+            
+            cell.onEditTapped = { [weak self] in
+                print("onEditTapped closure called")
+                self?.navigateToEditMemberVC()
             }
             
             return cell
@@ -175,7 +240,9 @@ extension MemberDetailsVC: UITableViewDelegate, UITableViewDataSource {
         let eventsStartIndex = notesEndIndex + 2
         let eventsEndIndex = eventsStartIndex + eventsCount - 1
         
-        if indexPath.row >= eventsStartIndex && indexPath.row <= eventsEndIndex { return 90 }
+        if indexPath.row >= eventsStartIndex && indexPath.row <= eventsEndIndex {
+            return 90 
+        }
         
         return 40
     }
