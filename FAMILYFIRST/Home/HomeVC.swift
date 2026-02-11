@@ -1,3 +1,9 @@
+//
+//  CalenderVC.swift
+//  FamilyFirst
+//
+//  Created by Lifeboat on 13/01/26.
+//
 import UIKit
 
 class HomeVC: UIViewController {
@@ -12,19 +18,49 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
         setupTableView()
         registerCells()
-        fetchUpcomingEvents()
-        fetchCalendarData()
-        fetchProducts()
+        fetchUserIdAndLoadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         self.tabBarController?.tabBar.isHidden = false
-        if UserManager.shared.isLoggedIn {
+        
+        if UserManager.shared.isLoggedIn && !upcomingEvents.isEmpty {
+            return
+        }
+        
+        fetchUserIdAndLoadData()
+    }
+    
+    private func fetchUserIdAndLoadData() {
+        if let userId = UserManager.shared.userId, !userId.isEmpty {
             fetchUpcomingEvents()
             fetchCalendarData()
             fetchProducts()
+        } else {
+            NetworkManager.shared.request(
+                urlString: API.FAMILY_MASTER,
+                method: .GET
+            ) { [weak self] (result: Result<APIResponse<[FamilyMember]>, NetworkError>) in
+                
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let response):
+                        if response.success, let data = response.data {
+                            if let selfMember = data.first(where: { $0.relationType?.lowercased() == "self" }),
+                               let userId = selfMember.effectiveId {
+                                UserManager.shared.saveUserId(userId)
+                                self?.fetchUpcomingEvents()
+                                self?.fetchCalendarData()
+                                self?.fetchProducts()
+                            }
+                        }
+                    case .failure(let error):
+                        print("Error fetching family members: \(error)")
+                    }
+                }
+            }
         }
     }
     
@@ -130,13 +166,16 @@ class HomeVC: UIViewController {
     }
 
     private func navigateToCalenderVC() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let calenderVC = storyboard.instantiateViewController(withIdentifier: "CalenderVC") as! CalenderVC
-        if let navController = navigationController {
-            navController.pushViewController(calenderVC, animated: true)
-        } else {
-            calenderVC.modalPresentationStyle = .fullScreen
-            present(calenderVC, animated: true)
+        if let tabBarController = self.tabBarController {
+            for (index, viewController) in (tabBarController.viewControllers ?? []).enumerated() {
+                if let navController = viewController as? UINavigationController,
+                   let familiVC = navController.viewControllers.first as? FamiliVC {
+                    familiVC.initialSection = .events
+                    tabBarController.selectedIndex = index
+                    navController.popToRootViewController(animated: false)
+                    return
+                }
+            }
         }
     }
     
