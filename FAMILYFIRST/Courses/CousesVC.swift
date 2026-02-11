@@ -28,8 +28,6 @@ class CoursesVC: UIViewController {
         ["name": "Offline", "image": "OFFLINE 1"],
         ["name": "", "image": ""],
         ["name": "", "image": ""]
-
-
     ]
     
     override func viewDidLoad() {
@@ -173,6 +171,14 @@ class CoursesVC: UIViewController {
         }
         return "₹0"
     }
+    
+    private func setImageWithPlaceholder(imageView: UIImageView, urlString: String?) {
+        if let urlString = urlString, !urlString.isEmpty, let url = URL(string: urlString) {
+            imageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder"))
+        } else {
+            imageView.image = UIImage(named: "placeholder")
+        }
+    }
 }
 
 extension CoursesVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -188,10 +194,9 @@ extension CoursesVC: UICollectionViewDataSource, UICollectionViewDelegate, UICol
         cell.loadCell(option: tabs[ip.row])
         cell.selectedView.backgroundColor = ip.row == selectedTab ? .white : .clear
         
-        // Disable last 2 tabs visually
         if ip.row >= 4 {
             cell.isUserInteractionEnabled = false
-            cell.alpha = 0.3 // Make them appear disabled
+            cell.alpha = 0.3
         } else {
             cell.isUserInteractionEnabled = true
             cell.alpha = 1.0
@@ -201,7 +206,6 @@ extension CoursesVC: UICollectionViewDataSource, UICollectionViewDelegate, UICol
     }
 
     func collectionView(_ cv: UICollectionView, didSelectItemAt ip: IndexPath) {
-        // Only allow selection of first 4 tabs
         if ip.row < 4 {
             loadTab(ip.row)
         }
@@ -233,7 +237,7 @@ extension CoursesVC: UITableViewDataSource, UITableViewDelegate {
                 let cell = tv.dequeueReusableCell(withIdentifier: "CourseCell", for: ip) as! CourseCell
                 let c = onlineCourses[ip.row]
                 cell.lblCourseName.text = c.name
-                cell.imgCourse.kf.setImage(with: URL(string: c.thumbnailImage), placeholder: UIImage(named: "placeholder"))
+                setImageWithPlaceholder(imageView: cell.imgCourse, urlString: c.thumbnailImage)
                 cell.lblDuration.text = "\(c.duration) mins"
                 cell.lblAudience.text = c.audience
                 cell.btnCost.setTitle("₹\(c.finalCourseFee)", for: .normal)
@@ -245,7 +249,7 @@ extension CoursesVC: UITableViewDataSource, UITableViewDelegate {
                 let cell = tv.dequeueReusableCell(withIdentifier: "WebinarsCell", for: ip) as! WebinarsCell
                 let w = webinars[ip.row - onlineCount]
                 cell.lblCourseName.text = w.name
-                cell.imgCourse.kf.setImage(with: URL(string: w.thumbnailImage), placeholder: UIImage(named: "placeholder"))
+                setImageWithPlaceholder(imageView: cell.imgCourse, urlString: w.thumbnailImage)
                 cell.lblDuration.text = "\(w.duration / 60)m"
                 cell.lblAudience.text = w.audience
                 let remaining = w.totalSlots - w.totalEnrolled
@@ -258,7 +262,7 @@ extension CoursesVC: UITableViewDataSource, UITableViewDelegate {
                 let cell = tv.dequeueReusableCell(withIdentifier: "OfflineCell", for: ip) as! OfflineCell
                 let o = offlineCourses[ip.row - onlineCount - webinarCount]
                 cell.lblCourseName.text = o.name
-                cell.imgCourse.kf.setImage(with: URL(string: o.thumbnailImage), placeholder: UIImage(named: "placeholder"))
+                setImageWithPlaceholder(imageView: cell.imgCourse, urlString: o.thumbnailImage)
                 cell.lblAudience.text = o.audience
                 cell.locationLbl.text = o.venue
                 let remaining = o.totalSlots - o.totalEnrolled
@@ -274,7 +278,7 @@ extension CoursesVC: UITableViewDataSource, UITableViewDelegate {
             let cell = tv.dequeueReusableCell(withIdentifier: "CourseCell", for: ip) as! CourseCell
             let c = onlineCourses[ip.row]
             cell.lblCourseName.text = c.name
-            cell.imgCourse.kf.setImage(with: URL(string: c.thumbnailImage), placeholder: UIImage(named: "placeholder"))
+            setImageWithPlaceholder(imageView: cell.imgCourse, urlString: c.thumbnailImage)
             cell.lblDuration.text = "\(c.duration) mins"
             cell.lblAudience.text = c.audience
             cell.btnCost.setTitle("₹\(c.finalCourseFee)", for: .normal)
@@ -286,7 +290,7 @@ extension CoursesVC: UITableViewDataSource, UITableViewDelegate {
             let cell = tv.dequeueReusableCell(withIdentifier: "WebinarsCell", for: ip) as! WebinarsCell
             let w = webinars[ip.row]
             cell.lblCourseName.text = w.name
-            cell.imgCourse.kf.setImage(with: URL(string: w.thumbnailImage), placeholder: UIImage(named: "placeholder"))
+            setImageWithPlaceholder(imageView: cell.imgCourse, urlString: w.thumbnailImage)
             cell.lblDuration.text = "\(w.duration / 60)m"
             cell.lblAudience.text = w.audience
             let remaining = w.totalSlots - w.totalEnrolled
@@ -299,7 +303,7 @@ extension CoursesVC: UITableViewDataSource, UITableViewDelegate {
             let cell = tv.dequeueReusableCell(withIdentifier: "OfflineCell", for: ip) as! OfflineCell
             let o = offlineCourses[ip.row]
             cell.lblCourseName.text = o.name
-            cell.imgCourse.kf.setImage(with: URL(string: o.thumbnailImage), placeholder: UIImage(named: "placeholder"))
+            setImageWithPlaceholder(imageView: cell.imgCourse, urlString: o.thumbnailImage)
             cell.lblAudience.text = o.audience
             cell.locationLbl.text = o.venue
             let remaining = o.totalSlots - o.totalEnrolled
