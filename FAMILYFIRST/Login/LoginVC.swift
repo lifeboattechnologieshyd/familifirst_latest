@@ -19,19 +19,62 @@ class LoginVC: UIViewController {
     @IBOutlet weak var getotpBtn: UIButton!
     @IBOutlet weak var codeLbl: UILabel!
     @IBOutlet weak var loginBtn: UIButton!
+    @IBOutlet weak var footerTxt: UILabel!
     
     private var currentLoginType: LoginType = .mobile
+    private let highlightColor = UIColor(hex: "#076839")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         selectMobileLogin()
+        setupFooterText()
     }
     
     private func setupUI() {
         mobileTf.delegate = self
         mobileTf.addLeftPadding(40)
         backBtn.isHidden = true
+    }
+    
+    private func setupFooterText() {
+        let fullText = "By Signing up, you agree to our Terms of Use and Privacy Policy"
+        let attributedString = NSMutableAttributedString(string: fullText)
+        
+        let fullRange = NSRange(location: 0, length: fullText.count)
+        attributedString.addAttribute(.font, value: UIFont(name: "Lexend-Light", size: 14) ?? UIFont.systemFont(ofSize: 14), range: fullRange)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.darkGray, range: fullRange)
+        
+        if let termsRange = fullText.range(of: "Terms of Use") {
+            let nsRange = NSRange(termsRange, in: fullText)
+            attributedString.addAttribute(.foregroundColor, value: highlightColor, range: nsRange)
+            attributedString.addAttribute(.font, value: UIFont(name: "Lexend-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14, weight: .medium), range: nsRange)
+        }
+        
+        if let privacyRange = fullText.range(of: "Privacy Policy") {
+            let nsRange = NSRange(privacyRange, in: fullText)
+            attributedString.addAttribute(.foregroundColor, value: highlightColor, range: nsRange)
+            attributedString.addAttribute(.font, value: UIFont(name: "Lexend-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14, weight: .medium), range: nsRange)
+        }
+        
+        footerTxt.attributedText = attributedString
+    }
+    
+    private func setLoginButtonTitle(prefix: String, highlight: String, suffix: String) {
+        let fullText = prefix + highlight + suffix
+        let attributedString = NSMutableAttributedString(string: fullText)
+        
+        let fullRange = NSRange(location: 0, length: fullText.count)
+        attributedString.addAttribute(.font, value: UIFont(name: "Lexend-Regular", size: 14) ?? UIFont.systemFont(ofSize: 14), range: fullRange)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.darkGray, range: fullRange)
+        
+        if let highlightRange = fullText.range(of: highlight) {
+            let nsRange = NSRange(highlightRange, in: fullText)
+            attributedString.addAttribute(.foregroundColor, value: highlightColor, range: nsRange)
+            attributedString.addAttribute(.font, value: UIFont(name: "Lexend-SemiBold", size: 14) ?? UIFont.systemFont(ofSize: 14, weight: .semibold), range: nsRange)
+        }
+        
+        loginBtn.setAttributedTitle(attributedString, for: .normal)
     }
     
     @IBAction func backBtnTapped(_ sender: UIButton) {
@@ -67,7 +110,7 @@ class LoginVC: UIViewController {
         mobileTf.reloadInputViews()
         
         textLbl.text = "Enter your Indian Mobile Number"
-        loginBtn.setTitle("Login with E-mail instead", for: .normal)
+        setLoginButtonTitle(prefix: "Login with ", highlight: "E-mail", suffix: " instead")
     }
     
     private func selectEmailLogin() {
@@ -80,7 +123,7 @@ class LoginVC: UIViewController {
         mobileTf.reloadInputViews()
         
         textLbl.text = "Enter your Email ID"
-        loginBtn.setTitle("Login with Indian Mobile instead", for: .normal)
+        setLoginButtonTitle(prefix: "Login with ", highlight: "Indian Mobile", suffix: " instead")
     }
     
     private func validateAndSendMobileOTP() {

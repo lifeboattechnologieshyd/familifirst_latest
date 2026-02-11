@@ -4114,7 +4114,7 @@
                                             <constraint firstAttribute="height" constant="20" id="i4d-3P-zbf"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="0.17838230729999999" green="0.401043117" blue="0.2374107838" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5KG-0E-XZN">
@@ -4125,7 +4125,7 @@
                                         <attributedString key="attributedText">
                                             <fragment content="By Signing up, you agree to our Terms of Use and Privacy Policy">
                                                 <attributes>
-                                                    <font key="NSFont" size="14" name="Lexend-Regular"/>
+                                                    <font key="NSFont" size="14" name="Lexend-Light"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -4185,6 +4185,7 @@
                     <connections>
                         <outlet property="backBtn" destination="E5a-sq-lri" id="o8S-ar-B7K"/>
                         <outlet property="codeLbl" destination="x9u-Qq-fHF" id="5cp-S6-Ebb"/>
+                        <outlet property="footerTxt" destination="5KG-0E-XZN" id="ctl-K4-cCC"/>
                         <outlet property="getotpBtn" destination="JNm-Qg-36v" id="WZm-2F-lN9"/>
                         <outlet property="loginBtn" destination="N5D-K5-km7" id="CKF-Eb-Mu4"/>
                         <outlet property="mobileTf" destination="xZX-W3-eKb" id="FGx-2k-eDR"/>
@@ -4836,6 +4837,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="WGL-SJ-pNu"/>
                                         </constraints>
+                                        <color key="tintColor" red="0.17850714919999999" green="0.40129739050000002" blue="0.23755252360000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain">
                                             <attributedString key="attributedTitle">
