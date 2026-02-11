@@ -7,6 +7,11 @@
 import UIKit
 
 class EnterPasswordVC: UIViewController {
+    
+    enum LoginType {
+        case mobile
+        case email
+    }
 
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var nameLbl: UILabel!
@@ -20,6 +25,8 @@ class EnterPasswordVC: UIViewController {
     var mobileNumber: String = ""
     var userName: String?
     var profileImageURL: String?
+    var emailAddress: String = ""
+    var loginType: LoginType = .mobile
     
     private var isPasswordVisible = false
     

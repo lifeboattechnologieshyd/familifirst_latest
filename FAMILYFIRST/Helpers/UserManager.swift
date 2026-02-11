@@ -19,6 +19,7 @@ class UserManager {
         static let refreshToken = "refreshToken"
         static let isLoggedIn = "isLoggedIn"
         static let mobile = "mobile"
+        static let email = "email"
         static let hasSeenOnboarding = "hasSeenOnboarding"
         static let userId = "userId"
     }
@@ -41,9 +42,13 @@ class UserManager {
         defaults.set(mobile, forKey: Keys.mobile)
     }
     
+    func saveEmail(_ email: String) {
+        defaults.set(email, forKey: Keys.email)
+    }
+    
     func saveUserId(_ userId: String) {
         defaults.set(userId, forKey: Keys.userId)
-        print("✅ Saved userId: \(userId)")
+        print("Saved userId: \(userId)")
     }
 
     var accessToken: String {
@@ -57,6 +62,10 @@ class UserManager {
     var mobile: String {
         return defaults.string(forKey: Keys.mobile) ?? ""
     }
+    
+    var email: String {
+        return defaults.string(forKey: Keys.email) ?? ""
+    }
 
     var isLoggedIn: Bool {
         return defaults.bool(forKey: Keys.isLoggedIn) && !accessToken.isEmpty
@@ -64,7 +73,7 @@ class UserManager {
     
     var userId: String? {
         let id = defaults.string(forKey: Keys.userId)
-        print("🔑 UserManager userId: \(id ?? "NIL")")
+        print("UserManager userId: \(id ?? "NIL")")
         return id
     }
     
@@ -73,6 +82,7 @@ class UserManager {
         defaults.removeObject(forKey: Keys.refreshToken)
         defaults.removeObject(forKey: Keys.isLoggedIn)
         defaults.removeObject(forKey: Keys.mobile)
+        defaults.removeObject(forKey: Keys.email)
         defaults.removeObject(forKey: Keys.userId)
     }
 }

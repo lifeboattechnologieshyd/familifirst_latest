@@ -23,38 +23,56 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="onlinestore" translatesAutoresizingMaskIntoConstraints="NO" id="fvq-dB-n8a">
                                 <rect key="frame" x="0.0" y="0.0" width="142" height="199"/>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JY5-eK-VNb">
+                            <view alpha="0.99999000000000005" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JY5-eK-VNb">
                                 <rect key="frame" x="54" y="8" width="80" height="20"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lIs-NQ-Oyj">
-                                        <rect key="frame" x="5" y="2.6666666666666661" width="70.333333333333329" height="14.999999999999998"/>
+                                    <visualEffectView opaque="NO" alpha="0.30000001192092912" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gEs-nB-taL">
+                                        <rect key="frame" x="0.0" y="0.0" width="80" height="20"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="4Rw-U8-d0x">
+                                            <rect key="frame" x="0.0" y="0.0" width="80" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="tintColor" systemColor="tintColor"/>
+                                        </view>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="15" id="B8G-5r-0mA"/>
+                                            <constraint firstAttribute="height" constant="20" id="1Zo-Js-h3r"/>
+                                        </constraints>
+                                        <blurEffect style="regular"/>
+                                    </visualEffectView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hUI-Va-l2F">
+                                        <rect key="frame" x="8.3333333333333393" y="3" width="63.666666666666657" height="14"/>
+                                        <color key="tintColor" systemColor="tintColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="14" id="Hwv-0S-9Cy"/>
                                         </constraints>
                                         <attributedString key="attributedText">
                                             <fragment content="Best Selling">
                                                 <attributes>
-                                                    <color key="NSColor" red="1" green="0.99999994039999995" blue="0.99999994039999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <font key="NSFont" size="12" name="Lexend-SemiBold"/>
-                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                                 </attributes>
                                             </fragment>
                                         </attributedString>
-                                        <nil key="highlightedColor"/>
+                                        <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.29537734389999998" green="0.2830697298" blue="0.188285023" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="P7r-gT-P4e"/>
+                                    <constraint firstItem="hUI-Va-l2F" firstAttribute="centerX" secondItem="JY5-eK-VNb" secondAttribute="centerX" id="UtT-Ch-ONy"/>
+                                    <constraint firstAttribute="trailing" secondItem="gEs-nB-taL" secondAttribute="trailing" id="YIN-cJ-cXy"/>
                                     <constraint firstAttribute="width" constant="80" id="ebR-Ub-4d9"/>
-                                    <constraint firstItem="lIs-NQ-Oyj" firstAttribute="centerY" secondItem="JY5-eK-VNb" secondAttribute="centerY" id="lMZ-JV-xLQ"/>
-                                    <constraint firstItem="lIs-NQ-Oyj" firstAttribute="centerX" secondItem="JY5-eK-VNb" secondAttribute="centerX" id="sLG-ty-5f7"/>
+                                    <constraint firstItem="gEs-nB-taL" firstAttribute="leading" secondItem="JY5-eK-VNb" secondAttribute="leading" id="fh5-cM-5Z7"/>
+                                    <constraint firstItem="gEs-nB-taL" firstAttribute="top" secondItem="JY5-eK-VNb" secondAttribute="top" id="g3e-f8-H1R"/>
+                                    <constraint firstItem="hUI-Va-l2F" firstAttribute="centerY" secondItem="JY5-eK-VNb" secondAttribute="centerY" id="h1r-LD-RKA"/>
                                 </constraints>
                             </view>
                             <view clipsSubviews="YES" alpha="0.99999000000000005" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aMo-8I-JSW">
                                 <rect key="frame" x="0.0" y="159" width="142" height="40"/>
                                 <subviews>
-                                    <visualEffectView opaque="NO" alpha="0.999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lUB-A1-4a0">
+                                    <visualEffectView opaque="NO" alpha="0.30000001192092901" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lUB-A1-4a0">
                                         <rect key="frame" x="0.0" y="0.0" width="142" height="40"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="0Er-nj-6Gq">
                                             <rect key="frame" x="0.0" y="0.0" width="142" height="40"/>
@@ -81,6 +99,8 @@
                                             </fragment>
                                         </attributedString>
                                         <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <size key="shadowOffset" width="0.0" height="0.0"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -95,7 +115,7 @@
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="10"/>
+                                        <real key="value" value="0.0"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
@@ -127,7 +147,7 @@
             <connections>
                 <outlet property="imgVw" destination="fvq-dB-n8a" id="8Hv-ZU-tdH"/>
                 <outlet property="productLbl" destination="Wb2-aI-Uto" id="DOw-C2-tDr"/>
-                <outlet property="tagLbl" destination="lIs-NQ-Oyj" id="IvR-nO-Cy3"/>
+                <outlet property="tagLbl" destination="hUI-Va-l2F" id="Q4J-Bp-30n"/>
                 <outlet property="tagVw" destination="JY5-eK-VNb" id="bdK-MK-jEW"/>
                 <outlet property="tagVwWidthConstraint" destination="ebR-Ub-4d9" id="nwF-TQ-aed"/>
             </connections>
@@ -138,6 +158,9 @@
         <image name="onlinestore" width="200" height="266.66665649414062"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="tintColor">
+            <color red="0.0" green="0.53333333333333333" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

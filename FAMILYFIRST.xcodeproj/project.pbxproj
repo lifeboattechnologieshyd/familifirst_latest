@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		888ED18A2F3C7F230005C846 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 888ED1892F3C7F230005C846 /* IQKeyboardManagerSwift */; };
 		88CDB5E72F1A74A000C0CC6B /* CFNetworkSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 88CDB5E62F1A74A000C0CC6B /* CFNetworkSDK */; };
 		88CDB5E92F1A74A000C0CC6B /* CashfreeAnalyticsSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 88CDB5E82F1A74A000C0CC6B /* CashfreeAnalyticsSDK */; };
 		88CDB5EB2F1A74A000C0CC6B /* CashfreePG in Frameworks */ = {isa = PBXBuildFile; productRef = 88CDB5EA2F1A74A000C0CC6B /* CashfreePG */; };
@@ -59,6 +60,7 @@
 				88CDB5ED2F1A74A000C0CC6B /* CashfreePGCoreSDK in Frameworks */,
 				88E27F562F17D6D20044D639 /* FirebaseAuth in Frameworks */,
 				88E27F582F17D6D20044D639 /* FirebaseCrashlytics in Frameworks */,
+				888ED18A2F3C7F230005C846 /* IQKeyboardManagerSwift in Frameworks */,
 				88E27F5A2F17D6D20044D639 /* FirebaseFirestore in Frameworks */,
 				88E27FCC2F17DA960044D639 /* Kingfisher in Frameworks */,
 				88CDB5EF2F1A74A000C0CC6B /* CashfreePGUISDK in Frameworks */,
@@ -114,6 +116,7 @@
 				88CDB5EA2F1A74A000C0CC6B /* CashfreePG */,
 				88CDB5EC2F1A74A000C0CC6B /* CashfreePGCoreSDK */,
 				88CDB5EE2F1A74A000C0CC6B /* CashfreePGUISDK */,
+				888ED1892F3C7F230005C846 /* IQKeyboardManagerSwift */,
 			);
 			productName = FAMILYFIRST;
 			productReference = 8899FA692F30829200D5670C /* FAMILYFIRST.app */;
@@ -149,6 +152,7 @@
 				88E27FCD2F17DB6A0044D639 /* XCRemoteSwiftPackageReference "lottie-spm" */,
 				88E27FD02F17DCE30044D639 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */,
 				88CDB5E52F1A74A000C0CC6B /* XCRemoteSwiftPackageReference "core-ios-sdk" */,
+				888ED1882F3C7F230005C846 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 88E27B522F17D1E40044D639;
@@ -641,6 +645,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		888ED1882F3C7F230005C846 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.2;
+			};
+		};
 		88CDB5E52F1A74A000C0CC6B /* XCRemoteSwiftPackageReference "core-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/cashfree/core-ios-sdk.git";
@@ -684,6 +696,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		888ED1892F3C7F230005C846 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 888ED1882F3C7F230005C846 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
 		88CDB5E62F1A74A000C0CC6B /* CFNetworkSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 88CDB5E52F1A74A000C0CC6B /* XCRemoteSwiftPackageReference "core-ios-sdk" */;

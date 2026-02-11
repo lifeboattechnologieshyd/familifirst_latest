@@ -8,6 +8,11 @@
 import UIKit
 
 class SetPasswordVC: UIViewController {
+    
+    enum LoginType {
+        case mobile
+        case email
+    }
 
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var passwordTf: UITextField!
@@ -20,6 +25,8 @@ class SetPasswordVC: UIViewController {
     var isPasswordReset: Bool = false
     private var isPasswordVisible = false
     private var isConfirmPasswordVisible = false
+    var emailAddress: String = ""
+    var loginType: LoginType = .mobile
     
     override func viewDidLoad() {
         super.viewDidLoad()

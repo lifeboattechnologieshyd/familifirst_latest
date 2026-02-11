@@ -317,7 +317,10 @@ struct API {
     static let FAMILY_UPDATE_MEMBER = "\(BASE_URL)family/familymember"
     static let FAMILY_DELETE_MEMBER = "\(BASE_URL)family/familymember"
         
-    
+    static let EMAIL_SEND_OTP = "\(BASE_URL)user/authentication/email/send-otp"
+    static let EMAIL_VERIFY_OTP = "\(BASE_URL)user/authentication/email/verify-otp"
+    static let EMAIL_RESEND_OTP = "\(BASE_URL)user/authentication/email/resend-otp"
+
     
     
 }

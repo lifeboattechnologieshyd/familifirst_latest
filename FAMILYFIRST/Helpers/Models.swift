@@ -1570,3 +1570,71 @@ struct CalendarData: Codable {
         case youtubeVideoUrl = "youtube_video_url"
     }
 }
+struct EmailUserData: Codable {
+    let id: Int?
+    let name: String?
+    let email: String?
+    let mobile: String?
+    let profileImage: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case email
+        case mobile
+        case profileImage = "profile_image"
+    }
+}
+struct EmailSendOTPResponse: Codable {
+    let passwordRequired: Bool?
+    let message: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case passwordRequired = "password_required"
+        case message
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        passwordRequired = try container.decodeIfPresent(Bool.self, forKey: .passwordRequired)
+        message = try container.decodeIfPresent(String.self, forKey: .message)
+    }
+}
+
+struct EmailVerifyOTPResponse: Codable {
+    let accessToken: String?
+    let refreshToken: String?
+    let setNewPassword: Bool?
+    let isNewUser: Bool?
+    let message: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case accessToken = "access_token"
+        case refreshToken = "refresh_token"
+        case setNewPassword = "set_new_password"
+        case isNewUser = "is_new_user"
+        case message
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        accessToken = try container.decodeIfPresent(String.self, forKey: .accessToken)
+        refreshToken = try container.decodeIfPresent(String.self, forKey: .refreshToken)
+        setNewPassword = try container.decodeIfPresent(Bool.self, forKey: .setNewPassword)
+        isNewUser = try container.decodeIfPresent(Bool.self, forKey: .isNewUser)
+        message = try container.decodeIfPresent(String.self, forKey: .message)
+    }
+}
+
+struct EmailResendOTPResponse: Codable {
+    let message: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case message
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        message = try container.decodeIfPresent(String.self, forKey: .message)
+    }
+}

@@ -9,16 +9,25 @@ import Lottie
 
 class OtpVC: UIViewController {
 
+    enum LoginType {
+        case mobile
+        case email
+    }
+
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var lottieVw: UIView!
     @IBOutlet weak var otpTf1: UITextField!
     @IBOutlet weak var otpTf2: UITextField!
     @IBOutlet weak var otpTf3: UITextField!
+    @IBOutlet weak var toLbl: UILabel!
     @IBOutlet weak var otpTf4: UITextField!
     @IBOutlet weak var resendBtn: UIButton!
     @IBOutlet weak var verifyBtn: UIButton!
+    @IBOutlet weak var subtitleLabel: UILabel!
     
     var mobileNumber: String = ""
+    var emailAddress: String = ""
+    var loginType: LoginType = .mobile
     var isForgotPasswordFlow: Bool = false
     
     private var resendTimer: Timer?
@@ -31,6 +40,7 @@ class OtpVC: UIViewController {
         setupOTPFields()
         startResendTimer()
         setupLottie()
+        updateToLabel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,6 +76,22 @@ class OtpVC: UIViewController {
     
     private func setupUI() {
         otpTf1.becomeFirstResponder()
+        
+        toLbl.adjustsFontSizeToFitWidth = true
+        toLbl.minimumScaleFactor = 0.5
+        toLbl.numberOfLines = 1
+        toLbl.lineBreakMode = .byTruncatingTail
+    }
+    
+    private func updateToLabel() {
+        switch loginType {
+        case .mobile:
+            toLbl.text = "OTP Sent to +91 \(mobileNumber)"
+            toLbl.textAlignment = .center
+        case .email:
+            toLbl.text = "OTP Sent to \(emailAddress)"
+            toLbl.textAlignment = .center
+        }
     }
     
     private func setupOTPFields() {
@@ -115,11 +141,21 @@ class OtpVC: UIViewController {
             return
         }
         
-        verifyOTP(otp: otp)
+        switch loginType {
+        case .mobile:
+            verifyMobileOTP(otp: otp)
+        case .email:
+            verifyEmailOTP(otp: otp)
+        }
     }
     
     @IBAction func resendBtnTapped(_ sender: UIButton) {
-        resendOTP()
+        switch loginType {
+        case .mobile:
+            resendMobileOTP()
+        case .email:
+            resendEmailOTP()
+        }
     }
     
     private func getOTP() -> String {
@@ -134,7 +170,7 @@ class OtpVC: UIViewController {
         otpTf1.becomeFirstResponder()
     }
     
-    private func verifyOTP(otp: String) {
+    private func verifyMobileOTP(otp: String) {
         showLoading(true)
         
         var params: [String: Any] = [
@@ -158,7 +194,7 @@ class OtpVC: UIViewController {
                 switch result {
                 case .success(let response):
                     if response.success {
-                        self?.handleVerificationSuccess(response: response)
+                        self?.handleMobileVerificationSuccess(response: response)
                     } else {
                         self?.showAlert(response.description)
                         self?.clearOTP()
@@ -172,7 +208,45 @@ class OtpVC: UIViewController {
         }
     }
     
-    private func handleVerificationSuccess(response: APIResponse<VerifyOTPResponse>) {
+    private func verifyEmailOTP(otp: String) {
+        showLoading(true)
+        
+        var params: [String: Any] = [
+            "email": emailAddress,
+            "otp": otp
+        ]
+        
+        if isForgotPasswordFlow {
+            params["is_forgot_password"] = true
+        }
+        
+        NetworkManager.shared.request(
+            urlString: API.EMAIL_VERIFY_OTP,
+            method: .POST,
+            parameters: params
+        ) { [weak self] (result: Result<APIResponse<EmailVerifyOTPResponse>, NetworkError>) in
+            
+            DispatchQueue.main.async {
+                self?.showLoading(false)
+                
+                switch result {
+                case .success(let response):
+                    if response.success {
+                        self?.handleEmailVerificationSuccess(response: response)
+                    } else {
+                        self?.showAlert(response.description)
+                        self?.clearOTP()
+                    }
+                    
+                case .failure(let error):
+                    self?.handleError(error)
+                    self?.clearOTP()
+                }
+            }
+        }
+    }
+    
+    private func handleMobileVerificationSuccess(response: APIResponse<VerifyOTPResponse>) {
         
         if let data = response.data,
            let access = data.accessToken,
@@ -196,7 +270,31 @@ class OtpVC: UIViewController {
         }
     }
     
-    private func resendOTP() {
+    private func handleEmailVerificationSuccess(response: APIResponse<EmailVerifyOTPResponse>) {
+        
+        if let data = response.data,
+           let access = data.accessToken,
+           let refresh = data.refreshToken {
+            UserManager.shared.saveTokens(access: access, refresh: refresh)
+        }
+        
+        if isForgotPasswordFlow {
+            goToSetPasswordVCForEmail(isReset: true)
+            return
+        }
+        
+        if let data = response.data {
+            if data.setNewPassword == true || data.isNewUser == true {
+                goToSetPasswordVCForEmail(isReset: false)
+            } else {
+                navigateToHome()
+            }
+        } else {
+            goToSetPasswordVCForEmail(isReset: false)
+        }
+    }
+    
+    private func resendMobileOTP() {
         resendBtn.isEnabled = false
         resendBtn.setTitle("Sending...", for: .normal)
         
@@ -235,10 +333,58 @@ class OtpVC: UIViewController {
         }
     }
     
+    private func resendEmailOTP() {
+        resendBtn.isEnabled = false
+        resendBtn.setTitle("Sending...", for: .normal)
+        
+        var params: [String: Any] = ["email": emailAddress]
+        
+        if isForgotPasswordFlow {
+            params["is_forgot_password"] = true
+        }
+        
+        let endpoint = isForgotPasswordFlow ? API.EMAIL_SEND_OTP : API.EMAIL_RESEND_OTP
+        
+        NetworkManager.shared.request(
+            urlString: endpoint,
+            method: .POST,
+            parameters: params
+        ) { [weak self] (result: Result<APIResponse<EmailResendOTPResponse>, NetworkError>) in
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    if response.success {
+                        self?.showAlert("OTP sent successfully")
+                        self?.startResendTimer()
+                        self?.clearOTP()
+                    } else {
+                        self?.showAlert(response.description)
+                        self?.resendBtn.isEnabled = true
+                        self?.resendBtn.setTitle("Resend OTP", for: .normal)
+                    }
+                case .failure(let error):
+                    self?.handleError(error)
+                    self?.resendBtn.isEnabled = true
+                    self?.resendBtn.setTitle("Resend OTP", for: .normal)
+                }
+            }
+        }
+    }
+    
     private func goToSetPasswordVC(isReset: Bool = false) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "SetPasswordVC") as! SetPasswordVC
         vc.mobileNumber = mobileNumber
         vc.isPasswordReset = isReset
+        vc.loginType = .mobile
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func goToSetPasswordVCForEmail(isReset: Bool = false) {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "SetPasswordVC") as! SetPasswordVC
+        vc.emailAddress = emailAddress
+        vc.isPasswordReset = isReset
+        vc.loginType = .email
         navigationController?.pushViewController(vc, animated: true)
     }
     
