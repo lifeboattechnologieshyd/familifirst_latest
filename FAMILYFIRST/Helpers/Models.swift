@@ -1638,3 +1638,41 @@ struct EmailResendOTPResponse: Codable {
         message = try container.decodeIfPresent(String.self, forKey: .message)
     }
 }
+struct UserDetails: Codable {
+    let id: String?
+    let firstName: String?
+    let lastName: String?
+    let username: String?
+    let profileImage: String?
+    let email: String?
+    let referralCode: String?
+    let mobile: Int?
+    let schoolId: String?
+    let deviceId: String?
+    let userStatus: String?
+    let updatedBy: String?
+    let createdBy: String?
+    let creationDate: String?
+    let updatedDate: String?
+    let dateOfBirth: String?  // Added this
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case firstName = "first_name"
+        case lastName = "last_name"
+        case username
+        case profileImage = "profile_image"
+        case email
+        case referralCode = "referral_code"
+        case mobile
+        case schoolId = "school_id"
+        case deviceId = "device_id"
+        case userStatus = "user_status"
+        case updatedBy = "updated_by"
+        case createdBy = "created_by"
+        case creationDate = "creation_date"
+        case updatedDate = "updated_date"
+        case dateOfBirth = "date_of_birth"  // Added this
+    }
+}
+

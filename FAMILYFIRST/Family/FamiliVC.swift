@@ -4,6 +4,7 @@
 //
 //  Created by Lifeboat on 09/01/26.
 //
+
 import UIKit
 import Lottie
 
@@ -20,6 +21,7 @@ class FamiliVC: UIViewController {
     
     private var familyMembers: [FamilyMember] = []
     private var selfMember: FamilyMember?
+    private var selfUserDetails: UserDetails?
     
     private var monthlyEvents: [MonthEventsGroup] = []
     private var allEvents: [Event] = []
@@ -71,6 +73,7 @@ class FamiliVC: UIViewController {
     private func checkLoginStatus() {
         if UserManager.shared.isLoggedIn {
             fetchFamilyMembers()
+            fetchUserDetails()  // Fetch user details for referral code
             if currentSection == .events {
                 fetchEvents()
             }
@@ -100,6 +103,41 @@ class FamiliVC: UIViewController {
                     }
                 case .failure(let error):
                     print("Error: \(error)")
+                }
+            }
+        }
+    }
+    
+    private func fetchUserDetails() {
+        let mobile = UserManager.shared.mobile
+        let email = UserManager.shared.email
+        
+        var urlString = API.USER_DETAILS
+        
+        if !mobile.isEmpty {
+            urlString += "?mobile=\(mobile)"
+        } else if !email.isEmpty {
+            urlString += "?email=\(email)"
+        } else if let userId = UserManager.shared.userId {
+            urlString += "?id=\(userId)"
+        } else {
+            return
+        }
+        
+        NetworkManager.shared.request(
+            urlString: urlString,
+            method: .GET
+        ) { [weak self] (result: Result<APIResponse<UserDetails>, NetworkError>) in
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    if response.success, let data = response.data {
+                        self?.selfUserDetails = data
+                        self?.tblVw.reloadData()
+                    }
+                case .failure(let error):
+                    print("Error fetching user details: \(error)")
                 }
             }
         }
@@ -267,6 +305,14 @@ class FamiliVC: UIViewController {
             }
         }
     }
+    
+    private func showToast(message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        present(alert, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            alert.dismiss(animated: true)
+        }
+    }
 }
 
 extension FamiliVC: UITableViewDelegate, UITableViewDataSource {
@@ -299,9 +345,29 @@ extension FamiliVC: UITableViewDelegate, UITableViewDataSource {
         case .family:
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UserCell", for: indexPath) as! UserCell
-                if let member = selfMember {
+                
+                // Use UserDetails if available (has referral code & updated info)
+                if let userDetails = selfUserDetails {
+                    cell.configureWithUserDetails(userDetails)
+                } else if let member = selfMember {
                     cell.configure(with: member)
                 }
+                
+                // Handle edit button tap
+                cell.onEditTapped = { [weak self] in
+                    self?.navigateToProfileEditVC()
+                }
+                
+                // Handle copy button tap
+                cell.onCopyTapped = { [weak self] in
+                    self?.showToast(message: "Referral code copied!")
+                }
+                
+                // Handle share button tap
+                cell.onShareTapped = { [weak self] in
+                    self?.shareReferralCode()
+                }
+                
                 return cell
             } else if indexPath.row <= familyMembers.count {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "familyMemberCell", for: indexPath) as! familyMemberCell
@@ -462,5 +528,30 @@ extension FamiliVC {
         vc.familyMembers = self.familyMembers
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func navigateToProfileEditVC() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let vc = storyboard.instantiateViewController(withIdentifier: "ProfileEditVC") as? ProfileEditVC else { return }
+        
+        // Callback to refresh data after profile update
+        vc.onProfileUpdated = { [weak self] in
+            self?.fetchFamilyMembers()
+            self?.fetchUserDetails()
+        }
+        
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func shareReferralCode() {
+        guard let code = selfUserDetails?.referralCode, !code.isEmpty else {
+            showToast(message: "No referral code available")
+            return
+        }
+        
+        let message = "Join FamilyFirst using my referral code: \(code)"
+        let activityVC = UIActivityViewController(activityItems: [message], applicationActivities: nil)
+        present(activityVC, animated: true)
     }
 }

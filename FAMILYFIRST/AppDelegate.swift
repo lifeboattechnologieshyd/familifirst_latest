@@ -12,6 +12,8 @@ import FirebaseMessaging
 import FirebaseCrashlytics
 import FirebaseAnalytics
 import UserNotifications
+import IQKeyboardManagerSwift
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -20,17 +22,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        
+
+        IQKeyboardManager.shared.isEnabled = true
+        IQKeyboardManager.shared.resignOnTouchOutside = true
+        IQKeyboardManager.shared.enableAutoToolbar = true
+
         printEnvironmentInfo()
         configureFirebase()
         setupPushNotifications(application: application)
         setupNavigationBar()
-        
-        Analytics.logEvent("app_launched", parameters: nil)
-        Crashlytics.crashlytics().log("App launched successfully")
-        
+
         return true
     }
+ 
     
     private func printEnvironmentInfo() {
         let bundleID = Bundle.main.bundleIdentifier ?? "UNKNOWN"

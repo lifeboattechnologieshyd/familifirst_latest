@@ -24,6 +24,9 @@ class LoginVC: UIViewController {
     private var currentLoginType: LoginType = .mobile
     private let highlightColor = UIColor(hex: "#076839")
     
+    private let termsURL = "https://www.familifirst.com/terms-and-conditions.html"
+    private let privacyURL = "https://www.familifirst.com/privacy-policy.html"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -58,6 +61,43 @@ class LoginVC: UIViewController {
         }
         
         footerTxt.attributedText = attributedString
+        footerTxt.isUserInteractionEnabled = true
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(footerTextTapped(_:)))
+        footerTxt.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func footerTextTapped(_ gesture: UITapGestureRecognizer) {
+        guard let label = gesture.view as? UILabel, let text = label.text else { return }
+        
+        let termsRange = (text as NSString).range(of: "Terms of Use")
+        let privacyRange = (text as NSString).range(of: "Privacy Policy")
+        
+        let tapLocation = gesture.location(in: label)
+        let textStorage = NSTextStorage(attributedString: label.attributedText!)
+        let layoutManager = NSLayoutManager()
+        let textContainer = NSTextContainer(size: label.bounds.size)
+        
+        textContainer.lineFragmentPadding = 0
+        textContainer.maximumNumberOfLines = label.numberOfLines
+        textContainer.lineBreakMode = label.lineBreakMode
+        
+        layoutManager.addTextContainer(textContainer)
+        textStorage.addLayoutManager(layoutManager)
+        
+        let characterIndex = layoutManager.characterIndex(for: tapLocation, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+        
+        if NSLocationInRange(characterIndex, termsRange) {
+            openURL(termsURL)
+        } else if NSLocationInRange(characterIndex, privacyRange) {
+            openURL(privacyURL)
+        }
+    }
+    
+    private func openURL(_ urlString: String) {
+        if let url = URL(string: urlString) {
+            UIApplication.shared.open(url)
+        }
     }
     
     private func setLoginButtonTitle(prefix: String, highlight: String, suffix: String) {

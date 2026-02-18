@@ -21,11 +21,20 @@ class UserCell: UITableViewCell {
     @IBOutlet weak var editBtn: UIButton!
     @IBOutlet weak var bgVw: UIView!
     
+    var onEditTapped: (() -> Void)?
+    var onCopyTapped: (() -> Void)?
+    var onShareTapped: (() -> Void)?
+    
+    private var referralCode: String = ""
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         bgVw.addCardShadow()
         userImg.layer.cornerRadius = userImg.frame.height / 2
         userImg.clipsToBounds = true
+        selectionStyle = .none
+        
+        editBtn.addTarget(self, action: #selector(editBtnTapped), for: .touchUpInside)
     }
     
     override func layoutSubviews() {
@@ -35,16 +44,62 @@ class UserCell: UITableViewCell {
         copyLbl.font = UIFont(name: "Lexend-Light", size: 14)
         youLbl.font = UIFont(name: "Lexend-Light", size: 14)
         referLbl.font = UIFont(name: "Lexend-Light", size: 14)
-
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+    
+    @objc private func editBtnTapped() {
+        onEditTapped?()
+    }
+    
+    @IBAction func copyBtnTapped(_ sender: UIButton) {
+        if !referralCode.isEmpty {
+            UIPasteboard.general.string = referralCode
+            onCopyTapped?()
+        }
+    }
+    
+    @IBAction func shareBtnTapped(_ sender: UIButton) {
+        onShareTapped?()
+    }
+    
     func configure(with member: FamilyMember) {
         nameLbl.text = member.fullName ?? "User"
         
+        // Show referral code if available (fetch from UserDetails API)
+        // For now, show N/A - will be updated after profile fetch
+        referalcodeLbl.text = "N/A"
+        
         if let imageUrl = member.profileImage, !imageUrl.isEmpty, let url = URL(string: imageUrl) {
+            loadImage(from: url)
+        } else {
+            userImg.image = UIImage(named: "Picture")
+        }
+    }
+    
+    // Configure with UserDetails (for showing referral code)
+    func configureWithUserDetails(_ user: UserDetails) {
+        // Name
+        if let firstName = user.firstName, !firstName.isEmpty {
+            if let lastName = user.lastName, !lastName.isEmpty {
+                nameLbl.text = "\(firstName) \(lastName)"
+            } else {
+                nameLbl.text = firstName
+            }
+        } else if let lastName = user.lastName, !lastName.isEmpty {
+            nameLbl.text = lastName
+        } else {
+            nameLbl.text = user.username ?? "User"
+        }
+        
+        // Referral Code
+        referralCode = user.referralCode ?? ""
+        referalcodeLbl.text = user.referralCode ?? "N/A"
+        
+        // Profile Image
+        if let imageUrl = user.profileImage, !imageUrl.isEmpty, let url = URL(string: imageUrl) {
             loadImage(from: url)
         } else {
             userImg.image = UIImage(named: "Picture")
