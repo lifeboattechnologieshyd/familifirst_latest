@@ -1676,3 +1676,18 @@ struct UserDetails: Codable {
     }
 }
 
+struct EmptyData: Decodable {
+}
+struct DeletResponse: Decodable {
+    let success: Bool
+    let errorCode: Int
+    let description: String
+    let total: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case success
+        case errorCode = "errorCode"
+        case description
+        case total
+    }
+}

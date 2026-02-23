@@ -118,7 +118,7 @@ class ProfileEditVC: UIViewController {
     }
     
     @IBAction func deleteAccountBtnTapped(_ sender: UIButton) {
-        showDeleteAlert()
+        showDeleteConfirmationAlert()
     }
     
     @objc private func datePickerDone() {
@@ -387,7 +387,7 @@ class ProfileEditVC: UIViewController {
         return true
     }
     
-    private func showDeleteAlert() {
+    private func showDeleteConfirmationAlert() {
         let alert = UIAlertController(
             title: "Delete Account",
             message: "Are you sure you want to delete your account?",
@@ -395,17 +395,39 @@ class ProfileEditVC: UIViewController {
         )
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        alert.addAction(UIAlertAction(title: "OK", style: .destructive) { [weak self] _ in
-            self?.showDeleteConfirmationMessage()
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            self?.deleteUserAccount()
         })
         
         present(alert, animated: true)
     }
     
-    private func showDeleteConfirmationMessage() {
+    private func deleteUserAccount() {
+        NetworkManager.shared.request(
+            urlString: API.DELETE_USER,
+            method: .DELETE
+        ) { [weak self] (result: Result<APIResponse<EmptyData>, NetworkError>) in
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    if response.success {
+                        self?.showDeleteSuccessAlert(message: response.description)
+                    } else {
+                        self?.showAlert(title: "Error", message: response.description)
+                    }
+                case .failure(let error):
+                    self?.showAlert(title: "Error", message: "Something went wrong")
+                    print("Error: \(error)")
+                }
+            }
+        }
+    }
+    
+    private func showDeleteSuccessAlert(message: String) {
         let alert = UIAlertController(
-            title: "Request Submitted",
-            message: "Your account will be deleted soon.",
+            title: "Account Deletion",
+            message: message,
             preferredStyle: .alert
         )
         

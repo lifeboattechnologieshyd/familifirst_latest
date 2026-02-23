@@ -322,6 +322,8 @@ struct API {
     static let EMAIL_RESEND_OTP = "\(BASE_URL)user/authentication/email/resend-otp"
 
     static let USER_DETAILS = "\(BASE_URL)user/user/details"
+    static let DELETE_USER = BASE_URL + "user/delete/user"
+
     
     static let DELETE_ACCOUNT = "\(BASE_URL)user/delete/account"
 }
