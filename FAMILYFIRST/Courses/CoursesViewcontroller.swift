@@ -1,24 +1,28 @@
 //
-//  CoursesViewcontroller.swift
+//  CoursesViewController.swift
 //  FamilyFirst
 //
 //  Created by Lifeboat on 14/01/26.
 //
+
 import UIKit
 import AVKit
 import Kingfisher
 
 class CoursesViewController: UIViewController {
 
-    
     @IBOutlet weak var tblVw: UITableView!
     @IBOutlet weak var colVw: UICollectionView!
+    @IBOutlet weak var imgVw: UIImageView!
     
     var selectedTab = 0
     var initialTabIndex: Int = 0
     var onlineCourses = [OnlineCourse]()
     var offlineCourses = [OfflineCourse]()
     var webinars = [Webinar]()
+    
+    // ✅ Primary Color - #076839
+    let primaryColor = UIColor(red: 7/255, green: 104/255, blue: 57/255, alpha: 1.0)
 
     let tabs = [
         ["name": "All", "image": "ALLL"],
@@ -27,12 +31,11 @@ class CoursesViewController: UIViewController {
         ["name": "Offline", "image": "OFFLINE 1"],
         ["name": "", "image": ""],
         ["name": "", "image": ""]
-
-
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        imgVw.image = UserManager.shared.profileImage ?? UIImage(named: "Picture")
         setupViews()
         loadTab(initialTabIndex)
     }
@@ -46,13 +49,23 @@ class CoursesViewController: UIViewController {
     }
     
     func setupViews() {
-        view.backgroundColor = UIColor(named: "primaryColor")
-        colVw.backgroundColor = UIColor(named: "primaryColor")
-        colVw.backgroundColor = UIColor(named: "primaryColor")
-        colVw.superview?.backgroundColor = UIColor(named: "primaryColor")
-
+        // ✅ Set main view background
+        view.backgroundColor = primaryColor
+        
+        // ✅ Set collection view background
+        colVw.backgroundColor = primaryColor
+        colVw.backgroundView = UIView()
+        colVw.backgroundView?.backgroundColor = primaryColor
         colVw.clipsToBounds = true
         
+        // ✅ Set all parent views of collection view
+        var parentView = colVw.superview
+        while parentView != nil && parentView != view {
+            parentView?.backgroundColor = primaryColor
+            parentView = parentView?.superview
+        }
+        
+        // Register cells
         colVw.register(UINib(nibName: "TabCell", bundle: nil), forCellWithReuseIdentifier: "TabCell")
         tblVw.register(UINib(nibName: "CourseCell", bundle: nil), forCellReuseIdentifier: "CourseCell")
         tblVw.register(UINib(nibName: "OfflineCell", bundle: nil), forCellReuseIdentifier: "OfflineCell")
@@ -90,6 +103,7 @@ class CoursesViewController: UIViewController {
                         print("⚠️ No online course data")
                     }
                 case .failure(let error):
+                    print("❌ Error: \(error)")
                     self?.showAlert("Failed to load online courses")
                 }
             }
@@ -110,6 +124,7 @@ class CoursesViewController: UIViewController {
                         print("⚠️ No webinar data")
                     }
                 case .failure(let error):
+                    print("❌ Error: \(error)")
                     self?.showAlert("Failed to load webinars")
                 }
             }
@@ -127,8 +142,10 @@ class CoursesViewController: UIViewController {
                         self?.offlineCourses = data
                         self?.tblVw.reloadData()
                     } else {
+                        print("⚠️ No offline course data")
                     }
                 case .failure(let error):
+                    print("❌ Error: \(error)")
                     self?.showAlert("Failed to load offline courses")
                 }
             }
@@ -168,6 +185,7 @@ class CoursesViewController: UIViewController {
     }
 }
 
+// MARK: - UICollectionView DataSource & Delegate
 extension CoursesViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ cv: UICollectionView, numberOfItemsInSection s: Int) -> Int {
@@ -176,15 +194,18 @@ extension CoursesViewController: UICollectionViewDataSource, UICollectionViewDel
 
     func collectionView(_ cv: UICollectionView, cellForItemAt ip: IndexPath) -> UICollectionViewCell {
         let cell = cv.dequeueReusableCell(withReuseIdentifier: "TabCell", for: ip) as! TabCell
-        cell.backgroundColor = .clear
-        cell.contentView.backgroundColor = .clear
+        
+        // ✅ Set primary color background
+        cell.backgroundColor = primaryColor
+        cell.contentView.backgroundColor = primaryColor
+        
         cell.loadCell(option: tabs[ip.row])
         cell.selectedView.backgroundColor = ip.row == selectedTab ? .white : .clear
         
         // Disable last 2 tabs visually
         if ip.row >= 4 {
             cell.isUserInteractionEnabled = false
-            cell.alpha = 0.3 // Make them appear disabled
+            cell.alpha = 0.3
         } else {
             cell.isUserInteractionEnabled = true
             cell.alpha = 1.0
@@ -199,11 +220,13 @@ extension CoursesViewController: UICollectionViewDataSource, UICollectionViewDel
             loadTab(ip.row)
         }
     }
+    
     func collectionView(_ cv: UICollectionView, layout: UICollectionViewLayout, sizeForItemAt ip: IndexPath) -> CGSize {
         return CGSize(width: 80, height: 80)
     }
 }
 
+// MARK: - UITableView DataSource & Delegate
 extension CoursesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tv: UITableView, numberOfRowsInSection s: Int) -> Int {
@@ -323,4 +346,3 @@ extension CoursesViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 }
-

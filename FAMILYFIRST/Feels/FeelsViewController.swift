@@ -13,6 +13,7 @@ class FeelsViewController: UIViewController {
     @IBOutlet weak var searchTf: UITextField!
     @IBOutlet weak var fflogoImgVw: UIImageView!
     @IBOutlet weak var colVw: UICollectionView!
+    @IBOutlet weak var imgVw: UIImageView!
     @IBOutlet weak var videonoTf: UITextField!
     
     var items = [FeelItem]()
@@ -28,8 +29,12 @@ class FeelsViewController: UIViewController {
         setupUI()
         setupCollectionView()
         setupTextFields()
-        
         getFeels()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        imgVw.image = UserManager.shared.profileImage ?? UIImage(named: "Picture")
     }
     
     private func setupUI() {
@@ -39,18 +44,15 @@ class FeelsViewController: UIViewController {
     private func setupCollectionView() {
         colVw.delegate = self
         colVw.dataSource = self
-        colVw.register(UINib(nibName: "FeelsCollectionViewCell", bundle: nil),
-                       forCellWithReuseIdentifier: "FeelsCollectionViewCell")
+        colVw.register(UINib(nibName: "FeelsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "FeelsCollectionViewCell")
     }
     
     private func setupTextFields() {
         searchTf.delegate = self
         videonoTf.delegate = self
-        
         searchTf.addTarget(self, action: #selector(searchTextChanged), for: .editingChanged)
         videonoTf.addTarget(self, action: #selector(videoNoTextChanged), for: .editingChanged)
     }
-    
     
     @IBAction func onClickBack(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
@@ -65,24 +67,19 @@ class FeelsViewController: UIViewController {
         }
         
         view.endEditing(true)
-        
         searchTf.text = ""
         searchText = ""
-        
         serialNumber = serial
         page = 1
         canLoadMore = false
-        
         getFeels()
     }
-    
     
     @objc func searchTextChanged() {
         let query = searchTf.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         searchText = query
         serialNumber = ""
         videonoTf.text = ""
-        
         page = 1
         canLoadMore = true
         
@@ -90,13 +87,10 @@ class FeelsViewController: UIViewController {
         perform(#selector(performSearch), with: nil, afterDelay: 0.5)
     }
     
-    @objc func performSearch() {
-        getFeels()
-    }
+    @objc func performSearch() { getFeels() }
     
     @objc func videoNoTextChanged() {
         let text = videonoTf.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        
         if text.isEmpty {
             serialNumber = ""
             searchText = ""
@@ -105,7 +99,6 @@ class FeelsViewController: UIViewController {
             getFeels()
         }
     }
-    
     
     func getFeels() {
         guard !isLoading else { return }
@@ -118,33 +111,21 @@ class FeelsViewController: UIViewController {
         
         if !serialNumber.isEmpty {
             params.append("serial_number=\(serialNumber)")
-        }
-        else if !searchText.isEmpty {
+        } else if !searchText.isEmpty {
             params.append("page_size=\(pageSize)")
             params.append("page=\(page)")
             if let encoded = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
                 params.append("title=\(encoded)")
             }
-        }
-        else {
+        } else {
             params.append("page_size=\(pageSize)")
             params.append("page=\(page)")
         }
         
-        if !params.isEmpty {
-            url += "?" + params.joined(separator: "&")
-        }
+        if !params.isEmpty { url += "?" + params.joined(separator: "&") }
         
-        print("📡 Fetching Feels: \(url)")
-        
-        NetworkManager.shared.request(
-            urlString: url,
-            method: .GET,
-            parameters: nil
-        ) { [weak self] (result: Result<APIResponse<[FeelItem]>, NetworkError>) in
-            
+        NetworkManager.shared.request(urlString: url, method: .GET, parameters: nil) { [weak self] (result: Result<APIResponse<[FeelItem]>, NetworkError>) in
             guard let self = self else { return }
-            
             self.isLoading = false
             
             DispatchQueue.main.async {
@@ -157,7 +138,6 @@ class FeelsViewController: UIViewController {
                     } else {
                         self.showAlert(msg: response.description)
                     }
-                    
                 case .failure(let error):
                     self.handleError(error)
                 }
@@ -166,47 +146,23 @@ class FeelsViewController: UIViewController {
     }
     
     private func handleSuccess(data: [FeelItem]) {
-        print("✅ Received \(data.count) feels")
-        
-        // Check if can load more
-        if data.count < pageSize {
-            canLoadMore = false
-        }
-        
-        // Update items
-        if page == 1 {
-            items = data
-        } else {
-            items.append(contentsOf: data)
-        }
-        
+        if data.count < pageSize { canLoadMore = false }
+        items = page == 1 ? data : items + data
         colVw.reloadData()
-        
-        // Show message if no results
-        if items.isEmpty {
-            showAlert(msg: "No feels found")
-        }
+        if items.isEmpty { showAlert(msg: "No feels found") }
     }
     
     private func handleError(_ error: NetworkError) {
         var message = "Something went wrong"
-        
         switch error {
-        case .serverError(let msg):
-            message = msg
-        case .decodingError(let msg):
-            message = msg
-        case .invalidURL:
-            message = "Invalid URL"
-        case .noData:
-            message = "No data received"
-        case .noaccess:
-            message = "Unauthorized access"
+        case .serverError(let msg): message = msg
+        case .decodingError(let msg): message = msg
+        case .invalidURL: message = "Invalid URL"
+        case .noData: message = "No data received"
+        case .noaccess: message = "Unauthorized access"
         }
-        
         showAlert(msg: message)
     }
-    
     
     func navigateToPlayer(index: Int) {
         let stbd = UIStoryboard(name: "Main", bundle: nil)
@@ -223,15 +179,12 @@ extension FeelsViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         let cell = colVw.dequeueReusableCell(withReuseIdentifier: "FeelsCollectionViewCell", for: indexPath) as! FeelsCollectionViewCell
-        
         let item = items[indexPath.row]
         
         cell.imgVw.layer.cornerRadius = 8
         cell.btnPlay.tag = indexPath.row
         
-        // Load thumbnail
         if let thumbnailURL = item.thumbnailImage, !thumbnailURL.isEmpty {
             cell.imgVw.loadImage(url: thumbnailURL)
         } else if let youtubeURL = item.youtubeVideo, let videoID = youtubeURL.extractYoutubeId() {
@@ -240,14 +193,8 @@ extension FeelsViewController: UICollectionViewDelegate, UICollectionViewDataSou
             cell.imgVw.image = UIImage(systemName: "photo")
         }
         
-        // Set title
         cell.lblName.text = item.title ?? "No Title"
-        
-        // Play button callback
-        cell.playClicked = { [weak self] index in
-            print("Navigate requested for index: \(index)") // Add this debug print
-            self?.navigateToPlayer(index: index)
-        }
+        cell.playClicked = { [weak self] index in self?.navigateToPlayer(index: index) }
         
         return cell
     }
@@ -261,13 +208,11 @@ extension FeelsViewController: UICollectionViewDelegate, UICollectionViewDataSou
         navigateToPlayer(index: indexPath.row)
     }
     
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let frameHeight = scrollView.frame.height
         
-        // Load more when near bottom
         if offsetY > contentHeight - frameHeight - 200 {
             if !isLoading && canLoadMore && serialNumber.isEmpty {
                 page += 1
@@ -277,9 +222,7 @@ extension FeelsViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
 }
 
-
 extension FeelsViewController: UITextFieldDelegate {
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

@@ -14,9 +14,9 @@ class UserCell: UITableViewCell {
     @IBOutlet weak var shareBTn: UIButton!
     @IBOutlet weak var referVw: UIView!
     @IBOutlet weak var youLbl: UILabel!
-    @IBOutlet weak var copyLbl: UILabel!
-    @IBOutlet weak var shareLbl: UILabel!
+    @IBOutlet weak var editPicture: UIButton!
     @IBOutlet weak var referLbl: UILabel!
+    @IBOutlet weak var copyBtn: UIButton!
     @IBOutlet weak var referalcodeLbl: UILabel!
     @IBOutlet weak var editBtn: UIButton!
     @IBOutlet weak var bgVw: UIView!
@@ -24,6 +24,7 @@ class UserCell: UITableViewCell {
     var onEditTapped: (() -> Void)?
     var onCopyTapped: (() -> Void)?
     var onShareTapped: (() -> Void)?
+    var onEditPictureTapped: (() -> Void)?
     
     private var referralCode: String = ""
     
@@ -32,18 +33,21 @@ class UserCell: UITableViewCell {
         bgVw.addCardShadow()
         userImg.layer.cornerRadius = userImg.frame.height / 2
         userImg.clipsToBounds = true
+        userImg.contentMode = .scaleAspectFill
         selectionStyle = .none
         
         editBtn.addTarget(self, action: #selector(editBtnTapped), for: .touchUpInside)
+        editPicture.addTarget(self, action: #selector(editPictureBtnTapped), for: .touchUpInside)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         referVw.addDashedBorder()
-        shareLbl.font = UIFont(name: "Lexend-Regular", size: 14)
-        copyLbl.font = UIFont(name: "Lexend-Light", size: 14)
         youLbl.font = UIFont(name: "Lexend-Light", size: 14)
         referLbl.font = UIFont(name: "Lexend-Light", size: 14)
+        
+        // Ensure circular image
+        userImg.layer.cornerRadius = userImg.frame.height / 2
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -52,6 +56,10 @@ class UserCell: UITableViewCell {
     
     @objc private func editBtnTapped() {
         onEditTapped?()
+    }
+    
+    @objc private func editPictureBtnTapped() {
+        onEditPictureTapped?()
     }
     
     @IBAction func copyBtnTapped(_ sender: UIButton) {
@@ -67,19 +75,17 @@ class UserCell: UITableViewCell {
     
     func configure(with member: FamilyMember) {
         nameLbl.text = member.fullName ?? "User"
-        
-        // Show referral code if available (fetch from UserDetails API)
-        // For now, show N/A - will be updated after profile fetch
         referalcodeLbl.text = "N/A"
         
-        if let imageUrl = member.profileImage, !imageUrl.isEmpty, let url = URL(string: imageUrl) {
+        if let savedImage = UserManager.shared.profileImage {
+            userImg.image = savedImage
+        } else if let imageUrl = member.profileImage, !imageUrl.isEmpty, let url = URL(string: imageUrl) {
             loadImage(from: url)
         } else {
             userImg.image = UIImage(named: "Picture")
         }
     }
     
-    // Configure with UserDetails (for showing referral code)
     func configureWithUserDetails(_ user: UserDetails) {
         // Name
         if let firstName = user.firstName, !firstName.isEmpty {
@@ -98,8 +104,9 @@ class UserCell: UITableViewCell {
         referralCode = user.referralCode ?? ""
         referalcodeLbl.text = user.referralCode ?? "N/A"
         
-        // Profile Image
-        if let imageUrl = user.profileImage, !imageUrl.isEmpty, let url = URL(string: imageUrl) {
+        if let savedImage = UserManager.shared.profileImage {
+            userImg.image = savedImage
+        } else if let imageUrl = user.profileImage, !imageUrl.isEmpty, let url = URL(string: imageUrl) {
             loadImage(from: url)
         } else {
             userImg.image = UIImage(named: "Picture")
@@ -110,9 +117,27 @@ class UserCell: UITableViewCell {
         URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
             if let data = data, let image = UIImage(data: data) {
                 DispatchQueue.main.async {
-                    self?.userImg.image = image
+                    // Only set if no local image saved
+                    if UserManager.shared.profileImage == nil {
+                        self?.userImg.image = image
+                    }
                 }
             }
         }.resume()
+    }
+    
+    func updateProfileImage(_ image: UIImage) {
+        UIView.transition(with: userImg, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            self.userImg.image = image
+        }, completion: nil)
+        
+        // Bounce animation
+        UIView.animate(withDuration: 0.15, animations: {
+            self.userImg.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+        }) { _ in
+            UIView.animate(withDuration: 0.15) {
+                self.userImg.transform = .identity
+            }
+        }
     }
 }

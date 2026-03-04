@@ -33,8 +33,11 @@ class MemberDetailsVC: UIViewController {
     }
     
     private func setupData() {
+        // 👈 Only add notes if they exist and are not empty
+        notesList = []
         if let hobbies = member?.notes?.hobbies {
-            notesList = hobbies
+            // Filter out empty strings
+            notesList = hobbies.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
         }
         tblVw.reloadData()
     }
@@ -145,23 +148,54 @@ class MemberDetailsVC: UIViewController {
         
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    private func navigateToCreateEventVC() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let vc = storyboard.instantiateViewController(withIdentifier: "CreateEventVC") as? CreateEventVC else {
+            print("Failed to instantiate CreateEventVC")
+            return
+        }
+        
+        if let member = member {
+            vc.preSelectedMember = member
+        }
+        
+        vc.onEventCreated = { [weak self] in
+            self?.fetchMemberEvents()
+        }
+        
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension MemberDetailsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let notesCount = max(notesList.count, 1)
+        let notesCount = notesList.count
         let eventsCount = max(memberEvents.count, 1)
-        return 1 + notesCount + 1 + eventsCount + 1
+        
+        // 👈 If no notes, don't show NotesCell and AddAnotherNoteCell
+        if notesCount == 0 {
+            // DetailsCell + EventsCells + CreateEventCell
+            return 1 + eventsCount + 1
+        } else {
+            // DetailsCell + NotesCell + AddAnotherNoteCell + EventsCells + CreateEventCell
+            return 1 + notesCount + 1 + eventsCount + 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let hasNotes = !notesList.isEmpty  // 👈 Check if notes exist
+        
+        // Row 0: DetailsCell
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsCell", for: indexPath) as! DetailsCell
             
             if let member = member {
-                cell.configure(with: member)
+                // 👈 Pass hasNotes to configure
+                cell.configure(with: member, hasNotes: hasNotes)
             }
             
             cell.onShowToast = { [weak self] msg in
@@ -180,30 +214,61 @@ extension MemberDetailsVC: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
         
-        let notesCount = max(notesList.count, 1)
-        let notesEndIndex = notesCount
-        
-        if indexPath.row <= notesEndIndex {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "NotesCell", for: indexPath) as! NotesCell
-            if notesList.isEmpty {
-                cell.notesLbl.text = "No notes added"
-                cell.deleteBtn.isHidden = true
-                cell.noteseditBtn.isHidden = true
-            } else {
-                cell.notesLbl.text = notesList[indexPath.row - 1]
-                cell.deleteBtn.isHidden = false
-                cell.noteseditBtn.isHidden = false
+        // 👈 If no notes, skip directly to events
+        if !hasNotes {
+            // Events section starts at row 1
+            let eventsCount = max(memberEvents.count, 1)
+            let eventsStartIndex = 1
+            let eventsEndIndex = eventsStartIndex + eventsCount - 1
+            
+            if indexPath.row >= eventsStartIndex && indexPath.row <= eventsEndIndex {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "EventsCell", for: indexPath) as! EventsCell
+                if memberEvents.isEmpty {
+                    cell.eventnameLbl.text = "No events"
+                    cell.dateLbl.text = ""
+                    cell.dayLbl.text = ""
+                    cell.img1.isHidden = true
+                    cell.img2.isHidden = true
+                    cell.img3.isHidden = true
+                    cell.moreBtn.isHidden = true
+                } else {
+                    let eventIndex = indexPath.row - eventsStartIndex
+                    cell.configure(with: memberEvents[eventIndex])
+                }
+                return cell
+            }
+            
+            // CreateEventCell (last cell)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CreateEventCell", for: indexPath) as! CreateEventCell
+            cell.onCreateEventTapped = { [weak self] in
+                self?.navigateToCreateEventVC()
             }
             return cell
         }
         
-        if indexPath.row == notesEndIndex + 1 {
+        // 👈 Notes exist - show notes section
+        let notesCount = notesList.count
+        let notesEndIndex = notesCount
+        
+        // Notes cells (row 1 to notesCount)
+        if indexPath.row <= notesEndIndex {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NotesCell", for: indexPath) as! NotesCell
+            cell.notesLbl.text = notesList[indexPath.row - 1]
+            cell.deleteBtn.isHidden = false
+            cell.noteseditBtn.isHidden = false
+            return cell
+        }
+        
+        // AddAnotherNoteCell
+        let addNoteIndex = notesCount + 1
+        if indexPath.row == addNoteIndex {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AddAnotherNoteCell", for: indexPath) as! AddAnotherNoteCell
             return cell
         }
         
+        // Events section
         let eventsCount = max(memberEvents.count, 1)
-        let eventsStartIndex = notesEndIndex + 2
+        let eventsStartIndex = addNoteIndex + 1
         let eventsEndIndex = eventsStartIndex + eventsCount - 1
         
         if indexPath.row >= eventsStartIndex && indexPath.row <= eventsEndIndex {
@@ -223,27 +288,57 @@ extension MemberDetailsVC: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
         
+        // CreateEventCell (last cell)
         let cell = tableView.dequeueReusableCell(withIdentifier: "CreateEventCell", for: indexPath) as! CreateEventCell
+        cell.onCreateEventTapped = { [weak self] in
+            self?.navigateToCreateEventVC()
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 { return 418 }
+        let hasNotes = !notesList.isEmpty
         
-        let notesCount = max(notesList.count, 1)
+        // DetailsCell - 👈 Reduced height when no notes
+        if indexPath.row == 0 {
+            return hasNotes ? 418 : 380  // 👈 Smaller height when no notes
+        }
+        
+        // 👈 If no notes, skip to events
+        if !hasNotes {
+            let eventsCount = max(memberEvents.count, 1)
+            let eventsStartIndex = 1
+            let eventsEndIndex = eventsStartIndex + eventsCount - 1
+            
+            if indexPath.row >= eventsStartIndex && indexPath.row <= eventsEndIndex {
+                return 90
+            }
+            
+            // CreateEventCell
+            return 40
+        }
+        
+        // Notes exist
+        let notesCount = notesList.count
         let notesEndIndex = notesCount
         
+        // NotesCell
         if indexPath.row <= notesEndIndex { return 80 }
-        if indexPath.row == notesEndIndex + 1 { return 88 }
         
+        // AddAnotherNoteCell
+        let addNoteIndex = notesCount + 1
+        if indexPath.row == addNoteIndex { return 50 }
+        
+        // EventsCell
         let eventsCount = max(memberEvents.count, 1)
-        let eventsStartIndex = notesEndIndex + 2
+        let eventsStartIndex = addNoteIndex + 1
         let eventsEndIndex = eventsStartIndex + eventsCount - 1
         
         if indexPath.row >= eventsStartIndex && indexPath.row <= eventsEndIndex {
-            return 90 
+            return 90
         }
         
+        // CreateEventCell
         return 40
     }
 }

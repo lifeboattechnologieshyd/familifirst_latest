@@ -13,6 +13,7 @@ class FamiliVC: UIViewController {
     @IBOutlet weak var familyVw: UIView!
     @IBOutlet weak var familybgVw: UIView!
     @IBOutlet weak var eventsVw: UIView!
+    @IBOutlet weak var imgVw: UIImageView!
     @IBOutlet weak var eventsbgVw: UIView!
     @IBOutlet weak var tblVw: UITableView!
     
@@ -34,8 +35,12 @@ class FamiliVC: UIViewController {
     private var currentSection: TabSection = .family
     var initialSection: TabSection = .family
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupProfileImageView()
+        loadProfileImage()
         
         setupTableView()
         setupLottieAnimations()
@@ -57,6 +62,9 @@ class FamiliVC: UIViewController {
         familyLottieView?.play()
         eventsLottieView?.play()
         
+        // 👈 Always reload profile image when view appears
+        loadProfileImage()
+        
         currentSection = initialSection
         updateSelectionUI()
         tblVw.reloadData()
@@ -70,10 +78,73 @@ class FamiliVC: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
+    
+    private func setupProfileImageView() {
+        imgVw.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
+        imgVw.addGestureRecognizer(tapGesture)
+    }
+    
+    private func loadProfileImage() {
+        if let savedImage = UserManager.shared.profileImage {
+            // First priority: UserDefaults saved image
+            imgVw.image = savedImage
+        } else if let imageUrl = selfUserDetails?.profileImage, !imageUrl.isEmpty, let url = URL(string: imageUrl) {
+            loadImageFromURL(url)
+        } else if let imageUrl = selfMember?.profileImage, !imageUrl.isEmpty, let url = URL(string: imageUrl) {
+            loadImageFromURL(url)
+        } else {
+            // Default placeholder
+            imgVw.image = UIImage(named: "Picture")
+        }
+    }
+    
+    private func loadImageFromURL(_ url: URL) {
+        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+            if let error = error {
+                print("❌ Error loading image: \(error.localizedDescription)")
+                return
+            }
+            
+            if let data = data, let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    // Only set if no local image saved in UserDefaults
+                    if UserManager.shared.profileImage == nil {
+                        self?.imgVw.image = image
+                        print("✅ Profile image loaded from URL")
+                    }
+                }
+            }
+        }.resume()
+    }
+    
+    private func updateProfileImage(_ image: UIImage) {
+        UIView.transition(with: imgVw, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            self.imgVw.image = image
+        }, completion: nil)
+        
+        UIView.animate(withDuration: 0.15, animations: {
+            self.imgVw.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+        }) { _ in
+            UIView.animate(withDuration: 0.15) {
+                self.imgVw.transform = .identity
+            }
+        }
+    }
+    
+    @objc private func profileImageTapped() {
+        showImagePickerOptions()
+    }
+    
+    
     private func checkLoginStatus() {
         if UserManager.shared.isLoggedIn {
             fetchFamilyMembers()
-            fetchUserDetails()  // Fetch user details for referral code
+            fetchUserDetails()
             if currentSection == .events {
                 fetchEvents()
             }
@@ -99,6 +170,7 @@ class FamiliVC: UIViewController {
                             UserManager.shared.saveUserId(userId)
                         }
                         
+                        self?.loadProfileImage()
                         self?.tblVw.reloadData()
                     }
                 case .failure(let error):
@@ -134,6 +206,9 @@ class FamiliVC: UIViewController {
                 case .success(let response):
                     if response.success, let data = response.data {
                         self?.selfUserDetails = data
+                        
+                        // 👈 Reload profile image after fetching user details
+                        self?.loadProfileImage()
                         self?.tblVw.reloadData()
                     }
                 case .failure(let error):
@@ -156,7 +231,7 @@ class FamiliVC: UIViewController {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
-                    if response.success, let events = response.data {
+                    if let events = response.data {
                         self?.allEvents = events
                         self?.groupEventsByMonth(events)
                         self?.tblVw.reloadData()
@@ -218,6 +293,7 @@ class FamiliVC: UIViewController {
         present(nav, animated: true)
     }
     
+    
     private func setupTableView() {
         tblVw.delegate = self
         tblVw.dataSource = self
@@ -230,6 +306,7 @@ class FamiliVC: UIViewController {
         tblVw.register(UINib(nibName: "AddCell", bundle: nil), forCellReuseIdentifier: "AddCell")
         tblVw.register(UINib(nibName: "MonthCell", bundle: nil), forCellReuseIdentifier: "MonthCell")
     }
+    
     
     private func setupLottieAnimations() {
         familyLottieView = LottieAnimationView(name: "family")
@@ -260,6 +337,7 @@ class FamiliVC: UIViewController {
             animationView.trailingAnchor.constraint(equalTo: container.trailingAnchor)
         ])
     }
+    
     
     private func setupTapGestures() {
         let familyTap = UITapGestureRecognizer(target: self, action: #selector(familyTapped))
@@ -306,14 +384,41 @@ class FamiliVC: UIViewController {
         }
     }
     
+    
     private func showToast(message: String) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        present(alert, animated: true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            alert.dismiss(animated: true)
+        let toastLabel = UILabel()
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        toastLabel.textColor = .white
+        toastLabel.textAlignment = .center
+        toastLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        toastLabel.text = "  ✓ \(message)  "
+        toastLabel.alpha = 0
+        toastLabel.layer.cornerRadius = 20
+        toastLabel.clipsToBounds = true
+        toastLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(toastLabel)
+        
+        NSLayoutConstraint.activate([
+            toastLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            toastLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
+            toastLabel.heightAnchor.constraint(equalToConstant: 40),
+            toastLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 150)
+        ])
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            toastLabel.alpha = 1
+        }) { _ in
+            UIView.animate(withDuration: 0.3, delay: 1.5, options: [], animations: {
+                toastLabel.alpha = 0
+            }) { _ in
+                toastLabel.removeFromSuperview()
+            }
         }
     }
 }
+
+
 
 extension FamiliVC: UITableViewDelegate, UITableViewDataSource {
     
@@ -346,16 +451,20 @@ extension FamiliVC: UITableViewDelegate, UITableViewDataSource {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UserCell", for: indexPath) as! UserCell
                 
-                // Use UserDetails if available (has referral code & updated info)
                 if let userDetails = selfUserDetails {
                     cell.configureWithUserDetails(userDetails)
                 } else if let member = selfMember {
                     cell.configure(with: member)
                 }
                 
-                // Handle edit button tap
+                // Handle Edit Profile tap
                 cell.onEditTapped = { [weak self] in
                     self?.navigateToProfileEditVC()
+                }
+                
+                // Handle Edit Picture tap
+                cell.onEditPictureTapped = { [weak self] in
+                    self?.showImagePickerOptions()
                 }
                 
                 // Handle copy button tap
@@ -496,6 +605,89 @@ extension FamiliVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+
+
+extension FamiliVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func showImagePickerOptions() {
+        let alert = UIAlertController(title: "Change Profile Picture", message: "Choose an option", preferredStyle: .actionSheet)
+        
+        // Camera option
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            alert.addAction(UIAlertAction(title: "📷 Take Photo", style: .default) { [weak self] _ in
+                self?.openImagePicker(sourceType: .camera)
+            })
+        }
+        
+        // Photo Library option
+        alert.addAction(UIAlertAction(title: "🖼️ Choose from Gallery", style: .default) { [weak self] _ in
+            self?.openImagePicker(sourceType: .photoLibrary)
+        })
+        
+        // Remove photo option (only show if image exists)
+        if UserManager.shared.hasProfileImage {
+            alert.addAction(UIAlertAction(title: "🗑️ Remove Photo", style: .destructive) { [weak self] _ in
+                UserManager.shared.removeProfileImage()
+                
+                // 👈 Update imgVw with placeholder
+                self?.imgVw.image = UIImage(named: "Picture")
+                
+                // 👈 Reload table to update UserCell also
+                self?.tblVw.reloadData()
+                
+                self?.showToast(message: "Profile picture removed")
+            })
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        // For iPad
+        if let popover = alert.popoverPresentationController {
+            popover.sourceView = self.view
+            popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popover.permittedArrowDirections = []
+        }
+        
+        present(alert, animated: true)
+    }
+    
+    func openImagePicker(sourceType: UIImagePickerController.SourceType) {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = sourceType
+        picker.allowsEditing = true
+        present(picker, animated: true)
+    }
+    
+    // 👈 Handle image selection
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+        
+        // Get edited or original image
+        let image = (info[.editedImage] as? UIImage) ?? (info[.originalImage] as? UIImage)
+        
+        if let selectedImage = image {
+            // 👈 Save to UserDefaults
+            UserManager.shared.saveProfileImage(selectedImage)
+            
+            // 👈 Update imgVw with animation
+            updateProfileImage(selectedImage)
+            
+            // 👈 Reload table to update UserCell also
+            tblVw.reloadData()
+            
+            // Show success message
+            showToast(message: "Profile picture updated!")
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+}
+
+
+
 extension FamiliVC {
     
     private func navigateToAddMemberVC() {
@@ -534,10 +726,10 @@ extension FamiliVC {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let vc = storyboard.instantiateViewController(withIdentifier: "ProfileEditVC") as? ProfileEditVC else { return }
         
-        // Callback to refresh data after profile update
         vc.onProfileUpdated = { [weak self] in
             self?.fetchFamilyMembers()
             self?.fetchUserDetails()
+            self?.loadProfileImage() // 👈 Reload image after profile update
         }
         
         vc.hidesBottomBarWhenPushed = true

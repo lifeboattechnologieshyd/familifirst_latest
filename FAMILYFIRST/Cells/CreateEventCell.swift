@@ -9,15 +9,28 @@ import UIKit
 
 class CreateEventCell: UITableViewCell {
 
+    @IBOutlet weak var createEventbtn: UIButton!
+    
+    // 👈 Callback for button tap
+    var onCreateEventTapped: (() -> Void)?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        selectionStyle = .none
+        createEventbtn.addTarget(self, action: #selector(createEventBtnTapped), for: .touchUpInside)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        onCreateEventTapped = nil
+    }
+    
+    // 👈 Button action
+    @objc private func createEventBtnTapped() {
+        onCreateEventTapped?()
+    }
 }

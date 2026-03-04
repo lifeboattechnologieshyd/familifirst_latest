@@ -107,30 +107,37 @@
                                         </attributedString>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eVR-3P-IAM">
-                                        <rect key="frame" x="141.66666666666666" y="10" width="34.333333333333343" height="20"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q0J-lf-KiP">
+                                        <rect key="frame" x="126" y="10" width="60" height="20"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="20" id="JYL-8M-5u5"/>
+                                            <constraint firstAttribute="height" constant="20" id="3wg-2m-P4e"/>
+                                            <constraint firstAttribute="width" constant="60" id="Yad-rM-6sx"/>
                                         </constraints>
-                                        <attributedString key="attributedText">
-                                            <fragment content="Copy">
-                                                <attributes>
-                                                    <font key="NSFont" size="14" name="Lexend-Light"/>
-                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                </attributes>
-                                            </fragment>
-                                        </attributedString>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain">
+                                            <attributedString key="attributedTitle">
+                                                <fragment content="Copy">
+                                                    <attributes>
+                                                        <font key="NSFont" size="12" name="Lexend-Light"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="copyBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="SNy-d4-bCb"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="eVR-3P-IAM" secondAttribute="trailing" constant="14" id="2sq-pJ-7R5"/>
                                     <constraint firstItem="dtJ-oQ-Qng" firstAttribute="leading" secondItem="kzr-8I-87h" secondAttribute="leading" constant="8" id="Gop-K4-iHc"/>
-                                    <constraint firstItem="eVR-3P-IAM" firstAttribute="top" secondItem="kzr-8I-87h" secondAttribute="top" constant="10" id="L41-Qa-eCr"/>
+                                    <constraint firstItem="q0J-lf-KiP" firstAttribute="top" secondItem="kzr-8I-87h" secondAttribute="top" constant="10" id="JB9-lG-v7Y"/>
                                     <constraint firstAttribute="height" constant="40" id="L88-Ai-cwr"/>
                                     <constraint firstAttribute="width" constant="190" id="VUN-in-cIQ"/>
                                     <constraint firstItem="dtJ-oQ-Qng" firstAttribute="top" secondItem="kzr-8I-87h" secondAttribute="top" constant="6" id="f2W-Jp-8tk"/>
+                                    <constraint firstAttribute="trailing" secondItem="q0J-lf-KiP" secondAttribute="trailing" constant="4" id="weV-NL-oeu"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pWD-Xh-gWw">
@@ -144,30 +151,39 @@
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="share"/>
+                                        <connections>
+                                            <action selector="shareBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="k3J-Wc-Vcp"/>
+                                        </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NoE-Y9-OeZ">
-                                        <rect key="frame" x="48" y="11" width="71" height="18"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XbX-Ne-W8m">
+                                        <rect key="frame" x="39.999999999999993" y="10" width="69.333333333333314" height="20"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="18" id="Kf1-Jb-geA"/>
+                                            <constraint firstAttribute="height" constant="20" id="iO5-pL-eHM"/>
                                         </constraints>
-                                        <attributedString key="attributedText">
-                                            <fragment content="Share App">
-                                                <attributes>
-                                                    <font key="NSFont" size="14" name="Lexend-Regular"/>
-                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                </attributes>
-                                            </fragment>
-                                        </attributedString>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain">
+                                            <attributedString key="attributedTitle">
+                                                <fragment content="Share">
+                                                    <attributes>
+                                                        <font key="NSFont" size="16" name="Lexend-Regular"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="shareBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="TuQ-pC-NL0"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="TCT-YD-qZZ" firstAttribute="leading" secondItem="pWD-Xh-gWw" secondAttribute="leading" constant="20" id="Dvp-V6-wlF"/>
-                                    <constraint firstItem="NoE-Y9-OeZ" firstAttribute="centerY" secondItem="TCT-YD-qZZ" secondAttribute="centerY" id="bSg-su-fML"/>
                                     <constraint firstItem="TCT-YD-qZZ" firstAttribute="top" secondItem="pWD-Xh-gWw" secondAttribute="top" constant="12" id="ej4-bR-zFw"/>
                                     <constraint firstAttribute="height" constant="40" id="n5k-RC-DDl"/>
-                                    <constraint firstItem="NoE-Y9-OeZ" firstAttribute="leading" secondItem="TCT-YD-qZZ" secondAttribute="trailing" constant="12" id="qwj-N6-5DR"/>
+                                    <constraint firstItem="XbX-Ne-W8m" firstAttribute="centerY" secondItem="TCT-YD-qZZ" secondAttribute="centerY" id="o54-TN-ZTu"/>
+                                    <constraint firstItem="XbX-Ne-W8m" firstAttribute="leading" secondItem="TCT-YD-qZZ" secondAttribute="trailing" constant="4" id="oPz-n3-YuV"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
@@ -221,14 +237,14 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="bgVw" destination="cob-DS-9BV" id="GvP-PV-TFl"/>
-                <outlet property="copyLbl" destination="eVR-3P-IAM" id="P8j-KU-ZTK"/>
+                <outlet property="copyBtn" destination="q0J-lf-KiP" id="3k8-wZ-KrY"/>
                 <outlet property="editBtn" destination="T7g-8u-Cuf" id="4CS-T1-aGC"/>
+                <outlet property="editPicture" destination="7LF-PN-8Ln" id="j6y-oY-qA3"/>
                 <outlet property="nameLbl" destination="uFt-qR-6Jh" id="Apd-uD-eUa"/>
                 <outlet property="referLbl" destination="5ar-Rw-Ccb" id="bzd-Ll-uF7"/>
                 <outlet property="referVw" destination="kzr-8I-87h" id="7wo-PM-CRE"/>
                 <outlet property="referalcodeLbl" destination="dtJ-oQ-Qng" id="745-hB-a8K"/>
                 <outlet property="shareBTn" destination="TCT-YD-qZZ" id="Jeh-81-nMG"/>
-                <outlet property="shareLbl" destination="NoE-Y9-OeZ" id="XoT-la-TuU"/>
                 <outlet property="userImg" destination="vbz-tZ-Tnn" id="Y5E-b1-ck8"/>
                 <outlet property="youLbl" destination="H6A-Ff-uDg" id="dww-U7-yKG"/>
             </connections>

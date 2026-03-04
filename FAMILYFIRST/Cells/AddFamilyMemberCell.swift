@@ -18,7 +18,33 @@ class AddFamilyMemberCell: UITableViewCell {
     
     private let datePicker = UIDatePicker()
     private let relationPicker = UIPickerView()
-    private let relations = ["Father", "Mother", "Brother", "Sister", "Spouse", "Son", "Daughter", "Cousin", "Uncle", "Aunt", "Grandfather", "Grandmother", "Friend", "Other"]
+    
+    private let relations: [(name: String, gender: String)] = [
+        ("Father", "male"),
+        ("Mother", "female"),
+        ("Brother", "male"),
+        ("Sister", "female"),
+        ("Spouse", "other"),
+        ("Son", "male"),
+        ("Daughter", "female"),
+        ("Cousin", "other"),
+        ("Uncle", "male"),
+        ("Aunt", "female"),
+        ("Grandfather", "male"),
+        ("Grandmother", "female"),
+        ("Nephew", "male"),
+        ("Niece", "female"),
+        ("Father-in-law", "male"),
+        ("Mother-in-law", "female"),
+        ("Brother-in-law", "male"),
+        ("Sister-in-law", "female"),
+        ("Husband", "male"),
+        ("Wife", "female"),
+        ("Friend", "other"),
+        ("Other", "other")
+    ]
+    
+    private var selectedGender: String = "other"
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -77,7 +103,9 @@ class AddFamilyMemberCell: UITableViewCell {
     
     @objc private func relationDonePressed() {
         let row = relationPicker.selectedRow(inComponent: 0)
-        relationTf.text = relations[row]
+        let selectedRelation = relations[row]
+        relationTf.text = selectedRelation.name
+        selectedGender = selectedRelation.gender
         relationTf.resignFirstResponder()
     }
     
@@ -90,6 +118,7 @@ class AddFamilyMemberCell: UITableViewCell {
             "full_name": name,
             "mobile": mobile,
             "relation_type": relation,
+            "gender": selectedGender,
             "status": "Awaiting"
         ]
         
@@ -101,7 +130,7 @@ class AddFamilyMemberCell: UITableViewCell {
             params["date_of_birth"] = dob
         }
         
-        if let notes = notesTv.text, !notes.isEmpty {
+        if let notes = notesTv.text, !notes.isEmpty, notesTv.text != "Enter hobbies..." {
             let hobbies = notes.components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) }
             params["notes"] = ["hobbies": hobbies]
         }
@@ -111,7 +140,20 @@ class AddFamilyMemberCell: UITableViewCell {
 }
 
 extension AddFamilyMemberCell: UIPickerViewDelegate, UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int { relations.count }
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? { relations[row] }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return relations.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return relations[row].name
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedGender = relations[row].gender
+    }
 }

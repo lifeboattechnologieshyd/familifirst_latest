@@ -3,16 +3,22 @@
 <plist version="1.0">
 <dict>
 
-    <!-- 🔗 SERVER CONFIG -->
     <key>server_url</key>
     <string>$(server_url)</string>
     
-    <!-- 💳 CASHFREE ENVIRONMENT -->
-        <key>CashfreeEnvironment</key>
-        <string>$(CASHFREE_ENVIRONMENT)</string>
+    <key>CashfreeEnvironment</key>
+    <string>$(CASHFREE_ENVIRONMENT)</string>
 
+    <key>UIUserInterfaceStyle</key>
+    <string>Light</string>
+    <!-- 📷 Camera Permission -->
+    <key>NSCameraUsageDescription</key>
+    <string>We need camera access to take your profile picture</string>
 
-    <!-- 🔤 APP FONTS -->
+    <!-- 🖼️ Photo Library Permission -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need photo library access to select your profile picture</string>
+
     <key>UIAppFonts</key>
     <array>
         <string>Lexend-Black.ttf</string>
@@ -26,7 +32,6 @@
         <string>Lexend-SemiBold.ttf</string>
     </array>
 
-    <!-- 🪟 SCENE CONFIGURATION -->
     <key>UIApplicationSceneManifest</key>
     <dict>
         <key>UIApplicationSupportsMultipleScenes</key>
@@ -47,7 +52,6 @@
         </dict>
     </dict>
 
-    <!-- 🔔 BACKGROUND MODES -->
     <key>UIBackgroundModes</key>
     <array>
         <string>remote-notification</string>
@@ -55,4 +59,3 @@
 
 </dict>
 </plist>
-

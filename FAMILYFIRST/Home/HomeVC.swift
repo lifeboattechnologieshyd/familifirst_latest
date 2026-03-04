@@ -9,6 +9,7 @@ import UIKit
 class HomeVC: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var imgVw: UIImageView!
     
     private var upcomingEvents: [Event] = []
     private var todaysCalendarData: CalendarData?
@@ -25,11 +26,9 @@ class HomeVC: UIViewController {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         self.tabBarController?.tabBar.isHidden = false
+        imgVw.image = UserManager.shared.profileImage ?? UIImage(named: "Picture")
         
-        if UserManager.shared.isLoggedIn && !upcomingEvents.isEmpty {
-            return
-        }
-        
+        if UserManager.shared.isLoggedIn && !upcomingEvents.isEmpty { return }
         fetchUserIdAndLoadData()
     }
     
@@ -39,11 +38,7 @@ class HomeVC: UIViewController {
             fetchCalendarData()
             fetchProducts()
         } else {
-            NetworkManager.shared.request(
-                urlString: API.FAMILY_MASTER,
-                method: .GET
-            ) { [weak self] (result: Result<APIResponse<[FamilyMember]>, NetworkError>) in
-                
+            NetworkManager.shared.request(urlString: API.FAMILY_MASTER, method: .GET) { [weak self] (result: Result<APIResponse<[FamilyMember]>, NetworkError>) in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let response):
@@ -65,28 +60,21 @@ class HomeVC: UIViewController {
     }
     
     private func fetchCalendarData() {
-        NetworkManager.shared.request(
-            urlString: API.BROADCAST_CALENDAR,
-            method: .GET
-        ) { [weak self] (result: Result<APIResponse<[CalendarData]>, NetworkError>) in
-            
+        NetworkManager.shared.request(urlString: API.BROADCAST_CALENDAR, method: .GET) { [weak self] (result: Result<APIResponse<[CalendarData]>, NetworkError>) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
-                    if response.success, let calendarList = response.data {
+                    if let calendarList = response.data, !calendarList.isEmpty {
                         let dateFormatter = DateFormatter()
                         dateFormatter.dateFormat = "dd-MM-yyyy"
                         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
                         let todayString = dateFormatter.string(from: Date())
                         
-                        self?.todaysCalendarData = calendarList.first { $0.date == todayString }
-                        
-                        if self?.todaysCalendarData == nil {
-                            self?.todaysCalendarData = calendarList.first
-                        }
-                        
-                        self?.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+                        self?.todaysCalendarData = calendarList.first { $0.date == todayString } ?? calendarList.first
+                    } else {
+                        self?.todaysCalendarData = nil
                     }
+                    self?.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
                 case .failure(let error):
                     print("Error fetching calendar: \(error)")
                 }
@@ -96,37 +84,32 @@ class HomeVC: UIViewController {
     
     private func fetchUpcomingEvents() {
         guard let userId = UserManager.shared.userId else { return }
-        
         let urlString = "\(API.GET_EVENTS)?event_users=\(userId)"
         
-        NetworkManager.shared.request(
-            urlString: urlString,
-            method: .GET
-        ) { [weak self] (result: Result<APIResponse<[Event]>, NetworkError>) in
-            
+        NetworkManager.shared.request(urlString: urlString, method: .GET) { [weak self] (result: Result<APIResponse<[Event]>, NetworkError>) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
-                    if response.success, let events = response.data {
-                        self?.upcomingEvents = Array(events
+                    if let events = response.data {
+                        let filteredEvents = events
                             .filter { ($0.eventDate ?? Date()) >= Date() }
                             .sorted { ($0.eventDate ?? Date()) < ($1.eventDate ?? Date()) }
-                            .prefix(7))
-                        self?.tableView.reloadData()
+                        self?.upcomingEvents = Array(filteredEvents.prefix(7))
+                    } else {
+                        self?.upcomingEvents = []
                     }
+                    self?.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .none)
                 case .failure(let error):
                     print("Error fetching events: \(error)")
+                    self?.upcomingEvents = []
+                    self?.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .none)
                 }
             }
         }
     }
     
     private func fetchProducts() {
-        NetworkManager.shared.request(
-            urlString: API.ONLINE_STORE_PRODUCTS,
-            method: .GET,
-            parameters: ["page": 1, "limit": 10]
-        ) { [weak self] (result: Result<APIResponse<[Product]>, NetworkError>) in
+        NetworkManager.shared.request(urlString: API.ONLINE_STORE_PRODUCTS, method: .GET, parameters: ["page": 1, "limit": 10]) { [weak self] (result: Result<APIResponse<[Product]>, NetworkError>) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
@@ -154,17 +137,6 @@ class HomeVC: UIViewController {
         tableView.register(UINib(nibName: "ShopCell", bundle: nil), forCellReuseIdentifier: "ShopCell")
     }
     
-    private func navigateToNewsVC(with index: Int) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let newsVC = storyboard.instantiateViewController(withIdentifier: "NewsVC") as! NewsVC
-        if let navController = navigationController {
-            navController.pushViewController(newsVC, animated: true)
-        } else {
-            newsVC.modalPresentationStyle = .fullScreen
-            present(newsVC, animated: true)
-        }
-    }
-
     private func navigateToCalenderVC() {
         if let tabBarController = self.tabBarController {
             for (index, viewController) in (tabBarController.viewControllers ?? []).enumerated() {
@@ -183,102 +155,50 @@ class HomeVC: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "CoursesVC") as! CoursesVC
         vc.initialTabIndex = 0
-        if let navController = navigationController {
-            navController.pushViewController(vc, animated: true)
-        } else {
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
-        }
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func navigateToFeelsVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "FeelsVC") as! FeelsVC
-        if let navController = navigationController {
-            navController.pushViewController(vc, animated: true)
-        } else {
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
-        }
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func navigateToEdutainmentVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "EdutainmentController") as! EdutainmentController
-        if let navController = navigationController {
-            navController.pushViewController(vc, animated: true)
-        } else {
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
-        }
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func navigateToProsperityTipsVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "ProsperityTipsViewController") as! ProsperityTipsViewController
-        if let navController = navigationController {
-            navController.pushViewController(vc, animated: true)
-        } else {
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
-        }
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func navigateToEdStoreVC() {
         let storyboard = UIStoryboard(name: "EdStore", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "EdStoreViewController") as! EdStoreViewController
-        if let navController = navigationController {
-            navController.pushViewController(vc, animated: true)
-        } else {
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
-        }
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func navigateToCheckoutVC(with product: Product) {
         let storyboard = UIStoryboard(name: "EdStore", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "CheckOutViewController") as! CheckOutViewController
         vc.selectedProduct = product
-        if let navController = navigationController {
-            navController.pushViewController(vc, animated: true)
-        } else {
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
-        }
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func navigateToAssessmentsVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "AssessmentsGradeSelectionVC") as! AssessmentsGradeSelectionVC
-        if let navController = navigationController {
-            navController.pushViewController(vc, animated: true)
-        } else {
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
-        }
-    }
-    
-    private func navigateToOfflineEventsVC() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "CoursesVC") as! CoursesVC
-        vc.initialTabIndex = 3
-        if let navController = navigationController {
-            navController.pushViewController(vc, animated: true)
-        } else {
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
-        }
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func navigateToParentingTipsVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "ParentingTipsViewController") as! ParentingTipsViewController
-        if let navController = navigationController {
-            navController.pushViewController(vc, animated: true)
-        } else {
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
-        }
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func navigateToFamilyVC() {
@@ -298,12 +218,7 @@ class HomeVC: UIViewController {
     private func navigateToVocabBeeVC() {
         let storyboard = UIStoryboard(name: "VocabBees", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "VocabBeesViewController") as! VocabBeesViewController
-        if let navController = navigationController {
-            navController.pushViewController(vc, animated: true)
-        } else {
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
-        }
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func navigateToEventsVC() {
@@ -321,21 +236,9 @@ class HomeVC: UIViewController {
     }
     
     private func showLogoutAlert() {
-        let alert = UIAlertController(
-            title: "Logout",
-            message: "Are you sure you want to logout?",
-            preferredStyle: .alert
-        )
-        
-        let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { [weak self] _ in
-            self?.performLogout()
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        alert.addAction(logoutAction)
-        alert.addAction(cancelAction)
-        
+        let alert = UIAlertController(title: "Logout", message: "Are you sure you want to logout?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Logout", style: .destructive) { [weak self] _ in self?.performLogout() })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true)
     }
 
@@ -352,7 +255,6 @@ class HomeVC: UIViewController {
            let window = windowScene.windows.first {
             window.rootViewController = UINavigationController(rootViewController: loginVC)
             window.makeKeyAndVisible()
-            
             UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil)
         }
     }
@@ -360,12 +262,9 @@ class HomeVC: UIViewController {
 
 extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
-    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 4 }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "BannerCell", for: indexPath) as! BannerCell
@@ -375,70 +274,30 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "CalenderCell", for: indexPath) as! CalenderCell
             cell.events = upcomingEvents
-            cell.didTapViewAll = { [weak self] in
-                self?.navigateToCalenderVC()
-            }
-            cell.didSelectCalenderItem = { [weak self] index in
-                self?.navigateToCalenderVC()
-            }
+            cell.didTapViewAll = { [weak self] in self?.navigateToCalenderVC() }
+            cell.didSelectCalenderItem = { [weak self] _ in self?.navigateToCalenderVC() }
             return cell
             
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "IconsCell", for: indexPath) as! IconsCell
-                        
-            cell.didTapVocabBee = { [weak self] in
-                self?.navigateToVocabBeeVC()
-            }
-            
-            cell.didTapEdStore = { [weak self] in
-                self?.navigateToEdStoreVC()
-            }
-            cell.didTapCourses = { [weak self] in
-                self?.navigateToCoursesVC()
-            }
-            
-            cell.didTapFeels = { [weak self] in
-                self?.navigateToFeelsVC()
-            }
-            
-            cell.didTapEdutainment = { [weak self] in
-                self?.navigateToEdutainmentVC()
-            }
-            
-            cell.didTapProsperityTips = { [weak self] in
-                self?.navigateToProsperityTipsVC()
-            }
-            
-            cell.didTapParentingTips = { [weak self] in
-                self?.navigateToParentingTipsVC()
-            }
-            
-            cell.didTapAssessments = { [weak self] in
-                self?.navigateToAssessmentsVC()
-            }
-            
-            cell.didTapMyFamily = { [weak self] in
-                self?.navigateToFamilyVC()
-            }
-            
-            cell.didTapMyEvents = { [weak self] in
-                self?.navigateToEventsVC()
-            }
-            
+            cell.didTapVocabBee = { [weak self] in self?.navigateToVocabBeeVC() }
+            cell.didTapEdStore = { [weak self] in self?.navigateToEdStoreVC() }
+            cell.didTapCourses = { [weak self] in self?.navigateToCoursesVC() }
+            cell.didTapFeels = { [weak self] in self?.navigateToFeelsVC() }
+            cell.didTapEdutainment = { [weak self] in self?.navigateToEdutainmentVC() }
+            cell.didTapProsperityTips = { [weak self] in self?.navigateToProsperityTipsVC() }
+            cell.didTapParentingTips = { [weak self] in self?.navigateToParentingTipsVC() }
+            cell.didTapAssessments = { [weak self] in self?.navigateToAssessmentsVC() }
+            cell.didTapMyFamily = { [weak self] in self?.navigateToFamilyVC() }
+            cell.didTapMyEvents = { [weak self] in self?.navigateToEventsVC() }
             return cell
             
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ShopCell", for: indexPath) as! ShopCell
             cell.products = products
-            cell.didTapLogout = { [weak self] in
-                self?.showLogoutAlert()
-            }
-            cell.didTapViewAll = { [weak self] in
-                self?.navigateToEdStoreVC()
-            }
-            cell.didSelectProduct = { [weak self] product in
-                self?.navigateToCheckoutVC(with: product)
-            }
+            cell.didTapLogout = { [weak self] in self?.showLogoutAlert() }
+            cell.didTapViewAll = { [weak self] in self?.navigateToEdStoreVC() }
+            cell.didSelectProduct = { [weak self] product in self?.navigateToCheckoutVC(with: product) }
             return cell
             
         default:

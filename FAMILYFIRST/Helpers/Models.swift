@@ -1280,6 +1280,7 @@ struct FamilyMember: Decodable {
     let dateOfBirth: String?
     let notes: FamilyNotes?
     let status: String?
+    let gender: String?  // 👈 Add this
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -1293,10 +1294,12 @@ struct FamilyMember: Decodable {
         case dateOfBirth = "date_of_birth"
         case notes
         case status
+        case gender  // 👈 Add this
     }
     
+    // 👈 Helper to get effective ID
     var effectiveId: String? {
-        return id ?? memberId ?? creatorId
+        return memberId ?? id
     }
 }
 struct FamilyMemberResponse: Codable {

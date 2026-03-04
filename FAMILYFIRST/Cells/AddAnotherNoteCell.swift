@@ -9,7 +9,6 @@ import UIKit
 
 class AddAnotherNoteCell: UITableViewCell {
 
-    @IBOutlet weak var addnoteBtn: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

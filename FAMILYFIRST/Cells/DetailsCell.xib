@@ -335,10 +335,13 @@
                 <outlet property="mailLbl" destination="bYU-Fe-OXz" id="jBL-d9-t5A"/>
                 <outlet property="nameLbl" destination="ZE1-mR-rOq" id="lN4-NF-abF"/>
                 <outlet property="notesFont" destination="g1H-2D-tTo" id="cS0-R3-Sa5"/>
+                <outlet property="notesLbl" destination="g1H-2D-tTo" id="fot-V7-yHe"/>
                 <outlet property="phoneBgVw" destination="JYH-mU-fs8" id="cLI-N3-hlg"/>
                 <outlet property="phonenoCopy" destination="lIG-2U-od0" id="HyX-0U-lB0"/>
                 <outlet property="phonenumberLbl" destination="LtY-uX-oiI" id="GEM-lw-NQM"/>
                 <outlet property="relationLbl" destination="as9-2O-shy" id="IIX-3i-2IJ"/>
+                <outlet property="viewone" destination="vhi-xG-rqV" id="cXd-Cx-iJq"/>
+                <outlet property="viewtwo" destination="wK7-jU-YqI" id="QEh-4J-cBV"/>
                 <outlet property="whatsappBtn" destination="avz-Ex-wer" id="ljC-f8-L4Z"/>
             </connections>
             <point key="canvasLocation" x="178.62595419847327" y="120.07042253521128"/>

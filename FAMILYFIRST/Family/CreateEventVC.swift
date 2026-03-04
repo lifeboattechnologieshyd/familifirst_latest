@@ -15,6 +15,7 @@ class CreateEventVC: UIViewController {
     @IBOutlet weak var createeventBtn: UIButton!
     
     var familyMembers: [FamilyMember] = []
+    var preSelectedMember: FamilyMember?  // 👈 Add this
     var onEventCreated: (() -> Void)?
     var selectedUserIds: Set<String> = []
     
@@ -24,7 +25,35 @@ class CreateEventVC: UIViewController {
         setupTableView()
         topVw.addBottomShadow()
         createeventBtn.addTarget(self, action: #selector(createEventTapped), for: .touchUpInside)
+        
+        // 👈 Pre-select member if passed from MemberDetailsVC
+        preSelectMemberIfNeeded()
+        
         tblVw.reloadData()
+    }
+    
+    // 👈 Pre-select the member
+    private func preSelectMemberIfNeeded() {
+        if let preSelected = preSelectedMember {
+            // Add to selected user IDs
+            if let memberId = preSelected.memberId, !memberId.isEmpty {
+                selectedUserIds.insert(memberId)
+                print("✅ Pre-selected member: \(preSelected.fullName ?? "") with ID: \(memberId)")
+            } else if let memberId = preSelected.id, !memberId.isEmpty {
+                selectedUserIds.insert(memberId)
+                print("✅ Pre-selected member: \(preSelected.fullName ?? "") with ID: \(memberId)")
+            }
+            
+            // Also add to familyMembers if not already present
+            let memberExists = familyMembers.contains { member in
+                return member.memberId == preSelected.memberId || member.id == preSelected.id
+            }
+            
+            if !memberExists {
+                familyMembers.insert(preSelected, at: 0)
+                print("✅ Added pre-selected member to family members list")
+            }
+        }
     }
     
     func setupTableView() {
@@ -54,6 +83,7 @@ class CreateEventVC: UIViewController {
             showAlert(message: "Please fill all fields")
             return
         }
+        
         let parameters: [String: Any] = [
             "event_type": "family gather",
             "event_name": name,
@@ -78,6 +108,7 @@ class CreateEventVC: UIViewController {
                     if response.success {
                         print("✅ Success: \(response.data?.event_name ?? "Event")")
                         self?.showAlert(message: "Event Created Successfully!") {
+                            self?.onEventCreated?()  // 👈 Call callback before popping
                             self?.navigationController?.popViewController(animated: true)
                         }
                     } else {
@@ -121,7 +152,7 @@ extension CreateEventVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MemberCell", for: indexPath) as! MemberCell
             
             let member = familyMembers[indexPath.row]
-            let memberId = member.memberId ?? ""
+            let memberId = member.memberId ?? member.id ?? ""  // 👈 Fallback to id
             
             let isSelected = selectedUserIds.contains(memberId)
             
@@ -148,7 +179,10 @@ extension CreateEventVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 {
-            guard let memberID = familyMembers[indexPath.row].memberId else { return }
+            let member = familyMembers[indexPath.row]
+            let memberID = member.memberId ?? member.id ?? ""  // 👈 Fallback to id
+            
+            guard !memberID.isEmpty else { return }
             
             if selectedUserIds.contains(memberID) {
                 selectedUserIds.remove(memberID)

@@ -51,6 +51,8 @@ class StoriesCell: UITableViewCell {
         super.awakeFromNib()
         selectionStyle = .none
         imgVw.isUserInteractionEnabled = true
+        imgVw.contentMode = .scaleAspectFill
+        imgVw.clipsToBounds = true
         setupCollectionView()
         setupPlayButton()
     }
@@ -89,7 +91,7 @@ class StoriesCell: UITableViewCell {
         selectedTagIndex = nil
         
         lblTitle.text = feed.heading
-        serialNo.text = "\(feed.serial_number)"
+        serialNo.text = "\(feed.serial_number ?? 0)"
         lblSubject.text = feed.language
         
         currentLikeCount = feed.likesCount
@@ -110,10 +112,55 @@ class StoriesCell: UITableViewCell {
         
         youtubeURL = feed.youtubeVideo
         removePlayerView()
-        imgVw.loadImage(url: feed.image ?? "", placeHolderImage: "FF Logo")
-        btnPlay?.isHidden = (feed.youtubeVideo ?? "").isEmpty
+        
+        // 🎬 Load YouTube Thumbnail if video exists, otherwise load image
+        if let videoURL = feed.youtubeVideo, !videoURL.isEmpty, let videoID = videoURL.extractYoutubeId() {
+            loadYouTubeThumbnail(videoID: videoID)
+            btnPlay?.isHidden = false
+        } else {
+            imgVw.loadImage(url: feed.image ?? "", placeHolderImage: "FF Logo")
+            btnPlay?.isHidden = true
+        }
         
         colVw.reloadData()
+    }
+    
+    // 🎬 Load YouTube Thumbnail
+    func loadYouTubeThumbnail(videoID: String) {
+        let thumbnailURLs = [
+            "https://img.youtube.com/vi/\(videoID)/maxresdefault.jpg",
+            "https://img.youtube.com/vi/\(videoID)/hqdefault.jpg",
+            "https://img.youtube.com/vi/\(videoID)/mqdefault.jpg"
+        ]
+        
+        loadThumbnailWithFallback(urls: thumbnailURLs, index: 0, videoID: videoID)
+    }
+    
+    func loadThumbnailWithFallback(urls: [String], index: Int, videoID: String) {
+        guard index < urls.count else {
+            // Fallback to default thumbnail
+            imgVw.loadImage(url: "https://img.youtube.com/vi/\(videoID)/0.jpg", placeHolderImage: "FF Logo")
+            return
+        }
+        
+        guard let url = URL(string: urls[index]) else {
+            loadThumbnailWithFallback(urls: urls, index: index + 1, videoID: videoID)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self else { return }
+            
+            if let data = data, let image = UIImage(data: data), image.size.width > 120 {
+                DispatchQueue.main.async {
+                    self.imgVw.image = image
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.loadThumbnailWithFallback(urls: urls, index: index + 1, videoID: videoID)
+                }
+            }
+        }.resume()
     }
 
     func updateLikeUI(isLiked: Bool) {
@@ -197,12 +244,10 @@ class StoriesCell: UITableViewCell {
         }
     }
     
-    // Update comment count after posting
     func incrementCommentCount() {
         currentCommentCount += 1
         setupCommentButton(count: currentCommentCount)
         
-        // Animate the comment button
         UIView.animate(withDuration: 0.1, animations: {
             self.commentBtn.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
         }) { _ in
@@ -212,7 +257,6 @@ class StoriesCell: UITableViewCell {
         }
     }
     
-    // Reset tag selection
     func resetTagSelection() {
         selectedTagIndex = nil
         colVw.reloadData()
@@ -265,6 +309,11 @@ class StoriesCell: UITableViewCell {
         playerView?.stopVideo()
         playerView?.removeFromSuperview()
         playerView = nil
+    }
+    
+    func stopVideo() {
+        removePlayerView()
+        btnPlay?.isHidden = (youtubeURL ?? "").isEmpty
     }
 
     override func prepareForReuse() {
@@ -330,7 +379,6 @@ extension StoriesCell: UICollectionViewDelegate, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TagCell", for: indexPath) as! TagCell
         cell.lblText.text = arr[indexPath.row]
         
-        // Update UI based on selection
         if selectedTagIndex == indexPath.row {
             cell.setSelected(true)
         } else {
@@ -340,17 +388,14 @@ extension StoriesCell: UICollectionViewDelegate, UICollectionViewDataSource {
         return cell
     }
     
-    // Handle tag selection
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let feed = currentFeed else { return }
         
         let selectedText = arr[indexPath.row]
         
-        // Update selected state
         selectedTagIndex = indexPath.row
         collectionView.reloadData()
         
-        // Animate the selected cell
         if let cell = collectionView.cellForItem(at: indexPath) as? TagCell {
             UIView.animate(withDuration: 0.1, animations: {
                 cell.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
@@ -361,7 +406,6 @@ extension StoriesCell: UICollectionViewDelegate, UICollectionViewDataSource {
             }
         }
         
-        // Call the callback with selected tag text
         tagClicked?(cellIndex, feed, selectedText)
     }
 }

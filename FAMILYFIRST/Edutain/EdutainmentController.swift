@@ -18,10 +18,10 @@ class EdutainmentController: UIViewController {
     @IBOutlet weak var searchBtn: UIButton!
     @IBOutlet weak var tblVw: UITableView!
     
+    var allFeed = [Feed]()
     var diyFeed = [Feed]()
     var storiesFeed = [Feed]()
     var currentFeed = [Feed]()
-    
     var searchResults = [Feed]()
     var isSearchActive = false
     var searchDebounceTimer: Timer?
@@ -33,7 +33,7 @@ class EdutainmentController: UIViewController {
         setupTextFields()
         setupTableView()
         segmentController.selectedSegmentIndex = 0
-        getDiyFeed()
+        getAllFeed()
     }
     
     override func viewDidLayoutSubviews() {
@@ -46,6 +46,10 @@ class EdutainmentController: UIViewController {
         applySegmentCornerRadius()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopAllVideos()
+    }
     
     func setupUI() {
         topVw.addBottomShadow()
@@ -63,7 +67,6 @@ class EdutainmentController: UIViewController {
             .foregroundColor: UIColor.white
         ]
         segmentController.setTitleTextAttributes(selectedAttributes, for: .selected)
-        
         segmentController.backgroundColor = UIColor.white
         
         DispatchQueue.main.async {
@@ -73,7 +76,6 @@ class EdutainmentController: UIViewController {
     
     func applySegmentCornerRadius() {
         guard segmentController.frame.height > 0 else { return }
-        
         let cornerRadius = segmentController.frame.height / 2
         segmentController.layer.cornerRadius = cornerRadius
         segmentController.layer.masksToBounds = true
@@ -84,11 +86,9 @@ class EdutainmentController: UIViewController {
         searchTf.delegate = self
         searchTf.returnKeyType = .search
         searchTf.addTarget(self, action: #selector(searchTextFieldDidChange(_:)), for: .editingChanged)
-        
         videonoTf.delegate = self
         videonoTf.keyboardType = .numberPad
         videonoTf.addTarget(self, action: #selector(videoNumberTextFieldDidChange(_:)), for: .editingChanged)
-        
         addDoneButtonToKeyboard()
     }
     
@@ -113,8 +113,8 @@ class EdutainmentController: UIViewController {
         tblVw.keyboardDismissMode = .onDrag
     }
     
-    
     func navigateToComments(feed: Feed, cellType: FeedCellType) {
+        stopAllVideos()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let vc = storyboard.instantiateViewController(withIdentifier: "CommentsVC") as? CommentsVC else { return }
         vc.feed = feed
@@ -122,14 +122,83 @@ class EdutainmentController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    func stopAllVideos() {
+        for cell in tblVw.visibleCells {
+            if let storiesCell = cell as? StoriesCell {
+                storiesCell.stopVideo()
+            }
+        }
+    }
+    
+    func stopInvisibleVideos() {
+        guard segmentController.selectedSegmentIndex == 1 else { return }
+        
+        for cell in tblVw.visibleCells {
+            guard let storiesCell = cell as? StoriesCell,
+                  let indexPath = tblVw.indexPath(for: storiesCell) else { continue }
+            
+            let cellRect = tblVw.rectForRow(at: indexPath)
+            let visibleRect = CGRect(x: tblVw.contentOffset.x, y: tblVw.contentOffset.y, width: tblVw.bounds.width, height: tblVw.bounds.height)
+            let intersection = cellRect.intersection(visibleRect)
+            let visiblePercentage = intersection.height / cellRect.height
+            
+            if visiblePercentage < 0.5 {
+                storiesCell.stopVideo()
+            }
+        }
+    }
+    
+    func getAllFeed() {
+        showLoader()
+        let url = API.EDUTAIN_FEED
+        
+        NetworkManager.shared.request(urlString: url, method: .GET) { [weak self] (result: Result<APIResponse<[Feed]>, NetworkError>) in
+            guard let self = self else { return }
+            self.hideLoader()
+            
+            switch result {
+            case .success(let info):
+                if info.success, let data = info.data {
+                    self.allFeed = data
+                    DispatchQueue.main.async {
+                        self.filterAndSetData()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.showAlert(msg: info.description)
+                    }
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.showAlert(msg: error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    func filterAndSetData() {
+        diyFeed = allFeed.filter { feed in
+            let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
+            return !hasVideo
+        }
+        
+        storiesFeed = allFeed.filter { feed in
+            let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
+            return hasVideo
+        }
+        
+        currentFeed = segmentController.selectedSegmentIndex == 0 ? diyFeed : storiesFeed
+        tblVw.reloadData()
+    }
     
     @IBAction func onChangeSegment(_ sender: UISegmentedControl) {
         clearSearch()
+        stopAllVideos()
+        currentFeed = sender.selectedSegmentIndex == 0 ? diyFeed : storiesFeed
+        tblVw.reloadData()
         
-        if sender.selectedSegmentIndex == 0 {
-            diyFeed.isEmpty ? getDiyFeed() : { currentFeed = diyFeed; tblVw.reloadData() }()
-        } else {
-            storiesFeed.isEmpty ? getStoriesFeed() : { currentFeed = storiesFeed; tblVw.reloadData() }()
+        if !currentFeed.isEmpty {
+            tblVw.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         }
     }
     
@@ -148,7 +217,6 @@ class EdutainmentController: UIViewController {
         
         searchTf.text = ""
         searchDebounceTimer?.invalidate()
-        
         searchBySerialNumber(serialNumber: serialNumber)
     }
     
@@ -156,17 +224,12 @@ class EdutainmentController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    
     func clearSearch() {
         searchDebounceTimer?.invalidate()
         searchTf.text = ""
         videonoTf.text = ""
         isSearchActive = false
         searchResults.removeAll()
-    }
-    
-    func getCurrentCategory() -> String {
-        return segmentController.selectedSegmentIndex == 0 ? "Diy" : "Stories"
     }
     
     @objc func searchTextFieldDidChange(_ textField: UITextField) {
@@ -198,7 +261,6 @@ class EdutainmentController: UIViewController {
         showLoader()
         guard !keyword.isEmpty else { return }
         
-        let category = getCurrentCategory()
         let encodedKeyword = keyword.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? keyword
         let url = API.EDUTAIN_SEARCH + "?keyword=\(encodedKeyword)"
         
@@ -206,21 +268,32 @@ class EdutainmentController: UIViewController {
             guard let self = self else { return }
             
             DispatchQueue.main.async {
-                self.hideLoader()  
+                self.hideLoader()
                 let currentKeyword = self.searchTf.text?.trimmingCharacters(in: .whitespaces) ?? ""
                 guard currentKeyword == keyword else { return }
                 
                 switch result {
                 case .success(let info):
                     if info.success, let data = info.data {
-                        self.searchResults = data.filter { feed in
-                            feed.f_category?.lowercased() == category.lowercased()
+                        if self.segmentController.selectedSegmentIndex == 0 {
+                            self.searchResults = data.filter { feed in
+                                let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
+                                return !hasVideo
+                            }
+                        } else {
+                            self.searchResults = data.filter { feed in
+                                let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
+                                return hasVideo
+                            }
                         }
+                        
                         self.isSearchActive = true
                         self.currentFeed = self.searchResults
                         self.tblVw.reloadData()
                         
-                        if !self.currentFeed.isEmpty {
+                        if self.searchResults.isEmpty {
+                            self.showNoResultsMessage(for: keyword)
+                        } else if !self.currentFeed.isEmpty {
                             self.tblVw.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
                         }
                     } else {
@@ -234,7 +307,6 @@ class EdutainmentController: UIViewController {
     }
     
     func searchBySerialNumber(serialNumber: Int) {
-        let category = getCurrentCategory()
         let sourceData = segmentController.selectedSegmentIndex == 0 ? diyFeed : storiesFeed
         
         if let foundFeed = sourceData.first(where: { $0.serial_number == serialNumber }) {
@@ -247,11 +319,11 @@ class EdutainmentController: UIViewController {
                 tblVw.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
             }
         } else {
-            searchSerialNumberFromAPI(serialNumber: serialNumber, category: category)
+            searchSerialNumberFromAPI(serialNumber: serialNumber)
         }
     }
     
-    func searchSerialNumberFromAPI(serialNumber: Int, category: String) {
+    func searchSerialNumberFromAPI(serialNumber: Int) {
         showLoader()
         let url = API.EDUTAIN_SEARCH + "?keyword=\(serialNumber)"
         
@@ -264,14 +336,15 @@ class EdutainmentController: UIViewController {
                 switch result {
                 case .success(let info):
                     if info.success, let data = info.data {
-                        self.searchResults = data.filter { feed in
-                            feed.f_category?.lowercased() == category.lowercased() &&
-                            feed.serial_number == serialNumber
-                        }
-                        
-                        if self.searchResults.isEmpty {
+                        if self.segmentController.selectedSegmentIndex == 0 {
                             self.searchResults = data.filter { feed in
-                                feed.f_category?.lowercased() == category.lowercased()
+                                let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
+                                return !hasVideo && feed.serial_number == serialNumber
+                            }
+                        } else {
+                            self.searchResults = data.filter { feed in
+                                let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
+                                return hasVideo && feed.serial_number == serialNumber
                             }
                         }
                         
@@ -295,57 +368,8 @@ class EdutainmentController: UIViewController {
     }
     
     func showNoResultsMessage(for searchTerm: String) {
-        let category = getCurrentCategory()
+        let category = segmentController.selectedSegmentIndex == 0 ? "DIY" : "Stories"
         showAlert(msg: "No results found for \(searchTerm) in \(category)")
-    }
-    
-    
-    func getDiyFeed() {
-        showLoader()
-        let url = API.EDUTAIN_FEED + "?f_category=Diy"
-        NetworkManager.shared.request(urlString: url, method: .GET) { [weak self] (result: Result<APIResponse<[Feed]>, NetworkError>) in
-            guard let self = self else { return }
-            self.hideLoader()
-
-            switch result {
-            case .success(let info):
-                if info.success, let data = info.data {
-                    self.diyFeed = data
-                    if !self.isSearchActive {
-                        self.currentFeed = data
-                    }
-                    DispatchQueue.main.async { self.tblVw.reloadData() }
-                } else {
-                    DispatchQueue.main.async { self.showAlert(msg: info.description) }
-                }
-            case .failure(let error):
-                DispatchQueue.main.async { self.showAlert(msg: error.localizedDescription) }
-            }
-        }
-    }
-    
-    func getStoriesFeed() {
-        showLoader()
-        let url = API.EDUTAIN_FEED + "?f_category=Stories"
-        NetworkManager.shared.request(urlString: url, method: .GET) { [weak self] (result: Result<APIResponse<[Feed]>, NetworkError>) in
-            guard let self = self else { return }
-            self.hideLoader()
-
-            switch result {
-            case .success(let info):
-                if info.success, let data = info.data {
-                    self.storiesFeed = data
-                    if !self.isSearchActive {
-                        self.currentFeed = data
-                    }
-                    DispatchQueue.main.async { self.tblVw.reloadData() }
-                } else {
-                    DispatchQueue.main.async { self.showAlert(msg: info.description) }
-                }
-            case .failure(let error):
-                DispatchQueue.main.async { self.showAlert(msg: error.localizedDescription) }
-            }
-        }
     }
     
     func likeFeed(at index: Int) {
@@ -369,6 +393,11 @@ class EdutainmentController: UIViewController {
                                 self.searchResults[searchIndex].likesCount = data.likes_count
                                 self.searchResults[searchIndex].isLiked = data.is_liked
                             }
+                        }
+                        
+                        if let allIndex = self.allFeed.firstIndex(where: { $0.id == feedId }) {
+                            self.allFeed[allIndex].likesCount = data.likes_count
+                            self.allFeed[allIndex].isLiked = data.is_liked
                         }
                         
                         if self.segmentController.selectedSegmentIndex == 0 {
@@ -395,14 +424,9 @@ class EdutainmentController: UIViewController {
         }
     }
     
-    
     func postQuickComment(feedId: String, comment: String, at index: Int, completion: @escaping (Bool) -> Void) {
-        let url = API.POST_COMMENT  
-        
-        let parameters: [String: Any] = [
-            "feed_id": feedId,
-            "comment": comment
-        ]
+        let url = API.POST_COMMENT
+        let parameters: [String: Any] = ["feed_id": feedId, "comment": comment]
         
         NetworkManager.shared.request(urlString: url, method: .POST, parameters: parameters) { [weak self] (result: Result<APIResponse<EmptyResponse>, NetworkError>) in
             guard let self = self else { return }
@@ -411,19 +435,18 @@ class EdutainmentController: UIViewController {
                 switch result {
                 case .success(let info):
                     if info.success {
-                        print("✅ Quick comment posted successfully: \(comment)")
-                        
-                        // Update comment count in current feed
                         self.currentFeed[index].commentsCount += 1
                         
-                        // Update search results if active
                         if self.isSearchActive {
                             if let searchIndex = self.searchResults.firstIndex(where: { $0.id == feedId }) {
                                 self.searchResults[searchIndex].commentsCount += 1
                             }
                         }
                         
-                        // Update source array
+                        if let allIndex = self.allFeed.firstIndex(where: { $0.id == feedId }) {
+                            self.allFeed[allIndex].commentsCount += 1
+                        }
+                        
                         if self.segmentController.selectedSegmentIndex == 0 {
                             if let diyIndex = self.diyFeed.firstIndex(where: { $0.id == feedId }) {
                                 self.diyFeed[diyIndex].commentsCount += 1
@@ -435,10 +458,7 @@ class EdutainmentController: UIViewController {
                         }
                         
                         completion(true)
-                        
-                        // Show success feedback
                         self.showSuccessToast(message: "Comment posted!")
-                        
                     } else {
                         self.showAlert(msg: info.description)
                         completion(false)
@@ -450,7 +470,6 @@ class EdutainmentController: UIViewController {
             }
         }
     }
-    
     
     func showSuccessToast(message: String) {
         let toastLabel = UILabel()
@@ -484,7 +503,6 @@ class EdutainmentController: UIViewController {
         }
     }
     
-    
     func callWhatsAppShareAPI(feedId: String, completion: @escaping (Bool) -> Void) {
         let url = API.WHATSAPP_SHARE
         let parameters: [String: Any] = ["feed_id": feedId]
@@ -495,16 +513,9 @@ class EdutainmentController: UIViewController {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let info):
-                    if info.success {
-                        print("✅ WhatsApp share logged successfully")
-                        completion(true)
-                    } else {
-                        print("❌ WhatsApp share API failed: \(info.description)")
-                        self.showAlert(msg: info.description)
-                        completion(false)
-                    }
+                    completion(info.success)
+                    if !info.success { self.showAlert(msg: info.description) }
                 case .failure(let error):
-                    print("❌ WhatsApp share API error: \(error.localizedDescription)")
                     self.showAlert(msg: error.localizedDescription)
                     completion(false)
                 }
@@ -524,9 +535,7 @@ class EdutainmentController: UIViewController {
         """
         
         guard let encodedText = shareText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-              let url = URL(string: "whatsapp://send?text=\(encodedText)") else {
-            return false
-        }
+              let url = URL(string: "whatsapp://send?text=\(encodedText)") else { return false }
         
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -538,20 +547,13 @@ class EdutainmentController: UIViewController {
     }
     
     func showWhatsAppNotInstalledAlert() {
-        let alert = UIAlertController(
-            title: "WhatsApp Not Installed",
-            message: "WhatsApp is not installed on your device. Would you like to download it?",
-            preferredStyle: .alert
-        )
-        
+        let alert = UIAlertController(title: "WhatsApp Not Installed", message: "WhatsApp is not installed on your device. Would you like to download it?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Download", style: .default) { _ in
             if let appStoreURL = URL(string: "https://apps.apple.com/app/whatsapp-messenger/id310633997") {
                 UIApplication.shared.open(appStoreURL, options: [:], completionHandler: nil)
             }
         })
-        
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
         present(alert, animated: true, completion: nil)
     }
     
@@ -565,33 +567,34 @@ class EdutainmentController: UIViewController {
         }
         
         callWhatsAppShareAPI(feedId: feed.id) { [weak self] success in
-            guard let self = self else { return }
+            guard let self = self, success else { return }
             
-            if success {
-                self.currentFeed[index].whatsappShareCount += 1
-                
-                if self.isSearchActive {
-                    if let searchIndex = self.searchResults.firstIndex(where: { $0.id == feed.id }) {
-                        self.searchResults[searchIndex].whatsappShareCount += 1
-                    }
+            self.currentFeed[index].whatsappShareCount += 1
+            
+            if self.isSearchActive {
+                if let searchIndex = self.searchResults.firstIndex(where: { $0.id == feed.id }) {
+                    self.searchResults[searchIndex].whatsappShareCount += 1
                 }
-                
-                if self.segmentController.selectedSegmentIndex == 0 {
-                    if let diyIndex = self.diyFeed.firstIndex(where: { $0.id == feed.id }) {
-                        self.diyFeed[diyIndex].whatsappShareCount += 1
-                    }
-                } else {
-                    if let storiesIndex = self.storiesFeed.firstIndex(where: { $0.id == feed.id }) {
-                        self.storiesFeed[storiesIndex].whatsappShareCount += 1
-                    }
-                }
-                
-                updateCountClosure()
-                _ = self.openWhatsApp(with: feed)
             }
+            
+            if let allIndex = self.allFeed.firstIndex(where: { $0.id == feed.id }) {
+                self.allFeed[allIndex].whatsappShareCount += 1
+            }
+            
+            if self.segmentController.selectedSegmentIndex == 0 {
+                if let diyIndex = self.diyFeed.firstIndex(where: { $0.id == feed.id }) {
+                    self.diyFeed[diyIndex].whatsappShareCount += 1
+                }
+            } else {
+                if let storiesIndex = self.storiesFeed.firstIndex(where: { $0.id == feed.id }) {
+                    self.storiesFeed[storiesIndex].whatsappShareCount += 1
+                }
+            }
+            
+            updateCountClosure()
+            _ = self.openWhatsApp(with: feed)
         }
     }
-    
     
     func shareContent(feed: Feed, sourceView: UIView, completion: @escaping (Bool) -> Void) {
         let shareText = """
@@ -621,14 +624,10 @@ class EdutainmentController: UIViewController {
             popover.sourceRect = sourceView.bounds
         }
         
-        activityVC.completionWithItemsHandler = { activity, success, items, error in
-            completion(success)
-        }
-        
+        activityVC.completionWithItemsHandler = { _, success, _, _ in completion(success) }
         present(activityVC, animated: true)
     }
 }
-
 
 extension EdutainmentController: UITableViewDelegate, UITableViewDataSource {
     
@@ -647,57 +646,29 @@ extension EdutainmentController: UITableViewDelegate, UITableViewDataSource {
             cell.shareBtn.tag = indexPath.row
             cell.commentBtn.tag = indexPath.row
             
-            // Like Action
-            cell.likeClicked = { [weak self] index in
-                self?.likeFeed(at: index)
-            }
-            
-            // WhatsApp Share Action
+            cell.likeClicked = { [weak self] index in self?.likeFeed(at: index) }
             cell.whatsappClicked = { [weak self] index, feed in
-                guard let self = self else { return }
-                self.handleWhatsAppShare(at: index, feed: feed) {
-                    cell.updateWhatsappCount()
-                }
+                self?.handleWhatsAppShare(at: index, feed: feed) { cell.updateWhatsappCount() }
             }
-            
-            // Native Share Action
             cell.shareClicked = { [weak self] index, feed in
-                guard let self = self else { return }
-                self.shareContent(feed: feed, sourceView: cell.shareBtn) { success in
-                    if success {
-                        cell.updateShareCount()
-                    }
+                self?.shareContent(feed: feed, sourceView: cell.shareBtn) { success in
+                    if success { cell.updateShareCount() }
                 }
             }
-            
-            // Comment Action
             cell.commentClicked = { [weak self] index, feed in
-                guard let self = self else { return }
-                self.navigateToComments(feed: feed, cellType: .diy)
+                self?.navigateToComments(feed: feed, cellType: .diy)
             }
-            
-            // NEW: Tag Click Action - Post quick comment
             cell.tagClicked = { [weak self] index, feed, commentText in
-                guard let self = self else { return }
-                
-                self.postQuickComment(feedId: feed.id, comment: commentText, at: index) { success in
+                self?.postQuickComment(feedId: feed.id, comment: commentText, at: index) { success in
                     if success {
-                        // Update the cell's comment count
                         cell.incrementCommentCount()
-                        
-                        // Reset the tag selection after a delay
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                            cell.resetTagSelection()
-                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { cell.resetTagSelection() }
                     } else {
-                        // Reset selection on failure
                         cell.resetTagSelection()
                     }
                 }
             }
-            
             return cell
-            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoriesCell") as! StoriesCell
             cell.setup(feed: feed, index: indexPath.row)
@@ -706,55 +677,29 @@ extension EdutainmentController: UITableViewDelegate, UITableViewDataSource {
             cell.shareBTn.tag = indexPath.row
             cell.commentBtn.tag = indexPath.row
             
-            // Like Action
-            cell.likeClicked = { [weak self] index in
-                self?.likeFeed(at: index)
-            }
-            
-            // WhatsApp Share Action
+            cell.likeClicked = { [weak self] index in self?.likeFeed(at: index) }
             cell.whatsappClicked = { [weak self] index, feed in
-                guard let self = self else { return }
-                self.handleWhatsAppShare(at: index, feed: feed) {
-                    cell.updateWhatsappCount()
-                }
+                self?.handleWhatsAppShare(at: index, feed: feed) { cell.updateWhatsappCount() }
             }
-            
-            // Native Share Action
             cell.shareClicked = { [weak self] index, feed in
-                guard let self = self else { return }
-                self.shareContent(feed: feed, sourceView: cell.shareBTn) { success in
-                    if success {
-                        cell.updateShareCount()
-                    }
+                self?.shareContent(feed: feed, sourceView: cell.shareBTn) { success in
+                    if success { cell.updateShareCount() }
                 }
             }
-            
-            // Comment Action
             cell.commentClicked = { [weak self] index, feed in
-                guard let self = self else { return }
-                self.navigateToComments(feed: feed, cellType: .stories)
+                self?.stopAllVideos()
+                self?.navigateToComments(feed: feed, cellType: .stories)
             }
-            
-            // NEW: Tag Click Action - Post quick comment
             cell.tagClicked = { [weak self] index, feed, commentText in
-                guard let self = self else { return }
-                
-                self.postQuickComment(feedId: feed.id, comment: commentText, at: index) { success in
+                self?.postQuickComment(feedId: feed.id, comment: commentText, at: index) { success in
                     if success {
-                        // Update the cell's comment count
                         cell.incrementCommentCount()
-                        
-                        // Reset the tag selection after a delay
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                            cell.resetTagSelection()
-                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { cell.resetTagSelection() }
                     } else {
-                        // Reset selection on failure
                         cell.resetTagSelection()
                     }
                 }
             }
-            
             return cell
         }
     }
@@ -762,22 +707,26 @@ extension EdutainmentController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return segmentController.selectedSegmentIndex == 0 ? UITableView.automaticDimension : 420
     }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let storiesCell = cell as? StoriesCell { storiesCell.stopVideo() }
+    }
 }
 
+extension EdutainmentController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) { stopInvisibleVideos() }
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) { dismissKeyboard() }
+}
 
 extension EdutainmentController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        
         if textField == searchTf {
             searchDebounceTimer?.invalidate()
             let keyword = searchTf.text?.trimmingCharacters(in: .whitespaces) ?? ""
-            if !keyword.isEmpty {
-                searchByKeyword(keyword: keyword)
-            }
+            if !keyword.isEmpty { searchByKeyword(keyword: keyword) }
         }
-        
         return true
     }
     
@@ -798,7 +747,6 @@ extension EdutainmentController: UITextFieldDelegate {
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         if textField == searchTf {
             searchDebounceTimer?.invalidate()
-            
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
                 guard let self = self else { return }
                 self.isSearchActive = false
@@ -809,4 +757,3 @@ extension EdutainmentController: UITextFieldDelegate {
         return true
     }
 }
-

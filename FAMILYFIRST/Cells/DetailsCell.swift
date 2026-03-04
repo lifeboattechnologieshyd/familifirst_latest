@@ -21,10 +21,13 @@ class DetailsCell: UITableViewCell {
     @IBOutlet weak var mailLbl: UILabel!
     @IBOutlet weak var whatsappBtn: UIButton!
     @IBOutlet weak var phonenumberLbl: UILabel!
+    @IBOutlet weak var viewone: UIView!
     @IBOutlet weak var mailBtn: UIButton!
     @IBOutlet weak var notesFont: UILabel!
+    @IBOutlet weak var notesLbl: UILabel!
     @IBOutlet weak var mailCopy: UIButton!
     @IBOutlet weak var relationLbl: UILabel!
+    @IBOutlet weak var viewtwo: UIView!
     @IBOutlet weak var nameLbl: UILabel!
     
     var onShowToast: ((String) -> Void)?
@@ -34,14 +37,29 @@ class DetailsCell: UITableViewCell {
     private var mobileNumber: String = ""
     private var email: String = ""
     
+    private let femaleRelations = [
+        "mother", "sister", "daughter", "aunt", "grandmother",
+        "niece", "mother-in-law", "sister-in-law", "wife"
+    ]
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        setupUI()
+    }
+    
+    private func setupUI() {
         phoneBgVw.addCardShadow()
         mailBgVw.addCardShadow()
         imgVw.layer.cornerRadius = imgVw.frame.height / 2
         imgVw.clipsToBounds = true
+        imgVw.contentMode = .scaleAspectFill
         notesFont.font = UIFont(name: "Lexend-SemiBold", size: 16)
         selectionStyle = .none
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        imgVw.layer.cornerRadius = imgVw.frame.height / 2
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -84,7 +102,8 @@ class DetailsCell: UITableViewCell {
         onShowToast?("Email copied successfully")
     }
     
-    func configure(with member: FamilyMember) {
+    // 👈 Updated configure method with hasNotes parameter
+    func configure(with member: FamilyMember, hasNotes: Bool = true) {
         nameLbl.text = member.fullName ?? "N/A"
         relationLbl.text = member.relationType ?? "N/A"
         
@@ -100,20 +119,69 @@ class DetailsCell: UITableViewCell {
             dateofbirthLbl.text = "N/A"
         }
         
+        // 👈 Hide/Show notes section based on hasNotes
+        configureNotesVisibility(hasNotes: hasNotes)
+        
         if let imageUrl = member.profileImage, !imageUrl.isEmpty, let url = URL(string: imageUrl) {
-            URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
-                if let data = data, let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self?.imgVw.image = image
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        self?.imgVw.image = UIImage(named: "Picture")
-                    }
-                }
-            }.resume()
+            loadImage(from: url, member: member)
         } else {
-            imgVw.image = UIImage(named: "Picture")
+            setDefaultImage(for: member)
         }
+    }
+    
+    // 👈 New method to configure notes visibility
+    private func configureNotesVisibility(hasNotes: Bool) {
+        if hasNotes {
+            // Show notes section
+            notesLbl.isHidden = false
+            notesFont.isHidden = false
+            viewone.isHidden = false
+            viewtwo.isHidden = false
+        } else {
+            // Hide notes section
+            notesLbl.isHidden = true
+            notesFont.isHidden = true
+            viewone.isHidden = true
+            viewtwo.isHidden = true
+        }
+    }
+    
+    private func setDefaultImage(for member: FamilyMember) {
+        if isFemale(member: member) {
+            imgVw.image = UIImage(named: "femaleicon")
+        } else {
+            imgVw.image = UIImage(named: "userImage")
+        }
+    }
+    
+    private func isFemale(member: FamilyMember) -> Bool {
+        // First check explicit gender from API
+        if let gender = member.gender?.lowercased() {
+            if gender == "female" || gender == "f" {
+                return true
+            } else if gender == "male" || gender == "m" {
+                return false
+            }
+        }
+        
+        // If gender not available, check relation type
+        if let relation = member.relationType?.lowercased() {
+            return femaleRelations.contains(relation)
+        }
+        
+        return false // Default to male icon
+    }
+    
+    private func loadImage(from url: URL, member: FamilyMember) {
+        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+            DispatchQueue.main.async {
+                if let data = data, let image = UIImage(data: data) {
+                    self?.imgVw.image = image
+                } else {
+                    // If image fails to load, use default based on gender
+                    self?.setDefaultImage(for: member)
+                }
+            }
+        }.resume()
     }
 }

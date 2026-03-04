@@ -5,7 +5,7 @@
 //  Created by Lifeboat on 03/02/26.
 //
 
-import Foundation
+import UIKit
 
 class UserManager {
 
@@ -22,6 +22,7 @@ class UserManager {
         static let email = "email"
         static let hasSeenOnboarding = "hasSeenOnboarding"
         static let userId = "userId"
+        static let profileImage = "userProfileImage"
     }
 
     var hasSeenOnboarding: Bool {
@@ -77,6 +78,34 @@ class UserManager {
         return id
     }
     
+    
+    func saveProfileImage(_ image: UIImage) {
+        if let imageData = image.jpegData(compressionQuality: 0.8) {
+            defaults.set(imageData, forKey: Keys.profileImage)
+            defaults.synchronize()
+            print("✅ Profile image saved to UserDefaults")
+        }
+    }
+    
+    var profileImage: UIImage? {
+        if let imageData = defaults.data(forKey: Keys.profileImage),
+           let image = UIImage(data: imageData) {
+            return image
+        }
+        return nil
+    }
+    
+    var hasProfileImage: Bool {
+        return defaults.data(forKey: Keys.profileImage) != nil
+    }
+    
+    func removeProfileImage() {
+        defaults.removeObject(forKey: Keys.profileImage)
+        defaults.synchronize()
+        print("🗑️ Profile image removed from UserDefaults")
+    }
+    
+    
     func logout() {
         defaults.removeObject(forKey: Keys.accessToken)
         defaults.removeObject(forKey: Keys.refreshToken)
@@ -84,5 +113,8 @@ class UserManager {
         defaults.removeObject(forKey: Keys.mobile)
         defaults.removeObject(forKey: Keys.email)
         defaults.removeObject(forKey: Keys.userId)
+        defaults.removeObject(forKey: Keys.profileImage)
+        defaults.synchronize()
+        print("🚪 User logged out - all data cleared")
     }
 }
