@@ -8,10 +8,7 @@ import UIKit
 
 class EnterPasswordVC: UIViewController {
     
-    enum LoginType {
-        case mobile
-        case email
-    }
+    
 
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var nameLbl: UILabel!
@@ -139,32 +136,38 @@ class EnterPasswordVC: UIViewController {
     
     private func forgotPassword() {
         showLoading(true)
-        
-        let params: [String: Any] = [
-            "mobile": mobileNumber,
+
+        var params: [String: Any] = [
             "is_forgot_password": true
         ]
-        
-        
+
+        switch loginType {
+        case .mobile:
+            params["mobile"] = mobileNumber
+            
+        case .email:
+            params["email"] = emailAddress
+        }
+
         NetworkManager.shared.request(
             urlString: API.SEND_OTP,
             method: .POST,
             parameters: params
         ) { [weak self] (result: Result<APIResponse<SendOTPResponse>, NetworkError>) in
-            
+
             DispatchQueue.main.async {
                 self?.showLoading(false)
-                
+
                 switch result {
                 case .success(let response):
                     print("📥 Forgot Password Response: \(response)")
-                    
+
                     if response.success {
                         self?.goToOtpVC(isForgotPassword: true)
                     } else {
                         self?.showAlert(response.description)
                     }
-                    
+
                 case .failure(let error):
                     self?.handleError(error)
                 }
@@ -174,8 +177,12 @@ class EnterPasswordVC: UIViewController {
     
     private func goToOtpVC(isForgotPassword: Bool = false) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "OtpVC") as! OtpVC
+        
         vc.mobileNumber = mobileNumber
+        vc.emailAddress = emailAddress
+        vc.loginType = loginType
         vc.isForgotPasswordFlow = isForgotPassword
+        
         navigationController?.pushViewController(vc, animated: true)
     }
     

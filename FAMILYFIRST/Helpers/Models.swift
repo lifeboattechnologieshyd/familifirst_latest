@@ -1694,3 +1694,7 @@ struct DeletResponse: Decodable {
         case total
     }
 }
+enum LoginType {
+    case mobile
+    case email
+}

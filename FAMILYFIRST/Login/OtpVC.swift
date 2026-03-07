@@ -9,10 +9,7 @@ import Lottie
 
 class OtpVC: UIViewController {
 
-    enum LoginType {
-        case mobile
-        case email
-    }
+    
 
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var lottieVw: UIView!

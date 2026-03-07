@@ -143,7 +143,17 @@ class LoginVC: UIViewController {
     
     private func selectMobileLogin() {
         currentLoginType = .mobile
+        
+        // Remove any previous icons (like email icon)
+        codeLbl.subviews.forEach { $0.removeFromSuperview() }
+        
+        // Show codeLbl text
         codeLbl.isHidden = false
+        codeLbl.attributedText = nil
+        codeLbl.text = "+91"
+        
+        
+        // Reset textfield
         mobileTf.text = ""
         mobileTf.placeholder = "Enter Mobile Number"
         mobileTf.keyboardType = .phonePad
@@ -156,7 +166,31 @@ class LoginVC: UIViewController {
     private func selectEmailLogin() {
         currentLoginType = .email
         
-        codeLbl.isHidden = true
+        codeLbl.subviews.forEach { $0.removeFromSuperview() }
+        
+        codeLbl.isHidden = false
+        codeLbl.text = ""
+        
+        let iconView = UIImageView(image: UIImage(named: "mail"))
+        iconView.contentMode = .scaleAspectFill
+        iconView.layer.cornerRadius = 10
+        iconView.clipsToBounds = true
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        codeLbl.addSubview(iconView)
+        
+        let iconWidth: CGFloat = 24
+        let iconHeight: CGFloat = 24
+        let yOffset: CGFloat = 0
+        let leadingOffset: CGFloat = 24
+        
+        NSLayoutConstraint.activate([
+//            iconView.centerXAnchor.constraint(equalTo: codeLbl.centerXAnchor),
+//            iconView.centerYAnchor.constraint(equalTo: codeLbl.centerYAnchor, constant: yOffset),
+            iconView.widthAnchor.constraint(equalToConstant: iconWidth),
+            iconView.heightAnchor.constraint(equalToConstant: iconHeight)
+        ])
+        
+        // Clear textfield and set placeholder
         mobileTf.text = ""
         mobileTf.placeholder = "Enter Email Address"
         mobileTf.keyboardType = .emailAddress
