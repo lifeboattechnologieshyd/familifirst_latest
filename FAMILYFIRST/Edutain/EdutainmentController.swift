@@ -26,6 +26,10 @@ class EdutainmentController: UIViewController {
     var isSearchActive = false
     var searchDebounceTimer: Timer?
     
+    // f_category constants
+    let DIY_F_CATEGORY = "Diy"
+    let STORIES_F_CATEGORY = "Stories"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -148,6 +152,16 @@ class EdutainmentController: UIViewController {
         }
     }
     
+    // MARK: - Helper to check f_category
+    func feedMatchesFCategory(_ feed: Feed, fCategory: String) -> Bool {
+        guard let feedFCategory = feed.fCategory else { return false }
+        return feedFCategory.lowercased() == fCategory.lowercased()
+    }
+    
+    func getCurrentFCategory() -> String {
+        return segmentController.selectedSegmentIndex == 0 ? DIY_F_CATEGORY : STORIES_F_CATEGORY
+    }
+    
     func getAllFeed() {
         showLoader()
         let url = API.EDUTAIN_FEED
@@ -177,15 +191,18 @@ class EdutainmentController: UIViewController {
     }
     
     func filterAndSetData() {
+        // Filter by f_category "Diy" for DIY tab
         diyFeed = allFeed.filter { feed in
-            let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
-            return !hasVideo
+            return feedMatchesFCategory(feed, fCategory: DIY_F_CATEGORY)
         }
         
+        // Filter by f_category "Stories" for Stories tab
         storiesFeed = allFeed.filter { feed in
-            let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
-            return hasVideo
+            return feedMatchesFCategory(feed, fCategory: STORIES_F_CATEGORY)
         }
+        
+        print("✅ DIY Feed count: \(diyFeed.count)")
+        print("✅ Stories Feed count: \(storiesFeed.count)")
         
         currentFeed = segmentController.selectedSegmentIndex == 0 ? diyFeed : storiesFeed
         tblVw.reloadData()
@@ -275,16 +292,11 @@ class EdutainmentController: UIViewController {
                 switch result {
                 case .success(let info):
                     if info.success, let data = info.data {
-                        if self.segmentController.selectedSegmentIndex == 0 {
-                            self.searchResults = data.filter { feed in
-                                let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
-                                return !hasVideo
-                            }
-                        } else {
-                            self.searchResults = data.filter { feed in
-                                let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
-                                return hasVideo
-                            }
+                        let currentFCategory = self.getCurrentFCategory()
+                        
+                        // Filter search results by current f_category
+                        self.searchResults = data.filter { feed in
+                            return self.feedMatchesFCategory(feed, fCategory: currentFCategory)
                         }
                         
                         self.isSearchActive = true
@@ -336,16 +348,11 @@ class EdutainmentController: UIViewController {
                 switch result {
                 case .success(let info):
                     if info.success, let data = info.data {
-                        if self.segmentController.selectedSegmentIndex == 0 {
-                            self.searchResults = data.filter { feed in
-                                let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
-                                return !hasVideo && feed.serial_number == serialNumber
-                            }
-                        } else {
-                            self.searchResults = data.filter { feed in
-                                let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
-                                return hasVideo && feed.serial_number == serialNumber
-                            }
+                        let currentFCategory = self.getCurrentFCategory()
+                        
+                        // Filter by f_category and serial number
+                        self.searchResults = data.filter { feed in
+                            return self.feedMatchesFCategory(feed, fCategory: currentFCategory) && feed.serial_number == serialNumber
                         }
                         
                         self.isSearchActive = true
@@ -629,6 +636,7 @@ class EdutainmentController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension EdutainmentController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -639,6 +647,7 @@ extension EdutainmentController: UITableViewDelegate, UITableViewDataSource {
         let feed = currentFeed[indexPath.row]
         
         if segmentController.selectedSegmentIndex == 0 {
+            // DIY Category - Use EdutainCell
             let cell = tableView.dequeueReusableCell(withIdentifier: "EdutainCell") as! EdutainCell
             cell.setup(feed: feed, index: indexPath.row)
             cell.btnLike.tag = indexPath.row
@@ -670,6 +679,7 @@ extension EdutainmentController: UITableViewDelegate, UITableViewDataSource {
             }
             return cell
         } else {
+            // BedTime Stories Category - Use StoriesCell
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoriesCell") as! StoriesCell
             cell.setup(feed: feed, index: indexPath.row)
             cell.btnLike.tag = indexPath.row
@@ -713,11 +723,13 @@ extension EdutainmentController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+// MARK: - UIScrollViewDelegate
 extension EdutainmentController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) { stopInvisibleVideos() }
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) { dismissKeyboard() }
 }
 
+// MARK: - UITextFieldDelegate
 extension EdutainmentController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

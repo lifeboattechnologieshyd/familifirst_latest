@@ -14,6 +14,9 @@ class ParentingTipsViewController: UIViewController {
     @IBOutlet weak var backBtn: UIButton!
     
     var feed = [Feed]()
+    
+    // f_category constant for Parenting Tips
+    let PARENTING_F_CATEGORY = "Ptips"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +35,12 @@ class ParentingTipsViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    // MARK: - Helper to check f_category
+    func feedMatchesFCategory(_ feed: Feed, fCategory: String) -> Bool {
+        guard let feedFCategory = feed.fCategory else { return false }
+        return feedFCategory.lowercased() == fCategory.lowercased()
+    }
+    
     func fetchParentingTips() {
         showLoader()
         let url = API.EDUTAIN_FEED
@@ -45,10 +54,9 @@ class ParentingTipsViewController: UIViewController {
                 switch result {
                 case .success(let info):
                     if let data = info.data {
-                        // 👈 Filter by categories array containing "Ptips"
+                        // Filter by f_category "Ptips"
                         self.feed = data.filter { feed in
-                            guard let categories = feed.categories else { return false }
-                            return categories.contains("Ptips")
+                            return self.feedMatchesFCategory(feed, fCategory: self.PARENTING_F_CATEGORY)
                         }
                         
                         print("✅ Parenting Tips count: \(self.feed.count)")
@@ -88,6 +96,8 @@ class ParentingTipsViewController: UIViewController {
                     if info.success, let data = info.data {
                         self.feed[index].likesCount = data.likes_count
                         self.feed[index].isLiked = data.is_liked
+                        let indexPath = IndexPath(row: index, section: 0)
+                        self.tblView.reloadRows(at: [indexPath], with: .none)
                     } else {
                         self.showAlert(msg: info.description)
                     }
@@ -209,8 +219,12 @@ class ParentingTipsViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension ParentingTipsViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return feed.count }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return feed.count
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EdutainCell") as! EdutainCell
@@ -220,10 +234,17 @@ extension ParentingTipsViewController: UITableViewDelegate, UITableViewDataSourc
         cell.whatsappBtn.tag = indexPath.row
         cell.shareBtn.tag = indexPath.row
         cell.commentBtn.tag = indexPath.row
-        cell.likeClicked = { [weak self] index in self?.likeFeed(at: index) }
-        cell.whatsappClicked = { [weak self] index, feed in
-            self?.handleWhatsAppShare(at: index, feed: feed) { cell.updateWhatsappCount() }
+        
+        cell.likeClicked = { [weak self] index in
+            self?.likeFeed(at: index)
         }
+        
+        cell.whatsappClicked = { [weak self] index, feed in
+            self?.handleWhatsAppShare(at: index, feed: feed) {
+                cell.updateWhatsappCount()
+            }
+        }
+        
         cell.shareClicked = { [weak self] index, feed in
             self?.shareContent(feed: feed, sourceView: cell.shareBtn) { success in
                 if success {
@@ -232,13 +253,24 @@ extension ParentingTipsViewController: UITableViewDelegate, UITableViewDataSourc
                 }
             }
         }
-        cell.commentClicked = { [weak self] _, feed in self?.navigateToComments(feed: feed) }
+        
+        cell.commentClicked = { [weak self] _, feed in
+            self?.navigateToComments(feed: feed)
+        }
+        
         cell.tagClicked = { [weak self] index, feed, commentText in
             self?.postQuickComment(feedId: feed.id, comment: commentText, at: index) { success in
-                success ? cell.incrementCommentCount() : cell.resetTagSelection()
-                if success { DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { cell.resetTagSelection() } }
+                if success {
+                    cell.incrementCommentCount()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        cell.resetTagSelection()
+                    }
+                } else {
+                    cell.resetTagSelection()
+                }
             }
         }
+        
         return cell
     }
     

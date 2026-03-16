@@ -1,9 +1,10 @@
 //
-//  CalenderVC.swift
+//  HomeVC.swift
 //  FamilyFirst
 //
 //  Created by Lifeboat on 13/01/26.
 //
+
 import UIKit
 
 class HomeVC: UIViewController {
@@ -31,6 +32,8 @@ class HomeVC: UIViewController {
         if UserManager.shared.isLoggedIn && !upcomingEvents.isEmpty { return }
         fetchUserIdAndLoadData()
     }
+    
+    // MARK: - Data Fetching
     
     private func fetchUserIdAndLoadData() {
         if let userId = UserManager.shared.userId, !userId.isEmpty {
@@ -124,6 +127,8 @@ class HomeVC: UIViewController {
         }
     }
 
+    // MARK: - Setup
+    
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -137,6 +142,8 @@ class HomeVC: UIViewController {
         tableView.register(UINib(nibName: "ShopCell", bundle: nil), forCellReuseIdentifier: "ShopCell")
     }
     
+    // MARK: - Navigation Methods
+    
     private func navigateToCalenderVC() {
         if let tabBarController = self.tabBarController {
             for (index, viewController) in (tabBarController.viewControllers ?? []).enumerated() {
@@ -149,6 +156,22 @@ class HomeVC: UIViewController {
                 }
             }
         }
+    }
+    
+    // ✅ NEW: Navigate to CalenderViewController
+    private func navigateToCalenderViewController() {
+        print("📅 Navigating to CalenderViewController...")
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        guard let vc = storyboard.instantiateViewController(withIdentifier: "CalenderViewController") as? CalenderViewController else {
+            print("❌ Failed to instantiate CalenderViewController!")
+            print("   Make sure 'CalenderViewController' is the Storyboard ID in Main.storyboard")
+            return
+        }
+        
+        print("✅ CalenderViewController instantiated successfully")
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func navigateToCoursesVC() {
@@ -235,6 +258,8 @@ class HomeVC: UIViewController {
         }
     }
     
+    // MARK: - Logout
+    
     private func showLogoutAlert() {
         let alert = UIAlertController(title: "Logout", message: "Are you sure you want to logout?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Logout", style: .destructive) { [weak self] _ in self?.performLogout() })
@@ -260,22 +285,33 @@ class HomeVC: UIViewController {
     }
 }
 
+// MARK: - UITableViewDelegate & UITableViewDataSource
+
 extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 4 }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 4
+    }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "BannerCell", for: indexPath) as! BannerCell
             cell.configure(with: todaysCalendarData)
+            
+            // ✅ ADD: Connect tap callback to navigate to CalenderViewController
+            cell.didTapBanner = { [weak self] in
+                print("📅 Banner tapped - navigating to CalenderViewController")
+                self?.navigateToCalenderViewController()
+            }
+            
             return cell
             
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "CalenderCell", for: indexPath) as! CalenderCell
             cell.events = upcomingEvents
-            cell.didTapViewAll = { [weak self] in self?.navigateToCalenderVC() }
-            cell.didSelectCalenderItem = { [weak self] _ in self?.navigateToCalenderVC() }
+            cell.didTapViewAll = { [weak self] in self?.navigateToCalenderViewController() }
+            cell.didSelectCalenderItem = { [weak self] _ in self?.navigateToCalenderViewController() }
             return cell
             
         case 2:
@@ -290,6 +326,10 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             cell.didTapAssessments = { [weak self] in self?.navigateToAssessmentsVC() }
             cell.didTapMyFamily = { [weak self] in self?.navigateToFamilyVC() }
             cell.didTapMyEvents = { [weak self] in self?.navigateToEventsVC() }
+            cell.didTapCalender = { [weak self] in
+                print("📅 didTapCalender callback triggered")
+                self?.navigateToCalenderViewController()
+            }
             return cell
             
         case 3:
@@ -304,7 +344,6 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
     }
-
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
         case 0: return 96

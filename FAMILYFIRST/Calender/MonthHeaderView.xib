@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="Afr-zk-WnS" customClass="MonthHeaderView" customModule="FAMILYFIRST" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="175"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rlf-P2-OSP">
+                    <rect key="frame" x="16" y="126" width="361" height="7"/>
+                    <subviews>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jrp-w7-Jvd">
+                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="34.333333333333336"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="chevron.left" catalog="system"/>
+                            <connections>
+                                <action selector="onClickPrevious:" destination="Afr-zk-WnS" eventType="touchUpInside" id="UTL-Ef-gXo"/>
+                            </connections>
+                        </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ygs-v0-6qE">
+                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="34.333333333333336"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="September 2025 "/>
+                        </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K7D-Mu-a0v">
+                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="34.333333333333336"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="chevron.right" catalog="system"/>
+                            <connections>
+                                <action selector="onClickNext:" destination="Afr-zk-WnS" eventType="touchUpInside" id="Rm8-QB-tgO"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="ooj-mY-CPo"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="ooj-mY-CPo" firstAttribute="trailing" secondItem="rlf-P2-OSP" secondAttribute="trailing" constant="16" id="YjG-Df-MmF"/>
+                <constraint firstItem="ooj-mY-CPo" firstAttribute="bottom" secondItem="rlf-P2-OSP" secondAttribute="bottom" constant="8" id="byG-d8-wFc"/>
+                <constraint firstItem="rlf-P2-OSP" firstAttribute="leading" secondItem="ooj-mY-CPo" secondAttribute="leading" constant="16" id="uvT-7U-FwA"/>
+                <constraint firstItem="rlf-P2-OSP" firstAttribute="top" secondItem="ooj-mY-CPo" secondAttribute="top" constant="8" id="v2X-TQ-uJz"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="btnNext" destination="K7D-Mu-a0v" id="ZmZ-Bs-48F"/>
+                <outlet property="btnPrevious" destination="jrp-w7-Jvd" id="50s-2r-zrE"/>
+                <outlet property="lblMonth" destination="Ygs-v0-6qE" id="r5f-hp-cSb"/>
+            </connections>
+            <point key="canvasLocation" x="-86.25954198473282" y="-110.21126760563381"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="chevron.left" catalog="system" width="97" height="128"/>
+        <image name="chevron.right" catalog="system" width="97" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

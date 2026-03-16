@@ -24,6 +24,7 @@ class UserManager {
         static let userId = "userId"
         static let profileImage = "userProfileImage"
     }
+    var calender: LifeSkillPrompt?
 
     var hasSeenOnboarding: Bool {
         return defaults.bool(forKey: Keys.hasSeenOnboarding)

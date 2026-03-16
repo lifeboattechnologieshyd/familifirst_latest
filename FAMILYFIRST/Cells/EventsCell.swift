@@ -2,8 +2,6 @@
 //  EventsCell.swift
 //  FamilyFirst
 //
-//  Created by Lifeboat on 10/01/26.
-//
 
 import UIKit
 
@@ -24,109 +22,71 @@ class EventsCell: UITableViewCell {
     }
     
     private func setupUI() {
-        bgVw.addCardShadow()
+        contentView.backgroundColor = .white
+        backgroundColor = .white
         
-        // Setup image views
-        img1.layer.cornerRadius = 15
-        img1.clipsToBounds = true
+        guard let bgVw = bgVw else { return }
         
-        img2.layer.cornerRadius = 15
-        img2.clipsToBounds = true
+        bgVw.backgroundColor = .white
+        bgVw.layer.cornerRadius = 12
+        bgVw.layer.shadowColor = UIColor.black.cgColor
+        bgVw.layer.shadowOpacity = 0.1
+        bgVw.layer.shadowOffset = CGSize(width: 0, height: 2)
+        bgVw.layer.shadowRadius = 4
+        bgVw.clipsToBounds = false
         
-        img3.layer.cornerRadius = 15
-        img3.clipsToBounds = true
-        
-        // Setup more button
-        moreBtn.layer.cornerRadius = 15
-        moreBtn.clipsToBounds = true
-        moreBtn.backgroundColor = UIColor.systemGray5
-        moreBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        moreBtn.setTitleColor(.darkGray, for: .normal)
+        [img1, img2, img3].forEach { imageView in
+            imageView?.contentMode = .scaleAspectFill
+            imageView?.clipsToBounds = true
+            imageView?.layer.borderWidth = 2
+            imageView?.layer.borderColor = UIColor.white.cgColor
+        }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        img1.layer.cornerRadius = img1.frame.height / 2
-        img2.layer.cornerRadius = img2.frame.height / 2
-        img3.layer.cornerRadius = img3.frame.height / 2
-        moreBtn.layer.cornerRadius = moreBtn.frame.height / 2
+        img1?.layer.cornerRadius = (img1?.frame.height ?? 30) / 2
+        img2?.layer.cornerRadius = (img2?.frame.height ?? 30) / 2
+        img3?.layer.cornerRadius = (img3?.frame.height ?? 30) / 2
+        moreBtn?.layer.cornerRadius = (moreBtn?.frame.height ?? 30) / 2
     }
     
     func configure(with event: Event) {
-        eventnameLbl.text = event.eventName
-        dateLbl.text = event.dateFormatted
-        dayLbl.text = event.daysToGo
+        eventnameLbl?.text = event.eventName
         
-        // Initially hide all user images and more button
-        img1.isHidden = true
-        img2.isHidden = true
-        img3.isHidden = true
-        moreBtn.isHidden = true
-        
-        guard let eventInfo = event.eventInfo else {
-            print("No event info")
-            return
+        if let eventDate = event.eventDate {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM dd"
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dateLbl?.text = dateFormatter.string(from: eventDate)
+        } else {
+            dateLbl?.text = event.date
         }
         
-        let userCount = eventInfo.count
-        print("Event: \(event.eventName), Users: \(userCount)")
-        
-        // Always show at least the more button for any users
-        if userCount > 0 {
-            // Show first 3 user images if available
-            if userCount >= 1 {
-                img1.isHidden = false
-                loadImage(for: img1, from: eventInfo[0].profileImage)
-            }
-            
-            if userCount >= 2 {
-                img2.isHidden = false
-                loadImage(for: img2, from: eventInfo[1].profileImage)
-            }
-            
-            if userCount >= 3 {
-                img3.isHidden = false
-                loadImage(for: img3, from: eventInfo[2].profileImage)
-            }
-            
-            // Show more button for ANY number of users
-            if userCount == 1 {
-                // For single user, show "1" in the button
-                moreBtn.isHidden = false
-                moreBtn.setTitle("1", for: .normal)
-            } else if userCount == 2 {
-                // For 2 users, show "2" in the button
-                moreBtn.isHidden = false
-                moreBtn.setTitle("2", for: .normal)
-            } else if userCount == 3 {
-                // For 3 users, show "3" in the button
-                moreBtn.isHidden = false
-                moreBtn.setTitle("3", for: .normal)
-            } else if userCount > 3 {
-                // For more than 3 users, show how many additional
-                moreBtn.isHidden = false
-                let additionalCount = userCount - 3
-                moreBtn.setTitle("+\(additionalCount)", for: .normal)
-            }
-            
-            print("✅ Setting more button with: \(moreBtn.title(for: .normal) ?? "")")
+        if let eventDate = event.eventDate {
+            let dayFormatter = DateFormatter()
+            dayFormatter.dateFormat = "EEEE"
+            dayFormatter.locale = Locale(identifier: "en_US_POSIX")
+            dayLbl?.text = dayFormatter.string(from: eventDate)
+        } else {
+            dayLbl?.text = ""
         }
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        img1.isHidden = true
-        img2.isHidden = true
-        img3.isHidden = true
-        moreBtn.isHidden = true
-        moreBtn.setTitle("", for: .normal)
-        eventnameLbl.text = ""
-        dateLbl.text = ""
-        dayLbl.text = ""
+        moreBtn?.setTitle("", for: .normal)
+        eventnameLbl?.text = ""
+        dateLbl?.text = ""
+        dayLbl?.text = ""
     }
     
-    private func loadImage(for imageView: UIImageView, from urlString: String?) {
-        if let urlString = urlString, let url = URL(string: urlString) {
+    private func loadImage(for imageView: UIImageView?, from urlString: String?) {
+        guard let imageView = imageView else { return }
+        
+        imageView.image = UIImage(named: "Picture")
+        
+        if let urlString = urlString, !urlString.isEmpty, let url = URL(string: urlString) {
             URLSession.shared.dataTask(with: url) { data, _, _ in
                 if let data = data, let image = UIImage(data: data) {
                     DispatchQueue.main.async {
@@ -134,8 +94,6 @@ class EventsCell: UITableViewCell {
                     }
                 }
             }.resume()
-        } else {
-            imageView.image = UIImage(named: "Picture")
         }
     }
 

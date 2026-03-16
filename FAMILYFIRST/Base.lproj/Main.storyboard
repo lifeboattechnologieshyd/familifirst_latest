@@ -6524,6 +6524,110 @@
             </objects>
             <point key="canvasLocation" x="8958" y="-1147"/>
         </scene>
+        <!--Calendar-->
+        <scene sceneID="QmZ-pM-gfk">
+            <objects>
+                <viewController storyboardIdentifier="CalenderViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BdE-Fp-xaO" customClass="CalenderViewController" customModule="FAMILYFIRST" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="RVj-Qw-2Yg">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PT0-Gq-SU7">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="110"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MQz-1x-aUA">
+                                        <rect key="frame" x="16" y="70" width="24" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="24" id="3rA-nS-pfo"/>
+                                            <constraint firstAttribute="height" constant="24" id="CA2-l9-zqg"/>
+                                        </constraints>
+                                        <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="arrow.backward" catalog="system"/>
+                                        <connections>
+                                            <action selector="onClickBack:" destination="BdE-Fp-xaO" eventType="touchUpInside" id="wZ8-er-gbB"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4OT-8p-SKM">
+                                        <rect key="frame" x="160" y="72" width="73" height="20"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="Calendar">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" size="16" name="Lexend-SemiBold"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <color key="highlightedColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.1786319613" green="0.40155154469999998" blue="0.2376942635" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstItem="MQz-1x-aUA" firstAttribute="leading" secondItem="PT0-Gq-SU7" secondAttribute="leading" constant="16" id="AO1-jN-sze"/>
+                                    <constraint firstAttribute="bottom" secondItem="MQz-1x-aUA" secondAttribute="bottom" constant="16" id="ItV-wv-pP3"/>
+                                    <constraint firstItem="4OT-8p-SKM" firstAttribute="centerX" secondItem="PT0-Gq-SU7" secondAttribute="centerX" id="OoF-gX-FwO"/>
+                                    <constraint firstAttribute="height" constant="110" id="XN1-5E-vr9"/>
+                                    <constraint firstItem="4OT-8p-SKM" firstAttribute="centerY" secondItem="MQz-1x-aUA" secondAttribute="centerY" id="bu5-FQ-QuV"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZtX-Ec-cMO" customClass="MonthHeaderView" customModule="FAMILYFIRST" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="110" width="393" height="30"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="vJI-0u-bVZ"/>
+                                </constraints>
+                            </view>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="tYu-m9-zYa">
+                                <rect key="frame" x="4" y="140" width="385" height="64"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="gkS-lo-pdN"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="mAn-Kg-orI">
+                                    <size key="itemSize" width="61" height="74"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Fob-6z-lvI">
+                                <rect key="frame" x="0.0" y="212" width="393" height="542"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="uJ7-UB-TyB"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="PT0-Gq-SU7" firstAttribute="trailing" secondItem="uJ7-UB-TyB" secondAttribute="trailing" id="1Bc-Z2-L7p"/>
+                            <constraint firstItem="ZtX-Ec-cMO" firstAttribute="leading" secondItem="uJ7-UB-TyB" secondAttribute="leading" id="7Wb-Pf-ZRk"/>
+                            <constraint firstItem="uJ7-UB-TyB" firstAttribute="trailing" secondItem="tYu-m9-zYa" secondAttribute="trailing" constant="4" id="DXt-9F-4ub"/>
+                            <constraint firstItem="uJ7-UB-TyB" firstAttribute="trailing" secondItem="Fob-6z-lvI" secondAttribute="trailing" id="GQA-T0-yWK"/>
+                            <constraint firstItem="Fob-6z-lvI" firstAttribute="leading" secondItem="uJ7-UB-TyB" secondAttribute="leading" id="H4f-Ag-teW"/>
+                            <constraint firstItem="PT0-Gq-SU7" firstAttribute="leading" secondItem="uJ7-UB-TyB" secondAttribute="leading" id="Nz3-la-WyR"/>
+                            <constraint firstItem="tYu-m9-zYa" firstAttribute="leading" secondItem="uJ7-UB-TyB" secondAttribute="leading" constant="4" id="PeA-ju-KVg"/>
+                            <constraint firstItem="Fob-6z-lvI" firstAttribute="top" secondItem="tYu-m9-zYa" secondAttribute="bottom" constant="8" id="SM0-05-LhE"/>
+                            <constraint firstItem="PT0-Gq-SU7" firstAttribute="top" secondItem="RVj-Qw-2Yg" secondAttribute="top" id="bgN-bc-yNf"/>
+                            <constraint firstItem="uJ7-UB-TyB" firstAttribute="trailing" secondItem="ZtX-Ec-cMO" secondAttribute="trailing" id="l1r-HE-lf3"/>
+                            <constraint firstItem="uJ7-UB-TyB" firstAttribute="bottom" secondItem="Fob-6z-lvI" secondAttribute="bottom" constant="30" id="myb-yH-EN2"/>
+                            <constraint firstItem="tYu-m9-zYa" firstAttribute="top" secondItem="ZtX-Ec-cMO" secondAttribute="bottom" id="rY8-Q7-HFj"/>
+                            <constraint firstItem="ZtX-Ec-cMO" firstAttribute="top" secondItem="PT0-Gq-SU7" secondAttribute="bottom" id="tiu-jL-vFa"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Calendar" image="calendar_tab" id="7Gz-QP-Q45"/>
+                    <connections>
+                        <outlet property="backBtn" destination="MQz-1x-aUA" id="Crs-u0-7U5"/>
+                        <outlet property="colVw" destination="tYu-m9-zYa" id="Kme-p6-oWP"/>
+                        <outlet property="dateSelectionView" destination="ZtX-Ec-cMO" id="3FY-3T-vsy"/>
+                        <outlet property="tblVw" destination="Fob-6z-lvI" id="Hda-bc-Tyh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FJL-Dc-DAD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7215" y="-39"/>
+        </scene>
     </scenes>
     <resources>
         <image name="FF Logo" width="1000" height="1000"/>
@@ -6539,6 +6643,7 @@
         <image name="back_button_image" width="24" height="24"/>
         <image name="bat_icon_bg" width="125" height="120.33333587646484"/>
         <image name="book_icon_bg" width="148.33332824707031" height="116.33333587646484"/>
+        <image name="calendar_tab" width="20" height="20"/>
         <image name="close" width="21.666666030883789" height="21.666666030883789"/>
         <image name="courses_tab" width="20" height="20"/>
         <image name="facebook" width="42.666667938232422" height="42.666667938232422"/>

@@ -71,6 +71,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="ErN-ox-97k" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="J5L-2X-mRa"/>
                     <constraint firstItem="ErN-ox-97k" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="WR4-TQ-9rT"/>

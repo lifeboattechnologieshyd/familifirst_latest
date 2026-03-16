@@ -163,17 +163,17 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="apL-bY-sT2">
                                 <rect key="frame" x="42" y="12" width="84" height="74"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="Online Courses"/>
+                                <buttonConfiguration key="configuration" style="plain" image="VocaBees Game"/>
                                 <connections>
-                                    <action selector="coursesBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="8Qx-8y-BCa"/>
+                                    <action selector="vocabbeeBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="lHb-u8-o2Y"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fhp-CK-VEY">
                                 <rect key="frame" x="294" y="12" width="84" height="74"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="VocaBees Game"/>
+                                <buttonConfiguration key="configuration" style="plain" image="Online Courses"/>
                                 <connections>
-                                    <action selector="vocabbeeBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="4BY-l1-rlL"/>
+                                    <action selector="coursesBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="yh5-XG-mg3"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JgH-ks-a5v">
@@ -183,22 +183,22 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="large"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="assessmentsBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="aQB-yu-AJB"/>
+                                    <action selector="assessmentsBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="0GN-CQ-LVz"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bE5-F8-dM9">
-                                <rect key="frame" x="57" y="94" width="54" height="38"/>
+                                <rect key="frame" x="50" y="94" width="68" height="38"/>
                                 <color key="tintColor" red="0.034841082990000001" green="0.40597915649999999" blue="0.22152757640000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="DgJ-Fl-epY"/>
-                                    <constraint firstAttribute="width" constant="54" id="Vpe-sA-GKk"/>
+                                    <constraint firstAttribute="width" constant="68" id="Vpe-sA-GKk"/>
                                 </constraints>
                                 <attributedString key="attributedText">
-                                    <fragment content="Online Courses">
+                                    <fragment content="VocaBees ">
                                         <attributes>
-                                            <color key="NSColor" red="0.034841082990000001" green="0.40597915649999999" blue="0.22152757640000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="NSColor" red="0.17679503560000001" green="0.4014954865" blue="0.2408727407" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <font key="NSFont" size="14" name="Lexend-Regular"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>
@@ -230,11 +230,13 @@
                                     <constraint firstAttribute="height" constant="38" id="dTc-HJ-uXL"/>
                                 </constraints>
                                 <attributedString key="attributedText">
-                                    <fragment content="VocaBees ">
+                                    <fragment content="Online Courses">
                                         <attributes>
-                                            <color key="NSColor" red="0.034840000000000003" green="0.40598000000000001" blue="0.22153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="NSColor" red="0.17679503560000001" green="0.4014954865" blue="0.2408727407" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <font key="NSFont" size="14" name="Lexend-Regular"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="1" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                <tabStops/>
+                                            </paragraphStyle>
                                         </attributes>
                                     </fragment>
                                 </attributedString>
@@ -286,16 +288,13 @@
                                 <rect key="frame" x="42" y="12" width="84" height="56"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="parentingtips"/>
-                                <connections>
-                                    <action selector="parentingTipsBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="6d7-vu-Sc0"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LKG-It-zEf">
                                 <rect key="frame" x="294" y="12" width="84" height="56"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="02-shop"/>
+                                <buttonConfiguration key="configuration" style="plain" image="parentingtips"/>
                                 <connections>
-                                    <action selector="edStoreBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Hue-in-aj4"/>
+                                    <action selector="parentingTipsBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="zvn-yD-h63"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hay-dk-6F3">
@@ -350,11 +349,11 @@
                                     <constraint firstAttribute="height" constant="38" id="cyk-MJ-lnu"/>
                                 </constraints>
                                 <attributedString key="attributedText">
-                                    <fragment content="Online Store">
+                                    <fragment content="Parenting Tips">
                                         <attributes>
-                                            <color key="NSColor" red="0.034841082990000001" green="0.40597915649999999" blue="0.22152757640000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="NSColor" red="0.17679503560000001" green="0.4014954865" blue="0.2408727407" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <font key="NSFont" size="14" name="Lexend-Regular"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>
@@ -397,7 +396,10 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4l1-Mt-gRI">
                                 <rect key="frame" x="294" y="12" width="84" height="56"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="calender 2"/>
+                                <buttonConfiguration key="configuration" style="plain" image="02-shop"/>
+                                <connections>
+                                    <action selector="edStoreBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Qz2-Q8-iwo"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pH8-KM-Onz">
                                 <rect key="frame" x="168" y="12" width="84" height="56"/>
@@ -444,14 +446,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ad-Pw-MpG">
-                                <rect key="frame" x="305" y="76" width="62" height="18"/>
+                                <rect key="frame" x="305" y="76" width="62" height="38"/>
                                 <color key="tintColor" red="0.034841082990000001" green="0.40597915649999999" blue="0.22152757640000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="18" id="Iv1-px-AOC"/>
+                                    <constraint firstAttribute="height" constant="38" id="Iv1-px-AOC"/>
                                     <constraint firstAttribute="width" constant="62" id="Rwz-6d-E6c"/>
                                 </constraints>
                                 <attributedString key="attributedText">
-                                    <fragment content="Calendar">
+                                    <fragment content="Online Store">
                                         <attributes>
                                             <color key="NSColor" red="0.028523715210000002" green="0.40599140519999999" blue="0.2215528786" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <font key="NSFont" size="14" name="Lexend-Regular"/>
@@ -565,16 +567,17 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="assessmentsBtn" destination="JgH-ks-a5v" id="hlq-wi-5VB"/>
-                <outlet property="coursesBtn" destination="apL-bY-sT2" id="zq8-Ub-3SU"/>
-                <outlet property="edStoreBtn" destination="LKG-It-zEf" id="7qn-8u-V0b"/>
+                <outlet property="assessmentsBtn" destination="JgH-ks-a5v" id="aWp-lS-o8u"/>
+                <outlet property="coursesBtn" destination="Fhp-CK-VEY" id="kxj-5D-VGr"/>
+                <outlet property="edStoreBtn" destination="4l1-Mt-gRI" id="e7q-ui-Xal"/>
                 <outlet property="edutainmentBtn" destination="1hU-yL-Ptg" id="wlD-bX-clq"/>
                 <outlet property="feelsBtn" destination="hay-dk-6F3" id="XRb-hr-qcA"/>
                 <outlet property="myeventsbtn" destination="hnD-w3-vCR" id="iYB-OQ-tuS"/>
                 <outlet property="myfamiltBtn" destination="G4A-8Q-lMi" id="oVA-Pf-154"/>
-                <outlet property="parentingTipsBtn" destination="tCe-sI-DSw" id="6ix-pD-qeG"/>
+                <outlet property="parentingTipsBtn" destination="LKG-It-zEf" id="HDW-l0-ZBL"/>
                 <outlet property="prosperitytipsBtn" destination="pH8-KM-Onz" id="8b5-nW-gP1"/>
-                <outlet property="vocabbeBtn" destination="Fhp-CK-VEY" id="bQF-ch-FSW"/>
+                <outlet property="storeBtn" destination="4l1-Mt-gRI" id="2AO-H7-e0g"/>
+                <outlet property="vocabbeBtn" destination="apL-bY-sT2" id="aH7-bu-rWf"/>
             </connections>
             <point key="canvasLocation" x="201.52671755725191" y="213.38028169014086"/>
         </tableViewCell>
@@ -586,7 +589,6 @@
         <image name="Online Courses" width="76" height="60"/>
         <image name="Prosperity Tips" width="50" height="42"/>
         <image name="VocaBees Game" width="76" height="57.333332061767578"/>
-        <image name="calender 2" width="42" height="42"/>
         <image name="familygroups" width="76" height="56"/>
         <image name="feels" width="42" height="42"/>
         <image name="myevents" width="76" height="56"/>

@@ -38,6 +38,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         window?.rootViewController = initialVC
+        
+        // ✅ Force Light Mode
+        window?.overrideUserInterfaceStyle = .light
+        
         window?.makeKeyAndVisible()
     }
 

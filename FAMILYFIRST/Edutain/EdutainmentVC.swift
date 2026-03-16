@@ -25,6 +25,10 @@ class EdutainmentVC: UIViewController {
     var isSearchActive = false
     var searchDebounceTimer: Timer?
     
+    // f_category constants
+    let DIY_F_CATEGORY = "Diy"
+    let STORIES_F_CATEGORY = "Stories"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSegmentControl()
@@ -147,6 +151,16 @@ class EdutainmentVC: UIViewController {
         }
     }
     
+    // MARK: - Helper to check f_category
+    func feedMatchesFCategory(_ feed: Feed, fCategory: String) -> Bool {
+        guard let feedFCategory = feed.fCategory else { return false }
+        return feedFCategory.lowercased() == fCategory.lowercased()
+    }
+    
+    func getCurrentFCategory() -> String {
+        return segmentController.selectedSegmentIndex == 0 ? DIY_F_CATEGORY : STORIES_F_CATEGORY
+    }
+    
     func getAllFeed() {
         showLoader()
         let url = API.EDUTAIN_FEED
@@ -176,15 +190,18 @@ class EdutainmentVC: UIViewController {
     }
     
     func filterAndSetData() {
+        // Filter by f_category "Diy" for DIY tab
         diyFeed = allFeed.filter { feed in
-            let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
-            return !hasVideo
+            return feedMatchesFCategory(feed, fCategory: DIY_F_CATEGORY)
         }
         
+        // Filter by f_category "Stories" for Stories tab
         storiesFeed = allFeed.filter { feed in
-            let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
-            return hasVideo
+            return feedMatchesFCategory(feed, fCategory: STORIES_F_CATEGORY)
         }
+        
+        print("✅ DIY Feed count: \(diyFeed.count)")
+        print("✅ Stories Feed count: \(storiesFeed.count)")
         
         currentFeed = segmentController.selectedSegmentIndex == 0 ? diyFeed : storiesFeed
         tblVw.reloadData()
@@ -270,16 +287,11 @@ class EdutainmentVC: UIViewController {
                 switch result {
                 case .success(let info):
                     if info.success, let data = info.data {
-                        if self.segmentController.selectedSegmentIndex == 0 {
-                            self.searchResults = data.filter { feed in
-                                let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
-                                return !hasVideo
-                            }
-                        } else {
-                            self.searchResults = data.filter { feed in
-                                let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
-                                return hasVideo
-                            }
+                        let currentFCategory = self.getCurrentFCategory()
+                        
+                        // Filter search results by current f_category
+                        self.searchResults = data.filter { feed in
+                            return self.feedMatchesFCategory(feed, fCategory: currentFCategory)
                         }
                         
                         self.isSearchActive = true
@@ -331,16 +343,11 @@ class EdutainmentVC: UIViewController {
                 switch result {
                 case .success(let info):
                     if info.success, let data = info.data {
-                        if self.segmentController.selectedSegmentIndex == 0 {
-                            self.searchResults = data.filter { feed in
-                                let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
-                                return !hasVideo && feed.serial_number == serialNumber
-                            }
-                        } else {
-                            self.searchResults = data.filter { feed in
-                                let hasVideo = feed.youtubeVideo != nil && !(feed.youtubeVideo?.isEmpty ?? true)
-                                return hasVideo && feed.serial_number == serialNumber
-                            }
+                        let currentFCategory = self.getCurrentFCategory()
+                        
+                        // Filter by f_category and serial number
+                        self.searchResults = data.filter { feed in
+                            return self.feedMatchesFCategory(feed, fCategory: currentFCategory) && feed.serial_number == serialNumber
                         }
                         
                         self.isSearchActive = true

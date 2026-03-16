@@ -17,10 +17,12 @@ class IconsCell: UITableViewCell {
     @IBOutlet weak var myfamiltBtn: UIButton!
     @IBOutlet weak var myeventsbtn: UIButton!
     @IBOutlet weak var edStoreBtn: UIButton!
+//    @IBOutlet weak var calenderBtn: UIButton!
     @IBOutlet weak var assessmentsBtn: UIButton!
     @IBOutlet weak var prosperitytipsBtn: UIButton!
     @IBOutlet weak var parentingTipsBtn: UIButton!
     
+    // MARK: - Closure Callbacks
     var didTapCourses: (() -> Void)?
     var didTapFeels: (() -> Void)?
     var didTapEdutainment: (() -> Void)?
@@ -31,8 +33,8 @@ class IconsCell: UITableViewCell {
     var didTapMyFamily: (() -> Void)?
     var didTapMyEvents: (() -> Void)?
     var didTapEdStore: (() -> Void)?
-
-
+    var didTapCalender: (() -> Void)?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = .none
@@ -50,8 +52,10 @@ class IconsCell: UITableViewCell {
         didTapMyFamily = nil
         didTapMyEvents = nil
         didTapEdStore = nil
+        didTapCalender = nil
     }
 
+    
     @IBAction func coursesBtnTapped(_ sender: UIButton) {
         didTapCourses?()
     }
@@ -83,6 +87,7 @@ class IconsCell: UITableViewCell {
     @IBAction func myfamiltBtnTapped(_ sender: UIButton) {
         didTapMyFamily?()
     }
+    
     @IBAction func vocabbeeBtnTapped(_ sender: UIButton) {
         didTapVocabBee?()
     }
@@ -90,4 +95,9 @@ class IconsCell: UITableViewCell {
     @IBAction func edStoreBtnTapped(_ sender: UIButton) {
         didTapEdStore?()
     }
+    
+//    @IBAction func calenderBtnTapped(_ sender: UIButton) {
+//        print("📅 Calendar button tapped")
+//        didTapCalender?()
+//    }
 }

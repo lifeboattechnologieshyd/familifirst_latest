@@ -24,6 +24,11 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="YzV-qL-xH0"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="calender_date_icon" translatesAutoresizingMaskIntoConstraints="NO" id="inX-c3-u3y">
                                 <rect key="frame" x="8" y="16" width="44" height="60"/>
@@ -65,7 +70,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OwW-kh-iG7">
-                                <rect key="frame" x="60" y="12" width="184" height="18"/>
+                                <rect key="frame" x="58" y="12" width="206" height="18"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="f9s-NJ-kHR"/>
@@ -75,7 +80,7 @@
                                         <attributes>
                                             <color key="NSColor" red="0.2367905974" green="0.51738053559999997" blue="0.14664050940000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <font key="NSFont" size="14" name="Lexend-SemiBold"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>
@@ -92,7 +97,7 @@
                                 </userDefinedRuntimeAttributes>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KgN-AQ-zoW">
-                                <rect key="frame" x="60" y="30" width="184" height="42"/>
+                                <rect key="frame" x="58" y="30" width="186" height="42"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="wCp-sF-Q0p"/>
                                 </constraints>
@@ -110,7 +115,7 @@
                         </subviews>
                         <color key="backgroundColor" red="0.87738651040000004" green="0.9210284352" blue="0.98992258310000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="OwW-kh-iG7" secondAttribute="trailing" constant="100" id="5xt-JB-fhe"/>
+                            <constraint firstAttribute="trailing" secondItem="OwW-kh-iG7" secondAttribute="trailing" constant="80" id="5xt-JB-fhe"/>
                             <constraint firstAttribute="trailing" secondItem="KgN-AQ-zoW" secondAttribute="trailing" constant="100" id="78b-zs-Lhh"/>
                             <constraint firstItem="KgN-AQ-zoW" firstAttribute="top" secondItem="OwW-kh-iG7" secondAttribute="bottom" id="7ZO-CP-9EX"/>
                             <constraint firstAttribute="trailing" secondItem="vdQ-Ni-WQQ" secondAttribute="trailing" id="7kN-wK-vcl"/>
@@ -122,12 +127,17 @@
                             <constraint firstItem="ThX-nP-gwu" firstAttribute="top" secondItem="8tD-zS-8LA" secondAttribute="bottom" constant="2" id="V5T-od-vxn"/>
                             <constraint firstItem="vdQ-Ni-WQQ" firstAttribute="top" secondItem="SDV-Kd-VYm" secondAttribute="top" id="a2o-Yi-jQj"/>
                             <constraint firstItem="OwW-kh-iG7" firstAttribute="top" secondItem="SDV-Kd-VYm" secondAttribute="top" constant="12" id="bjb-rn-ior"/>
-                            <constraint firstItem="OwW-kh-iG7" firstAttribute="leading" secondItem="inX-c3-u3y" secondAttribute="trailing" constant="8" id="eWf-Pn-aP2"/>
+                            <constraint firstItem="OwW-kh-iG7" firstAttribute="leading" secondItem="inX-c3-u3y" secondAttribute="trailing" constant="6" id="eWf-Pn-aP2"/>
                             <constraint firstItem="inX-c3-u3y" firstAttribute="top" secondItem="SDV-Kd-VYm" secondAttribute="top" constant="16" id="gtI-Z2-RNz"/>
                             <constraint firstItem="inX-c3-u3y" firstAttribute="leading" secondItem="SDV-Kd-VYm" secondAttribute="leading" constant="8" id="vDR-Y7-FrL"/>
                             <constraint firstItem="8tD-zS-8LA" firstAttribute="leading" secondItem="SDV-Kd-VYm" secondAttribute="leading" constant="20" id="wvt-Zp-H4X"/>
                             <constraint firstAttribute="height" constant="80" id="zyg-GZ-pWk"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="12"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
                 <constraints>
@@ -137,6 +147,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="calenderPromptLbl" destination="KgN-AQ-zoW" id="bVy-K6-flJ"/>
                 <outlet property="calenderTitleLbl" destination="OwW-kh-iG7" id="jxu-bu-mg1"/>

@@ -4,6 +4,7 @@ class ShopCell: UITableViewCell {
 
     @IBOutlet weak var viewAll: UIButton!
     @IBOutlet weak var logoutbtn: UIButton!
+    @IBOutlet weak var shopLbl: UILabel!
     @IBOutlet weak var colVw: UICollectionView!
     
     var didTapLogout: (() -> Void)?

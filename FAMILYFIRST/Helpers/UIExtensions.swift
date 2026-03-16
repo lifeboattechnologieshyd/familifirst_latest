@@ -950,3 +950,16 @@ extension UIColor {
         return .white
     }
 }
+extension UIImageView {
+    
+    /// Load image from optional URL string with fallback placeholder
+    func loadImage(url: String?, placeholder: UIImage? = UIImage(named: "placeholder")) {
+        guard let urlString = url, !urlString.isEmpty else {
+            self.image = placeholder
+            return
+        }
+        
+        // Call your existing loadImage(url: String) method
+        self.loadImage(url: urlString)
+    }
+}

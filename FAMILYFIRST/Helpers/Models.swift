@@ -86,7 +86,7 @@ struct Feed: Codable {
     let serial_number: Int
     var isLiked: Bool
     var shareCount: Int?
-    let f_category: String?
+    let fCategory: String?
     
     enum CodingKeys: String, CodingKey {
         case id, heading, trending, categories, image, remarks, video, description, language, duration, status, description_2, serial_number, grade_id, subject, lesson, skill_tested
@@ -101,7 +101,7 @@ struct Feed: Codable {
         case approvedTime = "approved_time"
         case isLiked = "is_liked"
         case shareCount = "share_count"
-        case f_category
+        case fCategory = "f_category"
     }
     
     init(from decoder: Decoder) throws {
@@ -131,7 +131,7 @@ struct Feed: Codable {
         lesson = try container.decodeIfPresent(String.self, forKey: .lesson)
         subject = try container.decodeIfPresent(String.self, forKey: .subject)
         grade_id = try container.decodeIfPresent(String.self, forKey: .grade_id)
-        f_category = try container.decodeIfPresent(String.self, forKey: .f_category)
+        fCategory = try container.decodeIfPresent(String.self, forKey: .fCategory)
         
         likesCount = try container.decodeIfPresent(Int.self, forKey: .likesCount) ?? 0
         commentsCount = try container.decodeIfPresent(Int.self, forKey: .commentsCount) ?? 0
@@ -172,7 +172,7 @@ struct Feed: Codable {
         try container.encodeIfPresent(lesson, forKey: .lesson)
         try container.encodeIfPresent(subject, forKey: .subject)
         try container.encodeIfPresent(grade_id, forKey: .grade_id)
-        try container.encodeIfPresent(f_category, forKey: .f_category)
+        try container.encodeIfPresent(fCategory, forKey: .fCategory)
         try container.encodeIfPresent(shareCount, forKey: .shareCount)
     }
 }
@@ -1446,7 +1446,9 @@ struct EventResponse: Codable {
     let data: [EventData]?
 }
 
+
 struct Event: Decodable {
+    
     let id: String
     let eventType: String?
     let creator: String
@@ -1464,18 +1466,26 @@ struct Event: Decodable {
         case creator
         case eventUsers = "event_users"
         case eventInfo = "event_info"
-        case date, time
+        case date
+        case time
         case eventName = "event_name"
         case description
         case colourCode = "colour_code"
     }
     
+    // MARK: - Get first user profile image
+    var eventImage: String? {
+        return eventInfo?.first?.profileImage
+    }
+    
+    // MARK: - Convert string date to Date
     var eventDate: Date? {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter.date(from: date)
     }
     
+    // MARK: - Month + Year (March 2026)
     var monthYearKey: String {
         guard let date = eventDate else { return "Unknown" }
         let formatter = DateFormatter()
@@ -1483,6 +1493,7 @@ struct Event: Decodable {
         return formatter.string(from: date)
     }
     
+    // MARK: - Month only
     var monthOnlyKey: String {
         guard let date = eventDate else { return "Unknown" }
         let formatter = DateFormatter()
@@ -1490,6 +1501,7 @@ struct Event: Decodable {
         return formatter.string(from: date)
     }
     
+    // MARK: - Date formatted (DD MMM)
     var dateFormatted: String {
         guard let date = eventDate else { return "" }
         let formatter = DateFormatter()
@@ -1497,6 +1509,7 @@ struct Event: Decodable {
         return formatter.string(from: date).uppercased()
     }
     
+    // MARK: - Days to go
     var daysToGo: String {
         guard let eventDate = eventDate else { return "" }
         let calendar = Calendar.current
@@ -1520,6 +1533,7 @@ struct Event: Decodable {
         return ""
     }
     
+    // MARK: - Day number
     var dayNumber: String {
         guard let date = eventDate else { return "" }
         let formatter = DateFormatter()
@@ -1527,6 +1541,7 @@ struct Event: Decodable {
         return formatter.string(from: date)
     }
     
+    // MARK: - Day name
     var dayName: String {
         guard let date = eventDate else { return "" }
         let formatter = DateFormatter()
@@ -1535,7 +1550,9 @@ struct Event: Decodable {
     }
 }
 
+
 struct EventUserInfo: Decodable {
+    
     let userId: String
     let username: String
     let profileImage: String?
@@ -1559,20 +1576,20 @@ struct MonthEventsGroup {
     let events: [Event]
     let sortOrder: Date
 }
-struct CalendarData: Codable {
-    let id: String
-    let date: String
-    let prompt: String
-    let benefit: String
-    let youtubeVideoUrl: String?
-    let description: String
-    let image: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case id, date, prompt, benefit, description, image
-        case youtubeVideoUrl = "youtube_video_url"
-    }
-}
+//struct CalendarData: Codable {
+//    let id: String
+//    let date: String
+//    let prompt: String
+//    let benefit: String
+//    let youtubeVideoUrl: String?
+//    let description: String
+//    let image: String?
+//    
+//    enum CodingKeys: String, CodingKey {
+//        case id, date, prompt, benefit, description, image
+//        case youtubeVideoUrl = "youtube_video_url"
+//    }
+//}
 struct EmailUserData: Codable {
     let id: Int?
     let name: String?
@@ -1698,3 +1715,67 @@ enum LoginType {
     case mobile
     case email
 }
+struct Eventt: Codable {
+    let id: String
+    let gradeIds: [String]
+    let schoolId: String
+    let name: String
+    let description: String
+    let date: String
+    let time: String
+    let image: String
+    let colourCode: String
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case gradeIds = "grade_ids"
+        case schoolId = "school_id"
+        case name
+        case description
+        case date
+        case time,image
+        case colourCode = "colour_code"
+        
+    }
+}
+struct LifeSkillPrompt: Codable {
+    let id: String
+    let date: String
+    let prompt: String
+    let benefit: String
+    let youtubeVideoURL: String
+    let description: String
+    let image: String
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case date
+        case prompt
+        case benefit
+        case youtubeVideoURL = "youtube_video_url"
+        case description
+        case image
+    }
+}
+struct CalendarData: Decodable {
+    let id: String?
+    let date: String
+    let title: String?
+    let prompt: String?
+    let benefit: String?
+    let description: String?
+    let image: String?
+    let youtubeVideoURL: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case date
+        case title
+        case prompt
+        case benefit
+        case description
+        case image
+        case youtubeVideoURL = "youtube_video_url"
+    }
+}
+
