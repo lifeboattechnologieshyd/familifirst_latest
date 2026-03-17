@@ -190,18 +190,13 @@ class EdutainmentVC: UIViewController {
     }
     
     func filterAndSetData() {
-        // Filter by f_category "Diy" for DIY tab
         diyFeed = allFeed.filter { feed in
             return feedMatchesFCategory(feed, fCategory: DIY_F_CATEGORY)
         }
         
-        // Filter by f_category "Stories" for Stories tab
         storiesFeed = allFeed.filter { feed in
             return feedMatchesFCategory(feed, fCategory: STORIES_F_CATEGORY)
         }
-        
-        print("✅ DIY Feed count: \(diyFeed.count)")
-        print("✅ Stories Feed count: \(storiesFeed.count)")
         
         currentFeed = segmentController.selectedSegmentIndex == 0 ? diyFeed : storiesFeed
         tblVw.reloadData()
@@ -289,7 +284,6 @@ class EdutainmentVC: UIViewController {
                     if info.success, let data = info.data {
                         let currentFCategory = self.getCurrentFCategory()
                         
-                        // Filter search results by current f_category
                         self.searchResults = data.filter { feed in
                             return self.feedMatchesFCategory(feed, fCategory: currentFCategory)
                         }
@@ -345,7 +339,6 @@ class EdutainmentVC: UIViewController {
                     if info.success, let data = info.data {
                         let currentFCategory = self.getCurrentFCategory()
                         
-                        // Filter by f_category and serial number
                         self.searchResults = data.filter { feed in
                             return self.feedMatchesFCategory(feed, fCategory: currentFCategory) && feed.serial_number == serialNumber
                         }
@@ -505,51 +498,86 @@ class EdutainmentVC: UIViewController {
         }
     }
     
-    func callWhatsAppShareAPI(feedId: String, completion: @escaping (Bool) -> Void) {
-        let url = API.WHATSAPP_SHARE
-        let parameters: [String: Any] = ["feed_id": feedId]
+    // MARK: - 📱 WhatsApp Share (Direct Open - Fixed)
+
+    func handleWhatsAppShare(at index: Int, feed: Feed, updateCountClosure: @escaping () -> Void) {
+        // Check if WhatsApp is installed
+        guard let testURL = URL(string: "whatsapp://"),
+              UIApplication.shared.canOpenURL(testURL) else {
+            showWhatsAppNotInstalledAlert()
+            return
+        }
         
-        NetworkManager.shared.request(urlString: url, method: .POST, parameters: parameters) { [weak self] (result: Result<APIResponse<EmptyResponse>, NetworkError>) in
-            guard let self = self else { return }
-            
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let info):
-                    completion(info.success)
-                    if !info.success { self.showAlert(msg: info.description) }
-                case .failure(let error):
-                    self.showAlert(msg: error.localizedDescription)
-                    completion(false)
-                }
+        // Update count locally
+        self.currentFeed[index].whatsappShareCount += 1
+        
+        if self.isSearchActive {
+            if let searchIndex = self.searchResults.firstIndex(where: { $0.id == feed.id }) {
+                self.searchResults[searchIndex].whatsappShareCount += 1
             }
         }
-    }
-    
-    func openWhatsApp(with feed: Feed) -> Bool {
-        let shareText = """
-        📚 *\(feed.heading)*
         
-        \(feed.description.stripHTML())
-        
-        🔗 \(feed.youtubeVideo ?? "")
-        
-        📲 Download SchoolFirst App for more!
-        """
-        
-        guard let encodedText = shareText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-              let url = URL(string: "whatsapp://send?text=\(encodedText)") else { return false }
-        
-        if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            return true
-        } else {
-            showWhatsAppNotInstalledAlert()
-            return false
+        if let allIndex = self.allFeed.firstIndex(where: { $0.id == feed.id }) {
+            self.allFeed[allIndex].whatsappShareCount += 1
         }
+        
+        if self.segmentController.selectedSegmentIndex == 0 {
+            if let diyIndex = self.diyFeed.firstIndex(where: { $0.id == feed.id }) {
+                self.diyFeed[diyIndex].whatsappShareCount += 1
+            }
+        } else {
+            if let storiesIndex = self.storiesFeed.firstIndex(where: { $0.id == feed.id }) {
+                self.storiesFeed[storiesIndex].whatsappShareCount += 1
+            }
+        }
+        
+        // Update UI
+        updateCountClosure()
+        
+        // Open WhatsApp directly
+        openWhatsAppDirect(with: feed)
     }
-    
+
+    func openWhatsAppDirect(with feed: Feed) {
+        // Create simple share text (avoid special characters)
+        let title = feed.heading
+        let description = feed.description.stripHTML()
+        let youtubeLink = feed.youtubeVideo ?? ""
+        
+        // Build text without emojis for URL (emojis can break URL encoding)
+        var shareText = "\(title)\n\n"
+        shareText += "\(description)\n\n"
+        
+        if !youtubeLink.isEmpty {
+            shareText += "Link: \(youtubeLink)\n\n"
+        }
+        
+        shareText += "Download SchoolFirst App for more!"
+        
+        // Proper URL encoding
+        guard let encodedText = shareText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            print("❌ Failed to encode text")
+            return
+        }
+        
+        // Build WhatsApp URL
+        let urlString = "whatsapp://send?text=\(encodedText)"
+        
+        guard let url = URL(string: urlString) else {
+            print("❌ Failed to create URL")
+            return
+        }
+        
+        // Open WhatsApp
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+
     func showWhatsAppNotInstalledAlert() {
-        let alert = UIAlertController(title: "WhatsApp Not Installed", message: "WhatsApp is not installed on your device. Would you like to download it?", preferredStyle: .alert)
+        let alert = UIAlertController(
+            title: "WhatsApp Not Installed",
+            message: "WhatsApp is not installed on your device. Would you like to download it?",
+            preferredStyle: .alert
+        )
         alert.addAction(UIAlertAction(title: "Download", style: .default) { _ in
             if let appStoreURL = URL(string: "https://apps.apple.com/app/whatsapp-messenger/id310633997") {
                 UIApplication.shared.open(appStoreURL, options: [:], completionHandler: nil)
@@ -558,45 +586,7 @@ class EdutainmentVC: UIViewController {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
-    
-    func handleWhatsAppShare(at index: Int, feed: Feed, updateCountClosure: @escaping () -> Void) {
-        let shareText = "test"
-        guard let encodedText = shareText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-              let testURL = URL(string: "whatsapp://send?text=\(encodedText)"),
-              UIApplication.shared.canOpenURL(testURL) else {
-            showWhatsAppNotInstalledAlert()
-            return
-        }
-        
-        callWhatsAppShareAPI(feedId: feed.id) { [weak self] success in
-            guard let self = self, success else { return }
-            
-            self.currentFeed[index].whatsappShareCount += 1
-            
-            if self.isSearchActive {
-                if let searchIndex = self.searchResults.firstIndex(where: { $0.id == feed.id }) {
-                    self.searchResults[searchIndex].whatsappShareCount += 1
-                }
-            }
-            
-            if let allIndex = self.allFeed.firstIndex(where: { $0.id == feed.id }) {
-                self.allFeed[allIndex].whatsappShareCount += 1
-            }
-            
-            if self.segmentController.selectedSegmentIndex == 0 {
-                if let diyIndex = self.diyFeed.firstIndex(where: { $0.id == feed.id }) {
-                    self.diyFeed[diyIndex].whatsappShareCount += 1
-                }
-            } else {
-                if let storiesIndex = self.storiesFeed.firstIndex(where: { $0.id == feed.id }) {
-                    self.storiesFeed[storiesIndex].whatsappShareCount += 1
-                }
-            }
-            
-            updateCountClosure()
-            _ = self.openWhatsApp(with: feed)
-        }
-    }
+    // MARK: - 📤 General Share (iOS Share Sheet)
     
     func shareContent(feed: Feed, sourceView: UIView, completion: @escaping (Bool) -> Void) {
         let shareText = """
@@ -626,11 +616,15 @@ class EdutainmentVC: UIViewController {
             popover.sourceRect = sourceView.bounds
         }
         
-        activityVC.completionWithItemsHandler = { _, success, _, _ in completion(success) }
+        activityVC.completionWithItemsHandler = { _, success, _, _ in
+            completion(success)
+        }
+        
         present(activityVC, animated: true)
     }
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension EdutainmentVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -648,29 +642,43 @@ extension EdutainmentVC: UITableViewDelegate, UITableViewDataSource {
             cell.shareBtn.tag = indexPath.row
             cell.commentBtn.tag = indexPath.row
             
-            cell.likeClicked = { [weak self] index in self?.likeFeed(at: index) }
-            cell.whatsappClicked = { [weak self] index, feed in
-                self?.handleWhatsAppShare(at: index, feed: feed) { cell.updateWhatsappCount() }
+            cell.likeClicked = { [weak self] index in
+                self?.likeFeed(at: index)
             }
-            cell.shareClicked = { [weak self] index, feed in
-                self?.shareContent(feed: feed, sourceView: cell.shareBtn) { success in
-                    if success { cell.updateShareCount() }
+            
+            cell.whatsappClicked = { [weak self] index, feed in
+                self?.handleWhatsAppShare(at: index, feed: feed) {
+                    cell.updateWhatsappCount()
                 }
             }
+            
+            cell.shareClicked = { [weak self] index, feed in
+                self?.shareContent(feed: feed, sourceView: cell.shareBtn) { success in
+                    if success {
+                        cell.updateShareCount()
+                    }
+                }
+            }
+            
             cell.commentClicked = { [weak self] index, feed in
                 self?.navigateToComments(feed: feed, cellType: .diy)
             }
+            
             cell.tagClicked = { [weak self] index, feed, commentText in
                 self?.postQuickComment(feedId: feed.id, comment: commentText, at: index) { success in
                     if success {
                         cell.incrementCommentCount()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { cell.resetTagSelection() }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            cell.resetTagSelection()
+                        }
                     } else {
                         cell.resetTagSelection()
                     }
                 }
             }
+            
             return cell
+            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StoriesCell") as! StoriesCell
             cell.setup(feed: feed, index: indexPath.row)
@@ -679,29 +687,42 @@ extension EdutainmentVC: UITableViewDelegate, UITableViewDataSource {
             cell.shareBTn.tag = indexPath.row
             cell.commentBtn.tag = indexPath.row
             
-            cell.likeClicked = { [weak self] index in self?.likeFeed(at: index) }
-            cell.whatsappClicked = { [weak self] index, feed in
-                self?.handleWhatsAppShare(at: index, feed: feed) { cell.updateWhatsappCount() }
+            cell.likeClicked = { [weak self] index in
+                self?.likeFeed(at: index)
             }
-            cell.shareClicked = { [weak self] index, feed in
-                self?.shareContent(feed: feed, sourceView: cell.shareBTn) { success in
-                    if success { cell.updateShareCount() }
+            
+            cell.whatsappClicked = { [weak self] index, feed in
+                self?.handleWhatsAppShare(at: index, feed: feed) {
+                    cell.updateWhatsappCount()
                 }
             }
+            
+            cell.shareClicked = { [weak self] index, feed in
+                self?.shareContent(feed: feed, sourceView: cell.shareBTn) { success in
+                    if success {
+                        cell.updateShareCount()
+                    }
+                }
+            }
+            
             cell.commentClicked = { [weak self] index, feed in
                 self?.stopAllVideos()
                 self?.navigateToComments(feed: feed, cellType: .stories)
             }
+            
             cell.tagClicked = { [weak self] index, feed, commentText in
                 self?.postQuickComment(feedId: feed.id, comment: commentText, at: index) { success in
                     if success {
                         cell.incrementCommentCount()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { cell.resetTagSelection() }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            cell.resetTagSelection()
+                        }
                     } else {
                         cell.resetTagSelection()
                     }
                 }
             }
+            
             return cell
         }
     }
@@ -711,15 +732,25 @@ extension EdutainmentVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if let storiesCell = cell as? StoriesCell { storiesCell.stopVideo() }
+        if let storiesCell = cell as? StoriesCell {
+            storiesCell.stopVideo()
+        }
     }
 }
 
+// MARK: - UIScrollViewDelegate
 extension EdutainmentVC: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) { stopInvisibleVideos() }
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) { dismissKeyboard() }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        stopInvisibleVideos()
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        dismissKeyboard()
+    }
 }
 
+// MARK: - UITextFieldDelegate
 extension EdutainmentVC: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -727,7 +758,9 @@ extension EdutainmentVC: UITextFieldDelegate {
         if textField == searchTf {
             searchDebounceTimer?.invalidate()
             let keyword = searchTf.text?.trimmingCharacters(in: .whitespaces) ?? ""
-            if !keyword.isEmpty { searchByKeyword(keyword: keyword) }
+            if !keyword.isEmpty {
+                searchByKeyword(keyword: keyword)
+            }
         }
         return true
     }

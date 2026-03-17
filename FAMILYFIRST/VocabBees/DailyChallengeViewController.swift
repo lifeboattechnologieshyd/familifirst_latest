@@ -1,6 +1,6 @@
 //
 //  DailyChallengeViewController.swift
-//  SchoolFirst
+//  FamilyFirst
 //
 //  Created by Lifeboat on 22/10/25.
 //
@@ -100,11 +100,13 @@ class DailyChallengeViewController: UIViewController {
     
     @IBAction func onClickExit(_ sender: UIButton) {
         stopTimer()
+        view.endEditing(true)  // DISMISS KEYBOARD
         navigationController?.popViewController(animated: true)
     }
     
     @IBAction func onClickBack(_ sender: UIButton) {
         stopTimer()
+        view.endEditing(true)  // DISMISS KEYBOARD
         navigationController?.popViewController(animated: true)
     }
     
@@ -121,6 +123,9 @@ class DailyChallengeViewController: UIViewController {
     }
     
     @IBAction func onClickSubmit(_ sender: UIButton) {
+        // DISMISS KEYBOARD
+        txtField.resignFirstResponder()
+        
         guard hasValidWord else { return }
         isTimeOutSubmission = false
         submitWord()
@@ -128,6 +133,9 @@ class DailyChallengeViewController: UIViewController {
     
     @IBAction func onClickSkip(_ sender: UIButton) {
         guard hasValidWord else { return }
+        
+        // DISMISS KEYBOARD
+        txtField.resignFirstResponder()
         
         stopTimer()
         
@@ -155,7 +163,7 @@ class DailyChallengeViewController: UIViewController {
         
         let userFont = txtField.font ?? UIFont.systemFont(ofSize: 24)
         let correctWordAttr = NSAttributedString(
-            string: words[currentWordIndex].word.uppercased(),
+            string: words[currentWordIndex].word.uppercased(),  // UPPERCASE ✅
             attributes: [
                 .font: userFont,
                 .foregroundColor: UIColor.black
@@ -280,6 +288,9 @@ class DailyChallengeViewController: UIViewController {
     }
     
     func autoSubmitEmptyAnswer() {
+        // DISMISS KEYBOARD
+        txtField.resignFirstResponder()
+        
         isTimeOutSubmission = true
         txtField.text = ""
         submitWord()
@@ -318,6 +329,10 @@ class DailyChallengeViewController: UIViewController {
             print("⚠️ Invalid word index on submitWord: \(currentWordIndex)")
             return
         }
+        
+        // DISMISS KEYBOARD
+        txtField.resignFirstResponder()
+        
         showLoader()
         let enteredText = txtField.text ?? ""
         
@@ -360,7 +375,7 @@ class DailyChallengeViewController: UIViewController {
                         self.lblEnteredSpelling.numberOfLines = 0
                         self.lblEnteredSpelling.isHidden = false
                         
-                        self.lblActualSpelling.text = data.correctAnswer.uppercased()
+                        self.lblActualSpelling.text = data.correctAnswer.uppercased()  // UPPERCASE ✅
                         self.lblActualSpelling.font = UIFont.boldSystemFont(ofSize: 28)
                         self.lblActualSpelling.textColor = UIColor.black
                         self.lblActualSpelling.textAlignment = .center
@@ -385,7 +400,7 @@ class DailyChallengeViewController: UIViewController {
 
                         let wrongText = self.txtField.text ?? ""
                         let wrongAttr = NSAttributedString(
-                            string: wrongText.uppercased(),
+                            string: wrongText.uppercased(),  // UPPERCASE ✅
                             attributes: [
                                 .font: UIFont.boldSystemFont(ofSize: 24),
                                 .foregroundColor: UIColor.systemRed,
@@ -399,7 +414,7 @@ class DailyChallengeViewController: UIViewController {
                         self.bottomlbl.numberOfLines = 0
                         self.bottomlbl.isHidden = false
 
-                        self.lblActualSpelling.text = data.correctAnswer.uppercased()
+                        self.lblActualSpelling.text = data.correctAnswer.uppercased()  // UPPERCASE ✅
                         self.lblActualSpelling.font = UIFont(name: "Lora-Bold", size: 32) ?? UIFont.boldSystemFont(ofSize: 32)
                         self.lblActualSpelling.textColor = UIColor.black
                         self.lblActualSpelling.textAlignment = .center

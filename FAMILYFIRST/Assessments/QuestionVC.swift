@@ -21,6 +21,7 @@ class QuestionVC: UIViewController {
     @IBOutlet weak var bgView: UIView!
     @IBOutlet weak var lblQuestionNumber: UILabel!
     @IBOutlet weak var lblQuestion: UILabel!
+    @IBOutlet weak var backbtn: UIButton!
     @IBOutlet weak var questionscoreLbl: UILabel!
     @IBOutlet weak var lblDesciption: UILabel!
     @IBOutlet weak var topVw: UIView!
@@ -62,6 +63,9 @@ class QuestionVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        backbtn.addTarget(self, action: #selector(onClickBack(_:)), for: .touchUpInside)
+        
         setupUI()
         setupHintView()
         setupQuestionsView()
@@ -69,6 +73,40 @@ class QuestionVC: UIViewController {
         scoreVw.layer.borderWidth = 0
         scoreVw.layer.borderColor = UIColor.clear.cgColor
         scoreVw.layer.cornerRadius = 0
+    }
+    
+    @IBAction func onClickBack(_ sender: UIButton) {
+        
+        // Stop speech if playing
+        if speechSynthesizer.isSpeaking {
+            speechSynthesizer.stopSpeaking(at: .immediate)
+        }
+        
+        // Navigate to HomeVC (root of TabBar)
+        navigateToHomeVC()
+    }
+    
+    private func navigateToHomeVC() {
+        // Method 1: Pop to root
+        if let navController = self.navigationController {
+            print("✅ Popping to root")
+            navController.popToRootViewController(animated: true)
+            return
+        }
+        
+        // Method 2: Fallback - Create fresh TabBarController
+        print("⚠️ Fallback - Creating CustomTabBarController")
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let tabBarVC = storyboard.instantiateViewController(withIdentifier: "CustomTabBarController") as? UITabBarController {
+            tabBarVC.selectedIndex = 0
+            
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first {
+                window.rootViewController = tabBarVC
+                window.makeKeyAndVisible()
+                UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
+            }
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -443,7 +481,7 @@ class QuestionVC: UIViewController {
         if speechSynthesizer.isSpeaking {
             speechSynthesizer.stopSpeaking(at: .immediate)
         }
-        navigationController?.popToRootViewController(animated: true)
+        navigateToHomeVC()
     }
     
     @IBAction func onClickPlayMore() {

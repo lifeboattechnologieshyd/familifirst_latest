@@ -46,7 +46,7 @@ class CalenderVC: UIViewController {
         tblVw.separatorStyle = .none
         
         tblVw.register(UINib(nibName: "MonthCell", bundle: nil), forCellReuseIdentifier: "MonthCell")
-        tblVw.register(UINib(nibName: "AddEventCell", bundle: nil), forCellReuseIdentifier: "AddEventCell")
+//        tblVw.register(UINib(nibName: "AddEventCell", bundle: nil), forCellReuseIdentifier: "AddEventCell")
     }
     
     private func setupButtons() {

@@ -17,14 +17,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUV-34-Rg2">
-                        <rect key="frame" x="157.33333333333334" y="16" width="105.33333333333334" height="20"/>
+                        <rect key="frame" x="167" y="16" width="86" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="cJr-gI-UhY"/>
                         </constraints>
                         <attributedString key="attributedText">
                             <fragment content="FAMILI LIVE">
                                 <attributes>
-                                    <font key="NSFont" size="16" name="Lexend-SemiBold"/>
+                                    <font key="NSFont" metaFont="system" size="16"/>
                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                 </attributes>
                             </fragment>
@@ -66,7 +66,7 @@
                                     <fragment content="My Family">
                                         <attributes>
                                             <color key="NSColor" red="0.034841082990000001" green="0.40597915649999999" blue="0.22152757640000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Lexend-Regular"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -84,7 +84,7 @@
                                     <fragment content="My Events">
                                         <attributes>
                                             <color key="NSColor" red="0.028523715210000002" green="0.40599140519999999" blue="0.2215528786" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Lexend-Regular"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -102,21 +102,13 @@
                                     <fragment content="Family Groups">
                                         <attributes>
                                             <color key="NSColor" red="0.028523715210000002" green="0.40599140519999999" blue="0.2215528786" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Lexend-Regular"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MKe-Mo-7Jc">
-                                <rect key="frame" x="276" y="-14.333333333333332" width="140" height="1"/>
-                                <color key="backgroundColor" red="0.41601651909999998" green="0.64161092040000001" blue="0.53165245059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="140" id="Tbc-XQ-lEh"/>
-                                    <constraint firstAttribute="height" constant="1" id="yQo-m4-jAc"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -124,7 +116,6 @@
                             <constraint firstAttribute="height" constant="140" id="4kD-pN-SN5"/>
                             <constraint firstItem="rf0-AG-MiF" firstAttribute="width" secondItem="G4A-8Q-lMi" secondAttribute="width" id="C7C-NZ-RZX"/>
                             <constraint firstItem="hnD-w3-vCR" firstAttribute="leading" secondItem="G4A-8Q-lMi" secondAttribute="trailing" constant="42" id="D5E-Lz-jsX"/>
-                            <constraint firstAttribute="trailing" secondItem="MKe-Mo-7Jc" secondAttribute="trailing" constant="4" id="DAH-NP-UMF"/>
                             <constraint firstItem="kYO-6H-Rh0" firstAttribute="centerX" secondItem="hnD-w3-vCR" secondAttribute="centerX" id="GDj-CR-8Fc"/>
                             <constraint firstItem="G4A-8Q-lMi" firstAttribute="top" secondItem="lGw-iL-nxA" secondAttribute="top" constant="12" id="IxL-f4-EcA"/>
                             <constraint firstItem="kYO-6H-Rh0" firstAttribute="top" secondItem="hnD-w3-vCR" secondAttribute="bottom" constant="8" id="K7e-1r-7aP"/>
@@ -142,7 +133,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pND-8B-YXA">
-                        <rect key="frame" x="154.33333333333334" y="202" width="111.66666666666666" height="20"/>
+                        <rect key="frame" x="158.33333333333334" y="202" width="103.66666666666666" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="bIe-XI-Rds"/>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="ebq-33-QHT"/>
@@ -150,7 +141,7 @@
                         <attributedString key="attributedText">
                             <fragment content="LEARN SPACE">
                                 <attributes>
-                                    <font key="NSFont" size="16" name="Lexend-SemiBold"/>
+                                    <font key="NSFont" metaFont="system" size="16"/>
                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                 </attributes>
                             </fragment>
@@ -197,7 +188,7 @@
                                     <fragment content="VocaBees ">
                                         <attributes>
                                             <color key="NSColor" red="0.17679503560000001" green="0.4014954865" blue="0.2408727407" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <font key="NSFont" size="14" name="Lexend-Regular"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                         </attributes>
                                     </fragment>
@@ -215,7 +206,7 @@
                                     <fragment content="Assessment ">
                                         <attributes>
                                             <color key="NSColor" red="0.028523715210000002" green="0.40599140519999999" blue="0.2215528786" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Lexend-Regular"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -233,7 +224,7 @@
                                     <fragment content="Online Courses">
                                         <attributes>
                                             <color key="NSColor" red="0.17679503560000001" green="0.4014954865" blue="0.2408727407" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <font key="NSFont" size="14" name="Lexend-Regular"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="1" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops/>
                                             </paragraphStyle>
@@ -266,7 +257,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vLe-Jq-Q7Z">
-                        <rect key="frame" x="146.33333333333334" y="388" width="127.33333333333334" height="20"/>
+                        <rect key="frame" x="151.33333333333334" y="388" width="117.33333333333334" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="Zld-MN-nYj"/>
                         </constraints>
@@ -274,7 +265,7 @@
                             <fragment content="ENGAGE SPARK">
                                 <attributes>
                                     <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <font key="NSFont" size="16" name="Lexend-SemiBold"/>
+                                    <font key="NSFont" metaFont="system" size="16"/>
                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                 </attributes>
                             </fragment>
@@ -288,13 +279,16 @@
                                 <rect key="frame" x="42" y="12" width="84" height="56"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="parentingtips"/>
+                                <connections>
+                                    <action selector="parentingTipsBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="7aU-hx-c2G"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LKG-It-zEf">
                                 <rect key="frame" x="294" y="12" width="84" height="56"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="parentingtips"/>
+                                <buttonConfiguration key="configuration" style="plain" image="02-shop"/>
                                 <connections>
-                                    <action selector="parentingTipsBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="zvn-yD-h63"/>
+                                    <action selector="edStoreBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="GlX-0R-TaG"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hay-dk-6F3">
@@ -315,9 +309,9 @@
                                 <attributedString key="attributedText">
                                     <fragment content="Parenting Tips">
                                         <attributes>
-                                            <color key="NSColor" red="0.034841082990000001" green="0.40597915649999999" blue="0.22152757640000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Lexend-Regular"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            <color key="NSColor" red="0.17680000000000001" green="0.40150000000000002" blue="0.24087" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>
@@ -334,7 +328,7 @@
                                     <fragment content="Feels">
                                         <attributes>
                                             <color key="NSColor" red="0.028523715210000002" green="0.40599140519999999" blue="0.2215528786" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Lexend-Regular"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -349,10 +343,10 @@
                                     <constraint firstAttribute="height" constant="38" id="cyk-MJ-lnu"/>
                                 </constraints>
                                 <attributedString key="attributedText">
-                                    <fragment content="Parenting Tips">
+                                    <fragment content="Online store">
                                         <attributes>
                                             <color key="NSColor" red="0.17679503560000001" green="0.4014954865" blue="0.2408727407" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <font key="NSFont" size="14" name="Lexend-Regular"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                         </attributes>
                                     </fragment>
@@ -396,9 +390,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4l1-Mt-gRI">
                                 <rect key="frame" x="294" y="12" width="84" height="56"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="02-shop"/>
+                                <buttonConfiguration key="configuration" style="plain" image="calender 2"/>
                                 <connections>
-                                    <action selector="edStoreBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Qz2-Q8-iwo"/>
+                                    <action selector="calenderBtnTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="xMC-hh-nne"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pH8-KM-Onz">
@@ -420,7 +414,7 @@
                                     <fragment content="Edutainment">
                                         <attributes>
                                             <color key="NSColor" red="0.034841082990000001" green="0.40597915649999999" blue="0.22152757640000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Lexend-Regular"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -438,7 +432,7 @@
                                     <fragment content="Prosperity Tips">
                                         <attributes>
                                             <color key="NSColor" red="0.028523715210000002" green="0.40599140519999999" blue="0.2215528786" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Lexend-Regular"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -446,17 +440,17 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ad-Pw-MpG">
-                                <rect key="frame" x="305" y="76" width="62" height="38"/>
+                                <rect key="frame" x="305" y="76" width="62" height="18"/>
                                 <color key="tintColor" red="0.034841082990000001" green="0.40597915649999999" blue="0.22152757640000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="38" id="Iv1-px-AOC"/>
+                                    <constraint firstAttribute="height" constant="18" id="Iv1-px-AOC"/>
                                     <constraint firstAttribute="width" constant="62" id="Rwz-6d-E6c"/>
                                 </constraints>
                                 <attributedString key="attributedText">
-                                    <fragment content="Online Store">
+                                    <fragment content="Calender">
                                         <attributes>
-                                            <color key="NSColor" red="0.028523715210000002" green="0.40599140519999999" blue="0.2215528786" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="14" name="Lexend-Regular"/>
+                                            <color key="NSColor" red="0.1768798828" green="0.4016113281" blue="0.24084474149999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -486,81 +480,25 @@
                             <constraint firstItem="pH8-KM-Onz" firstAttribute="width" secondItem="1hU-yL-Ptg" secondAttribute="width" id="wxF-4z-edw"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o3Y-cO-2zT">
-                        <rect key="frame" x="2" y="25.666666666666668" width="140" height="1"/>
-                        <color key="backgroundColor" red="0.41601651909999998" green="0.64161092040000001" blue="0.53165245059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="1" id="Tft-ys-Nby"/>
-                            <constraint firstAttribute="width" constant="140" id="YPR-H4-CFH"/>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="mQi-4w-Rex"/>
-                        </constraints>
-                    </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="51b-UY-sbA">
-                        <rect key="frame" x="4" y="211.66666666666666" width="140" height="1"/>
-                        <color key="backgroundColor" red="0.41601651909999998" green="0.64161092040000001" blue="0.53165245059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="1" id="lSw-wd-j9W"/>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="nA8-d3-fCG"/>
-                            <constraint firstAttribute="width" constant="140" id="o5L-iT-9tq"/>
-                        </constraints>
-                    </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VXZ-We-jU2">
-                        <rect key="frame" x="280" y="211.66666666666666" width="140" height="1"/>
-                        <color key="backgroundColor" red="0.41601651909999998" green="0.64161092040000001" blue="0.53165245059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="140" id="dxL-Ha-CnC"/>
-                            <constraint firstAttribute="height" constant="1" id="zah-qj-rjn"/>
-                        </constraints>
-                    </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hbc-BT-2tO">
-                        <rect key="frame" x="0.0" y="397.66666666666669" width="140" height="1"/>
-                        <color key="backgroundColor" red="0.41601651909999998" green="0.64161092040000001" blue="0.53165245059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="PWl-vK-Vjx"/>
-                            <constraint firstAttribute="height" constant="1" id="kHg-r0-MdT"/>
-                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="1" id="nut-vK-40p"/>
-                            <constraint firstAttribute="width" constant="140" id="svO-K3-yLG"/>
-                        </constraints>
-                    </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pad-cO-kgo">
-                        <rect key="frame" x="280" y="397.66666666666669" width="140" height="1"/>
-                        <color key="backgroundColor" red="0.41601651909999998" green="0.64161092040000001" blue="0.53165245059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="140" id="6RM-nJ-wPC"/>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="JUh-9W-Ddk"/>
-                            <constraint firstAttribute="height" constant="1" id="uJE-3E-8EY"/>
-                        </constraints>
-                    </view>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="pad-cO-kgo" firstAttribute="centerY" secondItem="vLe-Jq-Q7Z" secondAttribute="centerY" id="3nt-5c-9kz"/>
                     <constraint firstItem="LEb-5Q-qrr" firstAttribute="top" secondItem="vLe-Jq-Q7Z" secondAttribute="bottom" constant="4" id="3yw-gg-0PL"/>
                     <constraint firstAttribute="trailing" secondItem="LEb-5Q-qrr" secondAttribute="trailing" id="9gh-LC-wnI"/>
-                    <constraint firstItem="51b-UY-sbA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="4" id="ABW-ea-jui"/>
                     <constraint firstAttribute="trailing" secondItem="R2Q-no-Xzz" secondAttribute="trailing" id="HyF-ms-zjj"/>
                     <constraint firstItem="UUV-34-Rg2" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Kpn-N8-Xqu"/>
-                    <constraint firstItem="51b-UY-sbA" firstAttribute="centerY" secondItem="pND-8B-YXA" secondAttribute="centerY" id="KtB-5w-KEA"/>
-                    <constraint firstItem="Hbc-BT-2tO" firstAttribute="centerY" secondItem="vLe-Jq-Q7Z" secondAttribute="centerY" id="NTP-BL-LK1"/>
                     <constraint firstItem="lGw-iL-nxA" firstAttribute="top" secondItem="UUV-34-Rg2" secondAttribute="bottom" constant="4" id="ONk-qw-fbB"/>
                     <constraint firstItem="R2Q-no-Xzz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="PxW-Ba-Y2A"/>
                     <constraint firstItem="lGw-iL-nxA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="V2Z-rO-J1J"/>
                     <constraint firstItem="163-Sx-zDa" firstAttribute="top" secondItem="LEb-5Q-qrr" secondAttribute="bottom" id="Vcc-3d-O88"/>
-                    <constraint firstItem="o3Y-cO-2zT" firstAttribute="centerY" secondItem="UUV-34-Rg2" secondAttribute="centerY" id="W4w-EO-ncv"/>
-                    <constraint firstItem="VXZ-We-jU2" firstAttribute="centerY" secondItem="pND-8B-YXA" secondAttribute="centerY" id="WCN-D4-UeO"/>
                     <constraint firstItem="pND-8B-YXA" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="XVj-qf-W4k"/>
                     <constraint firstItem="163-Sx-zDa" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Y1a-L4-YNY"/>
                     <constraint firstItem="R2Q-no-Xzz" firstAttribute="top" secondItem="pND-8B-YXA" secondAttribute="bottom" constant="4" id="ZEl-Zr-9Mh"/>
                     <constraint firstAttribute="trailing" secondItem="lGw-iL-nxA" secondAttribute="trailing" id="ZQc-0H-cNJ"/>
                     <constraint firstItem="pND-8B-YXA" firstAttribute="top" secondItem="lGw-iL-nxA" secondAttribute="bottom" constant="22" id="adp-ug-Hpg"/>
-                    <constraint firstItem="Hbc-BT-2tO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="byc-H3-9TE"/>
-                    <constraint firstItem="MKe-Mo-7Jc" firstAttribute="centerY" secondItem="UUV-34-Rg2" secondAttribute="centerY" id="fbE-gN-g8R"/>
                     <constraint firstItem="vLe-Jq-Q7Z" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="fpf-Ho-TIa"/>
                     <constraint firstItem="vLe-Jq-Q7Z" firstAttribute="top" secondItem="R2Q-no-Xzz" secondAttribute="bottom" constant="22" id="hjz-ZC-5gH"/>
-                    <constraint firstAttribute="trailing" secondItem="pad-cO-kgo" secondAttribute="trailing" id="isH-9a-gof"/>
-                    <constraint firstAttribute="trailing" secondItem="VXZ-We-jU2" secondAttribute="trailing" id="m8a-em-h9j"/>
                     <constraint firstAttribute="trailing" secondItem="163-Sx-zDa" secondAttribute="trailing" id="n6x-L2-S9J"/>
-                    <constraint firstItem="o3Y-cO-2zT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="2" id="of3-Mq-HeX"/>
                     <constraint firstItem="LEb-5Q-qrr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="ogC-pA-9Ns"/>
                     <constraint firstItem="UUV-34-Rg2" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="wL7-Rl-7en"/>
                 </constraints>
@@ -568,15 +506,19 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="assessmentsBtn" destination="JgH-ks-a5v" id="aWp-lS-o8u"/>
+                <outlet property="calenderBtn" destination="4l1-Mt-gRI" id="bov-iz-g8D"/>
                 <outlet property="coursesBtn" destination="Fhp-CK-VEY" id="kxj-5D-VGr"/>
-                <outlet property="edStoreBtn" destination="4l1-Mt-gRI" id="e7q-ui-Xal"/>
+                <outlet property="edStoreBtn" destination="LKG-It-zEf" id="m8w-wz-2ze"/>
                 <outlet property="edutainmentBtn" destination="1hU-yL-Ptg" id="wlD-bX-clq"/>
+                <outlet property="engageLbl" destination="vLe-Jq-Q7Z" id="28e-gy-j10"/>
+                <outlet property="famililiveLbl" destination="UUV-34-Rg2" id="ghz-pV-pL5"/>
                 <outlet property="feelsBtn" destination="hay-dk-6F3" id="XRb-hr-qcA"/>
+                <outlet property="learnspaceLbl" destination="pND-8B-YXA" id="bbx-gz-tJZ"/>
                 <outlet property="myeventsbtn" destination="hnD-w3-vCR" id="iYB-OQ-tuS"/>
                 <outlet property="myfamiltBtn" destination="G4A-8Q-lMi" id="oVA-Pf-154"/>
-                <outlet property="parentingTipsBtn" destination="LKG-It-zEf" id="HDW-l0-ZBL"/>
+                <outlet property="parentingTipsBtn" destination="tCe-sI-DSw" id="EU4-Dy-fVm"/>
                 <outlet property="prosperitytipsBtn" destination="pH8-KM-Onz" id="8b5-nW-gP1"/>
-                <outlet property="storeBtn" destination="4l1-Mt-gRI" id="2AO-H7-e0g"/>
+                <outlet property="storeBtn" destination="4l1-Mt-gRI" id="GHk-NM-kxq"/>
                 <outlet property="vocabbeBtn" destination="apL-bY-sT2" id="aH7-bu-rWf"/>
             </connections>
             <point key="canvasLocation" x="201.52671755725191" y="213.38028169014086"/>
@@ -589,6 +531,7 @@
         <image name="Online Courses" width="76" height="60"/>
         <image name="Prosperity Tips" width="50" height="42"/>
         <image name="VocaBees Game" width="76" height="57.333332061767578"/>
+        <image name="calender 2" width="42" height="42"/>
         <image name="familygroups" width="76" height="56"/>
         <image name="feels" width="42" height="42"/>
         <image name="myevents" width="76" height="56"/>

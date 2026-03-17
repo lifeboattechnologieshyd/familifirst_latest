@@ -1,6 +1,6 @@
 //
 //  gradeViewController.swift
-//  SchoolFirst
+//  FamilyFirst
 //
 //  Created by Lifeboat on 20/10/25.
 //
@@ -13,36 +13,88 @@ class gradeViewController: UIViewController, UICollectionViewDelegate, UICollect
     @IBOutlet weak var BackButton: UIButton!
     @IBOutlet weak var colVw: UICollectionView!
     
+    // MARK: - Properties
     var grades = [GradeModel]()
+    
+    // MARK: - Pagination Properties
+    var currentPage: Int = 1
+    var totalGrades: Int = 0
+    var isLoading: Bool = false
+    let pageSize: Int = 10
     
     override func viewDidLoad() {
         super.viewDidLoad()
         topbarView.addBottomShadow()
-        getGrades()
         
         colVw.register(UINib(nibName: "gradeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "gradeCollectionViewCell")
         
         colVw.delegate = self
         colVw.dataSource = self
+        
+        getGrades()
     }
     
+    // MARK: - Fetch Grades with Pagination
+    
     func getGrades() {
-        showLoader()
-        NetworkManager.shared.request(urlString: API.VOCABEE_GET_GRADES, method: .GET) { (result: Result<APIResponse<[GradeModel]>, NetworkError>) in
+        guard !isLoading else { return }
+        
+        isLoading = true
+        
+        // Show loader only for first page
+        if currentPage == 1 && grades.isEmpty {
+            showLoader()
+        }
+        
+        // API URL with pagination (page & page_size)
+        let url = "\(API.VOCABEE_GET_GRADES)?page=\(currentPage)&page_size=\(pageSize)"
+        
+        print("🔗 Fetching grades: Page \(currentPage), PageSize \(pageSize)")
+        
+        NetworkManager.shared.request(urlString: url, method: .GET) { (result: Result<APIResponse<[GradeModel]>, NetworkError>) in
             DispatchQueue.main.async {
-                self.hideLoader()
+                self.isLoading = false
+                
                 switch result {
                 case .success(let info):
                     if info.success {
                         if let data = info.data {
-                            let sortedGrades = data.sorted { $0.numericGrade < $1.numericGrade }
-                            self.grades = sortedGrades
-                            self.colVw.reloadData()
+                            // Store total count
+                            if let total = info.total {
+                                self.totalGrades = total
+                            }
+                            
+                            // Append new grades
+                            self.grades.append(contentsOf: data)
+                            
+                            // Remove duplicates
+                            self.grades = self.removeDuplicates(from: self.grades)
+                            
+                            // Sort by numeric grade
+                            self.grades.sort { $0.numericGrade < $1.numericGrade }
+                            
+                            print("✅ Page \(self.currentPage): Loaded \(self.grades.count) of \(self.totalGrades) grades")
+                            
+                            // Check if more pages needed
+                            if self.grades.count < self.totalGrades && data.count > 0 {
+                                // More grades available - fetch next page
+                                self.currentPage += 1
+                                self.getGrades()  // Auto fetch next page
+                            } else {
+                                // All grades loaded
+                                self.hideLoader()
+                                self.colVw.reloadData()
+                                
+                                print("✅ All \(self.grades.count) grades loaded!")
+                            }
                         }
                     } else {
+                        self.hideLoader()
                         print(info.description ?? "No description")
                     }
+                    
                 case .failure(let error):
+                    self.hideLoader()
                     switch error {
                     case .noaccess:
                         self.performLogout()
@@ -50,6 +102,20 @@ class gradeViewController: UIViewController, UICollectionViewDelegate, UICollect
                         self.showAlert(msg: error.localizedDescription)
                     }
                 }
+            }
+        }
+    }
+    
+    // MARK: - Helper Method
+    
+    func removeDuplicates(from grades: [GradeModel]) -> [GradeModel] {
+        var seen = Set<String>()
+        return grades.filter { grade in
+            if seen.contains(grade.id) {
+                return false
+            } else {
+                seen.insert(grade.id)
+                return true
             }
         }
     }
@@ -69,6 +135,8 @@ class gradeViewController: UIViewController, UICollectionViewDelegate, UICollect
             }
         }
     }
+    
+    // MARK: - UICollectionView DataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return grades.count

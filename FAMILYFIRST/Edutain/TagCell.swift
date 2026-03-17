@@ -24,16 +24,20 @@ class TagCell: UICollectionViewCell {
         // Add border for better visibility
         contentView.layer.borderWidth = 1
         contentView.layer.borderColor = UIColor.clear.cgColor
+        
+        // Default text color
+        lblText.textColor = .darkGray
     }
     
     func setSelected(_ selected: Bool) {
+        let greenColor = UIColor(red: 7/255, green: 104/255, blue: 57/255, alpha: 1) // #076839
+        
         if selected {
-            contentView.backgroundColor = UIColor(hex: "#CDE9FA")
-            contentView.layer.borderColor = UIColor(hex: "#007AFF")?.cgColor
-            lblText.textColor = UIColor(hex: "#007AFF")
+            // Selected state - Only text green
+            lblText.textColor = greenColor
         } else {
-            contentView.backgroundColor = UIColor(hex: "#F5F5F5")
-            contentView.layer.borderColor = UIColor.clear.cgColor
+            // Normal state
+            lblText.textColor = .darkGray
         }
     }
 

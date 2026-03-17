@@ -19,7 +19,10 @@ class CalenderViewController: UIViewController {
     var selectedIndex: IndexPath?
     var calender: [CalendarData] = []
     var allCalendarData: [CalendarData] = []
-    var currentSelectedDate = Date()
+    
+    // IMPORTANT: Separate baseDate and selectedDate
+    var baseDate: Date = Date()           // Used for calculating week dates (center date)
+    var currentSelectedDate: Date = Date() // The actual selected date for filtering
     
     // MARK: - Lifecycle
     
@@ -28,8 +31,7 @@ class CalenderViewController: UIViewController {
         setupCollectionView()
         setupTableView()
         setupHeaderView()
-        selectedIndex = IndexPath(row: 3, section: 0)
-        fetchCalenderData()
+        loadInitialData()
     }
     
     @IBAction func onClickBack(_ sender: UIButton) {
@@ -45,12 +47,19 @@ class CalenderViewController: UIViewController {
     // MARK: - Setup
     
     private func setupHeaderView() {
-        dateSelectionView.currentDate = currentSelectedDate
+        dateSelectionView.currentDate = baseDate
         
         dateSelectionView.onDateChanged = { [weak self] newDate in
             guard let self = self else { return }
+            
+            // Update base date to new month's date
+            self.baseDate = newDate
             self.currentSelectedDate = newDate
+            
+            // Reset selection to center (index 3)
             self.selectedIndex = IndexPath(row: 3, section: 0)
+            
+            // Reload collection view and filter data
             self.colVw.reloadData()
             self.filterCalendarForCurrentDate()
         }
@@ -71,6 +80,27 @@ class CalenderViewController: UIViewController {
         tblVw.separatorStyle = .none
         tblVw.rowHeight = UITableView.automaticDimension
         tblVw.estimatedRowHeight = 100
+    }
+    
+    private func loadInitialData() {
+        // Set initial selected index to center (today)
+        selectedIndex = IndexPath(row: 3, section: 0)
+        
+        // Both baseDate and currentSelectedDate start as today
+        baseDate = Date()
+        currentSelectedDate = Date()
+        
+        // Fetch calendar data
+        fetchCalenderData()
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func getDate(for index: Int) -> Date {
+        let calendar = Calendar.current
+        let offset = index - 3
+        // IMPORTANT: Use baseDate here, NOT currentSelectedDate
+        return calendar.date(byAdding: .day, value: offset, to: baseDate) ?? baseDate
     }
     
     // MARK: - Data Fetching
@@ -121,13 +151,6 @@ class CalenderViewController: UIViewController {
         calender = allCalendarData.filter { $0.date == dateString }
         tblVw.reloadData()
     }
-    
-    
-    private func getDate(for index: Int) -> Date {
-        let calendar = Calendar.current
-        let offset = index - 3
-        return calendar.date(byAdding: .day, value: offset, to: currentSelectedDate) ?? currentSelectedDate
-    }
 }
 
 // MARK: - UICollectionViewDelegate & DataSource
@@ -159,6 +182,7 @@ extension CalenderViewController: UICollectionViewDelegate, UICollectionViewData
         cell.lblDay.text = dayFormatter.string(from: date)
         cell.lblDate.text = dateFormatter.string(from: date)
         
+        // Only update UI - NO data fetching here
         if indexPath == selectedIndex {
             cell.bgView.backgroundColor = UIColor(red: 7/255, green: 104/255, blue: 57/255, alpha: 1)
             cell.lblMonth.textColor = .white
@@ -175,9 +199,27 @@ extension CalenderViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // Avoid re-selecting same cell
+        guard selectedIndex != indexPath else { return }
+        
+        // Store old index for partial reload
+        let oldSelectedIndex = selectedIndex
         selectedIndex = indexPath
+        
+        // Update the selected date (NOT baseDate!)
         currentSelectedDate = getDate(for: indexPath.item)
-        collectionView.reloadData()
+        
+        // Reload only affected cells for smooth animation
+        var indexPathsToReload: [IndexPath] = [indexPath]
+        if let oldIndex = oldSelectedIndex {
+            indexPathsToReload.append(oldIndex)
+        }
+        
+        UIView.performWithoutAnimation {
+            collectionView.reloadItems(at: indexPathsToReload)
+        }
+        
+        // Filter data for newly selected date
         filterCalendarForCurrentDate()
     }
     

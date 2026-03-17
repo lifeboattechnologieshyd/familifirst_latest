@@ -254,7 +254,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.03;
+				MARKETING_VERSION = 2.05;
 				PRODUCT_BUNDLE_IDENTIFIER = com.paranpara.familifirst;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -291,7 +291,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.03;
+				MARKETING_VERSION = 2.05;
 				PRODUCT_BUNDLE_IDENTIFIER = com.paranpara.familifirst;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -523,7 +523,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.03;
+				MARKETING_VERSION = 2.05;
 				PRODUCT_BUNDLE_IDENTIFIER = com.paranpara.familifirst.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -620,7 +620,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.03;
+				MARKETING_VERSION = 2.05;
 				PRODUCT_BUNDLE_IDENTIFIER = com.paranpara.familifirst.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
